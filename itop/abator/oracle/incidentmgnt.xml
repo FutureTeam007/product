@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN" "http://ibatis.apache.org/dtd/abator-config_1_0.dtd" >
+<abatorConfiguration >
+  <abatorContext >
+  	<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@10.1.41.142:1521:qldb"
+      userId="itop" password="itop" >
+      <classPathEntry location="D:\maven-repository\com\oracle\ojdbc14\10.2.0.5\ojdbc14-10.2.0.5.jar" />
+    </jdbcConnection>
+    <javaModelGenerator targetPackage="com.ei.itop.common.dbentity" targetProject="itop" />
+    <sqlMapGenerator targetPackage="sql.oracle.incidentmgnt" targetProject="itop" />
+    
+	<table tableName="IC_INCIDENT" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table> 
+    
+    <table tableName="SUBSCRIBE" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table> 
+    
+    <table tableName="IC_TRANSACTION" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table> 
+    
+    <table tableName="IC_ATTACH" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table> 
+    
+  </abatorContext>
+</abatorConfiguration>

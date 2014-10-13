@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SC_PRODUCT" >
+  <resultMap id="scProductResult" class="com.ei.itop.common.dbentity.ScProduct" >
+    <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
+    <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
+    <result column="PROD_CODE" property="prodCode" jdbcType="VARCHAR" />
+    <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
+    <result column="PROD_DESC" property="prodDesc" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="scProductResult" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+    select SC_PRODUCT_ID, SC_ORG_ID, PROD_CODE, PROD_NAME, PROD_DESC, STATE
+    from SC_PRODUCT
+    where SC_PRODUCT_ID = #scProductId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+    delete from SC_PRODUCT
+    where SC_PRODUCT_ID = #scProductId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+    insert into SC_PRODUCT (SC_PRODUCT_ID, SC_ORG_ID, PROD_CODE, PROD_NAME, PROD_DESC, STATE)
+    values (#scProductId:DECIMAL#, #scOrgId:DECIMAL#, #prodCode:VARCHAR#, #prodName:VARCHAR#,
+      #prodDesc:VARCHAR#, #state:DECIMAL#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+    update SC_PRODUCT
+    set SC_ORG_ID = #scOrgId:DECIMAL#,
+      PROD_CODE = #prodCode:VARCHAR#,
+      PROD_NAME = #prodName:VARCHAR#,
+      PROD_DESC = #prodDesc:VARCHAR#,
+      STATE = #state:DECIMAL#
+    where SC_PRODUCT_ID = #scProductId:DECIMAL#
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+    update SC_PRODUCT
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="scOrgId" >
+        SC_ORG_ID = #scOrgId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="prodCode" >
+        PROD_CODE = #prodCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="prodName" >
+        PROD_NAME = #prodName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="prodDesc" >
+        PROD_DESC = #prodDesc:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE = #state:DECIMAL#
+      </isNotNull>
+    </dynamic>
+    where SC_PRODUCT_ID = #scProductId:DECIMAL#
+  </update>
+</sqlMap>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SC_MODULE" >
+  <resultMap id="scModuleResult" class="com.ei.itop.common.dbentity.ScModule" >
+    <result column="SC_MODULE_ID" property="scModuleId" jdbcType="DECIMAL" />
+    <result column="SUP_MODULE_ID" property="supModuleId" jdbcType="DECIMAL" />
+    <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
+    <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
+    <result column="MODULE_CODE" property="moduleCode" jdbcType="VARCHAR" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="MODULE_DESC" property="moduleDesc" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="scModuleResult" parameterClass="com.ei.itop.common.dbentity.ScModule" >
+    select SC_MODULE_ID, SUP_MODULE_ID, SC_PRODUCT_ID, SC_ORG_ID, MODULE_CODE, MODULE_NAME,
+      MODULE_DESC, STATE
+    from SC_MODULE
+    where SC_MODULE_ID = #scModuleId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScModule" >
+    delete from SC_MODULE
+    where SC_MODULE_ID = #scModuleId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScModule" >
+    insert into SC_MODULE (SC_MODULE_ID, SUP_MODULE_ID, SC_PRODUCT_ID, SC_ORG_ID, MODULE_CODE,
+      MODULE_NAME, MODULE_DESC, STATE)
+    values (#scModuleId:DECIMAL#, #supModuleId:DECIMAL#, #scProductId:DECIMAL#, #scOrgId:DECIMAL#,
+      #moduleCode:VARCHAR#, #moduleName:VARCHAR#, #moduleDesc:VARCHAR#, #state:DECIMAL#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScModule" >
+    update SC_MODULE
+    set SUP_MODULE_ID = #supModuleId:DECIMAL#,
+      SC_PRODUCT_ID = #scProductId:DECIMAL#,
+      SC_ORG_ID = #scOrgId:DECIMAL#,
+      MODULE_CODE = #moduleCode:VARCHAR#,
+      MODULE_NAME = #moduleName:VARCHAR#,
+      MODULE_DESC = #moduleDesc:VARCHAR#,
+      STATE = #state:DECIMAL#
+    where SC_MODULE_ID = #scModuleId:DECIMAL#
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.ScModule" >
+    update SC_MODULE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="supModuleId" >
+        SUP_MODULE_ID = #supModuleId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="scProductId" >
+        SC_PRODUCT_ID = #scProductId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="scOrgId" >
+        SC_ORG_ID = #scOrgId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="moduleCode" >
+        MODULE_CODE = #moduleCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="moduleName" >
+        MODULE_NAME = #moduleName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="moduleDesc" >
+        MODULE_DESC = #moduleDesc:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE = #state:DECIMAL#
+      </isNotNull>
+    </dynamic>
+    where SC_MODULE_ID = #scModuleId:DECIMAL#
+  </update>
+</sqlMap>

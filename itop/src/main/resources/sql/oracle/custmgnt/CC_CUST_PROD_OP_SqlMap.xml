@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CC_CUST_PROD_OP" >
+  <resultMap id="ccCustProdOpResult" class="com.ei.itop.common.dbentity.CcCustProdOp" >
+    <result column="CC_CUST_ID" property="ccCustId" jdbcType="DECIMAL" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
+    <result column="SC_ORG_NAME" property="scOrgName" jdbcType="VARCHAR" />
+    <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
+    <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
+    <result column="SC_MODULE_ID" property="scModuleId" jdbcType="DECIMAL" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="SC_OP_ID" property="scOpId" jdbcType="DECIMAL" />
+    <result column="LOGIN_CODE" property="loginCode" jdbcType="VARCHAR" />
+    <result column="SC_JOB_ID" property="scJobId" jdbcType="DECIMAL" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR" />
+    <result column="JOB_LEVEL" property="jobLevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcCustProdOp" >
+    insert into CC_CUST_PROD_OP (CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
+      PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
+      JOB_LEVEL)
+    values (#ccCustId:DECIMAL#, #custName:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
+      #scProductId:DECIMAL#, #prodName:VARCHAR#, #scModuleId:DECIMAL#, #moduleName:VARCHAR#,
+      #scOpId:DECIMAL#, #loginCode:VARCHAR#, #scJobId:DECIMAL#, #jobName:VARCHAR#,
+      #jobClass:VARCHAR#, #jobLevel:VARCHAR#)
+  </insert>
+</sqlMap>

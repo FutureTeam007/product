@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SUBSCRIBE" >
+  <resultMap id="subscribeResult" class="com.ei.itop.common.dbentity.Subscribe" >
+    <result column="SUBSCRIBE_ID" property="subscribeId" jdbcType="DECIMAL" />
+    <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
+    <result column="SUBS_TYPE" property="subsType" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="subscribeResult" parameterClass="com.ei.itop.common.dbentity.Subscribe" >
+    select SUBSCRIBE_ID, IC_INCIDENT_ID, SUBS_TYPE
+    from SUBSCRIBE
+    where SUBSCRIBE_ID = #subscribeId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.Subscribe" >
+    delete from SUBSCRIBE
+    where SUBSCRIBE_ID = #subscribeId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.Subscribe" >
+    insert into SUBSCRIBE (SUBSCRIBE_ID, IC_INCIDENT_ID, SUBS_TYPE)
+    values (#subscribeId:DECIMAL#, #icIncidentId:DECIMAL#, #subsType:VARCHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.Subscribe" >
+    update SUBSCRIBE
+    set IC_INCIDENT_ID = #icIncidentId:DECIMAL#,
+      SUBS_TYPE = #subsType:VARCHAR#
+    where SUBSCRIBE_ID = #subscribeId:DECIMAL#
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.Subscribe" >
+    update SUBSCRIBE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="icIncidentId" >
+        IC_INCIDENT_ID = #icIncidentId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="subsType" >
+        SUBS_TYPE = #subsType:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where SUBSCRIBE_ID = #subscribeId:DECIMAL#
+  </update>
+</sqlMap>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CC_SLO" >
+  <resultMap id="ccSloResult" class="com.ei.itop.common.dbentity.CcSlo" >
+    <result column="CC_CUST_ID" property="ccCustId" jdbcType="DECIMAL" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
+    <result column="SC_ORG_NAME" property="scOrgName" jdbcType="VARCHAR" />
+    <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
+    <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
+    <result column="PRIORITY_CODE" property="priorityCode" jdbcType="VARCHAR" />
+    <result column="PRIORITY_VAL" property="priorityVal" jdbcType="VARCHAR" />
+    <result column="COMPLEX_CODE" property="complexCode" jdbcType="VARCHAR" />
+    <result column="COMPLEX_VAL" property="complexVal" jdbcType="VARCHAR" />
+    <result column="RESPONSE_TIME" property="responseTime" jdbcType="DECIMAL" />
+    <result column="DEAL_TIME" property="dealTime" jdbcType="DECIMAL" />
+  </resultMap>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcSlo" >
+    insert into CC_SLO (CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID, PROD_NAME,
+      PRIORITY_CODE, PRIORITY_VAL, COMPLEX_CODE, COMPLEX_VAL, RESPONSE_TIME, DEAL_TIME)
+    values (#ccCustId:DECIMAL#, #custName:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
+      #scProductId:DECIMAL#, #prodName:VARCHAR#, #priorityCode:VARCHAR#, #priorityVal:VARCHAR#,
+      #complexCode:VARCHAR#, #complexVal:VARCHAR#, #responseTime:DECIMAL#, #dealTime:DECIMAL#)
+  </insert>
+</sqlMap>
