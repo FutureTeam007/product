@@ -29,5 +29,5 @@ public interface ILoginService {
 	 * @return 顾问信息
 	 * @throws Exception
 	 */
-	public ScOp opLogin(LoginInfo loginInfo) throws Exception;
+	public ScOp adviserLogin(LoginInfo loginInfo) throws Exception;
 }

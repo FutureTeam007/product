@@ -6,15 +6,13 @@ package com.ei.itop.incidentmgnt.bean;
 import java.util.List;
 
 import com.ei.itop.common.dbentity.IcAttach;
-import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.common.dbentity.IcTransaction;
 
 /**
- * 用于新增、编辑事件信息的业务Bean
- * 
  * @author Jack.Qi
  * 
  */
-public class IncidentInfo extends IcIncident {
+public class TransactionInfo extends IcTransaction {
 
 	// 附件列表
 	private List<IcAttach> attachList;
@@ -33,4 +31,5 @@ public class IncidentInfo extends IcIncident {
 	public void setAttachList(List<IcAttach> attachList) {
 		this.attachList = attachList;
 	}
+
 }

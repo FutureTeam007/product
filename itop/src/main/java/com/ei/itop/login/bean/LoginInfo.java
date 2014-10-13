@@ -4,6 +4,8 @@
 package com.ei.itop.login.bean;
 
 /**
+ * 用于保存用户填写的登录信息的业务Bean
+ * 
  * @author Jack.Qi
  * 
  */

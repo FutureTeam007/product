@@ -6,6 +6,8 @@ package com.ei.itop.incidentmgnt.bean;
 import java.util.Date;
 
 /**
+ * 用于查询事件的条件Bean
+ * 
  * @author Jack.Qi
  * 
  */
@@ -26,7 +28,22 @@ public class QCIncident {
 	// 按客户登记时间排序，取值：desc、asc
 	private String orderByRegisterTime;
 	// 按最新更新时间排序，取值：desc、asc
-	private String orderBy;
+	private String orderByLastModifyTime;
+
+	/**
+	 * @return the orderByLastModifyTime
+	 */
+	public String getOrderByLastModifyTime() {
+		return orderByLastModifyTime;
+	}
+
+	/**
+	 * @param orderByLastModifyTime
+	 *            the orderByLastModifyTime to set
+	 */
+	public void setOrderByLastModifyTime(String orderByLastModifyTime) {
+		this.orderByLastModifyTime = orderByLastModifyTime;
+	}
 
 	/**
 	 * @return the orderByRegisterTime

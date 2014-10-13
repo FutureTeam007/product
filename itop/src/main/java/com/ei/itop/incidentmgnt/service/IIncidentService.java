@@ -87,6 +87,46 @@ public interface IIncidentService {
 			long opId) throws Exception;
 
 	/**
+	 * 新增事件时直接提交
+	 * 
+	 * @param incidentInfo
+	 *            事件信息
+	 * @param opId
+	 *            操作员ID
+	 * @return 事件ID
+	 * @throws Exception
+	 */
+	public long commitIncident(IncidentInfo incidentInfo, long opId)
+			throws Exception;
+
+	/**
+	 * 编辑事件时直接提交
+	 * 
+	 * @param incidentId
+	 *            事件ID
+	 * @param incidentInfo
+	 *            事件信息
+	 * @param opId
+	 *            操作员ID
+	 * @return 事件ID
+	 * @throws Exception
+	 */
+	public long commitIncident(long incidentId, IncidentInfo incidentInfo,
+			long opId) throws Exception;
+
+	/**
+	 * 提交事件，目前页面中并没有直接提交事件的入口
+	 * 
+	 * @param incidentId
+	 *            事件ID
+	 * @param opId
+	 *            操作员ID
+	 * @return 事件ID
+	 * @throws Exception
+	 */
+	public long commitIncident(long incidentId, long opId) throws Exception;
+
+	/**
 	 * 删除事件，逻辑删除
 	 * 
 	 * @param incidentId
@@ -109,4 +149,25 @@ public interface IIncidentService {
 	 */
 	public void adviserCompleteInfo(IncidentInfo incidentInfo, long opId)
 			throws Exception;
+
+	/**
+	 * 用户反馈满意度
+	 * 
+	 * @param incidentInfo
+	 *            事件信息，此逻辑仅关注用户设置的满意度信息
+	 * @param opId
+	 *            操作员ID
+	 * @throws Exception
+	 */
+	public void userSetFeedbackVal(IncidentInfo incidentInfo, long opId)
+			throws Exception;
+
+	/**
+	 * 顾问关闭事件
+	 * 
+	 * @param opId
+	 *            操作员ID
+	 * @throws Exception
+	 */
+	public void closeIncident(long opId) throws Exception;
 }

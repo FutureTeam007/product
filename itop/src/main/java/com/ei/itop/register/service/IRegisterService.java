@@ -15,7 +15,7 @@ import com.ei.itop.register.bean.RegisterInfo;
 public interface IRegisterService {
 
 	/**
-	 * 新注册一个用户
+	 * 新注册一个用户，然后发送账号激活链接邮件
 	 * 
 	 * @param registerInfo
 	 *            用户注册信息
@@ -36,19 +36,7 @@ public interface IRegisterService {
 			throws Exception;
 
 	/**
-	 * 发送账号激活邮件
-	 * 
-	 * @param userId
-	 *            用户ID
-	 * @param email
-	 *            用户邮箱
-	 * @throws Exception
-	 */
-	public void sendEmailActiveAccount(long userId, String email)
-			throws Exception;
-
-	/**
-	 * 账号激活
+	 * 账号激活，用户点击账号激活链接后的处理逻辑
 	 * 
 	 * @param userId
 	 *            用户ID
@@ -57,16 +45,16 @@ public interface IRegisterService {
 	public void activeAccount(long userId) throws Exception;
 
 	/**
-	 * 发送修改密码邮件
+	 * 验证邮箱是否存在，存在则发送修改密码链接邮件
 	 * 
 	 * @param email
-	 *            需发动修改密码链接的email
+	 * @return
 	 * @throws Exception
 	 */
-	public void sendEmailChgPasswd(String email) throws Exception;
+	public boolean checkEmail(String email) throws Exception;
 
 	/**
-	 * 修改密码
+	 * 用户点击修改密码链接后打开修改密码窗口，填入信息，调用该逻辑修改密码
 	 * 
 	 * @param userId
 	 *            用户ID
