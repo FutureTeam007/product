@@ -36,12 +36,46 @@ public interface IRegisterService {
 			throws Exception;
 
 	/**
-	 * 账号激活
+	 * 发送账号激活邮件
 	 * 
-	 * @param loginCode
-	 *            登录工号
-	 * @return 是否激活成功
+	 * @param userId
+	 *            用户ID
+	 * @param email
+	 *            用户邮箱
 	 * @throws Exception
 	 */
-	public boolean activeAccount(String loginCode) throws Exception;
+	public void sendEmailActiveAccount(long userId, String email)
+			throws Exception;
+
+	/**
+	 * 账号激活
+	 * 
+	 * @param userId
+	 *            用户ID
+	 * @throws Exception
+	 */
+	public void activeAccount(long userId) throws Exception;
+
+	/**
+	 * 发送修改密码邮件
+	 * 
+	 * @param email
+	 *            需发动修改密码链接的email
+	 * @throws Exception
+	 */
+	public void sendEmailChgPasswd(String email) throws Exception;
+
+	/**
+	 * 修改密码
+	 * 
+	 * @param userId
+	 *            用户ID
+	 * @param oldPasswd
+	 *            旧密码
+	 * @param newPasswd
+	 *            新密码
+	 * @throws Exception
+	 */
+	public void userChgPasswd(long userId, String oldPasswd, String newPasswd)
+			throws Exception;
 }
