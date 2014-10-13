@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="COMMON" >
+
+  <select id="getSequenceNextVal" parameterClass="java.lang.String" resultClass="long">
+  		select $sequenceName$.nextval from dual
+  </select> 
+  
+  <select id="getSysDate" resultClass="java.util.Date">
+  		select sysdate from dual
+  </select> 
+  
+  <select id="getTableCount" resultClass="long" parameterClass="java.util.Map">
+  		select count(*) from user_tables where table_name = #tableName:VARCHAR#
+  </select> 
+  
+  <statement id="createSequence" parameterClass="java.util.Map"  >
+  	create sequence $seqName$ start with 10001
+  </statement>
+  
+  <statement id="modifySequence" parameterClass="java.util.Map"  >
+  	alter Sequence $seqName$ Increment By $seqValue$
+  </statement>
+  
+  <statement id="createSequenceWithStartNum" parameterClass="java.util.Map"  >
+  	create sequence $seqName$ start with $startNum$
+  </statement>
+  
+  <statement id="dropTable" parameterClass="java.util.Map"  >
+  	drop table $tableName$
+  </statement>
+  
+  <statement id="dropSequence" parameterClass="java.util.Map"  >
+  	drop sequence $seqName$
+  </statement>
+</sqlMap>

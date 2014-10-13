@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+	    xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xsi:schemaLocation="
+		  http://www.springframework.org/schema/beans  
+		  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		  http://www.springframework.org/schema/context  
+		  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		  http://www.springframework.org/schema/tx 
+          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/aop 
+          http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+          http://www.springframework.org/schema/util 
+		  http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+		default-autowire="byName">
+		
+	<!-- 对包中的所有controller类进行扫描，以完成Bean创建和自动依赖注入的功能 -->  
+	<context:component-scan base-package="com.ei.**.controller.**" />
+	<context:component-scan base-package="com.ailk.dazzle.app.queryframework.action.**" />
+	
+	<!-- 引入应用基础配置文件(勿动) -->
+    <import resource="classpath:sys/sys-spring.xml" />
+    <!-- 系统管理配置(勿动) -->
+	<bean id="sys.sysConfig" class="com.ailk.dazzle.sys.SysConfig">
+		<!-- 默认权限域的值，充许多个系统共用同一个数据库进行权限管理，每个系统的域id唯一，为常量 -->
+		<property name="defaultDomainId" value="100"/>
+		<!-- 登陆时是否进行验证，默认为true，即验证 -->
+		<property name="checkLoginVerifyCode" value="false" />
+		<!-- 用户登录后是否校验url权限 -->
+		<property name="authrizeByUrl" value="false" />
+		<!--  不校验权限的公共url模式列表，逗号、分号或空格隔开的url列表，可以使用通配符*和**。
+			  *可以匹配单级目录，即匹配除/外的任意一个或多个字符。
+			  **可以匹配任意多级目录，即匹配包括任意个/和任意多个字符。
+		-->
+		<property name="publicUrlPatterns" value="/,**.jsp,**.html" />
+		<!-- 让页面不通过权限框架校验-->
+		<property name="anonymousUrlPatterns" value="/sys/config/**,/,**.html,**.js,**.css,**.json,**.jpg,**.gif,**.png,/res/**,/theme/**,**.jsp"/>
+		<!-- 用户登录集成ldap -->
+		<property name="ldapEnabled" value="false" />
+		<property name="ldapHost" value="ldap.asiainfo-linkage.com" />
+		<property name="ldapPort" value="389" />
+		<property name="ldapDomain" value="ailk" />
+	 </bean>
+	<context:property-placeholder location="classpath:database.properties" />
+	
+	<!-- 引入数据库配置 -->
+	<bean id="dataSource" class="com.ailk.dazzle.util.db.SecurityConnectionPool"  
+		destroy-method="close" lazy-init="true"> 
+	   <property name="driverClassName" value="${${dbType}_driver}"/> 
+	   <property name="url" value="${${dbType}_url}" /> 
+	   <property name="maxActive" value="${maxActiveConns}" />
+	   <property name="maxIdle" value="${maxIdleConns}" />
+	   <property name="initialSize" value="${initialConns}" />
+	   <property name="username" value="${${dbType}_username}" /> 
+	   <property name="password" value="${${dbType}_password}" /> 
+	   <property name="validationQuery" value="${${dbType}_validationQuery}"/>  
+	   <property name="logAbandoned" value="false"/>  
+	   <property name="removeAbandoned" value="${removeAbandoned}"/>
+	   <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}"/>
+	   <property name="testOnBorrow" value="${testOnBorrow}"/> 
+	   <property name="testWhileIdle" value="${testWhileIdle}"/> 
+	   <property name="testOnReturn" value="${testOnReturn}"/>   
+	</bean>
+	
+	<!-- 整合ibatis -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocations">
+			<list>
+				<description>排序：优先加载数据库表的sql定义（文件名带model字样），使得后续加载的自定义sql定义可以引用先加载的文件中的定义
+				</description>
+				<value>classpath:sys/sql/*-model-sql-config.xml</value>
+				<value>classpath:sys/sql/*-sql-config.xml</value>
+				<value>classpath:sql/sqlmap-config.xml</value>
+			</list>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<!-- <value>classpath:sys/sql/${dbType}/**/*_SqlMap.xml</value> -->
+			</list>
+		</property>
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<bean id="sqlMapClientTemplate" class="com.ailk.dazzle.util.ibatis.ExtSqlMapClientTemplate" primary="true">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		<property name="sqlExecutor">
+			<bean class="com.ailk.dazzle.util.ibatis.ExtSqlExecutor">
+				<property name="sqlHandlers">
+					<list>
+						<bean class="com.ailk.dazzle.util.ibatis.PagingSqlHandler"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+    </bean>
+
+    <!-- 事务配置 AOP声明方式-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="Throwable" /> 
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Throwable" /> 
+			<tx:method name="copy*" propagation="REQUIRED" rollback-for="Throwable" /> 
+			<tx:method name="modify*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="remove*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="*" read-only="true" /> 
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="sysService" expression="execution(* com.ei.*..service.*.*(..))"/>
+		<aop:advisor pointcut-ref="sysService" advice-ref="txAdvice" />
+	</aop:config>
+	
+	<!-- 引入dazzle配置 
+	<import resource="classpath:spring/dazzle/queryframework.xml" />
+	<import resource="classpath:spring/common.xml" /> 
+	-->
+	
+	<!-- 引入各模块service配置文件 -->
+	<import resource="classpath:spring/custmgnt.xml" />
+	<import resource="classpath:spring/incidentmgnt.xml" />
+	<import resource="classpath:spring/login.xml" />
+	<import resource="classpath:spring/register.xml" />
+	
+</beans>
