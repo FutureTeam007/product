@@ -12,5 +12,20 @@
 		useStatementNamespaces="true"
 	/>
 	<sqlMap resource="sql/${dbType}/COMMON_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/custmgnt/CC_CUST_PROD_OP_SqlMap.xml" />
+	<sqlMap resource="sql/${dbType}/custmgnt/CC_CUST_PROD_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/custmgnt/CC_CUST_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/custmgnt/CC_SLO_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/custmgnt/CC_USER_SqlMap.xml" />  
+	<sqlMap resource="sql/${dbType}/incidentmgnt/IC_ATTACH_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/incidentmgnt/IC_INCIDENT_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/incidentmgnt/IC_TRANSACTION_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/incidentmgnt/SUBSCRIBE_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scorgmgnt/SC_JOB_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scorgmgnt/SC_MODULE_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scorgmgnt/SC_OP_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scorgmgnt/SC_ORG_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scorgmgnt/SC_PARAM_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scorgmgnt/SC_PRODUCT_SqlMap.xml" /> 
 	
 </sqlMapConfig>
