@@ -50,7 +50,7 @@
 			<list>
 				<description>排序：优先加载数据库表的sql定义（文件名带model字样），使得后续加载的自定义sql定义可以引用先加载的文件中的定义
 				</description>
-				<value>classpath:sql/sqlmap-config.xml</value>
+				<value>classpath:sqlmap-config.xml</value>
 			</list>
 		</property>
 		<property name="mappingLocations">

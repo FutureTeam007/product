@@ -59,6 +59,16 @@ public interface IIncidentService {
 			throws Exception;
 
 	/**
+	 * 根据ID查询某一事件详细信息
+	 * 
+	 * @param incidentId
+	 *            事件ID
+	 * @return
+	 * @throws Exception
+	 */
+	public IcIncident queryIncident(long incidentId) throws Exception;
+
+	/**
 	 * 新建一个事件
 	 * 
 	 * @param incidentInfo
@@ -85,6 +95,19 @@ public interface IIncidentService {
 	 */
 	public long modifyIncident(long incidentId, IncidentInfo incidentInfo,
 			long opId) throws Exception;
+
+	/**
+	 * 修改事件部分属性
+	 * 
+	 * @param incidentId
+	 *            事件ID
+	 * @param incident
+	 *            事件信息，不为空的被认为是修改字段
+	 * @return 事件ID
+	 * @throws Exception
+	 */
+	public long modifyIncidentSelective(long incidentId, IcIncident incident)
+			throws Exception;
 
 	/**
 	 * 新增事件时直接提交，提交事件时系统自动生成第一条事务

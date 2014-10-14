@@ -5,8 +5,12 @@ package com.ei.itop.incidentmgnt.service.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dao.ICommonDAO;
 import com.ei.itop.common.dbentity.IcIncident;
@@ -18,44 +22,17 @@ import com.ei.itop.incidentmgnt.service.IIncidentService;
  * @author Jack.Qi
  * 
  */
+@Service(value = "incidentService")
 public class IncidentServiceImpl implements IIncidentService {
 
 	private static final Logger log = Logger
 			.getLogger(IncidentServiceImpl.class);
 
+	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, IcIncident> incidentDAO;
 
+	@Resource(name = "commonDDLDAO")
 	private ICommonDAO commonDAO;
-
-	/**
-	 * @return the commonDAO
-	 */
-	public ICommonDAO getCommonDAO() {
-		return commonDAO;
-	}
-
-	/**
-	 * @param commonDAO
-	 *            the commonDAO to set
-	 */
-	public void setCommonDAO(ICommonDAO commonDAO) {
-		this.commonDAO = commonDAO;
-	}
-
-	/**
-	 * @return the incidentDAO
-	 */
-	public GenericDAO<Long, IcIncident> getIncidentDAO() {
-		return incidentDAO;
-	}
-
-	/**
-	 * @param incidentDAO
-	 *            the incidentDAO to set
-	 */
-	public void setIncidentDAO(GenericDAO<Long, IcIncident> incidentDAO) {
-		this.incidentDAO = incidentDAO;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -108,7 +85,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	protected IcIncident queryIncident(long incidentId) throws Exception {
+	public IcIncident queryIncident(long incidentId) throws Exception {
 		// TODO Auto-generated method stub
 		IcIncident incident = incidentDAO.find(
 				"IC_INCIDENT.selectByPrimaryKey", incidentId);
@@ -128,7 +105,11 @@ public class IncidentServiceImpl implements IIncidentService {
 	public long addIncident(IncidentInfo incidentInfo, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
+
+		// 保存事件信息
 		long incidentId = incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
+
+		// 保存附件信息
 
 		// 记录系统操作日志
 
@@ -142,9 +123,15 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	protected long addIncident(IncidentInfo incidentInfo) throws Exception {
+	public long addIncident(IncidentInfo incidentInfo) throws Exception {
 		// TODO Auto-generated method stub
-		return incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
+
+		// 保存事件信息
+		long incidentId = incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
+
+		// 保存附件信息
+
+		return incidentId;
 	}
 
 	/*
@@ -157,7 +144,11 @@ public class IncidentServiceImpl implements IIncidentService {
 	public long modifyIncident(long incidentId, IncidentInfo incidentInfo,
 			long opId) throws Exception {
 		// TODO Auto-generated method stub
+
+		// 保存事件信息
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKey", incidentInfo);
+
+		// 保存附件信息
 
 		// 记录系统操作日志
 
@@ -172,10 +163,31 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	protected long modifyIncident(long incidentId, IncidentInfo incidentInfo)
+	public long modifyIncident(long incidentId, IncidentInfo incidentInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
+
+		// 保存事件信息
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKey", incidentInfo);
+
+		// 保存附件信息
+
+		return incidentId;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncidentSelective
+	 * (long, com.ei.itop.common.dbentity.IcIncident)
+	 */
+	public long modifyIncidentSelective(long incidentId, IcIncident incident)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+		// 保存事件信息
+		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
 
 		return incidentId;
 	}
@@ -369,4 +381,10 @@ public class IncidentServiceImpl implements IIncidentService {
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
 	}
 
+	public static void main(String[] args) throws Exception {
+		IIncidentService is = (IIncidentService) AppContext
+				.getBean("incidentService");
+		is.removeIncident(1, 1);
+
+	}
 }

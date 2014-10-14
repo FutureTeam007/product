@@ -29,7 +29,7 @@ public interface ITransactionService {
 			throws Exception;
 
 	/**
-	 * 用户提交事务
+	 * 用户提交事务，在逻辑内部判断用户是否为当前干系人
 	 * 
 	 * @param incidentId
 	 *            事件ID
@@ -44,7 +44,7 @@ public interface ITransactionService {
 			TransactionInfo transactionInfo, long opId) throws Exception;
 
 	/**
-	 * 顾问提交事务
+	 * 顾问提交事务，在逻辑内部判断顾问是否为当前干系人
 	 * 
 	 * @param incidentId
 	 *            事件ID
@@ -98,13 +98,16 @@ public interface ITransactionService {
 	 *            事件ID
 	 * @param transactionInfo
 	 *            事务信息
+	 * @param nextOpId
+	 *            被转派的操作员ID
 	 * @param opId
 	 *            操作员ID
 	 * @return 事务ID
 	 * @throws Exception
 	 */
 	public long adviserTransferTransaction(long incidentId,
-			TransactionInfo transactionInfo, long opId) throws Exception;
+			TransactionInfo transactionInfo, long nextOpId, long opId)
+			throws Exception;
 
 	/**
 	 * 顾问挂起事件
