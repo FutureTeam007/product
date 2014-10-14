@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ei.itop.common.dao.ICommonDAO;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
@@ -23,6 +24,23 @@ public class IncidentServiceImpl implements IIncidentService {
 			.getLogger(IncidentServiceImpl.class);
 
 	private GenericDAO<Long, IcIncident> incidentDAO;
+
+	private ICommonDAO commonDAO;
+
+	/**
+	 * @return the commonDAO
+	 */
+	public ICommonDAO getCommonDAO() {
+		return commonDAO;
+	}
+
+	/**
+	 * @param commonDAO
+	 *            the commonDAO to set
+	 */
+	public void setCommonDAO(ICommonDAO commonDAO) {
+		this.commonDAO = commonDAO;
+	}
 
 	/**
 	 * @return the incidentDAO
@@ -315,7 +333,7 @@ public class IncidentServiceImpl implements IIncidentService {
 
 		incident.setFeedbackCode(incidentInfo.getFeedbackCode());
 		incident.setFeedbackVal(incidentInfo.getFeedbackVal());
-		// incident.setFeedbackTime(incidentDAO.);
+		incident.setFeedbackTime(commonDAO.getSysDate());
 
 		// 修改事件的用户反馈字段
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
