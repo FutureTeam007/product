@@ -4,9 +4,23 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>iTop 服务请求管理平台</title>
+	<%@ include file="../common/commonHead.jsp"%>
+	<%@ include file="../common/easyuiHead.jsp"%>
+	<title>用户注册</title>
+	<script type="text/javascript" src="<%=rootPath%>/page/register/js/registerStep1.js"></script>
 </head>
 <body>
-
+<jsp:include page="../common/pageMasterStartNotLogin.jsp"></jsp:include>
+<div class="register-nav">
+	<div class="register-step">1.填写基本信息</div>
+	<div class="register-step register-step-active">2.注册完成</div>
+	<div class="register-step">3.账号激活</div>
+</div>
+<div class="register-wrapper">
+	<div class="panel panel-warning">
+		
+	</div>
+</div>
+<jsp:include page="../common/pageMasterEnd.jsp"></jsp:include>
 </body>
 </html>

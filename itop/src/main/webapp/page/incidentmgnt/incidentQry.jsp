@@ -88,7 +88,7 @@
 	<div class="inci-data">
 		<div>
 			<span style="width:7.5%;float:left">
-				<button type="button" class="btn btn-danger">+ 新建一条事件</button>
+				<button type="button" class="btn btn-danger" onclick="add()">+ 新建一条事件</button>
 			</span>
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
 			  <li role="presentation"><a href="#">全部(612)</a></li>
@@ -129,8 +129,9 @@
 		</table>
 	</div>
 </div>
-<div id="subPage" class="subPage"></div>
+<div id="subPage" class="subPage"><iframe id="subPageIframe" frameborder="0" scrolling="auto" style="overflow-x:hidden" width="100%" height="100%" src=""></iframe></div>
 <div id="cc" class="easyui-calendar"></div>
 <jsp:include page="../common/pageMasterEnd.jsp"></jsp:include>
+<div id="pageMask" class="pageMask"></div>
 </body>
 </html>

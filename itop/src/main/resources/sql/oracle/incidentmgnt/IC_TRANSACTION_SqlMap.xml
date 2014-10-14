@@ -12,13 +12,10 @@
     <result column="IT_PHASE" property="itPhase" jdbcType="VARCHAR" />
     <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
     <result column="CONTENTS" property="contents" jdbcType="VARCHAR" />
-    <result column="SC_OP_ID" property="scOpId" jdbcType="DECIMAL" />
-    <result column="LOGIN_CODE2" property="loginCode2" jdbcType="VARCHAR" />
-    <result column="OP_NAME2" property="opName2" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectByPrimaryKey" resultMap="icTransactionResult" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
     select TRANS_ID, IC_INCIDENT_ID, CREATE_TIME, OBJECT_TYPE, OBJECT_ID, LOGIN_CODE, OBJECT_NAME,
-      IT_PHASE, TRANS_TYPE, CONTENTS, SC_OP_ID, LOGIN_CODE2, OP_NAME2
+      IT_PHASE, TRANS_TYPE, CONTENTS
     from IC_TRANSACTION
     where TRANS_ID = #transId:DECIMAL#
   </select>
@@ -28,11 +25,10 @@
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
     insert into IC_TRANSACTION (TRANS_ID, IC_INCIDENT_ID, CREATE_TIME, OBJECT_TYPE, OBJECT_ID,
-      LOGIN_CODE, OBJECT_NAME, IT_PHASE, TRANS_TYPE, CONTENTS, SC_OP_ID, LOGIN_CODE2, OP_NAME2)
+      LOGIN_CODE, OBJECT_NAME, IT_PHASE, TRANS_TYPE, CONTENTS)
     values (#transId:DECIMAL#, #icIncidentId:DECIMAL#, #createTime:DATE#, #objectType:VARCHAR#,
       #objectId:DECIMAL#, #loginCode:VARCHAR#, #objectName:VARCHAR#, #itPhase:VARCHAR#,
-      #transType:VARCHAR#, #contents:VARCHAR#, #scOpId:DECIMAL#, #loginCode2:VARCHAR#,
-      #opName2:VARCHAR#)
+      #transType:VARCHAR#, #contents:VARCHAR#)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
     update IC_TRANSACTION
@@ -44,10 +40,7 @@
       OBJECT_NAME = #objectName:VARCHAR#,
       IT_PHASE = #itPhase:VARCHAR#,
       TRANS_TYPE = #transType:VARCHAR#,
-      CONTENTS = #contents:VARCHAR#,
-      SC_OP_ID = #scOpId:DECIMAL#,
-      LOGIN_CODE2 = #loginCode2:VARCHAR#,
-      OP_NAME2 = #opName2:VARCHAR#
+      CONTENTS = #contents:VARCHAR#
     where TRANS_ID = #transId:DECIMAL#
   </update>
   <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
@@ -79,15 +72,6 @@
       </isNotNull>
       <isNotNull prepend="," property="contents" >
         CONTENTS = #contents:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="scOpId" >
-        SC_OP_ID = #scOpId:DECIMAL#
-      </isNotNull>
-      <isNotNull prepend="," property="loginCode2" >
-        LOGIN_CODE2 = #loginCode2:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="opName2" >
-        OP_NAME2 = #opName2:VARCHAR#
       </isNotNull>
     </dynamic>
     where TRANS_ID = #transId:DECIMAL#
