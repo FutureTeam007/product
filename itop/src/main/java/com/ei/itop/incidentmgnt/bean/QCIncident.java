@@ -20,11 +20,11 @@ public class QCIncident {
 	// 产品线
 	private Long productId;
 	// 事件影响度，可多选
-	private String[] affectVal;
+	private String[] affectCodeUser;
 	// 事件分类，可多选
-	private String[] classVal;
+	private String[] classCodeUser;
 	// 事件优先级，可多选
-	private String[] priorityVal;
+	private String[] priorityCodeUser;
 	// 按客户登记时间排序，取值：desc、asc
 	private String orderByRegisterTime;
 	// 按最新更新时间排序，取值：desc、asc
@@ -109,7 +109,7 @@ public class QCIncident {
 	 * @return the affectVal
 	 */
 	public String[] getAffectVal() {
-		return affectVal;
+		return affectCodeUser;
 	}
 
 	/**
@@ -117,14 +117,14 @@ public class QCIncident {
 	 *            the affectVal to set
 	 */
 	public void setAffectVal(String[] affectVal) {
-		this.affectVal = affectVal;
+		this.affectCodeUser = affectVal;
 	}
 
 	/**
 	 * @return the classVal
 	 */
 	public String[] getClassVal() {
-		return classVal;
+		return classCodeUser;
 	}
 
 	/**
@@ -132,14 +132,14 @@ public class QCIncident {
 	 *            the classVal to set
 	 */
 	public void setClassVal(String[] classVal) {
-		this.classVal = classVal;
+		this.classCodeUser = classVal;
 	}
 
 	/**
 	 * @return the priorityVal
 	 */
 	public String[] getPriorityVal() {
-		return priorityVal;
+		return priorityCodeUser;
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class QCIncident {
 	 *            the priorityVal to set
 	 */
 	public void setPriorityVal(String[] priorityVal) {
-		this.priorityVal = priorityVal;
+		this.priorityCodeUser = priorityVal;
 	}
 
 	/**

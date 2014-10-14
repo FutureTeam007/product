@@ -87,7 +87,7 @@ public interface IIncidentService {
 			long opId) throws Exception;
 
 	/**
-	 * 新增事件时直接提交
+	 * 新增事件时直接提交，提交事件时系统自动生成第一条事务
 	 * 
 	 * @param incidentInfo
 	 *            事件信息
@@ -96,11 +96,11 @@ public interface IIncidentService {
 	 * @return 事件ID
 	 * @throws Exception
 	 */
-	public long commitIncident(IncidentInfo incidentInfo, long opId)
+	public long addAndCommitIncident(IncidentInfo incidentInfo, long opId)
 			throws Exception;
 
 	/**
-	 * 编辑事件时直接提交
+	 * 编辑事件时直接提交，提交事件时系统自动生成第一条事务
 	 * 
 	 * @param incidentId
 	 *            事件ID
@@ -111,8 +111,8 @@ public interface IIncidentService {
 	 * @return 事件ID
 	 * @throws Exception
 	 */
-	public long commitIncident(long incidentId, IncidentInfo incidentInfo,
-			long opId) throws Exception;
+	public long modifyAndCommitIncident(long incidentId,
+			IncidentInfo incidentInfo, long opId) throws Exception;
 
 	/**
 	 * 提交事件，目前页面中并没有直接提交事件的入口
@@ -127,7 +127,7 @@ public interface IIncidentService {
 	public long commitIncident(long incidentId, long opId) throws Exception;
 
 	/**
-	 * 删除事件，逻辑删除
+	 * 删除事件，逻辑删除，只能刪除未提交的事件
 	 * 
 	 * @param incidentId
 	 *            事件ID
@@ -139,35 +139,40 @@ public interface IIncidentService {
 	public void removeIncident(long incidentId, long opId) throws Exception;
 
 	/**
-	 * 顾问补全事件影响度、事件分类、事件优先级三部分内容
+	 * 顾问补全事件影响度、事件分类、事件优先级三部分内容，此逻辑在顾问提交事务时判断信息是否尚未补全触发调用
 	 * 
+	 * @param incidentId
+	 *            事件ID
 	 * @param incidentInfo
 	 *            事件信息，此逻辑仅关注顾问设置的影响度、分类、优先级三个信息
-	 * @param opId
-	 *            操作员ID
 	 * @throws Exception
 	 */
-	public void adviserCompleteInfo(IncidentInfo incidentInfo, long opId)
+	public void adviserCompleteInfo(long incidentId, IncidentInfo incidentInfo)
 			throws Exception;
 
 	/**
 	 * 用户反馈满意度
 	 * 
+	 * @param incidentId
+	 *            事件ID
 	 * @param incidentInfo
 	 *            事件信息，此逻辑仅关注用户设置的满意度信息
 	 * @param opId
 	 *            操作员ID
 	 * @throws Exception
 	 */
-	public void userSetFeedbackVal(IncidentInfo incidentInfo, long opId)
-			throws Exception;
+	public void userSetFeedbackVal(long incidentId, IncidentInfo incidentInfo,
+			long opId) throws Exception;
 
 	/**
 	 * 顾问关闭事件
 	 * 
+	 * @param incidentId
+	 *            事件ID
 	 * @param opId
 	 *            操作员ID
 	 * @throws Exception
 	 */
-	public void closeIncident(long opId) throws Exception;
+	public void adviserCloseIncident(long incidentId, long opId)
+			throws Exception;
 }
