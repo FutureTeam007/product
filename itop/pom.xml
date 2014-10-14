@@ -30,22 +30,6 @@
 			<version>10.2.0.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ailk.dazzle</groupId>
-			<artifactId>dazzle-sys</artifactId>
-			<version>2.0.7-SNAPSHOT</version>
-			<classifier>api</classifier>
-			<exclusions>
-				<exclusion>
-					<artifactId>db2jcc</artifactId>
-					<groupId>com.ibm.db2</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>db2jcc_license_cu</artifactId>
-					<groupId>com.ibm.db2</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>

@@ -23,29 +23,6 @@
 	<context:component-scan base-package="com.ei.**.controller.**" />
 	<context:component-scan base-package="com.ailk.dazzle.app.queryframework.action.**" />
 	
-	<!-- 引入应用基础配置文件(勿动) -->
-    <import resource="classpath:sys/sys-spring.xml" />
-    <!-- 系统管理配置(勿动) -->
-	<bean id="sys.sysConfig" class="com.ailk.dazzle.sys.SysConfig">
-		<!-- 默认权限域的值，充许多个系统共用同一个数据库进行权限管理，每个系统的域id唯一，为常量 -->
-		<property name="defaultDomainId" value="100"/>
-		<!-- 登陆时是否进行验证，默认为true，即验证 -->
-		<property name="checkLoginVerifyCode" value="false" />
-		<!-- 用户登录后是否校验url权限 -->
-		<property name="authrizeByUrl" value="false" />
-		<!--  不校验权限的公共url模式列表，逗号、分号或空格隔开的url列表，可以使用通配符*和**。
-			  *可以匹配单级目录，即匹配除/外的任意一个或多个字符。
-			  **可以匹配任意多级目录，即匹配包括任意个/和任意多个字符。
-		-->
-		<property name="publicUrlPatterns" value="/,**.jsp,**.html" />
-		<!-- 让页面不通过权限框架校验-->
-		<property name="anonymousUrlPatterns" value="/sys/config/**,/,**.html,**.js,**.css,**.json,**.jpg,**.gif,**.png,/res/**,/theme/**,**.jsp"/>
-		<!-- 用户登录集成ldap -->
-		<property name="ldapEnabled" value="false" />
-		<property name="ldapHost" value="ldap.asiainfo-linkage.com" />
-		<property name="ldapPort" value="389" />
-		<property name="ldapDomain" value="ailk" />
-	 </bean>
 	<context:property-placeholder location="classpath:database.properties" />
 	
 	<!-- 引入数据库配置 -->
@@ -73,8 +50,6 @@
 			<list>
 				<description>排序：优先加载数据库表的sql定义（文件名带model字样），使得后续加载的自定义sql定义可以引用先加载的文件中的定义
 				</description>
-				<value>classpath:sys/sql/*-model-sql-config.xml</value>
-				<value>classpath:sys/sql/*-sql-config.xml</value>
 				<value>classpath:sql/sqlmap-config.xml</value>
 			</list>
 		</property>

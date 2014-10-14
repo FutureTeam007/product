@@ -1,9 +1,21 @@
 body{background-color: #f8f8f8;font-family:"microsoft yahei", Arial, Tahoma, Geneva, sans-serif;}
+a {outline: none;}
+a:active {star:expression(this.onFocus=this.blur());}
 .header-fix{height:60px;line-height:60px;padding-left:10px;padding-top:5px;}
 .brand-fix{font-family:"microsoft yahei";font-size:38px;color:#333;margin-left:0px;padding-left:8px;padding-top:18px}
 .navbar-brand-small{font-family:"microsoft yahei";font-size:12px;color:#333;font-style:italic;margin-top:40px}
 .navbar-fix{border-bottom-color:#ccc;background:#f3f3f3;}
 .site-logo{width:50px;height:50px;background:url(image/logo.png) top left no-repeat;float:left;margin:5px auto auto 10px}
-.inci-search span label{width:80px;display:inline;float:left;line-height:30px;font-weight:normal;color:#666;}
-.inci-search span{width:25%;float:left;display:inline;margin-bottom:10px}
-.inci-search span .form-control{float:left;display:inline;width:60%;}
+.inci-search{margin:10px}
+.inci-search span label{width:80px;display:inline;float:left;line-height:22px;font-weight:bold;color:#555;}
+.inci-search span.form-item{width:25%;float:left;display:inline;margin-bottom:20px}
+.inci-search .form-control{float:left;display:inline;width:60%;height:24px;font-size:12px;padding-top:2px}
+.inci-search .btn-sm{height:24px;line-height:22px;padding-top:0px}
+.textbox-icon .combo-arrow{float:right}
+.nav-tabs li{height:30px;font-size:12px;}
+.nav-tabs li a{padding:5px;}
+.inci-data .datagrid-header-row .datagrid-cell{font-weight:bold;}
+.inci-data .btn-danger{height:30px;font-size:14px;padding-top:3px}
+.inci-data .nav-tabs {border-bottom:none;width:90%;float:right;padding-right:15px;padding-top:5px}
+.inci-data .nav-tabs > li{float:right}
+.subPage{display:none;float:right;position:absolute;top:70px;right:0px;overflow:scroll;border-left:solid 1px #666;border-bottom:solid 1px #666;width:65%;}
