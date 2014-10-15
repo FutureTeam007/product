@@ -85,12 +85,7 @@
     <!-- 事务配置 AOP声明方式-->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="add*" propagation="REQUIRED" rollback-for="Throwable" /> 
-			<tx:method name="save*" propagation="REQUIRED" rollback-for="Throwable" /> 
-			<tx:method name="copy*" propagation="REQUIRED" rollback-for="Throwable" /> 
-			<tx:method name="modify*" propagation="REQUIRED" rollback-for="Throwable" />
-			<tx:method name="remove*" propagation="REQUIRED" rollback-for="Throwable" />
-			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="MBL*" propagation="REQUIRED" rollback-for="Throwable" /> 
 			<tx:method name="*" read-only="true" /> 
 		</tx:attributes>
 	</tx:advice>

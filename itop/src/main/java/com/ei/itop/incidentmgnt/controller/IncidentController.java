@@ -29,7 +29,12 @@ public class IncidentController {
 
 	@Autowired
 	private IIncidentService incidentService;
-	
+	/**
+	 * 查询列表
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/list")
 	public void queryIncidentList(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
@@ -96,13 +101,23 @@ public class IncidentController {
 		String jsonData = JSONUtils.toJSONString(result);
 		response.getWriter().print(jsonData);
 	}
-	
+	/**
+	 * 新增事件（保存）
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/add")
 	public void addIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		request.setAttribute("notCommit", true);
 		addIncidentAutoCommit(request,response);
 	}
-	
+	/**
+	 * 新增事件（直接提交）
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/addc")
 	public void addIncidentAutoCommit(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
@@ -145,13 +160,23 @@ public class IncidentController {
 			incidentService.MBLAddAndCommitIncidentAndAttach(ii, oi);
 		}
 	}
-	
+	/**
+	 * 修改事件并保存
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/modify")
 	public void modifyIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		request.setAttribute("notCommit", true);
 		modifyIncidentAutoCommit(request,response);
 	}
-	
+	/**
+	 * 修改事件直接提交
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/modifyc")
 	public void modifyIncidentAutoCommit(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
@@ -196,7 +221,12 @@ public class IncidentController {
 			incidentService.MBLModifyAndCommitIncidentAndAttach(incidentId, ii, oi);
 		}
 	}
-	
+	/**
+	 * 查询单条事件信息
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/query")
 	public void queryIncidentInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
@@ -205,14 +235,77 @@ public class IncidentController {
 		String jsonData = JSONUtils.toJSONString(ii);
 		response.getWriter().print(jsonData);
 	}
-	
+	/**
+	 * 提交事件
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/commit")
 	public void commitIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
 		incidentService.MBLCommitIncident(incidentId, oi);
 	}
-	
+	/**
+	 * 删除一条事件
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/remove")
+	public void removeIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		OpInfo oi = SessionUtil.getOpInfo();
+		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
+		incidentService.MBLRemoveIncident(incidentId, oi);
+	}
+	/**
+	 * 关闭一条事件
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/close")
+	public void closeIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		OpInfo oi = SessionUtil.getOpInfo();
+		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
+		incidentService.MBLAdviserCloseIncident(incidentId, oi);
+	}
+	/**
+	 * 顾问补全事件信息
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/complete")
+	public void completeIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		OpInfo oi = SessionUtil.getOpInfo();
+		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
+		IncidentInfo ii = new IncidentInfo();
+		String classCodeOp = request.getParameter("classCodeOp");
+		String classValOp = request.getParameter("classValOp");
+		String affectValOp = request.getParameter("affectValOp");
+		String affectCodeUser = request.getParameter("affectCodeUser");
+		String priorityCode = request.getParameter("priorityCode");
+		String priorityVal = request.getParameter("priorityVal");
+		String complexCode = request.getParameter("complexCode");
+		String complexVal = request.getParameter("complexVal");
+		ii.setClassCodeOp(classCodeOp);
+		ii.setClassValOp(classValOp);
+		ii.setAffectValOp(affectValOp);
+		ii.setAffectCodeUser(affectCodeUser);
+		ii.setPriorityCode(priorityCode);
+		ii.setPriorityVal(priorityVal);
+		ii.setComplexCode(complexCode);
+		ii.setComplexVal(complexVal);
+		incidentService.MBLAdviserCompleteInfo(incidentId, ii, oi);
+	}
+	/**
+	 * 评价一条事件
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/feedback")
 	public void feedBackIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();

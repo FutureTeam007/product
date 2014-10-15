@@ -16,15 +16,15 @@
 		<div>
 			<span class="form-item">
 		    	<label for="inciNo">事件序列号</label>
-		    	<input type="text" class="form-control" id="inciNo"/>
+		    	<input type="text" class="form-control" id="incidentCode"/>
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="inciShortDesc">事件简述</label>
-		    	<input type="text" class="form-control" id="inciShortDesc"/>
+		    	<input type="text" class="form-control" id="brief"/>
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="inciTypeSel">事件类别</label>
-		    	<input class="easyui-combobox" style="width:60%"  name="inciTypeSel" id="inciTypeSel" data-options="
+		    	<input class="easyui-combobox" style="width:60%"  name="classVar" id="classVar" data-options="
 					url:'js/json/incidentType_data.json',
 					method:'get',
 					valueField:'paramCode',
@@ -47,16 +47,16 @@
 			<span class="form-item">
 		    	<label>影响度</label>
 		    	<span class="checkbox-inline">
-				  <input type="checkbox" id="effectLevel1" value="1"> 咨询
+				  <input type="checkbox" id="affectVar1" value="1"> 咨询
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="effectLevel2" value="2"> 一般
+				  <input type="checkbox" id="affectVar2" value="2"> 一般
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="effectLevel3" value="3"> 严重
+				  <input type="checkbox" id="affectVar3" value="3"> 严重
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="effectLevel4" value="4"> 重大
+				  <input type="checkbox" id="affectVar4" value="4"> 重大
 				</span>
 		  	</span>
 		  	<span class="form-item">
@@ -91,23 +91,20 @@
 				<button type="button" class="btn btn-danger" onclick="add()">+ 新建一条事件</button>
 			</span>
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
-			  <li role="presentation"><a href="#">全部(612)</a></li>
-			  <li role="presentation"><a href="#">已关闭(129)</a></li>
-			  <li role="presentation"><a href="#">已完成(421)</a></li>
-			  <li role="presentation"><a href="#">已挂起(2)</a></li>
-			  <li role="presentation"><a href="#">顾问处理中(6)</a></li>
-			  <li role="presentation"><a href="#">客户处理中(12)</a></li>
-			  <li role="presentation"><a href="#">待提交(8)</a></li>
-			  <li role="presentation" class="active"><a href="#">待响应(8)</a></li>
+			  <li role="presentation" value="-1"><a href="#">全部(612)</a></li>
+			  <li role="presentation" value="9"><a href="#">已关闭(129)</a></li>
+			  <li role="presentation" value="8"><a href="#">已完成(421)</a></li>
+			  <li role="presentation" value="5"><a href="#">已挂起(2)</a></li>
+			  <li role="presentation" value="4"><a href="#">客户处理中(12)</a></li>
+			  <li role="presentation" value="3"><a href="#">顾问处理中(6)</a></li>
+			  <li role="presentation" value="2" class="active"><a href="#">待响应(8)</a></li>
+			  <li role="presentation" value="1"><a href="#">待提交(8)</a></li>
 			</ul>
 		</div>
-		<table style="width:99%;height:390px" id="incidentDataTable"></table>
-		
-		
-		
 		<table class="easyui-datagrid" style="width:99%;height:390px" id="incidentDataTable"
 			data-options="singleSelect:true,collapsible:false,
-				url:rootPath+'/incident/list?stateVal=2',
+				url:rootPath+'/incident/list',
+				queryParams:{'stateVal':2},
 				method:'get',
 				loadMsg:'数据加载中，请稍后……',
 				remoteSort:true,

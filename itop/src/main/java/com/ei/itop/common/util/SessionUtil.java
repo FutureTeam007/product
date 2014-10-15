@@ -16,7 +16,13 @@ public class SessionUtil implements ServletRequestListener{
 	}
 	
 	public static OpInfo getOpInfo(){
-		return (OpInfo)value.get().getSession().getAttribute("opInfo");
+		OpInfo oi = new OpInfo();
+		oi.setOpCode("100");
+		oi.setOpId(100);
+		oi.setOpName("test");
+		oi.setOpType("user");
+		return oi;
+		//return (OpInfo)value.get().getSession().getAttribute("opInfo");
 	}
 	
 	public void requestDestroyed(ServletRequestEvent sre) {

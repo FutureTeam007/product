@@ -18,14 +18,14 @@ public class LoginFilter implements Filter{
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest hr = (HttpServletRequest)request;
-		OpInfo oi = new OpInfo();
-		oi.setOpCode("100");
-		oi.setOpId(100);
-		oi.setOpName("test");
-		oi.setOpType("user");
-		hr.getSession().setAttribute("opInfo", oi);
-		chain.doFilter(request, response);
+//		HttpServletRequest hr = (HttpServletRequest)request;
+//		OpInfo oi = new OpInfo();
+//		oi.setOpCode("100");
+//		oi.setOpId(100);
+//		oi.setOpName("test");
+//		oi.setOpType("user");
+//		hr.getSession().setAttribute("opInfo", oi);
+//		chain.doFilter(request, response);
 	}
 
 	public void destroy() {
