@@ -98,19 +98,6 @@ public interface IIncidentService {
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception;
 
 	/**
-	 * 顾问补全事件影响度、分类、优先级等信息
-	 * 
-	 * @param incidentId
-	 *            事件ID
-	 * @param incident
-	 *            事件信息，不为空的被认为是修改字段
-	 * @return 事件ID
-	 * @throws Exception
-	 */
-	public long completeAdviserInfo(long incidentId, IcIncident incident,
-			OpInfo opInfo) throws Exception;
-
-	/**
 	 * 新增事件时直接提交，提交事件时系统自动生成第一条事务
 	 * 
 	 * @param incidentInfo
@@ -173,8 +160,8 @@ public interface IIncidentService {
 	 *            事件信息，此逻辑仅关注顾问设置的影响度、分类、优先级三个信息
 	 * @throws Exception
 	 */
-	public void adviserCompleteInfo(long incidentId, IcIncident incident)
-			throws Exception;
+	public void adviserCompleteInfo(long incidentId, IcIncident incident,
+			OpInfo opInfo) throws Exception;
 
 	/**
 	 * 用户反馈满意度

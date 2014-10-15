@@ -110,7 +110,7 @@
       #restoreTime:DATE#, #reponseDur:DECIMAL#, #dealDur:DECIMAL#, #finishTime:DATE#,
       #itSolution:VARCHAR#, #finishCode:VARCHAR#, #finishVal:VARCHAR#, #feedbackCode:VARCHAR#,
       #feedbackVal:VARCHAR#, #feedbackTime:DATE#, #closeTime:DATE#, #itPhase:VARCHAR#,
-      #itStateCode:VARCHAR#, #itStateVal:VARCHAR#, #dataState:DECIMAL#, #creator:VARCHAR#,
+      #itStateCode:VARCHAR#, #itStateVal:VARCHAR#, 1, #creator:VARCHAR#,
       sysdate, #modifier:VARCHAR#, sysdate)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcIncident" >

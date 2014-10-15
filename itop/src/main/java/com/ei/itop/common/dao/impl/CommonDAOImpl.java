@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
@@ -20,22 +22,8 @@ import com.ei.itop.common.dao.ICommonDAO;
 @Component("commonDDLDAO")
 public class CommonDAOImpl implements ICommonDAO {
 
+	@Resource(name = "app.siCommonDAO")
 	private GenericDAO commonDAO;
-
-	/**
-	 * @return the commonDAO
-	 */
-	public GenericDAO getCommonDAO() {
-		return commonDAO;
-	}
-
-	/**
-	 * @param commonDAO
-	 *            the commonDAO to set
-	 */
-	public void setCommonDAO(GenericDAO commonDAO) {
-		this.commonDAO = commonDAO;
-	}
 
 	/*
 	 * (non-Javadoc)
