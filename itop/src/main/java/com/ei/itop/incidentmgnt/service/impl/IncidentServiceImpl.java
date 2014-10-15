@@ -87,6 +87,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 */
 	public IcIncident queryIncident(long incidentId) throws Exception {
 		// TODO Auto-generated method stub
+
 		IcIncident incident = incidentDAO.find(
 				"IC_INCIDENT.selectByPrimaryKey", incidentId);
 
@@ -148,6 +149,9 @@ public class IncidentServiceImpl implements IIncidentService {
 
 		// 自动填入事件系列号
 		incidentInfo.setIncidentCode(generateIncidentCode());
+
+		// 自动填入商户信息、客户信息
+		// *********
 
 		// 自动填入事件提出用户、创建人
 		incidentInfo.setPlObjectType(opInfo.getOpType());
@@ -257,6 +261,18 @@ public class IncidentServiceImpl implements IIncidentService {
 		incidentInfo.setItStateVal("待响应");
 		incidentInfo.setItStateCode("2");
 
+		// 提交时自动填入登记时间
+		incidentInfo.setRegisteTime(commonDAO.getSysDate());
+
+		// 提交时自动分派负责顾问，并作为干系人
+		// ********
+
+		// 填入事件所处阶段
+		// ********
+
+		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
+		// ********
+
 		// 保存事件信息
 		long incidentId = addIncidentAndAttach(incidentInfo, opInfo);
 
@@ -284,6 +300,18 @@ public class IncidentServiceImpl implements IIncidentService {
 		// 提交时需调整事件状态为待响应
 		incidentInfo.setItStateVal("待响应");
 		incidentInfo.setItStateCode("2");
+
+		// 提交时自动填入登记时间
+		incidentInfo.setRegisteTime(commonDAO.getSysDate());
+
+		// 提交时自动分派负责顾问，并作为干系人
+		// ********
+
+		// 填入事件所处阶段
+		// ********
+
+		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
+		// ********
 
 		// 保存事件信息
 		modifyIncidentAndAttach(incidentId, incidentInfo, opInfo);
@@ -356,8 +384,10 @@ public class IncidentServiceImpl implements IIncidentService {
 				|| incident.getClassCodeOp() == null
 				|| incident.getClassValOp() == null
 				|| incident.getPriorityCode() == null
-				|| incident.getPriorityVal() == null) {
-			throw new Exception("必须一次性补全顾问影响度、分类、优先级，缺一不可");
+				|| incident.getPriorityVal() == null
+				|| incident.getComplexCode() == null
+				|| incident.getComplexVal() == null) {
+			throw new Exception("必须一次性补全顾问影响度、分类、优先级、复杂度，缺一不可");
 		}
 
 		IncidentInfo ii = new IncidentInfo();
@@ -372,9 +402,13 @@ public class IncidentServiceImpl implements IIncidentService {
 		ii.setClassValOp(incident.getClassValOp());
 		ii.setPriorityCode(incident.getPriorityCode());
 		ii.setPriorityVal(incident.getPriorityVal());
+		ii.setComplexCode(incident.getComplexCode());
+		ii.setComplexVal(incident.getComplexVal());
 
 		// 保存事件信息
 		modifyIncidentAndAttach(incidentId, ii, opInfo);
+
+		// 记录系统操作日志
 	}
 
 	/*
@@ -411,6 +445,8 @@ public class IncidentServiceImpl implements IIncidentService {
 
 		// 保存事件信息
 		modifyIncidentAndAttach(incidentId, ii, opInfo);
+
+		// 记录系统操作日志
 	}
 
 	/*
@@ -441,6 +477,10 @@ public class IncidentServiceImpl implements IIncidentService {
 
 		// 保存事件信息
 		modifyIncidentAndAttach(incidentId, ii, opInfo);
+
+		// 系统自动生成最后一条事务
+
+		// 记录系统操作日志
 	}
 
 	public static void main(String[] args) throws Exception {

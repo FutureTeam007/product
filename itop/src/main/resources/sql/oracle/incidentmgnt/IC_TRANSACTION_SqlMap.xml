@@ -24,9 +24,12 @@
     where TRANS_ID = #transId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
+  	<selectKey resultClass="long" keyProperty="transId">
+  		select IC_TRANSACTION$$SEQ.nextval from dual
+  	</selectKey>
     insert into IC_TRANSACTION (TRANS_ID, IC_INCIDENT_ID, CREATE_TIME, OBJECT_TYPE, OBJECT_ID,
       LOGIN_CODE, OBJECT_NAME, IT_PHASE, TRANS_TYPE, CONTENTS)
-    values (#transId:DECIMAL#, #icIncidentId:DECIMAL#, #createTime:DATE#, #objectType:VARCHAR#,
+    values (#transId:DECIMAL#, #icIncidentId:DECIMAL#, sysdate, #objectType:VARCHAR#,
       #objectId:DECIMAL#, #loginCode:VARCHAR#, #objectName:VARCHAR#, #itPhase:VARCHAR#,
       #transType:VARCHAR#, #contents:VARCHAR#)
   </insert>
