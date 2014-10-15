@@ -87,7 +87,8 @@
   		select IC_INCIDENT$$SEQ.nextval from dual
   	</selectKey>
     insert into IC_INCIDENT (IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID,
-      CUST_NAME, CC_USER_ID, CC_LOGIN_CODE, SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME,
+      CUST_NAME, SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME,
+      PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
       SC_OP_ID, SC_LOGIN_CODE, IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE,
       REGISTE_TIME, HAPPEN_TIME, SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER,
       AFFECT_CODE_USER, AFFECT_VAL_USER, CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP,
@@ -97,8 +98,9 @@
       FEEDBACK_TIME, CLOSE_TIME, IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATOR,
       CREATE_DATE, MODIFIER, MODIFY_DATE)
     values (#icIncidentId:DECIMAL#, #incidentCode:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
-      #ccCustId:DECIMAL#, #custName:VARCHAR#, #ccUserId:DECIMAL#, #ccLoginCode:VARCHAR#,
+      #ccCustId:DECIMAL#, #custName:VARCHAR#,
       #scProductId:DECIMAL#, #prodName:VARCHAR#, #scModuleId:DECIMAL#, #moduleName:VARCHAR#,
+      #plObjectType:VARCHAR#, #plObjectId:DECIMAL#, #plLoginCode:VARCHAR#, #plObjectName:VARCHAR#,
       #scOpId:DECIMAL#, #scLoginCode:VARCHAR#, #icObjectType:VARCHAR#, #icObjectId:DECIMAL#,
       #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:DATE#, #happenTime:DATE#,
       #sourceCode:VARCHAR#, #sourceVal:VARCHAR#, #classCodeUser:VARCHAR#, #classValUser:VARCHAR#,
