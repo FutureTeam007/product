@@ -29,7 +29,7 @@ public interface IIncidentService {
 	 * @return 事件记录列表
 	 * @throws Exception
 	 */
-	public List<IcIncident> queryIncident(QCIncident qcIncident,
+	public List<IcIncident> MBLQueryIncident(QCIncident qcIncident,
 			long startIndex, int pageSize, long opId) throws Exception;
 
 	/**
@@ -42,7 +42,7 @@ public interface IIncidentService {
 	 * @return 记录数
 	 * @throws Exception
 	 */
-	public long queryIncidentCount(QCIncident qcIncident, long opId)
+	public long MBLQueryIncidentCount(QCIncident qcIncident, long opId)
 			throws Exception;
 
 	/**
@@ -55,7 +55,7 @@ public interface IIncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public IcIncident queryIncident(long incidentId, long opId)
+	public IcIncident MBLQueryIncident(long incidentId, long opId)
 			throws Exception;
 
 	/**
@@ -78,7 +78,7 @@ public interface IIncidentService {
 	 * @return 事件ID
 	 * @throws Exception
 	 */
-	public long addIncident(IncidentInfo incidentInfo, long opId)
+	public long MBLAddIncident(IncidentInfo incidentInfo, long opId)
 			throws Exception;
 
 	/**
@@ -93,7 +93,7 @@ public interface IIncidentService {
 	 * @return 事件ID
 	 * @throws Exception
 	 */
-	public long modifyIncident(long incidentId, IncidentInfo incidentInfo,
+	public long MBLModifyIncident(long incidentId, IncidentInfo incidentInfo,
 			long opId) throws Exception;
 
 	/**
@@ -119,7 +119,7 @@ public interface IIncidentService {
 	 * @return 事件ID
 	 * @throws Exception
 	 */
-	public long addAndCommitIncident(IncidentInfo incidentInfo, long opId)
+	public long MBLAddAndCommitIncident(IncidentInfo incidentInfo, long opId)
 			throws Exception;
 
 	/**
@@ -134,7 +134,7 @@ public interface IIncidentService {
 	 * @return 事件ID
 	 * @throws Exception
 	 */
-	public long modifyAndCommitIncident(long incidentId,
+	public long MBLModifyAndCommitIncident(long incidentId,
 			IncidentInfo incidentInfo, long opId) throws Exception;
 
 	/**
@@ -147,7 +147,7 @@ public interface IIncidentService {
 	 * @return 事件ID
 	 * @throws Exception
 	 */
-	public long commitIncident(long incidentId, long opId) throws Exception;
+	public long MBLCommitIncident(long incidentId, long opId) throws Exception;
 
 	/**
 	 * 删除事件，逻辑删除，只能刪除未提交的事件
@@ -159,7 +159,7 @@ public interface IIncidentService {
 	 * @throws Exception
 	 *             当事件状态不可删除时会也抛出异常
 	 */
-	public void removeIncident(long incidentId, long opId) throws Exception;
+	public void MBLRemoveIncident(long incidentId, long opId) throws Exception;
 
 	/**
 	 * 顾问补全事件影响度、事件分类、事件优先级三部分内容，此逻辑在顾问提交事务时判断信息是否尚未补全触发调用
@@ -184,8 +184,8 @@ public interface IIncidentService {
 	 *            操作员ID
 	 * @throws Exception
 	 */
-	public void userSetFeedbackVal(long incidentId, IncidentInfo incidentInfo,
-			long opId) throws Exception;
+	public void MBLUserSetFeedbackVal(long incidentId,
+			IncidentInfo incidentInfo, long opId) throws Exception;
 
 	/**
 	 * 顾问关闭事件
@@ -196,6 +196,6 @@ public interface IIncidentService {
 	 *            操作员ID
 	 * @throws Exception
 	 */
-	public void adviserCloseIncident(long incidentId, long opId)
+	public void MBLAdviserCloseIncident(long incidentId, long opId)
 			throws Exception;
 }

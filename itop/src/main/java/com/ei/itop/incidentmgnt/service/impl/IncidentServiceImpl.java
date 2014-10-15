@@ -41,7 +41,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncident(com.ei
 	 * .itop.incidentmgnt.bean.QCIncident, long, int, long)
 	 */
-	public List<IcIncident> queryIncident(QCIncident qcIncident,
+	public List<IcIncident> MBLQueryIncident(QCIncident qcIncident,
 			long startIndex, int pageSize, long opId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -54,7 +54,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncidentCount(
 	 * com.ei.itop.incidentmgnt.bean.QCIncident, long)
 	 */
-	public long queryIncidentCount(QCIncident qcIncident, long opId)
+	public long MBLQueryIncidentCount(QCIncident qcIncident, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
@@ -67,7 +67,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncident(long,
 	 * long)
 	 */
-	public IcIncident queryIncident(long incidentId, long opId)
+	public IcIncident MBLQueryIncident(long incidentId, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
 		IcIncident incident = incidentDAO.find(
@@ -102,7 +102,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#addIncident(com.ei.
 	 * itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long addIncident(IncidentInfo incidentInfo, long opId)
+	public long MBLAddIncident(IncidentInfo incidentInfo, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
 
@@ -123,7 +123,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public long addIncident(IncidentInfo incidentInfo) throws Exception {
+	private long addIncident(IncidentInfo incidentInfo) throws Exception {
 		// TODO Auto-generated method stub
 
 		// 保存事件信息
@@ -141,7 +141,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncident(long,
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long modifyIncident(long incidentId, IncidentInfo incidentInfo,
+	public long MBLModifyIncident(long incidentId, IncidentInfo incidentInfo,
 			long opId) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -163,7 +163,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public long modifyIncident(long incidentId, IncidentInfo incidentInfo)
+	private long modifyIncident(long incidentId, IncidentInfo incidentInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
 
@@ -199,7 +199,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#commitIncident(com.
 	 * ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long addAndCommitIncident(IncidentInfo incidentInfo, long opId)
+	public long MBLAddAndCommitIncident(IncidentInfo incidentInfo, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
 
@@ -208,7 +208,7 @@ public class IncidentServiceImpl implements IIncidentService {
 		incidentInfo.setItStateCode("2");
 
 		// 保存事件信息
-		long incidentId = addIncident(incidentInfo, opId);
+		long incidentId = MBLAddIncident(incidentInfo, opId);
 
 		// 系统自动生成第一条事务
 
@@ -227,7 +227,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#commitIncident(long,
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long modifyAndCommitIncident(long incidentId,
+	public long MBLModifyAndCommitIncident(long incidentId,
 			IncidentInfo incidentInfo, long opId) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -255,7 +255,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#commitIncident(long,
 	 * long)
 	 */
-	public long commitIncident(long incidentId, long opId) throws Exception {
+	public long MBLCommitIncident(long incidentId, long opId) throws Exception {
 		// TODO Auto-generated method stub
 
 		throw new Exception("目前系统中并没有直接提交事件的入口，此逻辑暂未实现");
@@ -268,7 +268,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#removeIncident(long,
 	 * long)
 	 */
-	public void removeIncident(long incidentId, long opId) throws Exception {
+	public void MBLRemoveIncident(long incidentId, long opId) throws Exception {
 		// TODO Auto-generated method stub
 
 		IcIncident incident = queryIncident(incidentId);
@@ -323,8 +323,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#userSetFeedbackVal(
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public void userSetFeedbackVal(long incidentId, IncidentInfo incidentInfo,
-			long opId) throws Exception {
+	public void MBLUserSetFeedbackVal(long incidentId,
+			IncidentInfo incidentInfo, long opId) throws Exception {
 		// TODO Auto-generated method stub
 
 		// 查询事件信息
@@ -357,7 +357,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @see
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#closeIncident(long)
 	 */
-	public void adviserCloseIncident(long incidentId, long opId)
+	public void MBLAdviserCloseIncident(long incidentId, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
 
@@ -384,7 +384,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	public static void main(String[] args) throws Exception {
 		IIncidentService is = (IIncidentService) AppContext
 				.getBean("incidentService");
-		is.removeIncident(1, 1);
+		is.MBLRemoveIncident(1, 1);
 
 	}
 }
