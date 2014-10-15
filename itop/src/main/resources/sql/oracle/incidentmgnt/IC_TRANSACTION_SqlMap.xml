@@ -13,7 +13,7 @@
     <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
     <result column="CONTENTS" property="contents" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="icTransactionResult" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
+  <select id="selectByPrimaryKey" resultMap="icTransactionResult" parameterClass="long" >
     select TRANS_ID, IC_INCIDENT_ID, CREATE_TIME, OBJECT_TYPE, OBJECT_ID, LOGIN_CODE, OBJECT_NAME,
       IT_PHASE, TRANS_TYPE, CONTENTS
     from IC_TRANSACTION

@@ -166,7 +166,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncident(long,
+	 * com.ei.itop.incidentmgnt.service.IIncidentService#MBLModifyIncidentAndAttach(long,
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
 	public long MBLModifyIncidentAndAttach(long incidentId,
@@ -191,16 +191,14 @@ public class IncidentServiceImpl implements IIncidentService {
 		return "XXX001";
 	}
 
-	/**
-	 * 修改事件，含附件
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param incidentId
-	 * @param incidentInfo
-	 * @param opInfo
-	 * @return
-	 * @throws Exception
+	 * @see
+	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncidentAndAttach(long,
+	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	protected long modifyIncidentAndAttach(long incidentId,
+	public long modifyIncidentAndAttach(long incidentId,
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception {
 
 		// IncidentInfo ii = new IncidentInfo();

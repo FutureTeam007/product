@@ -188,4 +188,16 @@ public interface IIncidentService {
 	 */
 	public void MBLAdviserCloseIncident(long incidentId, OpInfo opInfo)
 			throws Exception;
+
+	/**
+	 * 修改事件
+	 * 
+	 * @param incidentId
+	 * @param incidentInfo
+	 * @param opInfo
+	 * @return
+	 * @throws Exception
+	 */
+	public long modifyIncidentAndAttach(long incidentId,
+			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception;
 }
