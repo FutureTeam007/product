@@ -100,7 +100,7 @@
 			  <li role="presentation" class="active"><a href="#">待响应(8)</a></li>
 			</ul>
 		</div>
-		<table class="easyui-datagrid" style="width:99%;height:600px" id="incidentDataTable"
+		<table class="easyui-datagrid" style="width:99%;height:390px" id="incidentDataTable"
 			data-options="singleSelect:true,collapsible:false,
 				url:'js/json/incident_data.json',
 				method:'get',
@@ -110,10 +110,10 @@
 			">
 			<thead>
 				<tr>
-					<th data-options="field:'icIncidentId',formatter:formatOperations" width="8%"></th>
-					<th data-options="field:'incidentCode'" width="8%">事件序列号</th>
-					<th data-options="field:'brief'" width="20%">事件简述</th>
-					<th data-options="field:'prodName'" width="5%">产品线</th>
+					<th data-options="field:'icIncidentId',formatter:formatOperations" width="9%"></th>
+					<th data-options="field:'incidentCode'" width="9%">事件序列号</th>
+					<th data-options="field:'brief'" width="15%">事件简述</th>
+					<th data-options="field:'prodName'" width="8%">产品线</th>
 					<th data-options="field:'incidentType'" width="5%">类别</th>
 					<th data-options="field:'effectLevel'" width="5%">影响度</th>
 					<th data-options="field:'priLevel'" width="5%">优先级</th>

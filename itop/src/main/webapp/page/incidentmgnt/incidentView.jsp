@@ -156,16 +156,24 @@
       		<div class="col-sm-4">待一线顾问响应</div>
       	</div>
       	<div class="clearfix">
-      		<div class="col-sm-2"><label>响应时限（小时）</label></div>
-      		<div class="col-sm-4">2</div>
-      		<div class="col-sm-2"><label>处理时限（小时）</label></div>
-      		<div class="col-sm-4">72</div>
+      		<div class="col-sm-2"><label>响应时限</label></div>
+      		<div class="col-sm-4">2小时</div>
+      		<div class="col-sm-2"><label>处理时限</label></div>
+      		<div class="col-sm-4">72小时</div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>响应截止时间</label></div>
-      		<div class="col-sm-4">2014-09-26 14:00</div>
+      		<div class="col-sm-4">2014-09-26 14:00
+				<button class="btn btn-success btn-circle" type="button"></button>
+				<button class="btn btn-warning btn-circle" type="button"></button>
+				<button class="btn btn-danger btn-circle" type="button"></button>
+      		</div>
       		<div class="col-sm-2"><label>处理截止时间</label></div>
-      		<div class="col-sm-4">2014-09-29 12:00</div>
+      		<div class="col-sm-4">2014-09-29 12:00
+      			<button class="btn btn-success btn-circle" type="button"></button>
+				<button class="btn btn-warning btn-circle" type="button"></button>
+				<button class="btn btn-danger btn-circle" type="button"></button>
+      		</div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>当前处理人</label></div>

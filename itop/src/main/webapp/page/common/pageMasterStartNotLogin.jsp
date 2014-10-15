@@ -8,7 +8,7 @@
         <nav class="navbar navbar-default navbar-static-top navbar-fix" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header header-fix">
             	<span class="site-logo">&nbsp;</span>
-                <a class="navbar-brand brand-fix" href="#">iTop</a>
+                <a class="navbar-brand brand-fix" href="#">ITOP</a>
             </div>
         </nav>
 	<div id="page-wrapper-full">

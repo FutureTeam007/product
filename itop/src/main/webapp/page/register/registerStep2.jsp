@@ -5,7 +5,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<%@ include file="../common/commonHead.jsp"%>
-	<%@ include file="../common/easyuiHead.jsp"%>
 	<title>用户注册</title>
 	<script type="text/javascript" src="<%=rootPath%>/page/register/js/registerStep1.js"></script>
 </head>
@@ -18,8 +17,13 @@
 </div>
 <div class="register-wrapper">
 	<div class="panel panel-warning">
-		
-	</div>
+      <div class="panel-heading">
+        <h3 class="panel-title success-title">恭喜您，注册成功！</h3>
+      </div>
+      <div class="panel-body success-content" >
+         	账号激活邮件已发至您的邮箱，请登录邮箱使用激活链接进行账号激活！
+      </div>
+    </div>
 </div>
 <jsp:include page="../common/pageMasterEnd.jsp"></jsp:include>
 </body>

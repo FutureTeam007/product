@@ -14,7 +14,7 @@
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading login-header-fix">
                     	<span class="site-logo">&nbsp;</span>
-                        <h3 class="panel-title">iTop</h3>
+                        <h3 class="panel-title">ITOP</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form" class="login-form">

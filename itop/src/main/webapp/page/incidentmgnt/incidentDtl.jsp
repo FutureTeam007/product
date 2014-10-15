@@ -12,7 +12,7 @@
 	<%@ include file="../common/easyuiHead.jsp"%>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/page/incidentmgnt/js/incidentDtl.js"></script>
 </head>
-<body style="background:#fff;">
+<body style="background:#fff;overflow-x:hidden;">
 	<div>
 		<button type='button' class='btn btn-link' onclick='parent.hideSubPage()'>&lt;&lt;关闭</button>
 	</div>

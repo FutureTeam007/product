@@ -8,7 +8,7 @@
         <nav class="navbar navbar-default navbar-static-top navbar-fix" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header header-fix">
             	<span class="site-logo">&nbsp;</span>
-                <a class="navbar-brand brand-fix" href="#">iTop</a>
+                <a class="navbar-brand brand-fix" href="#">ITOP</a>
             </div>
             <div class="input-group custom-search-form" style="width:300px;float:left;margin:15px auto 15px 32px">
                 <input type="text" class="form-control" placeholder="输入事件系列号查询事件" />
@@ -25,6 +25,10 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>Vintin&nbsp;<i class="fa fa-caret-down"></i>
                     </a>
+                    <ul class="nav nav-tabs" role="tablist" style="display:none">
+					  <li role="presentation"><a href="#">事件管理</a></li>
+					  <li role="presentation"><a href="#">客户管理</a></li>
+					</ul>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i>修改密码</a>
                         </li>
@@ -37,20 +41,5 @@
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="<%=rootPath %>/page/incidentmgnt/incidentQry.jsp"><i class="fa fa-table fa-fw"></i> 事件管理 </a>
-                        </li>
-                        <li>
-                            <a href="<%=rootPath %>/page/custmgnt/main.jsp"><i class="fa fa-wrench fa-fw"></i> 客户管理 </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
         </nav>
-	<div id="page-wrapper">
+	<div id="page-wrapper-full">
