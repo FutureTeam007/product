@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
 	String id = request.getParameter("id");
+	String openFlag = request.getParameter("openFlag");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -10,6 +11,10 @@
 	<title>事件新增/编辑</title>
 	<%@ include file="../common/commonHead.jsp"%>
 	<%@ include file="../common/easyuiHead.jsp"%>
+	<script type="text/javascript">
+		var incidentId = "<%=id%>";
+		var openFlag = "<%=openFlag%>";
+	</script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/page/incidentmgnt/js/incidentDtl.js"></script>
 </head>
 <body style="background:#fff;overflow-x:hidden;">
@@ -17,7 +22,7 @@
 		<button type='button' class='btn btn-link' onclick='parent.hideSubPage()'>&lt;&lt;关闭</button>
 	</div>
 	<div class="inci-dtl-title">
-		<h4>新建事件</h4>
+		<h4><%=("a".equals(openFlag)?"新建":"编辑")%>事件</h4>
 	</div>
 	<form class="form-horizonta inci-info-form" role="form">
 		<div class="form-group clearfix">
