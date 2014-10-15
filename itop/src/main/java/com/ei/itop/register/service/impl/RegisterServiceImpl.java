@@ -1,12 +1,13 @@
 /**
  * 
  */
-package com.ei.itop.register.service;
+package com.ei.itop.register.service.impl;
 
 import java.util.List;
 
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.register.bean.RegisterInfo;
+import com.ei.itop.register.service.IRegisterService;
 
 /**
  * @author Jack.Qi

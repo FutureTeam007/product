@@ -1,11 +1,12 @@
 /**
  * 
  */
-package com.ei.itop.login.service;
+package com.ei.itop.login.service.impl;
 
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.login.bean.LoginInfo;
+import com.ei.itop.login.service.ILoginService;
 
 /**
  * @author Jack.Qi
