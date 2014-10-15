@@ -83,6 +83,9 @@
     where IC_INCIDENT_ID = #value:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.IcIncident" >
+  	<selectKey resultClass="long" keyProperty="icIncidentId">
+  		select IC_INCIDENT$$SEQ.nextval from dual
+  	</selectKey>
     insert into IC_INCIDENT (IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID,
       CUST_NAME, CC_USER_ID, CC_LOGIN_CODE, SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME,
       SC_OP_ID, SC_LOGIN_CODE, IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE,
@@ -108,7 +111,7 @@
       #itSolution:VARCHAR#, #finishCode:VARCHAR#, #finishVal:VARCHAR#, #feedbackCode:VARCHAR#,
       #feedbackVal:VARCHAR#, #feedbackTime:DATE#, #closeTime:DATE#, #itPhase:VARCHAR#,
       #itStateCode:VARCHAR#, #itStateVal:VARCHAR#, #dataState:DECIMAL#, #creator:VARCHAR#,
-      #createDate:DATE#, #modifier:VARCHAR#, #modifyDate:DATE#)
+      sysdate, #modifier:VARCHAR#, sysdate)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcIncident" >
     update IC_INCIDENT
@@ -176,8 +179,7 @@
     where IC_INCIDENT_ID = #icIncidentId:DECIMAL#
   </update>
   <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.IcIncident" >
-    update IC_INCIDENT
-    <dynamic prepend="set" >
+    update IC_INCIDENT set MODIFIER = #modifier:VARCHAR#,MODIFY_DATE = sysdate
       <isNotNull prepend="," property="incidentCode" >
         INCIDENT_CODE = #incidentCode:VARCHAR#
       </isNotNull>
@@ -355,13 +357,6 @@
       <isNotNull prepend="," property="createDate" >
         CREATE_DATE = #createDate:DATE#
       </isNotNull>
-      <isNotNull prepend="," property="modifier" >
-        MODIFIER = #modifier:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="modifyDate" >
-        MODIFY_DATE = #modifyDate:DATE#
-      </isNotNull>
-    </dynamic>
     where IC_INCIDENT_ID = #icIncidentId:DECIMAL#
   </update>
 </sqlMap>

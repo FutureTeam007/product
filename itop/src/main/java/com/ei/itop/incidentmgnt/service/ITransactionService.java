@@ -25,7 +25,7 @@ public interface ITransactionService {
 	 * @return 事务列表
 	 * @throws Exception
 	 */
-	public List<IcTransaction> queryTransaction(long incidentId, long opId)
+	public List<IcTransaction> MBLQueryTransaction(long incidentId, long opId)
 			throws Exception;
 
 	/**
@@ -40,7 +40,7 @@ public interface ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	public long userCommitTransaction(long incidentId,
+	public long MBLUserCommitTransaction(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception;
 
 	/**
@@ -55,7 +55,7 @@ public interface ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	public long adviserCommitTransaction(long incidentId,
+	public long MBLAdviserCommitTransaction(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception;
 
 	/**
@@ -72,7 +72,7 @@ public interface ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	public long adviserCommitTransaction(long incidentId,
+	public long MBLAdviserCommitTransaction(long incidentId,
 			IncidentInfo incidentInfo, TransactionInfo transactionInfo,
 			long opId) throws Exception;
 
@@ -88,7 +88,7 @@ public interface ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	public long needAdditionalInfo(long incidentId,
+	public long MBLNeedAdditionalInfo(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception;
 
 	/**
@@ -105,7 +105,7 @@ public interface ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	public long adviserTransferTransaction(long incidentId,
+	public long MBLAdviserTransferTransaction(long incidentId,
 			TransactionInfo transactionInfo, long nextOpId, long opId)
 			throws Exception;
 
@@ -121,7 +121,7 @@ public interface ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	public long adviserHangUpTransaction(long incidentId,
+	public long MBLAdviserHangUpTransaction(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception;
 
 	/**
@@ -138,7 +138,7 @@ public interface ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	public long adviserCompleteTransaction(long incidentId,
+	public long MBLAdviserCompleteTransaction(long incidentId,
 			IncidentInfo incidentInfo, TransactionInfo transactionInfo,
 			long opId) throws Exception;
 }

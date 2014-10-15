@@ -83,7 +83,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * com.ei.itop.incidentmgnt.service.ITransactionService#queryTransaction
 	 * (long, long)
 	 */
-	public List<IcTransaction> queryTransaction(long incidentId, long opId)
+	public List<IcTransaction> MBLQueryTransaction(long incidentId, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -96,7 +96,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * com.ei.itop.incidentmgnt.service.ITransactionService#userCommitTransaction
 	 * (long, com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
-	public long userCommitTransaction(long incidentId,
+	public long MBLUserCommitTransaction(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
@@ -109,7 +109,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * com.ei.itop.incidentmgnt.service.ITransactionService#adviserCommitTransaction
 	 * (long, com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
-	public long adviserCommitTransaction(long incidentId,
+	public long MBLAdviserCommitTransaction(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
@@ -123,7 +123,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * (long, com.ei.itop.incidentmgnt.bean.IncidentInfo,
 	 * com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
-	public long adviserCommitTransaction(long incidentId,
+	public long MBLAdviserCommitTransaction(long incidentId,
 			IncidentInfo incidentInfo, TransactionInfo transactionInfo,
 			long opId) throws Exception {
 		// TODO Auto-generated method stub
@@ -138,7 +138,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * @return 事务ID
 	 * @throws Exception
 	 */
-	private long addTransaction(TransactionInfo transactionInfo)
+	protected long addTransaction(TransactionInfo transactionInfo)
 			throws Exception {
 
 		// 保存事务信息
@@ -157,7 +157,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * com.ei.itop.incidentmgnt.service.ITransactionService#needAdditionalInfo
 	 * (long, com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
-	public long needAdditionalInfo(long incidentId,
+	public long MBLNeedAdditionalInfo(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -185,7 +185,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * adviserTransferTransaction(long,
 	 * com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
-	public long adviserTransferTransaction(long incidentId,
+	public long MBLAdviserTransferTransaction(long incidentId,
 			TransactionInfo transactionInfo, long nextOpId, long opId)
 			throws Exception {
 		// TODO Auto-generated method stub
@@ -219,7 +219,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * com.ei.itop.incidentmgnt.service.ITransactionService#adviserHangUpTransaction
 	 * (long, com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
-	public long adviserHangUpTransaction(long incidentId,
+	public long MBLAdviserHangUpTransaction(long incidentId,
 			TransactionInfo transactionInfo, long opId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
@@ -233,7 +233,7 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo,
 	 * com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
-	public long adviserCompleteTransaction(long incidentId,
+	public long MBLAdviserCompleteTransaction(long incidentId,
 			IncidentInfo incidentInfo, TransactionInfo transactionInfo,
 			long opId) throws Exception {
 		// TODO Auto-generated method stub

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.ICommonDAO;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
@@ -54,7 +55,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncidentCount(
 	 * com.ei.itop.incidentmgnt.bean.QCIncident, long)
 	 */
-	public long MBLQueryIncidentCount(QCIncident qcIncident, long opId)
+	public long MBLQueryIncidentCount(QCIncident qcIncident, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
@@ -67,7 +68,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncident(long,
 	 * long)
 	 */
-	public IcIncident MBLQueryIncident(long incidentId, long opId)
+	public IcIncident MBLQueryIncident(long incidentId, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
 		IcIncident incident = incidentDAO.find(
@@ -78,12 +79,11 @@ public class IncidentServiceImpl implements IIncidentService {
 		return incident;
 	}
 
-	/**
-	 * 根据ID查询某一事件详细信息，此逻辑为原子逻辑，不会触发记录系统操作日志
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param incidentId
-	 * @return
-	 * @throws Exception
+	 * @see
+	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncident(long)
 	 */
 	public IcIncident queryIncident(long incidentId) throws Exception {
 		// TODO Auto-generated method stub
@@ -102,14 +102,12 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#addIncident(com.ei.
 	 * itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long MBLAddIncident(IncidentInfo incidentInfo, long opId)
+	public long MBLAddIncidentAndAttach(IncidentInfo incidentInfo, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
 
 		// 保存事件信息
-		long incidentId = incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
-
-		// 保存附件信息
+		long incidentId = addIncidentAndAttach(incidentInfo, opInfo);
 
 		// 记录系统操作日志
 
@@ -123,11 +121,41 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	private long addIncident(IncidentInfo incidentInfo) throws Exception {
+	protected long addIncidentAndAttach(IncidentInfo incidentInfo, OpInfo opInfo)
+			throws Exception {
 		// TODO Auto-generated method stub
 
-		// 保存事件信息
-		long incidentId = incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
+		IncidentInfo ii = new IncidentInfo();
+
+		// 业务信息
+		ii.setScOrgId(incidentInfo.getScOrgId());
+		ii.setScOrgName(incidentInfo.getScOrgName());
+		ii.setCcCustId(incidentInfo.getCcCustId());
+		ii.setCustName(incidentInfo.getCustName());
+
+		ii.setIncidentCode(generateIncidentCode());
+		ii.setScProductId(incidentInfo.getScProductId());
+		ii.setProdName(incidentInfo.getProdName());
+		ii.setScModuleId(incidentInfo.getScModuleId());
+		ii.setModuleName(incidentInfo.getModuleName());
+		ii.setAffectCodeUser(incidentInfo.getAffectCodeUser());
+		ii.setAffectValUser(incidentInfo.getAffectValUser());
+		ii.setClassCodeUser(incidentInfo.getClassCodeUser());
+		ii.setClassValUser(incidentInfo.getClassValUser());
+		ii.setBrief(incidentInfo.getBrief());
+		ii.setHappenTime(incidentInfo.getHappenTime());
+		ii.setDetail(incidentInfo.getDetail());
+		ii.setCcList(incidentInfo.getCcList());
+
+		ii.setAttachList(incidentInfo.getAttachList());
+
+		// 自动填入事件提出用户、创建人、修改人
+		ii.setCcUserId(opInfo.getOpId());
+		ii.setCcLoginCode(opInfo.getOpCode());
+		ii.setCreator(opInfo.getOpName());
+
+		// 保存事件实体信息
+		long incidentId = incidentDAO.save("IC_INCIDENT.insert", ii);
 
 		// 保存附件信息
 
@@ -141,14 +169,12 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncident(long,
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long MBLModifyIncident(long incidentId, IncidentInfo incidentInfo,
-			long opId) throws Exception {
+	public long MBLModifyIncidentAndAttach(long incidentId,
+			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 
-		// 保存事件信息
-		incidentDAO.update("IC_INCIDENT.updateByPrimaryKey", incidentInfo);
-
-		// 保存附件信息
+		// 保存事件实体信息
+		modifyIncidentAndAttach(incidentId, incidentInfo, opInfo);
 
 		// 记录系统操作日志
 
@@ -156,19 +182,58 @@ public class IncidentServiceImpl implements IIncidentService {
 	}
 
 	/**
-	 * 修改事件，此逻辑为原子逻辑，不会触发记录系统操作日志
+	 * 生成事件系列号
 	 * 
-	 * @param incidentId
-	 * @param incidentInfo
 	 * @return
 	 * @throws Exception
 	 */
-	private long modifyIncident(long incidentId, IncidentInfo incidentInfo)
-			throws Exception {
-		// TODO Auto-generated method stub
+	protected String generateIncidentCode() throws Exception {
+		return "XXX001";
+	}
 
-		// 保存事件信息
-		incidentDAO.update("IC_INCIDENT.updateByPrimaryKey", incidentInfo);
+	/**
+	 * 修改事件，含附件
+	 * 
+	 * @param incidentId
+	 * @param incidentInfo
+	 * @param opInfo
+	 * @return
+	 * @throws Exception
+	 */
+	protected long modifyIncidentAndAttach(long incidentId,
+			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception {
+
+		IncidentInfo ii = new IncidentInfo();
+
+		ii.setIcIncidentId(incidentId);
+
+		// 业务信息
+		ii.setScOrgId(incidentInfo.getScOrgId());
+		ii.setScOrgName(incidentInfo.getScOrgName());
+		ii.setCcCustId(incidentInfo.getCcCustId());
+		ii.setCustName(incidentInfo.getCustName());
+
+		ii.setIncidentCode(generateIncidentCode());
+		ii.setScProductId(incidentInfo.getScProductId());
+		ii.setProdName(incidentInfo.getProdName());
+		ii.setScModuleId(incidentInfo.getScModuleId());
+		ii.setModuleName(incidentInfo.getModuleName());
+		ii.setAffectCodeUser(incidentInfo.getAffectCodeUser());
+		ii.setAffectValUser(incidentInfo.getAffectValUser());
+		ii.setClassCodeUser(incidentInfo.getClassCodeUser());
+		ii.setClassValUser(incidentInfo.getClassValUser());
+		ii.setBrief(incidentInfo.getBrief());
+		ii.setHappenTime(incidentInfo.getHappenTime());
+		ii.setDetail(incidentInfo.getDetail());
+		ii.setCcList(incidentInfo.getCcList());
+
+		ii.setAttachList(incidentInfo.getAttachList());
+
+		// 修改人
+		ii.setModifier(opInfo.getOpName());
+
+		// 保存事件实体信息
+		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", ii);
 
 		// 保存附件信息
 
@@ -182,9 +247,14 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncidentSelective
 	 * (long, com.ei.itop.common.dbentity.IcIncident)
 	 */
-	public long modifyIncidentSelective(long incidentId, IcIncident incident)
-			throws Exception {
+	public long completeAdviserInfo(long incidentId, IcIncident incident,
+			OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
+
+		incident.setIcIncidentId(incidentId);
+
+		// 自动填入事件修改人
+		incident.setModifier(opInfo.getOpName());
 
 		// 保存事件信息
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
@@ -199,8 +269,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#commitIncident(com.
 	 * ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long MBLAddAndCommitIncident(IncidentInfo incidentInfo, long opId)
-			throws Exception {
+	public long MBLAddAndCommitIncidentAndAttach(IncidentInfo incidentInfo,
+			OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 
 		// 提交时需调整事件状态为待响应
@@ -208,7 +278,7 @@ public class IncidentServiceImpl implements IIncidentService {
 		incidentInfo.setItStateCode("2");
 
 		// 保存事件信息
-		long incidentId = MBLAddIncident(incidentInfo, opId);
+		long incidentId = addIncidentAndAttach(incidentInfo, opInfo);
 
 		// 系统自动生成第一条事务
 
@@ -227,8 +297,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#commitIncident(long,
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public long MBLModifyAndCommitIncident(long incidentId,
-			IncidentInfo incidentInfo, long opId) throws Exception {
+	public long MBLModifyAndCommitIncidentAndAttach(long incidentId,
+			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 
 		// 提交时需调整事件状态为待响应
@@ -236,7 +306,7 @@ public class IncidentServiceImpl implements IIncidentService {
 		incidentInfo.setItStateCode("2");
 
 		// 保存事件信息
-		modifyIncident(incidentId, incidentInfo);
+		modifyIncidentAndAttach(incidentId, incidentInfo, opInfo);
 
 		// 系统自动生成第一条事务
 
@@ -255,7 +325,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#commitIncident(long,
 	 * long)
 	 */
-	public long MBLCommitIncident(long incidentId, long opId) throws Exception {
+	public long MBLCommitIncident(long incidentId, OpInfo opInfo)
+			throws Exception {
 		// TODO Auto-generated method stub
 
 		throw new Exception("目前系统中并没有直接提交事件的入口，此逻辑暂未实现");
@@ -268,7 +339,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#removeIncident(long,
 	 * long)
 	 */
-	public void MBLRemoveIncident(long incidentId, long opId) throws Exception {
+	public void MBLRemoveIncident(long incidentId, OpInfo opInfo)
+			throws Exception {
 		// TODO Auto-generated method stub
 
 		IcIncident incident = queryIncident(incidentId);
@@ -290,27 +362,27 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#adviserCompleteInfo
 	 * (com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public void adviserCompleteInfo(long incidentId, IncidentInfo incidentInfo)
+	public void adviserCompleteInfo(long incidentId, IcIncident incident)
 			throws Exception {
 		// TODO Auto-generated method stub
 
-		if (incidentInfo.getAffectCodeOp() == null
-				|| incidentInfo.getAffectValOp() == null
-				|| incidentInfo.getClassCodeOp() == null
-				|| incidentInfo.getClassValOp() == null
-				|| incidentInfo.getPriorityCode() == null
-				|| incidentInfo.getPriorityVal() == null) {
+		if (incident.getAffectCodeOp() == null
+				|| incident.getAffectValOp() == null
+				|| incident.getClassCodeOp() == null
+				|| incident.getClassValOp() == null
+				|| incident.getPriorityCode() == null
+				|| incident.getPriorityVal() == null) {
 			throw new Exception("必须一次性补全顾问影响度、分类、优先级，缺一不可");
 		}
 
-		IcIncident incident = new IcIncident();
+		IcIncident ii = new IcIncident();
 
-		incident.setAffectCodeOp(incidentInfo.getAffectCodeOp());
-		incident.setAffectValOp(incidentInfo.getAffectValOp());
-		incident.setClassCodeOp(incidentInfo.getClassCodeOp());
-		incident.setClassValOp(incidentInfo.getClassValOp());
-		incident.setPriorityCode(incidentInfo.getPriorityCode());
-		incident.setPriorityVal(incidentInfo.getPriorityVal());
+		ii.setAffectCodeOp(incident.getAffectCodeOp());
+		ii.setAffectValOp(incident.getAffectValOp());
+		ii.setClassCodeOp(incident.getClassCodeOp());
+		ii.setClassValOp(incident.getClassValOp());
+		ii.setPriorityCode(incident.getPriorityCode());
+		ii.setPriorityVal(incident.getPriorityVal());
 
 		// 修改事件的顾问影响度、分类、优先级字段
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
@@ -323,32 +395,32 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#userSetFeedbackVal(
 	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public void MBLUserSetFeedbackVal(long incidentId,
-			IncidentInfo incidentInfo, long opId) throws Exception {
+	public void MBLUserSetFeedbackVal(long incidentId, IcIncident incident,
+			OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 
 		// 查询事件信息
-		IcIncident incident = queryIncident(incidentId);
+		IcIncident ii = queryIncident(incidentId);
 
 		// 仅当事件状态为8-已完成时才可以进行用户反馈满意度操作
-		if (!"8".equals(incident.getItStateCode())) {
+		if (!"8".equals(ii.getItStateCode())) {
 			throw new Exception("仅当事件状态为已完成时才可以评价");
 		}
 
 		// 判断传入信息是否完整
-		if (incidentInfo.getFeedbackCode() == null
-				|| incidentInfo.getFeedbackVal() == null) {
+		if (incident.getFeedbackCode() == null
+				|| incident.getFeedbackVal() == null) {
 			throw new Exception("用户满意度信息填写不完整");
 		}
 
-		incident = new IcIncident();
+		ii = new IcIncident();
 
-		incident.setFeedbackCode(incidentInfo.getFeedbackCode());
-		incident.setFeedbackVal(incidentInfo.getFeedbackVal());
-		incident.setFeedbackTime(commonDAO.getSysDate());
+		ii.setFeedbackCode(incident.getFeedbackCode());
+		ii.setFeedbackVal(incident.getFeedbackVal());
+		ii.setFeedbackTime(commonDAO.getSysDate());
 
 		// 修改事件的用户反馈字段
-		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
+		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", ii);
 	}
 
 	/*
@@ -357,7 +429,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * @see
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#closeIncident(long)
 	 */
-	public void MBLAdviserCloseIncident(long incidentId, long opId)
+	public void MBLAdviserCloseIncident(long incidentId, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
 
@@ -384,7 +456,19 @@ public class IncidentServiceImpl implements IIncidentService {
 	public static void main(String[] args) throws Exception {
 		IIncidentService is = (IIncidentService) AppContext
 				.getBean("incidentService");
-		is.MBLRemoveIncident(1, 1);
+
+		OpInfo oi = new OpInfo();
+		oi.setOpType("OP");
+		oi.setOpId(0);
+		oi.setOpCode("SamZhang@163.com");
+		oi.setOpName("Sam.Zhang（张三）");
+
+		IncidentInfo ii = new IncidentInfo();
+		// is.MBLAddIncident(ii, oi);
+
+		ii.setScOrgId(new Long(2001));
+		ii.setScOrgName("拓创");
+		is.MBLModifyIncidentAndAttach(10000, ii, oi);
 
 	}
 }
