@@ -103,15 +103,4 @@
 	<bean id="app.siCommonDAO" class="com.ailk.dazzle.util.ibatis.GenericDAOImpl4Spring">
 	</bean>
 	
-	<!-- 引入dazzle配置 
-	<import resource="classpath:spring/dazzle/queryframework.xml" />
-	<import resource="classpath:spring/common.xml" /> 
-	-->
-	
-	<!-- 引入各模块service配置文件 -->
-	<import resource="classpath:spring/custmgnt.xml" />
-	<import resource="classpath:spring/incidentmgnt.xml" />
-	<import resource="classpath:spring/login.xml" />
-	<import resource="classpath:spring/register.xml" />
-	
 </beans>
