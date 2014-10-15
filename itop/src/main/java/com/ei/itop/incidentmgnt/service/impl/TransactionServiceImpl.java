@@ -123,6 +123,8 @@ public class TransactionServiceImpl implements ITransactionService {
 			// 数据库缺当前处理顾问的姓名
 			// ii.setIcObjectName(incident.);
 
+			// 不需调整事件所处阶段
+
 			// 调整事件状态
 			ii.setItStateCode("3");
 			ii.setItStateVal("处理中");
@@ -170,6 +172,8 @@ public class TransactionServiceImpl implements ITransactionService {
 
 			// 不需调整事件干系人
 
+			// 不需调整事件所处阶段
+
 			// 不需调整事件状态
 
 			// 修改事件
@@ -184,58 +188,6 @@ public class TransactionServiceImpl implements ITransactionService {
 
 			// 设置事务分类
 			transactionInfo.setTransType("其他事务");
-		}
-
-		// 新增事务信息
-		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
-
-		// 记录操作日志
-
-		return transactionId;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ei.itop.incidentmgnt.service.ITransactionService#adviserCommitTransaction
-	 * (long, com.ei.itop.incidentmgnt.bean.IncidentInfo,
-	 * com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
-	 */
-	public long MBLAdviserCommitTransaction(long incidentId,
-			IncidentInfo incidentInfo, TransactionInfo transactionInfo,
-			OpInfo opInfo) throws Exception {
-		// TODO Auto-generated method stub
-
-		// 取得事件信息
-		IcIncident incident = incidentService.queryIncident(incidentId);
-
-		// 是当前干系人
-		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
-			// 需要修改部分事件信息
-			IncidentInfo ii = new IncidentInfo();
-
-			// 不需调整事件干系人
-
-			// 不需调整事件状态
-
-			// 需要增加的影响度、分类、优先级
-			ii.setAffectCodeOp(incidentInfo.getAffectCodeOp());
-			ii.setAffectValOp(incidentInfo.getAffectValOp());
-			ii.setClassCodeOp(incidentInfo.getClassCodeOp());
-			ii.setClassValOp(incidentInfo.getClassValOp());
-			ii.setPriorityCode(incidentInfo.getPriorityCode());
-			ii.setPriorityVal(incidentInfo.getPriorityVal());
-
-			// 修改事件
-			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
-
-			// 设置事务分类
-			transactionInfo.setTransType("流程事务-顾问处理");
-		}
-		// 非当前干系人
-		else {
-			throw new Exception("只有事件当前干系顾问才能填写顾问影响度、分类、优先级信息");
 		}
 
 		// 新增事务信息
@@ -292,6 +244,8 @@ public class TransactionServiceImpl implements ITransactionService {
 			// 数据库缺事件提出用户的姓名
 			// ii.setIcObjectName(incident.);
 
+			// 不需调整事件所处阶段
+
 			// 需调整事件状态为客户处理中
 			ii.setItStateCode("4");
 			ii.setItStateVal("客户处理中");
@@ -323,28 +277,52 @@ public class TransactionServiceImpl implements ITransactionService {
 	 * com.ei.itop.incidentmgnt.bean.TransactionInfo, long)
 	 */
 	public long MBLAdviserTransferTransaction(long incidentId,
-			TransactionInfo transactionInfo, long nextOpId, OpInfo opInfo)
+			TransactionInfo transactionInfo, OpInfo nextOpInfo, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
 
-		// 查询事件信息
+		// 取得事件信息
 		IcIncident incident = incidentService.queryIncident(incidentId);
 
-		// 如果不是干系人，则不允许操作
+		// 是当前干系人
+		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
+			// 需要修改部分事件信息
+			IncidentInfo ii = new IncidentInfo();
 
-		// 查询被转派者的岗位及层级（一线业务、二线技术等）
+			// 需调整事件干系人为被转派人
+			ii.setIcObjectId(nextOpInfo.getOpId());
+			ii.setIcLoginCode(nextOpInfo.getOpCode());
+			ii.setIcObjectName(nextOpInfo.getOpName());
 
-		// 修改事件当前处理人为被转派者
-		// 修改事件负责顾问为被转派者
-		// 修改事件所处阶段
-		// 修改事件状态为处理中
-		incident.setItStateCode("3");
-		incident.setItStateVal("处理中");
-		// 修改事件最新更新时间
-		incident.setModifyDate(commonDAO.getSysDate());
+			// 需调整负责顾问为备注安排人
+			ii.setScOpId(nextOpInfo.getOpId());
+			ii.setScLoginCode(nextOpInfo.getOpCode());
+			// 缺负责顾问姓名
+			// *******************
+			// ii.set
 
-		// 保存事务记录
+			// 需调整事件所处阶段
+			// *******************
+
+			// 需调整事件状态为处理中
+			ii.setItStateCode("3");
+			ii.setItStateVal("处理中");
+
+			// 修改事件
+			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
+
+			// 设置事务分类
+			transactionInfo.setTransType("流程事务-转派");
+		}
+		// 非当前干系人
+		else {
+			throw new Exception("只有事件当前干系顾问才能进行转派操作");
+		}
+
+		// 新增事务信息
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
+
+		// 记录操作日志
 
 		return transactionId;
 	}
@@ -359,7 +337,48 @@ public class TransactionServiceImpl implements ITransactionService {
 	public long MBLAdviserHangUpTransaction(long incidentId,
 			TransactionInfo transactionInfo, OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+
+		// 取得事件信息
+		IcIncident incident = incidentService.queryIncident(incidentId);
+
+		// 只有2-待响应、3-顾问处理中的事件才能挂起
+		if (!("2".equals(incident.getItStateCode()) || "3".equals(incident
+				.getItStateCode()))) {
+			throw new Exception("只有状态为待响应及顾问处理中的事件才能挂起");
+		}
+
+		// 是当前干系人
+		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
+			// 需要修改部分事件信息
+			IncidentInfo ii = new IncidentInfo();
+
+			// 不需调整事件干系人为被转派人
+
+			// 不需调整负责顾问为备注安排人
+
+			// 不需调整事件所处阶段
+
+			// 需调整事件状态为已挂起
+			ii.setItStateCode("5");
+			ii.setItStateVal("已挂起");
+
+			// 修改事件
+			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
+
+			// 设置事务分类
+			transactionInfo.setTransType("流程事务-转派");
+		}
+		// 非当前干系人
+		else {
+			throw new Exception("只有事件当前干系顾问才能进行挂起操作");
+		}
+
+		// 新增事务信息
+		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
+
+		// 记录操作日志
+
+		return transactionId;
 	}
 
 	/*

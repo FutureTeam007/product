@@ -60,24 +60,6 @@ public interface ITransactionService {
 			TransactionInfo transactionInfo, OpInfo opInfo) throws Exception;
 
 	/**
-	 * 顾问提交事务，包含补全事件影响度、事件分类、事件优先级信息
-	 * 
-	 * @param incidentId
-	 *            事件ID
-	 * @param incidentInfo
-	 *            事件信息，此逻辑仅关注顾问设置的影响度、分类、优先级三个信息
-	 * @param transactionInfo
-	 *            事务信息
-	 * @param opInfo
-	 *            操作员ID
-	 * @return 事务ID
-	 * @throws Exception
-	 */
-	public long MBLAdviserCommitTransaction(long incidentId,
-			IncidentInfo incidentInfo, TransactionInfo transactionInfo,
-			OpInfo opInfo) throws Exception;
-
-	/**
 	 * 需用户补充资料
 	 * 
 	 * @param incidentId
@@ -107,7 +89,7 @@ public interface ITransactionService {
 	 * @throws Exception
 	 */
 	public long MBLAdviserTransferTransaction(long incidentId,
-			TransactionInfo transactionInfo, long nextOpId, OpInfo opInfo)
+			TransactionInfo transactionInfo, OpInfo nextOpInfo, OpInfo opInfo)
 			throws Exception;
 
 	/**
