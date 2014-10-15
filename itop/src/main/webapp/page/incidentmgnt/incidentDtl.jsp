@@ -109,21 +109,12 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="mailCC1" class="col-sm-2 control-label">抄送其他用户</label>
+		    <label for="mailCC1" class="col-sm-2 control-label">抄送</label>
 		    <div class="col-sm-7">
 		       <input type="text" class="form-control" id="mailCC1"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		    	填写抄送用户的邮箱地址，用分号隔开
-		    </div>
-  		</div>
-  		<div class="form-group clearfix">
-		    <label for="mailCC2" class="col-sm-2 control-label">抄送指定顾问</label>
-		    <div class="col-sm-7">
-		       <input type="text" class="form-control" id="mailCC2"/>
-		    </div>
-		    <div class="col-sm-3 form-desc">
-		    	填写抄送顾问的邮箱地址，用分号隔开
 		    </div>
   		</div>
   		<div class="form-group clearfix">

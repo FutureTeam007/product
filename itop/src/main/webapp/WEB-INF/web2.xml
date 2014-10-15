@@ -26,7 +26,7 @@
        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
  	</listener>
  	<listener>
-       <listener-class>com.ailk.dazzle.util.web.HttpUtil</listener-class>
+       <listener-class>com.ei.itop.common.util.SessionUtil</listener-class>
  	</listener>
 
 	<filter>
@@ -48,6 +48,17 @@
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<!--指定请求编码格式过滤器-->
+		<filter-class>com.ei.itop.common.util.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/page/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
 
 	<!-- session有效期30分钟 -->
 	<session-config>
@@ -55,7 +66,7 @@
 	</session-config>
 
 	<welcome-file-list>
-		<welcome-file>/login.jsp</welcome-file>
+		<welcome-file>/login/userLogin.jsp</welcome-file>
 	</welcome-file-list>
 
 	<error-page>

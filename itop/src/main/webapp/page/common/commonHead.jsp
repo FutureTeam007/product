@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.ei.itop.common.util.SessionUtil" %>
+<%@ page import="com.ei.itop.common.bean.OpInfo" %>
 <%
 	String baseURL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
 	String rootPath = request.getContextPath();
+	OpInfo opInfo = SessionUtil.getOpInfo();
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -33,6 +36,10 @@
 <script type="text/javascript">
 <!--
 	var rootPath = "<%=rootPath%>";
+	var opId = "<%=opInfo.getOpId()%>";
+	var opName = "<%=opInfo.getOpName()%>";
+	var opCode = "<%=opInfo.getOpCode()%>";
+	var opType = "<%=opInfo.getOpType()%>";
 //-->
 </script>
 
