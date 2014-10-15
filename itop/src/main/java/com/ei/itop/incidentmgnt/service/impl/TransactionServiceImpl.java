@@ -198,26 +198,6 @@ public class TransactionServiceImpl implements ITransactionService {
 		return transactionId;
 	}
 
-	/**
-	 * 新增事务信息
-	 * 
-	 * @param transactionInfo
-	 *            事务信息
-	 * @return 事务ID
-	 * @throws Exception
-	 */
-	private long addTransaction1(TransactionInfo transactionInfo)
-			throws Exception {
-
-		// 保存事务信息
-		long transactionId = transactionDAO.save("IC_TRANSACTION.insert",
-				transactionInfo);
-
-		// 保存附件信息
-
-		return transactionId;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -239,8 +219,8 @@ public class TransactionServiceImpl implements ITransactionService {
 
 			// 需调整事件干系人为用户
 			ii.setIcObjectType("USER");
-			ii.setIcObjectId(incident.getCcUserId());
-			ii.setIcLoginCode(incident.getCcLoginCode());
+			ii.setIcObjectId(incident.getPlObjectId());
+			ii.setIcLoginCode(incident.getPlLoginCode());
 			// 数据库缺事件提出用户的姓名
 			// ii.setIcObjectName(incident.);
 
@@ -393,7 +373,48 @@ public class TransactionServiceImpl implements ITransactionService {
 			IncidentInfo incidentInfo, TransactionInfo transactionInfo,
 			OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+
+		// 取得事件信息
+		IcIncident incident = incidentService.queryIncident(incidentId);
+
+		// 只有2-待响应、3-顾问处理中的事件才能挂起
+		if (!("2".equals(incident.getItStateCode()) || "3".equals(incident
+				.getItStateCode()))) {
+			throw new Exception("只有状态为待响应及顾问处理中的事件才能挂起");
+		}
+
+		// 是当前干系人
+		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
+			// 需要修改部分事件信息
+			IncidentInfo ii = new IncidentInfo();
+
+			// 不需调整事件干系人为被转派人
+
+			// 不需调整负责顾问为备注安排人
+
+			// 不需调整事件所处阶段
+
+			// 需调整事件状态为已挂起
+			ii.setItStateCode("5");
+			ii.setItStateVal("已挂起");
+
+			// 修改事件
+			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
+
+			// 设置事务分类
+			transactionInfo.setTransType("流程事务-转派");
+		}
+		// 非当前干系人
+		else {
+			throw new Exception("只有事件当前干系顾问才能进行挂起操作");
+		}
+
+		// 新增事务信息
+		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
+
+		// 记录操作日志
+
+		return transactionId;
 	}
 
 }

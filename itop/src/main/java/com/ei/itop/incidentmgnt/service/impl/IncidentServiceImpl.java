@@ -149,9 +149,11 @@ public class IncidentServiceImpl implements IIncidentService {
 		// 自动填入事件系列号
 		incidentInfo.setIncidentCode(generateIncidentCode());
 
-		// 自动填入事件提出用户、创建人、修改人
-		incidentInfo.setCcUserId(opInfo.getOpId());
-		incidentInfo.setCcLoginCode(opInfo.getOpCode());
+		// 自动填入事件提出用户、创建人
+		incidentInfo.setPlObjectType(opInfo.getOpType());
+		incidentInfo.setPlObjectId(opInfo.getOpId());
+		incidentInfo.setPlLoginCode(opInfo.getOpCode());
+		incidentInfo.setPlObjectName(opInfo.getOpName());
 		incidentInfo.setCreator(opInfo.getOpName());
 
 		// 保存事件实体信息
