@@ -125,37 +125,37 @@ public class IncidentServiceImpl implements IIncidentService {
 			throws Exception {
 		// TODO Auto-generated method stub
 
-		IncidentInfo ii = new IncidentInfo();
+		// IncidentInfo ii = new IncidentInfo();
 
 		// 业务信息
-		ii.setScOrgId(incidentInfo.getScOrgId());
-		ii.setScOrgName(incidentInfo.getScOrgName());
-		ii.setCcCustId(incidentInfo.getCcCustId());
-		ii.setCustName(incidentInfo.getCustName());
+		// ii.setScOrgId(incidentInfo.getScOrgId());
+		// ii.setScOrgName(incidentInfo.getScOrgName());
+		// ii.setCcCustId(incidentInfo.getCcCustId());
+		// ii.setCustName(incidentInfo.getCustName());
+		//
+		// ii.setScProductId(incidentInfo.getScProductId());
+		// ii.setProdName(incidentInfo.getProdName());
+		// ii.setScModuleId(incidentInfo.getScModuleId());
+		// ii.setModuleName(incidentInfo.getModuleName());
+		// ii.setAffectCodeUser(incidentInfo.getAffectCodeUser());
+		// ii.setAffectValUser(incidentInfo.getAffectValUser());
+		// ii.setClassCodeUser(incidentInfo.getClassCodeUser());
+		// ii.setClassValUser(incidentInfo.getClassValUser());
+		// ii.setBrief(incidentInfo.getBrief());
+		// ii.setHappenTime(incidentInfo.getHappenTime());
+		// ii.setDetail(incidentInfo.getDetail());
+		// ii.setCcList(incidentInfo.getCcList());
 
-		ii.setIncidentCode(generateIncidentCode());
-		ii.setScProductId(incidentInfo.getScProductId());
-		ii.setProdName(incidentInfo.getProdName());
-		ii.setScModuleId(incidentInfo.getScModuleId());
-		ii.setModuleName(incidentInfo.getModuleName());
-		ii.setAffectCodeUser(incidentInfo.getAffectCodeUser());
-		ii.setAffectValUser(incidentInfo.getAffectValUser());
-		ii.setClassCodeUser(incidentInfo.getClassCodeUser());
-		ii.setClassValUser(incidentInfo.getClassValUser());
-		ii.setBrief(incidentInfo.getBrief());
-		ii.setHappenTime(incidentInfo.getHappenTime());
-		ii.setDetail(incidentInfo.getDetail());
-		ii.setCcList(incidentInfo.getCcList());
-
-		ii.setAttachList(incidentInfo.getAttachList());
+		// 自动填入事件系列号
+		incidentInfo.setIncidentCode(generateIncidentCode());
 
 		// 自动填入事件提出用户、创建人、修改人
-		ii.setCcUserId(opInfo.getOpId());
-		ii.setCcLoginCode(opInfo.getOpCode());
-		ii.setCreator(opInfo.getOpName());
+		incidentInfo.setCcUserId(opInfo.getOpId());
+		incidentInfo.setCcLoginCode(opInfo.getOpCode());
+		incidentInfo.setCreator(opInfo.getOpName());
 
 		// 保存事件实体信息
-		long incidentId = incidentDAO.save("IC_INCIDENT.insert", ii);
+		long incidentId = incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
 
 		// 保存附件信息
 
@@ -203,37 +203,39 @@ public class IncidentServiceImpl implements IIncidentService {
 	protected long modifyIncidentAndAttach(long incidentId,
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception {
 
-		IncidentInfo ii = new IncidentInfo();
-
-		ii.setIcIncidentId(incidentId);
+		// IncidentInfo ii = new IncidentInfo();
 
 		// 业务信息
-		ii.setScOrgId(incidentInfo.getScOrgId());
-		ii.setScOrgName(incidentInfo.getScOrgName());
-		ii.setCcCustId(incidentInfo.getCcCustId());
-		ii.setCustName(incidentInfo.getCustName());
+		// ii.setScOrgId(incidentInfo.getScOrgId());
+		// ii.setScOrgName(incidentInfo.getScOrgName());
+		// ii.setCcCustId(incidentInfo.getCcCustId());
+		// ii.setCustName(incidentInfo.getCustName());
+		//
+		// ii.setScProductId(incidentInfo.getScProductId());
+		// ii.setProdName(incidentInfo.getProdName());
+		// ii.setScModuleId(incidentInfo.getScModuleId());
+		// ii.setModuleName(incidentInfo.getModuleName());
+		// ii.setAffectCodeUser(incidentInfo.getAffectCodeUser());
+		// ii.setAffectValUser(incidentInfo.getAffectValUser());
+		// ii.setClassCodeUser(incidentInfo.getClassCodeUser());
+		// ii.setClassValUser(incidentInfo.getClassValUser());
+		// ii.setBrief(incidentInfo.getBrief());
+		// ii.setHappenTime(incidentInfo.getHappenTime());
+		// ii.setDetail(incidentInfo.getDetail());
+		// ii.setCcList(incidentInfo.getCcList());
+		//
+		// ii.setItStateCode(incidentInfo.getItStateCode());
+		// ii.setItStateVal(incidentInfo.getItStateVal());
 
-		ii.setIncidentCode(generateIncidentCode());
-		ii.setScProductId(incidentInfo.getScProductId());
-		ii.setProdName(incidentInfo.getProdName());
-		ii.setScModuleId(incidentInfo.getScModuleId());
-		ii.setModuleName(incidentInfo.getModuleName());
-		ii.setAffectCodeUser(incidentInfo.getAffectCodeUser());
-		ii.setAffectValUser(incidentInfo.getAffectValUser());
-		ii.setClassCodeUser(incidentInfo.getClassCodeUser());
-		ii.setClassValUser(incidentInfo.getClassValUser());
-		ii.setBrief(incidentInfo.getBrief());
-		ii.setHappenTime(incidentInfo.getHappenTime());
-		ii.setDetail(incidentInfo.getDetail());
-		ii.setCcList(incidentInfo.getCcList());
-
-		ii.setAttachList(incidentInfo.getAttachList());
+		// 设置主键
+		incidentInfo.setIcIncidentId(incidentId);
 
 		// 修改人
-		ii.setModifier(opInfo.getOpName());
+		incidentInfo.setModifier(opInfo.getOpName());
 
 		// 保存事件实体信息
-		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", ii);
+		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective",
+				incidentInfo);
 
 		// 保存附件信息
 
@@ -466,9 +468,13 @@ public class IncidentServiceImpl implements IIncidentService {
 		IncidentInfo ii = new IncidentInfo();
 		// is.MBLAddIncident(ii, oi);
 
-		ii.setScOrgId(new Long(2001));
-		ii.setScOrgName("拓创");
-		is.MBLModifyIncidentAndAttach(10000, ii, oi);
+		// ii.setScOrgId(new Long(2001));
+		// ii.setScOrgName("拓创");
+		// is.MBLModifyIncidentAndAttach(10000, ii, oi);
+
+		ii.setCcCustId(new Long(300001));
+		ii.setCustName("CNH公司");
+		is.MBLModifyAndCommitIncidentAndAttach(10000, ii, oi);
 
 	}
 }
