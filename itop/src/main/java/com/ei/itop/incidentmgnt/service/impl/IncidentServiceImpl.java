@@ -166,8 +166,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ei.itop.incidentmgnt.service.IIncidentService#MBLModifyIncidentAndAttach(long,
-	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
+	 * com.ei.itop.incidentmgnt.service.IIncidentService#MBLModifyIncidentAndAttach
+	 * (long, com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
 	public long MBLModifyIncidentAndAttach(long incidentId,
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception {
@@ -195,8 +195,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncidentAndAttach(long,
-	 * com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
+	 * com.ei.itop.incidentmgnt.service.IIncidentService#modifyIncidentAndAttach
+	 * (long, com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
 	public long modifyIncidentAndAttach(long incidentId,
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception {
@@ -345,7 +345,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#adviserCompleteInfo
 	 * (com.ei.itop.incidentmgnt.bean.IncidentInfo, long)
 	 */
-	public void adviserCompleteInfo(long incidentId, IcIncident incident,
+	public void MBLAdviserCompleteInfo(long incidentId, IcIncident incident,
 			OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 

@@ -160,7 +160,7 @@ public interface IIncidentService {
 	 *            事件信息，此逻辑仅关注顾问设置的影响度、分类、优先级三个信息
 	 * @throws Exception
 	 */
-	public void adviserCompleteInfo(long incidentId, IcIncident incident,
+	public void MBLAdviserCompleteInfo(long incidentId, IcIncident incident,
 			OpInfo opInfo) throws Exception;
 
 	/**
