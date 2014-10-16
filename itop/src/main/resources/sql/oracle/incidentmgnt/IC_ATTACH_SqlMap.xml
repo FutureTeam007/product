@@ -20,9 +20,9 @@
     delete from IC_ATTACH
     where TRANS_ID = null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#
   </delete>
-  <delete id="deleteByTransaction" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
+  <delete id="deleteByTransaction" parameterClass="java.util.Map" >
     delete from IC_ATTACH
-    where IC_INCIDENT_ID = #icIncidentId:DECIMAL# and TRANS_ID = #transId:DECIMAL#
+    where IC_INCIDENT_ID = #icIncidentId:DECIMAL# and TRANS_ID = #transactionId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
   	<selectKey resultClass="long" keyProperty="icAttachId">
@@ -31,7 +31,7 @@
     insert into IC_ATTACH (IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH)
     values (#icAttachId:DECIMAL#, #icIncidentId:DECIMAL#, #transId:DECIMAL#, #attachPath:VARCHAR#)
   </insert>
-  <update id="changeTransAttach2IncidAttach" parameterClass="Map" >
+  <update id="changeTransAttach2IncidAttach" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
     update IC_ATTACH
     set TRANS_ID = #transId:DECIMAL#
     where TRANS_ID = null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#

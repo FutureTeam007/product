@@ -116,11 +116,11 @@ public class AttachServiceImpl implements AttachService {
 			long transactionId) throws Exception {
 		// TODO Auto-generated method stub
 
-		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("incidentId", incidentId);
-		hm.put("transactionId", transactionId);
+		IcAttach attach = new IcAttach();
+		attach.setIcIncidentId(incidentId);
+		attach.setTransId(transactionId);
 
-		attachDAO.execStatement("IC_ATTACH.changeTransAttach2IncidAttach", hm);
+		attachDAO.update("IC_ATTACH.changeTransAttach2IncidAttach", attach);
 	}
 
 }
