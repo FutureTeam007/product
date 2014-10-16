@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service;
 import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.bean.OpInfo;
-import com.ei.itop.common.dao.ICommonDAO;
+import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
-import com.ei.itop.incidentmgnt.service.IIncidentService;
+import com.ei.itop.incidentmgnt.service.IncidentService;
 
 /**
  * @author Jack.Qi
  * 
  */
 @Service(value = "incidentService")
-public class IncidentServiceImpl implements IIncidentService {
+public class IncidentServiceImpl implements IncidentService {
 
 	private static final Logger log = Logger
 			.getLogger(IncidentServiceImpl.class);
@@ -33,7 +33,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	private GenericDAO<Long, IcIncident> incidentDAO;
 
 	@Resource(name = "commonDDLDAO")
-	private ICommonDAO commonDAO;
+	private CommonDAO commonDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -486,7 +486,7 @@ public class IncidentServiceImpl implements IIncidentService {
 	}
 
 	public static void main(String[] args) throws Exception {
-		IIncidentService is = (IIncidentService) AppContext
+		IncidentService is = (IncidentService) AppContext
 				.getBean("incidentService");
 
 		OpInfo oi = new OpInfo();

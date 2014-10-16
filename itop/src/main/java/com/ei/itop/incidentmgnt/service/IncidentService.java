@@ -14,7 +14,7 @@ import com.ei.itop.incidentmgnt.bean.QCIncident;
  * @author Jack.Qi
  * 
  */
-public interface IIncidentService {
+public interface IncidentService {
 
 	/**
 	 * 查询事件

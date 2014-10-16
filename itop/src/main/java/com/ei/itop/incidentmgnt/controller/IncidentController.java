@@ -21,14 +21,14 @@ import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
-import com.ei.itop.incidentmgnt.service.IIncidentService;
+import com.ei.itop.incidentmgnt.service.IncidentService;
 
 @Controller
 @RequestMapping("/incident")
 public class IncidentController {
 
 	@Autowired
-	private IIncidentService incidentService;
+	private IncidentService incidentService;
 	/**
 	 * 查询列表
 	 * @param request

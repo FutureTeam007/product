@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ei.itop.incidentmgnt.service.ITransactionService;
+import com.ei.itop.incidentmgnt.service.TransactionService;
 
 @Controller
 @RequestMapping("/trans")
 public class TransactionController {
 
 	@Autowired
-	private ITransactionService transactionService;
+	private TransactionService transactionService;
 	
 	@RequestMapping(value="/all")
 	public void queryTransList(HttpServletRequest request,HttpServletResponse response) throws Exception{

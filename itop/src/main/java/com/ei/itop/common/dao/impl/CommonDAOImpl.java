@@ -13,14 +13,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
-import com.ei.itop.common.dao.ICommonDAO;
+import com.ei.itop.common.dao.CommonDAO;
 
 /**
  * @author Jack.Qi
  * 
  */
 @Component("commonDDLDAO")
-public class CommonDAOImpl implements ICommonDAO {
+public class CommonDAOImpl implements CommonDAO {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO commonDAO;

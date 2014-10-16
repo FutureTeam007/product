@@ -14,7 +14,7 @@ import com.ei.itop.incidentmgnt.bean.TransactionInfo;
  * @author Jack.Qi
  * 
  */
-public interface ITransactionService {
+public interface TransactionService {
 
 	/**
 	 * 根据事件ID查询事务列表

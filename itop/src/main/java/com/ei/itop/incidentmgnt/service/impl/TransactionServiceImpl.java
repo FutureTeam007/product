@@ -12,20 +12,20 @@ import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.bean.OpInfo;
-import com.ei.itop.common.dao.ICommonDAO;
+import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.IcTransaction;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.TransactionInfo;
-import com.ei.itop.incidentmgnt.service.IIncidentService;
-import com.ei.itop.incidentmgnt.service.ITransactionService;
+import com.ei.itop.incidentmgnt.service.IncidentService;
+import com.ei.itop.incidentmgnt.service.TransactionService;
 
 /**
  * @author Jack.Qi
  * 
  */
 @Service(value = "transactionService")
-public class TransactionServiceImpl implements ITransactionService {
+public class TransactionServiceImpl implements TransactionService {
 
 	private static final Logger log = Logger
 			.getLogger(TransactionServiceImpl.class);
@@ -34,10 +34,10 @@ public class TransactionServiceImpl implements ITransactionService {
 	private GenericDAO<Long, IcTransaction> transactionDAO;
 
 	@Resource(name = "commonDDLDAO")
-	private ICommonDAO commonDAO;
+	private CommonDAO commonDAO;
 
 	@Resource(name = "incidentService")
-	private IIncidentService incidentService;
+	private IncidentService incidentService;
 
 	/*
 	 * (non-Javadoc)

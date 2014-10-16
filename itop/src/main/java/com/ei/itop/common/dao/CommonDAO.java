@@ -10,7 +10,7 @@ import java.util.List;
  * @author Jack.Qi
  * 
  */
-public interface ICommonDAO {
+public interface CommonDAO {
 
 	/**
 	 * 获取Sequence下一个值

@@ -7,13 +7,13 @@ import java.util.List;
 
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.register.bean.RegisterInfo;
-import com.ei.itop.register.service.IRegisterService;
+import com.ei.itop.register.service.RegisterService;
 
 /**
  * @author Jack.Qi
  * 
  */
-public class RegisterServiceImpl implements IRegisterService {
+public class RegisterServiceImpl implements RegisterService {
 
 	/*
 	 * (non-Javadoc)

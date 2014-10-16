@@ -6,13 +6,13 @@ package com.ei.itop.login.service.impl;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.login.bean.LoginInfo;
-import com.ei.itop.login.service.ILoginService;
+import com.ei.itop.login.service.LoginService;
 
 /**
  * @author Jack.Qi
  * 
  */
-public class LoginServiceImpl implements ILoginService {
+public class LoginServiceImpl implements LoginService {
 
 	/*
 	 * (non-Javadoc)

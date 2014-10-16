@@ -11,7 +11,7 @@ import com.ei.itop.login.bean.LoginInfo;
  * @author Jack.Qi
  * 
  */
-public interface ILoginService {
+public interface LoginService {
 
 	/**
 	 * 用户登录

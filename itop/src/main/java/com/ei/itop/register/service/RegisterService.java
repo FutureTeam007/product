@@ -12,7 +12,7 @@ import com.ei.itop.register.bean.RegisterInfo;
  * @author Jack.Qi
  * 
  */
-public interface IRegisterService {
+public interface RegisterService {
 
 	/**
 	 * 新注册一个用户，然后发送账号激活链接邮件
