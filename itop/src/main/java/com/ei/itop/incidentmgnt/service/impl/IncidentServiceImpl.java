@@ -15,8 +15,10 @@ import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
+import com.ei.itop.incidentmgnt.service.AttachService;
 import com.ei.itop.incidentmgnt.service.IncidentService;
 
 /**
@@ -34,6 +36,12 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "commonDDLDAO")
 	private CommonDAO commonDAO;
+
+	@Resource(name = "userService")
+	private UserService userService;
+
+	@Resource(name = "attachService")
+	private AttachService attachService;
 
 	/*
 	 * (non-Javadoc)
@@ -153,6 +161,7 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setIncidentCode(generateIncidentCode());
 
 		// 自动填入商户信息、客户信息
+		// CcUser user = userService.queryUser(userId);
 		// *********
 
 		// 自动填入事件提出用户、创建人
@@ -166,6 +175,7 @@ public class IncidentServiceImpl implements IncidentService {
 		long incidentId = incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
 
 		// 保存附件信息
+		attachService.saveAttach(incidentId, incidentInfo.getAttachList());
 
 		return incidentId;
 	}
@@ -244,6 +254,7 @@ public class IncidentServiceImpl implements IncidentService {
 				incidentInfo);
 
 		// 保存附件信息
+		attachService.saveAttach(incidentId, incidentInfo.getAttachList());
 
 		return incidentId;
 	}

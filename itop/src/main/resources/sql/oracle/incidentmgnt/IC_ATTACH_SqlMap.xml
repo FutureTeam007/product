@@ -12,14 +12,30 @@
     from IC_ATTACH
     where IC_ATTACH_ID = #icAttachId:DECIMAL#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
+  <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from IC_ATTACH
     where IC_ATTACH_ID = #icAttachId:DECIMAL#
   </delete>
+  <delete id="deleteByIncident" parameterClass="long" >
+    delete from IC_ATTACH
+    where TRANS_ID = null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#
+  </delete>
+  <delete id="deleteByTransaction" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
+    delete from IC_ATTACH
+    where IC_INCIDENT_ID = #icIncidentId:DECIMAL# and TRANS_ID = #transId:DECIMAL#
+  </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
+  	<selectKey resultClass="long" keyProperty="icAttachId">
+  		select IC_ATTACH$$SEQ.nextval from dual
+  	</selectKey>
     insert into IC_ATTACH (IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH)
     values (#icAttachId:DECIMAL#, #icIncidentId:DECIMAL#, #transId:DECIMAL#, #attachPath:VARCHAR#)
   </insert>
+  <update id="changeTransAttach2IncidAttach" parameterClass="Map" >
+    update IC_ATTACH
+    set TRANS_ID = #transId:DECIMAL#
+    where TRANS_ID = null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#
+  </update>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
     update IC_ATTACH
     set IC_INCIDENT_ID = #icIncidentId:DECIMAL#,

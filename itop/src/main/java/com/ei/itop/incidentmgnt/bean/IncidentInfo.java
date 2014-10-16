@@ -33,4 +33,5 @@ public class IncidentInfo extends IcIncident {
 	public void setAttachList(List<IcAttach> attachList) {
 		this.attachList = attachList;
 	}
+
 }
