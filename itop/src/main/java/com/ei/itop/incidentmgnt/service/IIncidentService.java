@@ -70,7 +70,7 @@ public interface IIncidentService {
 	public IcIncident queryIncident(long incidentId) throws Exception;
 
 	/**
-	 * 新建一个事件，包括附件
+	 * 新创建一个事件，包括附件，不提交，仅保存
 	 * 
 	 * @param incidentInfo
 	 *            事件信息含附件

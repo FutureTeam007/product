@@ -71,8 +71,8 @@ public class IncidentServiceImpl implements IIncidentService {
 	public IcIncident MBLQueryIncident(long incidentId, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
-		IcIncident incident = incidentDAO.find(
-				"IC_INCIDENT.selectByPrimaryKey", incidentId);
+
+		IcIncident incident = queryIncident(incidentId);
 
 		// 记录系统操作日志
 
@@ -91,8 +91,6 @@ public class IncidentServiceImpl implements IIncidentService {
 		IcIncident incident = incidentDAO.find(
 				"IC_INCIDENT.selectByPrimaryKey", incidentId);
 
-		// 记录系统操作日志
-
 		return incident;
 	}
 
@@ -106,6 +104,10 @@ public class IncidentServiceImpl implements IIncidentService {
 	public long MBLAddIncidentAndAttach(IncidentInfo incidentInfo, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
+
+		// 设置事件状态
+		incidentInfo.setItStateCode("1");
+		incidentInfo.setItStateVal("待提交");
 
 		// 保存事件信息
 		long incidentId = addIncidentAndAttach(incidentInfo, opInfo);
