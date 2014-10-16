@@ -4,5 +4,6 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/res/easyui/themes/icon.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/theme/default/easyui-fix.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/locale/easyui-lang-zh_CN.js"></script>
 
 

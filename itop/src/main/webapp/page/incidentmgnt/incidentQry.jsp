@@ -47,31 +47,31 @@
 			<span class="form-item">
 		    	<label>影响度</label>
 		    	<span class="checkbox-inline">
-				  <input type="checkbox" id="affectVar1" value="1"> 咨询
+				  <input type="checkbox" name="affectVar" id="affectVar1" value="1"> 咨询
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="affectVar2" value="2"> 一般
+				  <input type="checkbox" name="affectVar" id="affectVar2" value="2"> 一般
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="affectVar3" value="3"> 严重
+				  <input type="checkbox" name="affectVar" id="affectVar3" value="3"> 严重
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="affectVar4" value="4"> 重大
+				  <input type="checkbox" name="affectVar" id="affectVar4" value="4"> 重大
 				</span>
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="inciNo">优先级</label>
 		    	<span class="checkbox-inline">
-				  <input type="checkbox" id="priLevel1" value="1"> 低
+				  <input type="checkbox" name="priorityVar" id="priLevel1" value="1"> 低
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="priLevel2" value="2"> 中
+				  <input type="checkbox" name="priorityVar" id="priLevel2" value="2"> 中
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="priLevel3" value="3"> 高
+				  <input type="checkbox" name="priorityVar" id="priLevel3" value="3"> 高
 				</span>
 				<span class="checkbox-inline">
-				  <input type="checkbox" id="priLevel4" value="4"> 紧急
+				  <input type="checkbox" name="priorityVar" id="priLevel4" value="4"> 紧急
 				</span>
 		  	</span>
 		  	<span class="form-item">
@@ -121,16 +121,32 @@
 					<th data-options="field:'affectVarUser'" width="5%">影响度</th>
 					<th data-options="field:'priorityVar'" width="5%">优先级</th>
 					<th data-options="field:'itStateCode'" width="5%">当前状态</th>
-					<th data-options="field:'creator'" width="5%">提交人</th>
+					<th data-options="field:'plObjectName'" width="5%">提交人</th>
 					<th data-options="field:'registTime',sortable:true" width="8%">提交时间</th>
 					<th data-options="field:'scLoginName'" width="5%">处理人</th>
 					<th data-options="field:'modifyDate',sortable:true" width="8%">最近更新时间</th>
 					<th data-options="field:'finishTime'" width="8%">完成时间</th>
-					<th data-options="field:'feedbackVal'" width="5%">满意度</th>
+					<th data-options="field:'feedbackVal',formatter:formatFeedback" width="5%">满意度</th>
 				</tr>
 			</thead>
 		</table>
 	</div>
+</div>
+<div id="feedbackWin" title="评价事件" style="width:400px;height:200px;">
+	<div class="col-sm-12">
+      	<span class="radio-inline">
+		  <input type="radio" name="feedbackVar" value="1" checked="checked">十分满意
+		</span>
+		<span class="radio-inline">
+		  <input type="radio" name="feedbackVar" value="2" >满意
+		</span>
+		<span class="radio-inline">
+		  <input type="radio" name="feedbackVar" value="3">不满意
+		</span>
+    </div>
+    <div class="clearfix">
+		<button id="feedbackBtn" class="btn btn-warning" type="button" incidentId="" onclick="feedback()">提交</button>
+  	</div>
 </div>
 <div id="subPage" class="subPage"><iframe id="subPageIframe" frameborder="0" scrolling="auto" style="overflow-x:hidden" width="100%" height="100%" src=""></iframe></div>
 <div id="cc" class="easyui-calendar"></div>

@@ -58,17 +58,17 @@
   		<div class="form-group clearfix">
 		    <label for="moduleSel" class="col-sm-2 control-label">影响度</label>
 		    <div class="col-sm-7">
-		      <span class="radio-inline">
-				  <input type="radio" name="effectLevel" id="effectLevel1" value="1"> 咨询
+		      	<span class="radio-inline">
+				  <input type="radio" name="affectVar" id="effectLevel1" value="1"> 咨询
 				</span>
 				<span class="radio-inline">
-				  <input type="radio" name="effectLevel" id="effectLevel2" value="2"> 一般
+				  <input type="radio" name="affectVar" id="effectLevel2" value="2" checked="checked"> 一般
 				</span>
 				<span class="radio-inline">
-				  <input type="radio" name="effectLevel" id="effectLevel3" value="3"> 严重
+				  <input type="radio" name="affectVar" id="effectLevel3" value="3"> 严重
 				</span>
 				<span class="radio-inline">
-				  <input type="radio" name="effectLevel" id="effectLevel4" value="4"> 重大
+				  <input type="radio" name="affectVar" id="effectLevel4" value="4"> 重大
 				</span>
 		    </div>
 		    <div class="col-sm-3 form-desc">
@@ -90,50 +90,52 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="inciShortDesc" class="col-sm-2 control-label">事件简述</label>
+		    <label for="brief" class="col-sm-2 control-label">事件简述</label>
 		    <div class="col-sm-7">
-		       <input type="text" class="form-control" id="inciShortDesc"/>
+		       <input type="text" class="form-control" id="brief" maxlength="40"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		    	简要描述事件的特征
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="happenDate" class="col-sm-2 control-label">发生时间</label>
+		    <label for="happenTime" class="col-sm-2 control-label">发生时间</label>
 		    <div class="col-sm-7">
-		       <input class="easyui-datebox" style="width:100%" id="happenDate" data-options="sharedCalendar:'#cc'">
+		       <input class="easyui-datebox" style="width:100%" id="happenTime" data-options="
+		       		formatter: function(date){ return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();}
+		       	">
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="happenDate" class="col-sm-2 control-label">详细描述</label>
+		    <label for="detail" class="col-sm-2 control-label">详细描述</label>
 		    <div class="col-sm-7">
-		       <textarea class="form-control" rows="3"></textarea>
+		       <textarea class="form-control" rows="3" id="detail"></textarea>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		    	详细说明事件的各项内容
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="mailCC1" class="col-sm-2 control-label">抄送</label>
+		    <label for="ccList" class="col-sm-2 control-label">抄送</label>
 		    <div class="col-sm-7">
-		       <input type="text" class="form-control" id="mailCC1"/>
+		       <input type="text" class="form-control" id="ccList" maxlength="100"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
-		    	填写抄送用户的邮箱地址，用分号隔开
+		    	填写抄送用户的邮箱地址，多个地址用逗号分隔
 		    </div>
   		</div>
   		<div class="form-group clearfix">
 		    <label for="happenDate" class="col-sm-2 control-label">附件</label>
-		    <div class="col-sm-10">
-		       <a href="#">文件文件文件文件</a>
-		       <button type="button" class="btn btn-primary btn-sm">选择文件</button>
+		    <div class="col-sm-10" id="attach">
+		       <div><a href="#">附件1</a><i class="fa fa-times"></i></div>
+		       <div><a href="#">附件2</a><i class="fa fa-times"></i></div>
+		       <input type="file" value="选择文件"/>
 		    </div>
   		</div>
   		<div class="form-group clearfix inci-form-btns">
-		    <button class="btn btn-outline btn-warning btn-lg" style="margin-left:280px;margin-right:20px" type="button">保存</button>
-		    <button class="btn btn-warning btn-lg" type="button">直接提交</button>
+		    <button class="btn btn-outline btn-warning btn-lg" style="margin-left:280px;margin-right:20px" type="button" onclick="save()">保存</button>
+		    <button class="btn btn-warning btn-lg" type="button" onclick="commit()">直接提交</button>
   		</div>
 	</form>
-	<div id="cc" class="easyui-calendar"></div>
 </body>
 </html>

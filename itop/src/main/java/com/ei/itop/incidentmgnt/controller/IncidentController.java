@@ -184,21 +184,25 @@ public class IncidentController {
 		//事件ID
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
 		//产品线
-		String scProductId = request.getParameter("scProductId");
+		String scProductId = request.getParameter("productId");
 		ii.setScProductId(VarTypeConvertUtils.string2Long(scProductId));
+		String productName = request.getParameter("productName");
+		ii.setProdName(productName);
 		//服务目录
-		String scModuleId = request.getParameter("scModuleId");
+		String scModuleId = request.getParameter("moduleId");
 		String moduleName = request.getParameter("moduleName");
 		ii.setScModuleId(VarTypeConvertUtils.string2Long(scModuleId));
 		ii.setModuleName(moduleName);
 		//影响度
-		String affectCodeUser = request.getParameter("affectCodeUser");
-		String affectValUser = request.getParameter("affectValUser");
+		String affectCodeUser = request.getParameter("affectCode");
+		String affectValUser = request.getParameter("affectVal");
 		ii.setAffectCodeUser(affectCodeUser);
 		ii.setAffectValUser(affectValUser);
 		//事件类别
-		String classCodeUser = request.getParameter("classCodeUser");
+		String classCodeUser = request.getParameter("classCode");
+		String classVarUser = request.getParameter("classVar");
 		ii.setClassCodeUser(classCodeUser);
+		ii.setClassValUser(classVarUser);
 		//事件简述
 		String brief = request.getParameter("brief");
 		ii.setBrief(brief);
@@ -206,7 +210,7 @@ public class IncidentController {
 		String happenTime = request.getParameter("happenTime");
 		ii.setHappenTime(DateUtils.string2Date(happenTime, DateUtils.FORMATTYPE_yyyy_MM_dd));
 		//详细描述
-		String detail = request.getParameter("happenTime");
+		String detail = request.getParameter("detail");
 		ii.setDetail(detail);
 		//抄送
 		String ccList = request.getParameter("ccList");

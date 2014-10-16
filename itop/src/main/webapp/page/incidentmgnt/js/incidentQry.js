@@ -43,10 +43,10 @@ function commit(id){
 		},
 		dataType : 'json',
 		success : function(msg) {
-			$.messager.alert('Alert','提交事件成功！');
+			$.messager.alert('提示','提交事件成功！');
 		},
 		error : function() {
-			$.messager.alert('Error','提交事件失败！');
+			$.messager.alert('提示','提交事件失败！');
 		}
 	});
 }
@@ -62,10 +62,10 @@ function remove(){
 	    		},
 	    		dataType : 'json',
 	    		success : function(msg) {
-	    			$.messager.alert('Alert','删除事件成功！');
+	    			$.messager.alert('提示','删除事件成功！');
 	    		},
 	    		error : function() {
-	    			$.messager.alert('Error','删除事件失败！');
+	    			$.messager.alert('提示','删除事件失败！');
 	    		}
 	    	});
 	    }
@@ -81,28 +81,44 @@ function close(id){
 		},
 		dataType : 'json',
 		success : function(msg) {
-			$.messager.alert('Alert','关闭事件成功！');
+			$.messager.alert('提示','关闭事件成功！');
 		},
 		error : function() {
-			$.messager.alert('Error','关闭事件失败！');
+			$.messager.alert('提示','关闭事件失败！');
 		}
 	});
 }
-
+//显示评价事件的窗口
+function showFeedback(id){
+	$("#feedbackBtn").attr("incidentId",id);
+	$('#feedbackWin').dialog('open');
+}
 //评价事件
-function feedback(id){
+function feedback(){
+	var id = $("#feedbackBtn").attr("incidentId");
+	var feedbackVal = null;
+	var feedbackCode = null;
+	$("input[name=feedbackVar]").each(function(){
+		if($(this).get(0).checked){
+			feedbackCode = $(this).text();
+			feedbackVal = $(this).val();
+		}
+	});
 	$.ajax({
 		type : 'post',
 		url : rootPath + "/incident/feedback",
 		data : {
 			incidentId :id,
-			feedbackVal:'',
-			feedbackCode:''
+			feedbackVal:feedbackVal,
+			feedbackCode:feedbackCode
 		},
 		dataType : 'json',
-		success : function(msg) {},
+		success : function(msg) {
+			$('#feedbackWin').dialog('close');
+			reloadData();
+		},
 		error : function() {
-			$.messager.alert('Error','评价事件失败！');
+			$.messager.alert('提示','评价事件失败！');
 		}
 	});
 }
@@ -119,35 +135,21 @@ function setQueryConditions(){
 	qp.productId = $("#prodSel").combobox('getValue');
 	//影响度
 	var affectVarArr = [];
-	if($("#affectVar1").get(0).checked){
-		affectVarArr.push($("#affectVar1").val());
-	}
-	if($("#affectVar2").get(0).checked){
-		affectVarArr.push($("#affectVar2").val());
-	}
-	if($("#affectVar3").get(0).checked){
-		affectVarArr.push($("#affectVar3").val());
-	}
-	if($("#affectVar4").get(0).checked){
-		affectVarArr.push($("#affectVar4").val());
-	}
+	$("input[name=affectVar]").each(function(){
+		if($(this).get(0).checked){
+			affectVarArr.push($(this).val());
+		}
+	});
 	if(affectVarArr.length!=0){
 		qp.affectVar = affectVarArr.join(",");
 	}
 	//优先级
 	var pritVarArr = [];
-	if($("#priLevel1").get(0).checked){
-		pritVarArr.push($("#priLevel1").val());
-	}
-	if($("#priLevel2").get(0).checked){
-		pritVarArr.push($("#priLevel2").val());
-	}
-	if($("#priLevel3").get(0).checked){
-		pritVarArr.push($("#priLevel3").val());
-	}
-	if($("#priLevel4").get(0).checked){
-		pritVarArr.push($("#priLevel4").val());
-	}
+	$("input[name=priorityVar]").each(function(){
+		if($(this).get(0).checked){
+			pritVarArr.push($(this).val());
+		}
+	});
 	if(pritVarArr.length!=0){
 		qp.priorityVal = pritVarArr.join(",");
 	}
@@ -197,6 +199,9 @@ function initSubPage(){
     $("#subPage").css("height", (height) + "px");
     $("#pageMask").css("height", (height) + "px");
     $("#pageMask").css("width", (width-24) + "px");
+    $('#feedbackWin').dialog({
+		modal:true
+	});
 }
 //初始化表格分页条
 function initDataPager(){
@@ -209,6 +214,29 @@ function initDataPager(){
 		displayMsg: '当前显示 {from} - {to} 条记录共 {total} 条记录',
 	});
 }
+//重新加载数据
+function reloadData(){
+	$('#incidentDataTable').datagrid('reload');
+}
+//格式化操作列
 function formatOperations(val,row){
-	return "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button><button type='button' class='btn btn-link' onclick='edit("+val+")'>编辑</button><button type='button' class='btn btn-link' onclick='close("+val+")'>关闭</button>";
+	var buttons = "";
+	if(row.itStateVar.indexOf("1,4")!=-1){
+		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>提交</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>编辑</button>";
+	}else if(row.itStateVar.indexOf("2,3,5,8")!=-1){
+		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='close("+val+")'>关闭</button>";
+	}else{
+		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
+	}
+	return buttons;
+}
+//格式化评价列
+function formatFeedback(val,row){
+	if(val!=null){
+		return val;
+	}else if(row.itStateVar=="8"){
+		 return "<button type='button' class='btn btn-link' onclick='showFeedback("+val+")'>待评价</button>";
+	}
 }
