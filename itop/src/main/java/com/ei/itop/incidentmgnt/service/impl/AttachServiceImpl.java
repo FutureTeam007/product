@@ -73,13 +73,13 @@ public class AttachServiceImpl implements AttachService {
 		deleteAttach(incidentId);
 
 		// 设置事件ID
-//		for (int i = 0; attachList != null && i < attachList.length; i++) {
-//			attachList[i].setIcIncidentId(incidentId);
-//			attachList[i].setTransId(null);
-//		}
+		for (int i = 0; attachList != null && i < attachList.size(); i++) {
+			attachList.get(i).setIcIncidentId(incidentId);
+			attachList.get(i).setTransId(null);
+		}
 
 		// 保存新附件
-//		attachDAO.saveBatch("IC_ATTACH.insert", attachList);
+		attachDAO.saveBatch("IC_ATTACH.insert", attachList);
 	}
 
 	/*
@@ -96,13 +96,13 @@ public class AttachServiceImpl implements AttachService {
 		deleteAttach(incidentId, transactionId);
 
 		// 设置事件ID、事务ID
-//		for (int i = 0; attachList != null && i < attachList.length; i++) {
-//			attachList[i].setIcIncidentId(incidentId);
-//			attachList[i].setTransId(transactionId);
-//		}
+		for (int i = 0; attachList != null && i < attachList.size(); i++) {
+			attachList.get(i).setIcIncidentId(incidentId);
+			attachList.get(i).setTransId(transactionId);
+		}
 
 		// 保存新附件
-//		attachDAO.saveBatch("IC_ATTACH.insert", attachList);
+		attachDAO.saveBatch("IC_ATTACH.insert", attachList);
 	}
 
 	/*

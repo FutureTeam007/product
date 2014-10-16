@@ -15,11 +15,14 @@ import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
+import com.ei.itop.incidentmgnt.bean.TransactionInfo;
 import com.ei.itop.incidentmgnt.service.AttachService;
 import com.ei.itop.incidentmgnt.service.IncidentService;
+import com.ei.itop.incidentmgnt.service.TransactionService;
 
 /**
  * @author Jack.Qi
@@ -42,6 +45,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "attachService")
 	private AttachService attachService;
+
+	@Resource(name = "transactionService")
+	private TransactionService transactionService;
 
 	/*
 	 * (non-Javadoc)
@@ -169,7 +175,6 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setPlObjectId(opInfo.getOpId());
 		incidentInfo.setPlLoginCode(opInfo.getOpCode());
 		incidentInfo.setPlObjectName(opInfo.getOpName());
-		incidentInfo.setCreator(opInfo.getOpName());
 
 		// 保存事件实体信息
 		long incidentId = incidentDAO.save("IC_INCIDENT.insert", incidentInfo);
@@ -206,7 +211,8 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @throws Exception
 	 */
 	protected String generateIncidentCode() throws Exception {
-		return "XXX001";
+		// 客户编码（大写）_YYYYMM_000001
+		return "XXX_YYYYMM_000001";
 	}
 
 	/*
@@ -259,6 +265,31 @@ public class IncidentServiceImpl implements IncidentService {
 		return incidentId;
 	}
 
+	/**
+	 * 自动分派负责顾问
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public ScOp getInChargeAdviser() throws Exception {
+		// ***********
+		return null;
+	}
+
+	/**
+	 * 获得事件所处阶段
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String getItPhase() throws Exception {
+		// ***********
+
+		String itPhase = "事件所处阶段";
+
+		return itPhase;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -278,10 +309,14 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setRegisteTime(commonDAO.getSysDate());
 
 		// 提交时自动分派负责顾问，并作为干系人
-		// ********
+		ScOp inChargeAdviser = getInChargeAdviser();
+		incidentInfo.setIcObjectType("OP");
+		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
+		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
+		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
 		// 填入事件所处阶段
-		// ********
+		incidentInfo.setItPhase(getItPhase());
 
 		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
 		// ********
@@ -290,6 +325,9 @@ public class IncidentServiceImpl implements IncidentService {
 		long incidentId = addIncidentAndAttach(incidentInfo, opInfo);
 
 		// 系统自动生成第一条事务
+		TransactionInfo transactionInfo = new TransactionInfo();
+		transactionInfo.setContents(incidentInfo.getDetail());
+		transactionService.addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 将事件的附件转为第一条事务的附件
 		// 即将附件表的事务ID由null改为第一条事务的ID

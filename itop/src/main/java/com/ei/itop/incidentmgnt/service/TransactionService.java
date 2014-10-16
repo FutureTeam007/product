@@ -30,6 +30,18 @@ public interface TransactionService {
 			OpInfo opInfo) throws Exception;
 
 	/**
+	 * 新增事务信息
+	 * 
+	 * @param incidentId
+	 * @param transactionInfo
+	 * @param opInfo
+	 * @return
+	 * @throws Exception
+	 */
+	public long addTransaction(long incidentId,
+			TransactionInfo transactionInfo, OpInfo opInfo) throws Exception;
+
+	/**
 	 * 用户提交事务，在逻辑内部判断用户是否为当前干系人
 	 * 
 	 * @param incidentId

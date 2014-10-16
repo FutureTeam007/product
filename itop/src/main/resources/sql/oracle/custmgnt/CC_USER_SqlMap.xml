@@ -4,6 +4,7 @@
   <resultMap id="ccUserResult" class="com.ei.itop.common.dbentity.CcUser" >
     <result column="CC_USER_ID" property="ccUserId" jdbcType="DECIMAL" />
     <result column="CC_CUST_ID" property="ccCustId" jdbcType="DECIMAL" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
     <result column="DEF_CC_CUST_ID" property="defCcCustId" jdbcType="DECIMAL" />
     <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
     <result column="SC_ORG_NAME" property="scOrgName" jdbcType="VARCHAR" />
@@ -21,28 +22,29 @@
     <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
   <select id="selectByPrimaryKey" resultMap="ccUserResult" parameterClass="long" >
-    select CC_USER_ID, CC_CUST_ID, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE, LOGIN_CODE,
+    select CC_USER_ID, CC_CUST_ID, CUST_NAME, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE, LOGIN_CODE,
       LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES,
       STATE
     from CC_USER
     where CC_USER_ID = #ccUserId:DECIMAL#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.CcUser" >
+  <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from CC_USER
     where CC_USER_ID = #ccUserId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcUser" >
-    insert into CC_USER (CC_USER_ID, CC_CUST_ID, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE,
+    insert into CC_USER (CC_USER_ID, CC_CUST_ID, CUST_NAME, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE,
       LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO,
       OFFICE_TEL, NOTES, STATE)
-    values (#ccUserId:DECIMAL#, #ccCustId:DECIMAL#, #defCcCustId:DECIMAL#, #scOrgId:DECIMAL#,
+    values (#ccUserId:DECIMAL#, #ccCustId:DECIMAL#, #custName:VARCHAR#, #defCcCustId:DECIMAL#, #scOrgId:DECIMAL#,
       #scOrgName:VARCHAR#, #opCode:VARCHAR#, #loginCode:VARCHAR#, #loginPasswd:VARCHAR#,
       #firstName:VARCHAR#, #lastName:VARCHAR#, #opName:VARCHAR#, #gender:DECIMAL#, #opKind:DECIMAL#,
       #mobileNo:VARCHAR#, #officeTel:VARCHAR#, #notes:VARCHAR#, #state:DECIMAL#)
   </insert>
-  <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.CcUser" >
+  <update id="updateByPrimaryKey" parameterClass="long" >
     update CC_USER
     set CC_CUST_ID = #ccCustId:DECIMAL#,
+      CUST_NAME = #custName:VARCHAR#,
       DEF_CC_CUST_ID = #defCcCustId:DECIMAL#,
       SC_ORG_ID = #scOrgId:DECIMAL#,
       SC_ORG_NAME = #scOrgName:VARCHAR#,
@@ -65,6 +67,9 @@
     <dynamic prepend="set" >
       <isNotNull prepend="," property="ccCustId" >
         CC_CUST_ID = #ccCustId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="custName" >
+        CUST_NAME = #custName:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="defCcCustId" >
         DEF_CC_CUST_ID = #defCcCustId:DECIMAL#

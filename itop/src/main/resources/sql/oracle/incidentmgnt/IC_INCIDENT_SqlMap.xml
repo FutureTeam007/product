@@ -8,14 +8,21 @@
     <result column="SC_ORG_NAME" property="scOrgName" jdbcType="VARCHAR" />
     <result column="CC_CUST_ID" property="ccCustId" jdbcType="DECIMAL" />
     <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
-    <result column="CC_USER_ID" property="ccUserId" jdbcType="DECIMAL" />
-    <result column="CC_LOGIN_CODE" property="ccLoginCode" jdbcType="VARCHAR" />
     <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
     <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
     <result column="SC_MODULE_ID" property="scModuleId" jdbcType="DECIMAL" />
     <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="IC_OWNER_TYPE" property="icOwnerType" jdbcType="VARCHAR" />
+    <result column="IC_OWNER_ID" property="icOwnerId" jdbcType="DECIMAL" />
+    <result column="IC_OWNER_CODE" property="icOwnerCode" jdbcType="VARCHAR" />
+    <result column="IC_OWNER_NAME" property="icOwnerName" jdbcType="VARCHAR" />
+    <result column="PL_OBJECT_TYPE" property="plObjectType" jdbcType="VARCHAR" />
+    <result column="PL_OBJECT_ID" property="plObjectId" jdbcType="DECIMAL" />
+    <result column="PL_LOGIN_CODE" property="plLoginCode" jdbcType="VARCHAR" />
+    <result column="PL_OBJECT_NAME" property="plObjectName" jdbcType="VARCHAR" />
     <result column="SC_OP_ID" property="scOpId" jdbcType="DECIMAL" />
     <result column="SC_LOGIN_CODE" property="scLoginCode" jdbcType="VARCHAR" />
+    <result column="SC_LOGIN_NAME" property="scLoginName" jdbcType="VARCHAR" />
     <result column="IC_OBJECT_TYPE" property="icObjectType" jdbcType="VARCHAR" />
     <result column="IC_OBJECT_ID" property="icObjectId" jdbcType="DECIMAL" />
     <result column="IC_OBJECT_NAME" property="icObjectName" jdbcType="VARCHAR" />
@@ -60,21 +67,22 @@
     <result column="IT_STATE_CODE" property="itStateCode" jdbcType="VARCHAR" />
     <result column="IT_STATE_VAL" property="itStateVal" jdbcType="VARCHAR" />
     <result column="DATA_STATE" property="dataState" jdbcType="DECIMAL" />
-    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
     <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
     <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
     <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
   </resultMap>
   <select id="selectByPrimaryKey" resultMap="icIncidentResult" parameterClass="Long" >
-    select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME, CC_USER_ID,
-      CC_LOGIN_CODE, SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, SC_LOGIN_CODE,
+    select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
+      IC_OWNER_TYPE, IC_OWNER_ID, IC_OWNER_CODE, IC_OWNER_NAME,
+      PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
+      SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, SC_LOGIN_CODE, SC_LOGIN_NAME,
       IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE, REGISTE_TIME, HAPPEN_TIME,
       SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER, AFFECT_CODE_USER, AFFECT_VAL_USER,
       CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP, COMPLEX_CODE, COMPLEX_VAL,
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATOR, CREATE_DATE, MODIFIER, MODIFY_DATE
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
     from IC_INCIDENT
     where IC_INCIDENT_ID = #value:DECIMAL#
   </select>
@@ -88,20 +96,22 @@
   	</selectKey>
     insert into IC_INCIDENT (IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID,
       CUST_NAME, SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME,
+      IC_OWNER_TYPE, IC_OWNER_ID, IC_OWNER_CODE, IC_OWNER_NAME,
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
-      SC_OP_ID, SC_LOGIN_CODE, IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE,
+      SC_OP_ID, SC_LOGIN_CODE, SC_LOGIN_NAME, IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE,
       REGISTE_TIME, HAPPEN_TIME, SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER,
       AFFECT_CODE_USER, AFFECT_VAL_USER, CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP,
       COMPLEX_CODE, COMPLEX_VAL, PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME,
       DEAL_TIME, REPONSE_DUR2, DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR,
       DEAL_DUR, FINISH_TIME, IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL,
-      FEEDBACK_TIME, CLOSE_TIME, IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATOR,
+      FEEDBACK_TIME, CLOSE_TIME, IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE,
       CREATE_DATE, MODIFIER, MODIFY_DATE)
     values (#icIncidentId:DECIMAL#, #incidentCode:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
       #ccCustId:DECIMAL#, #custName:VARCHAR#,
       #scProductId:DECIMAL#, #prodName:VARCHAR#, #scModuleId:DECIMAL#, #moduleName:VARCHAR#,
+      #icOwnerType:VARCHAR#, #icOwnerId:DECIMAL#, #icOwnerCod:VARCHARe#, #icOwnerName:VARCHAR#,
       #plObjectType:VARCHAR#, #plObjectId:DECIMAL#, #plLoginCode:VARCHAR#, #plObjectName:VARCHAR#,
-      #scOpId:DECIMAL#, #scLoginCode:VARCHAR#, #icObjectType:VARCHAR#, #icObjectId:DECIMAL#,
+      #scOpId:DECIMAL#, #scLoginCode:VARCHAR#, #scLoginName:VARCHAR#, #icObjectType:VARCHAR#, #icObjectId:DECIMAL#,
       #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:DATE#, #happenTime:DATE#,
       #sourceCode:VARCHAR#, #sourceVal:VARCHAR#, #classCodeUser:VARCHAR#, #classValUser:VARCHAR#,
       #affectCodeUser:VARCHAR#, #affectValUser:VARCHAR#, #classCodeOp:VARCHAR#,
@@ -112,7 +122,7 @@
       #restoreTime:DATE#, #reponseDur:DECIMAL#, #dealDur:DECIMAL#, #finishTime:DATE#,
       #itSolution:VARCHAR#, #finishCode:VARCHAR#, #finishVal:VARCHAR#, #feedbackCode:VARCHAR#,
       #feedbackVal:VARCHAR#, #feedbackTime:DATE#, #closeTime:DATE#, #itPhase:VARCHAR#,
-      #itStateCode:VARCHAR#, #itStateVal:VARCHAR#, 1, #creator:VARCHAR#,
+      #itStateCode:VARCHAR#, #itStateVal:VARCHAR#, 1, 
       sysdate, #modifier:VARCHAR#, sysdate)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcIncident" >
@@ -122,14 +132,21 @@
       SC_ORG_NAME = #scOrgName:VARCHAR#,
       CC_CUST_ID = #ccCustId:DECIMAL#,
       CUST_NAME = #custName:VARCHAR#,
-      CC_USER_ID = #ccUserId:DECIMAL#,
-      CC_LOGIN_CODE = #ccLoginCode:VARCHAR#,
       SC_PRODUCT_ID = #scProductId:DECIMAL#,
       PROD_NAME = #prodName:VARCHAR#,
       SC_MODULE_ID = #scModuleId:DECIMAL#,
       MODULE_NAME = #moduleName:VARCHAR#,
       SC_OP_ID = #scOpId:DECIMAL#,
       SC_LOGIN_CODE = #scLoginCode:VARCHAR#,
+      SC_LOGIN_NAME = #scLoginName:VARCHAR#,
+      IC_OWNER_TYPE = #icOwnerType:VARCHAR#,
+      IC_OWNER_ID = #icOwnerId:DECIMAL#,
+      IC_OWNER_CODE = #icOwnerCode:VARCHAR#,
+      IC_OWNER_NAME = #icOwnerName:VARCHAR#,
+      PL_OBJECT_TYPE = #plObjectType:VARCHAR#,
+      PL_OBJECT_ID = #plObjectId:DECIMAL#,
+      PL_LOGIN_CODE = #plLoginCode:VARCHAR#,
+      PL_OBJECT_NAME = #plObjectName:VARCHAR#,
       IC_OBJECT_TYPE = #icObjectType:VARCHAR#,
       IC_OBJECT_ID = #icObjectId:DECIMAL#,
       IC_OBJECT_NAME = #icObjectName:VARCHAR#,
@@ -174,7 +191,6 @@
       IT_STATE_CODE = #itStateCode:VARCHAR#,
       IT_STATE_VAL = #itStateVal:VARCHAR#,
       DATA_STATE = #dataState:DECIMAL#,
-      CREATOR = #creator:VARCHAR#,
       CREATE_DATE = #createDate:DATE#,
       MODIFIER = #modifier:VARCHAR#,
       MODIFY_DATE = #modifyDate:DATE#
@@ -197,12 +213,6 @@
       <isNotNull prepend="," property="custName" >
         CUST_NAME = #custName:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="ccUserId" >
-        CC_USER_ID = #ccUserId:DECIMAL#
-      </isNotNull>
-      <isNotNull prepend="," property="ccLoginCode" >
-        CC_LOGIN_CODE = #ccLoginCode:VARCHAR#
-      </isNotNull>
       <isNotNull prepend="," property="scProductId" >
         SC_PRODUCT_ID = #scProductId:DECIMAL#
       </isNotNull>
@@ -220,6 +230,33 @@
       </isNotNull>
       <isNotNull prepend="," property="scLoginCode" >
         SC_LOGIN_CODE = #scLoginCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="scLoginName" >
+        SC_LOGIN_NAME = #scLoginName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="icOwnerType" >
+        IC_OWNER_TYPE = #icOwnerType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="icOwnerId" >
+        IC_OWNER_ID = #icOwnerId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="icOwnerCode" >
+        IC_OWNER_CODE = #icOwnerCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="icOwnerName" >
+        IC_OWNER_NAME = #icOwnerName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="plObjectType" >
+        PL_OBJECT_TYPE = #plObjectType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="plObjectId" >
+        PL_OBJECT_ID = #plObjectId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="plLoginCode" >
+        PL_LOGIN_CODE = #plLoginCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="plObjectName" >
+        PL_OBJECT_NAME = #plObjectName:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="icObjectType" >
         IC_OBJECT_TYPE = #icObjectType:VARCHAR#
@@ -352,9 +389,6 @@
       </isNotNull>
       <isNotNull prepend="," property="dataState" >
         DATA_STATE = #dataState:DECIMAL#
-      </isNotNull>
-      <isNotNull prepend="," property="creator" >
-        CREATOR = #creator:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="createDate" >
         CREATE_DATE = #createDate:DATE#
