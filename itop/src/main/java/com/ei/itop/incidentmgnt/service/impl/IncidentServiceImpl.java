@@ -702,7 +702,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 测试查询
 		QCIncident qc = new QCIncident();
 		// is.MBLQueryIncident(100027, oi);
-		qc.setIncidentCode("%");
+		// qc.setIncidentCode("%");
 		// is.MBLQueryIncidentCount(qc, oi);
 		// is.MBLQueryIncident(qc, -1, 10, oi);
 		// is.MBLQueryIncident(qc, 0, 3, oi);
