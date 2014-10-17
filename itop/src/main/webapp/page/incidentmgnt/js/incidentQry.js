@@ -33,6 +33,29 @@ function edit(id){
 function add(){
 	showSubPage("incidentDtl.jsp?openFlag=a");
 }
+//重置表单
+function reset(){
+	//事件系列号
+	$("#incidentCode").val("");
+	//事件简述
+	$("#brief").val("");
+	//事件分类
+	$("#classVar").combobox('setValue',-1);
+	//产品线
+	$("#prodSel").combobox('setValue',-1);
+	//影响度
+	$("input[name=affectVar]").each(function(){
+		$(this).attr("checked","false");
+	});
+	//优先级
+	$("input[name=priorityVar]").each(function(){
+		$(this).attr("checked","false");
+	});
+	//起始时间
+	$("#qryStartDate").val("");
+	//截止时间
+	$("#qryEndDate").val("");
+}
 //提交事件
 function commit(id){
 	$.ajax({

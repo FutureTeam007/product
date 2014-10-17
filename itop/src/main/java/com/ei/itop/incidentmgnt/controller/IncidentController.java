@@ -47,7 +47,7 @@ public class IncidentController {
 		//影响度
 		String affectVal = request.getParameter("affectVal");
 		if(!StringUtils.isEmpty(affectVal)){
-			qi.setAffectVal(affectVal.split(","));
+			qi.setAffectCode(affectVal.split(","));
 		}
 		//简述
 		String brief = request.getParameter("brief");
@@ -57,7 +57,7 @@ public class IncidentController {
 		//类别
 		String classVal = request.getParameter("classVal");
 		if(!StringUtils.isEmpty(classVal)){
-			qi.setClassVal(classVal.split(","));
+			qi.setClassCode(classVal.split(","));
 		}
 		//事件系列号
 		String incidentCode = request.getParameter("incidentCode");
@@ -71,7 +71,7 @@ public class IncidentController {
 		//优先级
 		String priorityVal = request.getParameter("priorityVal");
 		if(!StringUtils.isEmpty(priorityVal)){
-			qi.setPriorityVal(priorityVal.split(","));
+			qi.setPriorityCode(priorityVal.split(","));
 		}
 		//产品线
 		String productId = request.getParameter("productId");
@@ -131,13 +131,15 @@ public class IncidentController {
 		ii.setScModuleId(VarTypeConvertUtils.string2Long(scModuleId));
 		ii.setModuleName(moduleName);
 		//影响度
-		String affectCodeUser = request.getParameter("affectCodeUser");
-		String affectValUser = request.getParameter("affectValUser");
-		ii.setAffectCodeUser(affectCodeUser);
-		ii.setAffectValUser(affectValUser);
+		String affectCode = request.getParameter("affectCode");
+		String affectVal = request.getParameter("affectVal");
+		ii.setAffectCodeOp(affectCode);
+		ii.setAffectValOp(affectVal);
 		//事件类别
-		String classCodeUser = request.getParameter("classCodeUser");
-		ii.setClassCodeUser(classCodeUser);
+		String classCode = request.getParameter("classCode");
+		String classVar = request.getParameter("classVar");
+		ii.setClassCodeOp(classCode);
+		ii.setClassValOp(classVar);
 		//事件简述
 		String brief = request.getParameter("brief");
 		ii.setBrief(brief);
@@ -194,15 +196,15 @@ public class IncidentController {
 		ii.setScModuleId(VarTypeConvertUtils.string2Long(scModuleId));
 		ii.setModuleName(moduleName);
 		//影响度
-		String affectCodeUser = request.getParameter("affectCode");
-		String affectValUser = request.getParameter("affectVal");
-		ii.setAffectCodeUser(affectCodeUser);
-		ii.setAffectValUser(affectValUser);
+		String affectCode = request.getParameter("affectCode");
+		String affectVal = request.getParameter("affectVal");
+		ii.setAffectCodeOp(affectCode);
+		ii.setAffectValOp(affectVal);
 		//事件类别
-		String classCodeUser = request.getParameter("classCode");
-		String classVarUser = request.getParameter("classVar");
-		ii.setClassCodeUser(classCodeUser);
-		ii.setClassValUser(classVarUser);
+		String classCode = request.getParameter("classCode");
+		String classVar = request.getParameter("classVar");
+		ii.setClassCodeOp(classCode);
+		ii.setClassValOp(classVar);
 		//事件简述
 		String brief = request.getParameter("brief");
 		ii.setBrief(brief);
