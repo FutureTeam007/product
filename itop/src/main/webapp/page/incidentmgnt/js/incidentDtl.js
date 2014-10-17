@@ -14,7 +14,7 @@ $(function(){
 function queryIncident(){
 	$.ajax({
 		type : 'get',
-		url : rootPath + "/incident/info",
+		url : rootPath + "/incident/query",
 		data : {
 			incidentId :incidentId
 		},

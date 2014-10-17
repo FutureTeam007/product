@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String id = request.getParameter("id");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +10,10 @@
 	<title>事件查看</title>
 	<%@ include file="../common/commonHead.jsp"%>
 	<%@ include file="../common/easyuiHead.jsp"%>
+	<script type="text/javascript">
+		var incidentId = "<%=id%>";
+	</script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/jquery.tmpl.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/page/incidentmgnt/js/incidentView.js"></script>
 </head>
 <body style="background:#fff;padding-left:5px;overflow-x:hidden;">
@@ -14,7 +21,7 @@
 		<button type='button' class='btn btn-link' onclick='parent.hideSubPage()'>&lt;&lt;关闭</button>
   </div>
   <div class="inci-dtl-title">
-		<h5 style="font-weight:bold">[系列号:CNH14090012]提出时间：2014-09-26 12:00，处理人：Sally，状态：一线顾问处理中</h5>
+		<h5 style="font-weight:bold">[系列号:<span id="incidentCode"></span>]提出时间：<span id="registTime"></span>，处理人：<span id="scLoginName"></span>，状态：<span id="itStateCode"></span></h5>
   </div>
   <div class="inci-trans-commit-form" style="width:99%">
 		<form class="form-horizonta inci-info-form" role="form">
@@ -27,18 +34,17 @@
   			<div class="form-group clearfix">
 			    <label for="attachments" class="col-sm-2 control-label">附件</label>
 			    <div class="col-sm-10">
-			       <a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a> <a href="#">附件4</a> <a href="#">附件5</a>
+			       <div id="commitAttach"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a> <a href="#">附件4</a> <a href="#">附件5</a></div>
 			       <button type="button" class="btn btn-primary btn-outline btn-sm">选择文件</button>
 			    </div>
   			</div>
   			<div class="form-group clearfix">
 	  			<div class="col-sm-12 form-btns">
-			      <button type="submit" class="btn btn-warning">提交</button>
-			      <button type="submit" class="btn btn-warning">转顾问</button>
-			      <button type="submit" class="btn btn-warning">转客户</button>
-			      <button type="submit" class="btn btn-warning">挂起</button>
-			      <button type="submit" class="btn btn-warning">完成</button>
-			      <button type="submit" class="btn btn-warning">关闭</button>
+			      <input type="button" class="btn btn-warning" onclick="transCommit()" value="提交" />
+			      <input type="button" class="btn btn-warning" onclick="openConsultantSelWin()" value="转顾问处理" />
+			      <input type="button" class="btn btn-warning" onclick="deliverCustCommit()" value="转客户补充资料" />
+			      <input type="button" class="btn btn-warning" onclick="blockCommit()" value="挂起" />
+			      <input type="button" class="btn btn-warning" onclick="finishCommit()" value="完成" />
 			    </div>
   			</div>
 		</form>
@@ -53,71 +59,7 @@
 	      </h4>
 	    </div>
 	    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
-	      <div class="panel-body">
-	        	<div class="trans-item">
-	        		<div class="col-sm-1">事务4</div>
-	        		<div class="col-sm-11">
-		        		<div class="trans-item-header clearfix">
-		        			<div><label>处理人：</label><span>李四</span></div>
-		        			<div><label>处理时间：</label><span>2014年9月25日 15:30:28</span></div>
-		        			<div><label>类型：</label><span>流程事务</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>事务说明：</label><br/><span class="trans-content">事务说明事务说明事务说明事务说明事务说明事务说明事务说明事务说明</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>附件：</label><br/><span><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></span></div>
-		        		</div>
-	        		</div>
-	        	</div>
-	        	<div class="trans-item">
-	        		<div class="col-sm-1">事务3</div>
-	        		<div class="col-sm-11">
-		        		<div class="trans-item-header clearfix">
-		        			<div><label>处理人：</label><span>李四</span></div>
-		        			<div><label>处理时间：</label><span>2014年9月25日 15:30:28</span></div>
-		        			<div><label>类型：</label><span>流程事务</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>事务说明：</label><br/><span class="trans-content">事务说明事务说明事务说明事务说明事务说明事务说明事务说明事务说明</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>附件：</label><br/><span><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></span></div>
-		        		</div>
-	        		</div>
-	        	</div>
-	        	<div class="trans-item">
-	        		<div class="col-sm-1">事务2</div>
-	        		<div class="col-sm-11">
-		        		<div class="trans-item-header clearfix">
-		        			<div><label>处理人：</label><span>李四</span></div>
-		        			<div><label>处理时间：</label><span>2014年9月25日 15:30:28</span></div>
-		        			<div><label>类型：</label><span>流程事务</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>事务说明：</label><br/><span class="trans-content">事务说明事务说明事务说明事务说明事务说明事务说明事务说明事务说明</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>附件：</label><br/><span><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></span></div>
-		        		</div>
-	        		</div>
-	        	</div>
-	        	<div class="trans-item">
-	        		<div class="col-sm-1">事务1</div>
-	        		<div class="col-sm-11">
-		        		<div class="trans-item-header clearfix">
-		        			<div><label>处理人：</label><span>李四</span></div>
-		        			<div><label>处理时间：</label><span>2014年9月25日 15:30:28</span></div>
-		        			<div><label>类型：</label><span>流程事务</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>事务说明：</label><br/><span class="trans-content">事务说明事务说明事务说明事务说明事务说明事务说明事务说明事务说明</span></div>
-		        		</div>
-		        		<div>
-		        			<div><label>附件：</label><br/><span><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></span></div>
-		        		</div>
-	        		</div>
-	        	</div>
+	      <div class="panel-body" id="transList">
 	      </div>
 	    </div>
 	  </div>
@@ -133,63 +75,55 @@
       <div class="panel-body inci-base-info">
       	<div class="clearfix">
       		<div class="col-sm-2"><label>公司</label></div>
-      		<div class="col-sm-4">CNH上海</div>
+      		<div class="col-sm-4" id="custName"></div>
       		<div class="col-sm-2"><label>类别</label></div>
-      		<div class="col-sm-4">业务咨询</div>
+      		<div class="col-sm-4" id="classCodeOp"></div>
       	</div>
         <div class="clearfix">
       		<div class="col-sm-2"><label>产品线</label></div>
-      		<div class="col-sm-4">CNH-BAAN系统咨询规划</div>
+      		<div class="col-sm-4" id="prodName"></div>
       		<div class="col-sm-2"><label>服务目录</label></div>
-      		<div class="col-sm-4">账务管理</div>
+      		<div class="col-sm-4" id="moduleName"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>影响度</label></div>
-      		<div class="col-sm-4">一般</div>
+      		<div class="col-sm-4" id="affectCodeOp"></div>
       		<div class="col-sm-2"><label>复杂度</label></div>
-      		<div class="col-sm-4">一般</div>
+      		<div class="col-sm-4" id="complexCode"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>发生时间</label></div>
-      		<div class="col-sm-4">2014-09-21 15:33</div>
+      		<div class="col-sm-4" id="happenTime"></div>
       		<div class="col-sm-2"><label>事件状态</label></div>
-      		<div class="col-sm-4">待一线顾问响应</div>
+      		<div class="col-sm-4" id="itPhase"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>响应时限</label></div>
-      		<div class="col-sm-4">2小时</div>
+      		<div class="col-sm-4" id="responseTime"></div>
       		<div class="col-sm-2"><label>处理时限</label></div>
-      		<div class="col-sm-4">72小时</div>
+      		<div class="col-sm-4" id="dealTime"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>响应截止时间</label></div>
-      		<div class="col-sm-4">2014-09-26 14:00
-				<button class="btn btn-success btn-circle" type="button"></button>
-				<button class="btn btn-warning btn-circle" type="button"></button>
-				<button class="btn btn-danger btn-circle" type="button"></button>
-      		</div>
+      		<div class="col-sm-4" id="responseDur2"></div>
       		<div class="col-sm-2"><label>处理截止时间</label></div>
-      		<div class="col-sm-4">2014-09-29 12:00
-      			<button class="btn btn-success btn-circle" type="button"></button>
-				<button class="btn btn-warning btn-circle" type="button"></button>
-				<button class="btn btn-danger btn-circle" type="button"></button>
-      		</div>
+      		<div class="col-sm-4" id="dealDur2"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>当前处理人</label></div>
-      		<div class="col-sm-10">Sally</div>
+      		<div class="col-sm-10" id="scLoginName"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>事件简述</label></div>
-      		<div class="col-sm-10">请求简述请求简述请求简述请求简述请求简述请求简述请求简述请求简述请求简述请求简述请求简述请求简述请求简述</div>
+      		<div class="col-sm-10" id="brief"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>事件详细说明</label></div>
-      		<div class="col-sm-10">事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明事件详细说明</div>
+      		<div class="col-sm-10" id="detail"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>附件</label></div>
-      		<div class="col-sm-10"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></div>
+      		<div class="col-sm-10" id="attachments"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></div>
       	</div>
       </div>
     </div>
@@ -206,19 +140,121 @@
       <div class="panel-body inci-base-info">
         <div class="clearfix">
       		<div class="col-sm-2"><label>姓名</label></div>
-      		<div class="col-sm-4">Jessica</div>
+      		<div class="col-sm-4" id="opName"></div>
       		<div class="col-sm-2"><label>电子邮件</label></div>
-      		<div class="col-sm-4">Jessica@xx.com</div>
+      		<div class="col-sm-4" id="loginCode"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>手机</label></div>
-      		<div class="col-sm-4">13410231022</div>
+      		<div class="col-sm-4" id="mobileNo"></div>
       		<div class="col-sm-2"><label>固定电话</label></div>
-      		<div class="col-sm-4">021-88880909转1234</div>
+      		<div class="col-sm-4" id="officeTel"></div>
       	</div>
       </div>
     </div>
   </div>
+</div>
+<div id="completeWin" title="审核事件信息" style="width:400px;height:200px;">
+	<div class="form-group clearfix">
+   	 	<label for="inciTypeSel" class="col-sm-2 control-label">事件类别</label>
+    	<div class="col-sm-10">
+		       <input class="easyui-combobox" style="width:100%"  name="inciTypeSel" id="inciTypeSel" data-options="
+				url:'js/json/incidentType_data.json',
+				method:'get',
+				valueField:'paramCode',
+				textField:'paramValue',
+				panelHeight:'auto'"
+			/>
+		</div>
+	</div>
+	<div class="form-group clearfix">
+	    <label for="moduleSel" class="col-sm-2 control-label">影响度</label>
+	    <div class="col-sm-10">
+	      	<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel1" value="1"> 咨询
+			</span>
+			<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel2" value="2"> 一般
+			</span>
+			<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel3" value="3"> 严重
+			</span>
+			<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel4" value="4"> 重大
+			</span>
+	    </div>
+	</div>
+	<div class="form-group clearfix">
+	    <label for="moduleSel" class="col-sm-2 control-label">优先级</label>
+	    <div class="col-sm-10">
+	      	<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel1" value="1"> 低
+			</span>
+			<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel2" value="2" checked="checked"> 中
+			</span>
+			<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel3" value="3"> 高
+			</span>
+			<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel4" value="4"> 紧急
+			</span>
+	    </div>
+	</div>
+	<div class="form-group clearfix">
+	    <label for="moduleSel" class="col-sm-2 control-label">复杂度</label>
+	    <div class="col-sm-10">
+	      	<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel1" value="1" checked="checked"> 一般
+			</span>
+			<span class="radio-inline">
+			  <input type="radio" name="affectVar" id="effectLevel2" value="2"> 复杂
+			</span>
+	    </div>
+	</div>
+	
+    <div class="clearfix">
+		<button id="completeBtn" class="btn btn-warning" type="button" incidentId="" onclick="completeIncident()">提交</button>
+  	</div>
+</div>
+<div id="consultantSelWin" title="选择转派的顾问" style="width:500px;height:200px;">
+	<div class="clearfix">
+   	 	<div class="input-group custom-search-form" style="width:300px;float:left;">
+           <input type="text" class="form-control" placeholder="输入顾问姓名查询" />
+           <span class="input-group-btn">
+	            <button class="btn btn-default" style="height:34px" type="button">
+	                <i class="fa fa-search"></i>
+	            </button>
+       		</span>
+         </div>
+	</div>
+	<div class="clearfix">
+	    <table class="easyui-datagrid" style="width:99%;height:300px" id="consultantSelTable"
+			data-options="singleSelect:true,collapsible:false,
+				url:rootPath+'/incident/list',
+				queryParams:{'stateVal':2},
+				method:'get',
+				loadMsg:'数据加载中，请稍后……',
+				remoteSort:false,
+				multiSort:false,
+				pagination:true
+			">
+			<thead>
+				<tr>
+					<th data-options="field:'scOpId'," width="20%">选择</th>
+					<th data-options="field:'opName'" width="20%">顾问姓名</th>
+					<th data-options="field:'loginCode'" width="20%">顾问账号</th>
+					<th data-options="field:'mobileNo'" width="20%">手机号码</th>
+					<th data-options="field:'officeTel'" width="20%">办公电话</th>
+					<th data-options="field:'firstName',hidden:true"></th>
+					<th data-options="field:'lastName',hidden:true"></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+    <div class="clearfix">
+		<button id="consultantSelBtn" class="btn btn-warning" type="button" incidentId="" onclick="deliverConstCommit()">提交</button>
+  	</div>
 </div>
 </body>
 </html>

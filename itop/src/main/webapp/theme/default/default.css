@@ -40,7 +40,7 @@ a:active {star:expression(this.onFocus=this.blur());}
 .inci-data .nav-tabs {border-bottom:none;width:90%;float:right;padding-right:15px;padding-top:5px}
 .inci-data .nav-tabs > li{float:right}
 .inci-data .btn-link{padding:4px 2px 4px 2px}
-.subPage{display:none;float:right;position:absolute;top:0px;right:-900px;z-index:9999;overflow-y:auto;border-left:solid 5px #eee;width:800px;background:#fff;}
+.subPage{display:none;float:right;position:absolute;top:0px;right:-1000px;z-index:9999;overflow-y:auto;border-left:solid 5px #eee;width:1000px;background:#fff;}
 .pageMask{display:none;position:absolute;top:0px;z-index:1001;left:0px;background-color:#111;filter:alpha(opacity=40); -moz-opacity:0.4; opacity:0.4;}
 /*incident-dtl*/
 .inci-info-form{width:780px;padding:10px}

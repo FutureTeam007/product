@@ -80,8 +80,8 @@
 		    	至&nbsp;<input class="easyui-datebox" style="width:28%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
 		  	</span>
 		  	<span class="form-item">
-		    	<button type="button" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;</button>
-		    	<button type="button" class="btn btn-default btn-sm">&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;</button>
+		    	<button type="button" class="btn btn-primary btn-sm" onclick="query()">&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;</button>
+		    	<button type="button" class="btn btn-default btn-sm" onclick="reset()">&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;</button>
 		  	</span>
 	  	</div>
 	</div>

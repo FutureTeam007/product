@@ -188,7 +188,7 @@ function hideSubPage(){
 	$("body").css({"overflow":"auto"});
 	$("#pageMask").hide();
 	$("#subPage").hide();
-	$("#subPage").css({right: '-900px'});
+	$("#subPage").css({right: '-1000px'});
 	$("#subPageIframe").attr("src","");
 }
 //初始化子页
