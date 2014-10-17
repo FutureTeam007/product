@@ -587,13 +587,13 @@ public class TransactionServiceImpl implements TransactionService {
 		// ts.MBLAdviserCommitTransaction(10026, ti, oi);
 
 		// 顾问完成事务
-		IncidentInfo incidentInfo = new IncidentInfo();
-		incidentInfo.setFinishCode("4");
-		incidentInfo.setFinishVal("消失");
-		oi.setOpType("OP");
-		oi.setOpId(200005);
-		oi.setOpCode("SP200005");
-		oi.setOpName("EI-PM");
-		ts.MBLAdviserCompleteTransaction(10026, incidentInfo, ti, oi);
+		// IncidentInfo incidentInfo = new IncidentInfo();
+		// incidentInfo.setFinishCode("4");
+		// incidentInfo.setFinishVal("消失");
+		// oi.setOpType("OP");
+		// oi.setOpId(200005);
+		// oi.setOpCode("SP200005");
+		// oi.setOpName("EI-PM");
+		// ts.MBLAdviserCompleteTransaction(10026, incidentInfo, ti, oi);
 	}
 }

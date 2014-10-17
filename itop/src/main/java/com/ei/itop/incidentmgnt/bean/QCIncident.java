@@ -20,15 +20,77 @@ public class QCIncident {
 	// 产品线
 	private Long productId;
 	// 事件影响度，可多选
-	private String[] affectCodeUser;
+	private String[] affectCode;
 	// 事件分类，可多选
-	private String[] classCodeUser;
+	private String[] classCode;
 	// 事件优先级，可多选
-	private String[] priorityCodeUser;
+	private String[] priorityCode;
+	// 事件复杂度
+	private String[] complexCode;
 	// 按客户登记时间排序，取值：desc、asc
 	private String orderByRegisterTime;
 	// 按最新更新时间排序，取值：desc、asc
 	private String orderByLastModifyTime;
+
+	/**
+	 * @return the affectCode
+	 */
+	public String[] getAffectCode() {
+		return affectCode;
+	}
+
+	/**
+	 * @param affectCode
+	 *            the affectCode to set
+	 */
+	public void setAffectCode(String[] affectCode) {
+		this.affectCode = affectCode;
+	}
+
+	/**
+	 * @return the classCode
+	 */
+	public String[] getClassCode() {
+		return classCode;
+	}
+
+	/**
+	 * @param classCode
+	 *            the classCode to set
+	 */
+	public void setClassCode(String[] classCode) {
+		this.classCode = classCode;
+	}
+
+	/**
+	 * @return the priorityCode
+	 */
+	public String[] getPriorityCode() {
+		return priorityCode;
+	}
+
+	/**
+	 * @param priorityCode
+	 *            the priorityCode to set
+	 */
+	public void setPriorityCode(String[] priorityCode) {
+		this.priorityCode = priorityCode;
+	}
+
+	/**
+	 * @return the complexCode
+	 */
+	public String[] getComplexCode() {
+		return complexCode;
+	}
+
+	/**
+	 * @param complexCode
+	 *            the complexCode to set
+	 */
+	public void setComplexCode(String[] complexCode) {
+		this.complexCode = complexCode;
+	}
 
 	/**
 	 * @return the orderByLastModifyTime
@@ -103,51 +165,6 @@ public class QCIncident {
 	 */
 	public void setProductId(Long productId) {
 		this.productId = productId;
-	}
-
-	/**
-	 * @return the affectVal
-	 */
-	public String[] getAffectVal() {
-		return affectCodeUser;
-	}
-
-	/**
-	 * @param affectVal
-	 *            the affectVal to set
-	 */
-	public void setAffectVal(String[] affectVal) {
-		this.affectCodeUser = affectVal;
-	}
-
-	/**
-	 * @return the classVal
-	 */
-	public String[] getClassVal() {
-		return classCodeUser;
-	}
-
-	/**
-	 * @param classVal
-	 *            the classVal to set
-	 */
-	public void setClassVal(String[] classVal) {
-		this.classCodeUser = classVal;
-	}
-
-	/**
-	 * @return the priorityVal
-	 */
-	public String[] getPriorityVal() {
-		return priorityCodeUser;
-	}
-
-	/**
-	 * @param priorityVal
-	 *            the priorityVal to set
-	 */
-	public void setPriorityVal(String[] priorityVal) {
-		this.priorityCodeUser = priorityVal;
 	}
 
 	/**

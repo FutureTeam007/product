@@ -4,6 +4,7 @@
 package com.ei.itop.incidentmgnt.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -40,6 +41,9 @@ public class IncidentServiceImpl implements IncidentService {
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, IcIncident> incidentDAO;
 
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, Long> incidentDAOCount;
+
 	@Resource(name = "commonDDLDAO")
 	private CommonDAO commonDAO;
 
@@ -62,7 +66,46 @@ public class IncidentServiceImpl implements IncidentService {
 	public List<IcIncident> MBLQueryIncident(QCIncident qcIncident,
 			long startIndex, int pageSize, OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("incidentCode", qcIncident.getIncidentCode());
+		hm.put("brief", qcIncident.getBrief());
+		hm.put("productId", qcIncident.getProductId());
+		hm.put("affectCode", qcIncident.getAffectCode());
+		hm.put("classCode", qcIncident.getClassCode());
+		hm.put("priorityCode", qcIncident.getPriorityCode());
+		hm.put("complexCode", qcIncident.getComplexCode());
+
+		if (!"desc".equals(qcIncident.getOrderByRegisterTime())
+				&& !"asc".equals(qcIncident.getOrderByRegisterTime())) {
+			qcIncident.setOrderByRegisterTime("desc");
+		}
+		if (!"desc".equals(qcIncident.getOrderByLastModifyTime())
+				&& !"asc".equals(qcIncident.getOrderByLastModifyTime())) {
+			qcIncident.setOrderByLastModifyTime("desc");
+		}
+
+		hm.put("orderBy", "registe_time " + qcIncident.getOrderByRegisterTime()
+				+ ", modify_date " + qcIncident.getOrderByLastModifyTime());
+		hm.put("startIndex", startIndex);
+
+		List<IcIncident> incidentList = null;
+
+		// 不分页
+		if (startIndex == -1) {
+			incidentList = incidentDAO.findByParams(
+					"IC_INCIDENT.queryIncident", hm);
+		}
+		// 分页
+		else {
+			long endIndex = startIndex + pageSize;
+			hm.put("endIndex", endIndex);
+
+			incidentList = incidentDAO.findByParams(
+					"IC_INCIDENT.queryIncidentPaging", hm);
+		}
+
+		return incidentList;
 	}
 
 	/*
@@ -75,7 +118,20 @@ public class IncidentServiceImpl implements IncidentService {
 	public long MBLQueryIncidentCount(QCIncident qcIncident, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("incidentCode", qcIncident.getIncidentCode());
+		hm.put("brief", qcIncident.getBrief());
+		hm.put("productId", qcIncident.getProductId());
+		hm.put("affectCode", qcIncident.getAffectCode());
+		hm.put("classCode", qcIncident.getClassCode());
+		hm.put("priorityCode", qcIncident.getPriorityCode());
+		hm.put("complexCode", qcIncident.getComplexCode());
+
+		long rowCount = incidentDAOCount.find("IC_INCIDENT.queryIncidentCount",
+				hm);
+
+		return rowCount;
 	}
 
 	/*
@@ -547,7 +603,6 @@ public class IncidentServiceImpl implements IncidentService {
 		IcIncident incident = queryIncident(incidentId);
 
 		// 仅当事件状态为8-已完成，且用户已经评价完毕时才可以进行用户反馈满意度操作
-		log.debug("******/" + incident.getFeedbackCode() + "/***");
 		if (!"8".equals(incident.getItStateCode())) {
 			throw new Exception("仅当事件状态为已完成且用户已经评价完毕时才可以关闭");
 		} else if (incident.getFeedbackCode() == null) {
@@ -600,7 +655,7 @@ public class IncidentServiceImpl implements IncidentService {
 		ii.setAffectCodeOp("2");
 		ii.setAffectValOp("一般");
 		ii.setComplexCode("2");
-		ii.setComplexCode("复杂");
+		ii.setComplexVal("复杂");
 		ii.setPriorityCode("3");
 		ii.setPriorityVal("高");
 		ii.setCcList("a@a.com,b@b.com,c@c.com,d@d.com");
@@ -646,8 +701,10 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 测试查询
 		QCIncident qc = new QCIncident();
-		is.MBLQueryIncident(100027, oi);
-		is.MBLQueryIncidentCount(qc, oi);
-		is.MBLQueryIncident(qc, 1, 10, oi);
+		// is.MBLQueryIncident(100027, oi);
+		qc.setIncidentCode("%");
+		// is.MBLQueryIncidentCount(qc, oi);
+		// is.MBLQueryIncident(qc, -1, 10, oi);
+		// is.MBLQueryIncident(qc, 0, 3, oi);
 	}
 }
