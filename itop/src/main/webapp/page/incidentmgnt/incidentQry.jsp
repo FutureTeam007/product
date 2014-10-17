@@ -97,8 +97,8 @@
 			  <li role="presentation" value="5"><a href="#">已挂起(2)</a></li>
 			  <li role="presentation" value="4"><a href="#">客户处理中(12)</a></li>
 			  <li role="presentation" value="3"><a href="#">顾问处理中(6)</a></li>
-			  <li role="presentation" value="2" class="active"><a href="#">待响应(8)</a></li>
 			  <li role="presentation" value="1"><a href="#">待提交(8)</a></li>
+			  <li role="presentation" value="2" class="active"><a href="#">待响应(8)</a></li>
 			</ul>
 		</div>
 		<table class="easyui-datagrid" style="width:99%;height:390px" id="incidentDataTable"
@@ -132,8 +132,8 @@
 		</table>
 	</div>
 </div>
-<div id="feedbackWin" title="评价事件" style="width:400px;height:200px;">
-	<div class="col-sm-12">
+<div id="feedbackWin" title="评价事件" style="width:300px;height:120px;">
+	<div class="col-sm-12 feedback-options">
       	<span class="radio-inline">
 		  <input type="radio" name="feedbackVar" value="1" checked="checked">十分满意
 		</span>

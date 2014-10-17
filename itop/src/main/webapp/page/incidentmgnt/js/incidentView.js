@@ -15,7 +15,7 @@ $(function(){
 function initSubPage(){
 	$('#completeWin').dialog({
 		modal:true
-	});
+	}).dialog('close');
 };
 
 //查询事件信息

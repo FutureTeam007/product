@@ -224,7 +224,7 @@ function initSubPage(){
     $("#pageMask").css("width", (width-24) + "px");
     $('#feedbackWin').dialog({
 		modal:true
-	});
+	}).dialog('close');
 }
 //初始化表格分页条
 function initDataPager(){

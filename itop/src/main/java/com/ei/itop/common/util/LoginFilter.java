@@ -25,7 +25,7 @@ public class LoginFilter implements Filter{
 //		oi.setOpName("test");
 //		oi.setOpType("user");
 //		hr.getSession().setAttribute("opInfo", oi);
-//		chain.doFilter(request, response);
+		chain.doFilter(request, response);
 	}
 
 	public void destroy() {

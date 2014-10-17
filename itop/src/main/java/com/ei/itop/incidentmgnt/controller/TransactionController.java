@@ -27,7 +27,7 @@ public class TransactionController {
 	@Autowired
 	private TransactionService transactionService;
 	
-	@RequestMapping(value="/list")
+	@RequestMapping("/list")
 	public void queryTransList(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
 		List<IcTransaction> data = transactionService.MBLQueryTransaction(incidentId, SessionUtil.getOpInfo());
@@ -35,7 +35,7 @@ public class TransactionController {
 		response.getWriter().print(jsonData);
 	}
 	
-	@RequestMapping(value="/commit")
+	@RequestMapping("/commit")
 	public void addTrans(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//获取操作代码
 		int xcode = VarTypeConvertUtils.string2Integer(request.getParameter("xcode"));

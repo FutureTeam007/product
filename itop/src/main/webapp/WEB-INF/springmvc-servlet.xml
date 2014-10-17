@@ -12,6 +12,11 @@
           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
 	default-autowire="byName">
 	
+	<mvc:annotation-driven />
+	<mvc:resources location="/res/" mapping="/res/**"/>
+	<mvc:resources location="/theme/" mapping="/theme/**"/>
+	<mvc:resources location="/page/" mapping="/page/**"/>
+	
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="cache" value="false"/>

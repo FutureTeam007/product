@@ -35,13 +35,13 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list")
+	@RequestMapping("/list")
 	public void queryIncidentList(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		//获取分页起始位置
-		long startIndex = VarTypeConvertUtils.string2Long(request.getParameter("start"),0);
+		long startIndex = VarTypeConvertUtils.string2Long(request.getParameter("page"),0);
 		//获取分页大小
-		int pageSize = VarTypeConvertUtils.string2Integer(request.getParameter("pageSize"),0);
+		int pageSize = VarTypeConvertUtils.string2Integer(request.getParameter("rows"),0);
 		//构建查询条件实体
 		QCIncident qi = new QCIncident();
 		//影响度
@@ -107,7 +107,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/add")
+	@RequestMapping("/add")
 	public void addIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		request.setAttribute("notCommit", true);
 		addIncidentAutoCommit(request,response);
@@ -118,7 +118,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/addc")
+	@RequestMapping("/addc")
 	public void addIncidentAutoCommit(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		IncidentInfo ii = new IncidentInfo();
@@ -168,7 +168,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/modify")
+	@RequestMapping("/modify")
 	public void modifyIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		request.setAttribute("notCommit", true);
 		modifyIncidentAutoCommit(request,response);
@@ -179,7 +179,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/modifyc")
+	@RequestMapping("/modifyc")
 	public void modifyIncidentAutoCommit(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		IncidentInfo ii = new IncidentInfo();
@@ -233,7 +233,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/query")
+	@RequestMapping("/query")
 	public void queryIncidentInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
@@ -247,7 +247,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/commit")
+	@RequestMapping("/commit")
 	public void commitIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
@@ -259,7 +259,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/remove")
+	@RequestMapping("/remove")
 	public void removeIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
@@ -271,7 +271,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/close")
+	@RequestMapping("/close")
 	public void closeIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
@@ -283,7 +283,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/complete")
+	@RequestMapping("/complete")
 	public void completeIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
@@ -312,7 +312,7 @@ public class IncidentController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/feedback")
+	@RequestMapping("/feedback")
 	public void feedBackIncident(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));

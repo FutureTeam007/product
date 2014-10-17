@@ -20,9 +20,8 @@
 		default-autowire="byName">
 		
 	<!-- 对包中的所有controller类进行扫描，以完成Bean创建和自动依赖注入的功能 -->  
-	<context:component-scan base-package="com.ei.**" />
+	<context:component-scan base-package="com.ei.itop.**" />
 	<context:component-scan base-package="com.ailk.dazzle.util.**" />
-	
 	<context:property-placeholder location="classpath:database.properties" />
 	
 	<!-- 引入数据库配置 -->
