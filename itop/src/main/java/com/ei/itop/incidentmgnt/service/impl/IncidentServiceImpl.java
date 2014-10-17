@@ -16,10 +16,12 @@ import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.CommonDAO;
+import com.ei.itop.common.dbentity.CcCustProdOp;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScOp;
+import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
@@ -27,6 +29,7 @@ import com.ei.itop.incidentmgnt.bean.TransactionInfo;
 import com.ei.itop.incidentmgnt.service.AttachService;
 import com.ei.itop.incidentmgnt.service.IncidentService;
 import com.ei.itop.incidentmgnt.service.TransactionService;
+import com.ei.itop.scmgnt.service.ParamService;
 
 /**
  * @author Jack.Qi
@@ -55,6 +58,12 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "transactionService")
 	private TransactionService transactionService;
+
+	@Resource(name = "custMgntService")
+	private CustMgntService custMgntService;
+
+	@Resource(name = "paramService")
+	private ParamService paramService;
 
 	/*
 	 * (non-Javadoc)
@@ -350,10 +359,19 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String getItPhase() throws Exception {
-		// ***********
+	public String getItPhase(long orgId, long custId, long productId, long opId)
+			throws Exception {
 
-		String itPhase = "事件所处阶段";
+		String itPhase = "";
+
+		CcCustProdOp custProdOp = custMgntService.getCustProdOpInfo(orgId,
+				custId, productId, opId);
+
+		itPhase = paramService.getParam(orgId, "JOB_CLASS",
+				custProdOp.getJobClass()).getParamValue();
+		itPhase += "-"
+				+ paramService.getParam(orgId, "JOB_LEVEL",
+						custProdOp.getJobLevel()).getParamValue();
 
 		return itPhase;
 	}
@@ -383,8 +401,12 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
+		// 取得用户信息
+		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
 		// 填入事件所处阶段
-		incidentInfo.setItPhase(getItPhase());
+		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
+				user.getCcCustId(), incidentInfo.getScProductId(),
+				inChargeAdviser.getScOpId()));
 
 		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
 		// ********
@@ -434,8 +456,12 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
+		// 取得用户信息
+		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
 		// 填入事件所处阶段
-		incidentInfo.setItPhase(getItPhase());
+		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
+				user.getCcCustId(), incidentInfo.getScProductId(),
+				inChargeAdviser.getScOpId()));
 
 		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
 		// ********
@@ -679,7 +705,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// is.MBLAddAndCommitIncidentAndAttach(ii, oi);
 
-		is.MBLModifyAndCommitIncidentAndAttach(10026, ii, oi);
+		// is.MBLModifyAndCommitIncidentAndAttach(10026, ii, oi);
 
 		// ii.setAffectCodeOp("2");
 		// ii.setAffectValOp("一般1");
@@ -706,5 +732,8 @@ public class IncidentServiceImpl implements IncidentService {
 		// is.MBLQueryIncidentCount(qc, oi);
 		// is.MBLQueryIncident(qc, -1, 10, oi);
 		// is.MBLQueryIncident(qc, 0, 3, oi);
+
+		String itPhase = is.getItPhase(2001, 300002, 102, 200006);
+		log.debug(itPhase);
 	}
 }

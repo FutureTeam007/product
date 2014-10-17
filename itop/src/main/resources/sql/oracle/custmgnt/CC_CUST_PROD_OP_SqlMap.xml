@@ -17,6 +17,16 @@
     <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR" />
     <result column="JOB_LEVEL" property="jobLevel" jdbcType="VARCHAR" />
   </resultMap>
+  <select id="queryCustProdOpInfo" resultMap="ccCustProdOpResult" parameterClass="java.util.Map" >
+    select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
+      PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
+      JOB_LEVEL
+    from CC_CUST_PROD_OP
+    where SC_ORG_ID = #orgId:DECIMAL#
+    and CC_CUST_ID = #custId:DECIMAL#
+    and SC_PRODUCT_ID = #productId:DECIMAL#
+    and SC_OP_ID = #opId:DECIMAL#
+  </select>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcCustProdOp" >
     insert into CC_CUST_PROD_OP (CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
       PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,

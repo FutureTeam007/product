@@ -75,7 +75,8 @@ public interface IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String getItPhase() throws Exception;
+	public String getItPhase(long orgId, long custId, long productId, long opId)
+			throws Exception;
 
 	/**
 	 * 新创建一个事件，包括附件，不提交，仅保存

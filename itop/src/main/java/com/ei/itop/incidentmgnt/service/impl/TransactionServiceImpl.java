@@ -320,7 +320,9 @@ public class TransactionServiceImpl implements TransactionService {
 			ii.setScLoginName(nextOpInfo.getOpName());
 
 			// 需调整事件所处阶段
-			String itPhase = incidentService.getItPhase();
+			String itPhase = incidentService.getItPhase(incident.getScOrgId(),
+					incident.getCcCustId(), incident.getScProductId(),
+					nextOpInfo.getOpId());
 			ii.setItPhase(itPhase);
 
 			// 需调整事件状态为处理中
