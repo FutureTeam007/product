@@ -117,8 +117,8 @@
 					<th data-options="field:'incidentCode'" width="9%">事件序列号</th>
 					<th data-options="field:'brief'" width="15%">事件简述</th>
 					<th data-options="field:'prodName'" width="8%">产品线</th>
-					<th data-options="field:'classCodeUser'" width="5%">类别</th>
-					<th data-options="field:'affectVarUser'" width="5%">影响度</th>
+					<th data-options="field:'classCodeOp'" width="5%">类别</th>
+					<th data-options="field:'affectVarOp'" width="5%">影响度</th>
 					<th data-options="field:'priorityVar'" width="5%">优先级</th>
 					<th data-options="field:'itStateCode'" width="5%">当前状态</th>
 					<th data-options="field:'plObjectName'" width="5%">提交人</th>

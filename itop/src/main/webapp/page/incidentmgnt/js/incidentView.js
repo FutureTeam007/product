@@ -173,14 +173,15 @@ function openConsultantSelWin(){
 //转其他顾问处理
 function deliverConstCommit(){
 	//从表格上得到选中行的顾问ID
-	var sel = $("#consultantSelTable").datagrid('');
-	//TODO
-	var rows = $('#dg').datagrid('getSelections');
-	for(var i=0; i<rows.length; i++){
-		var row = rows[i];
-		ss.push('<span>'+row.itemid+":"+row.productid+":"+row.attr1+'</span>');
+	var rows = $("#consultantSelTable").datagrid('getSelections');
+	if(!rows||rows.length<1){
+		$.messager.alert('提示','请选择一条顾问数据！');
 	}
-	
+	//设置转派的顾问参数
+	var opInfo = rows[0];
+	r.opId = opInfo.scOpId;
+	r.opCode = opInfo.loginCode;
+	r.opName = opInfo.opName;
 	//转顾问操作
 	r.xcode=1;
 	$.ajax({

@@ -25,11 +25,11 @@ function queryIncident(){
 			$("#moduleSel").combobox().setValue(msg.scModuleId);
 			//影响度
 			$("input[name=affectVar]").each(function(){
-				if($(this).val()==msg.affectValUser){
+				if($(this).val()==msg.affectValOp){
 					$(this).attr("checked","checked");
 				}
 			});
-			$("#inciTypeSel").combobox().setValue(msg.classValUser);
+			$("#inciTypeSel").combobox().setValue(msg.classValOp);
 			$("#brief").val(msg.brief);
 			$("#happenTime").val(msg.happenTime);
 			$("#detail").val(msg.detail);
