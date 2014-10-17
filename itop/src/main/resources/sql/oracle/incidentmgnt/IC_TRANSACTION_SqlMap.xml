@@ -19,6 +19,12 @@
     from IC_TRANSACTION
     where TRANS_ID = #transId:DECIMAL#
   </select>
+  <select id="queryTransactionByIncident" resultMap="icTransactionResult" parameterClass="java.util.Map" >
+    select TRANS_ID, IC_INCIDENT_ID, CREATE_TIME, OBJECT_TYPE, OBJECT_ID, LOGIN_CODE, OBJECT_NAME,
+      IT_PHASE, TRANS_TYPE, CONTENTS
+    from IC_TRANSACTION
+    where IC_INCIDENT_ID = #incidentId:DECIMAL#
+  </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
     delete from IC_TRANSACTION
     where TRANS_ID = #transId:DECIMAL#

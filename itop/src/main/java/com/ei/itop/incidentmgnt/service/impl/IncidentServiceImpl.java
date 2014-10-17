@@ -294,7 +294,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	protected String getItPhase() throws Exception {
+	public String getItPhase() throws Exception {
 		// ***********
 
 		String itPhase = "事件所处阶段";
@@ -339,6 +339,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incidentInfo.getItPhase());
+		transactionInfo.setTransType("流程事务-顾问处理中");
 		transactionInfo.setContents(incidentInfo.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
@@ -389,6 +390,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incidentInfo.getItPhase());
+		transactionInfo.setTransType("流程事务-顾问处理中");
 		transactionInfo.setContents(incidentInfo.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
@@ -622,7 +624,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// is.MBLAddAndCommitIncidentAndAttach(ii, oi);
 
-		// is.MBLModifyAndCommitIncidentAndAttach(10025, ii, oi);
+		is.MBLModifyAndCommitIncidentAndAttach(10026, ii, oi);
 
 		// ii.setAffectCodeOp("2");
 		// ii.setAffectValOp("一般1");

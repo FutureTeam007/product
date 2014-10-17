@@ -70,6 +70,14 @@ public interface IncidentService {
 	public IcIncident queryIncident(long incidentId) throws Exception;
 
 	/**
+	 * 获得事件所处阶段
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String getItPhase() throws Exception;
+
+	/**
 	 * 新创建一个事件，包括附件，不提交，仅保存
 	 * 
 	 * @param incidentInfo
