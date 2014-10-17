@@ -109,7 +109,7 @@
     values (#icIncidentId:DECIMAL#, #incidentCode:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
       #ccCustId:DECIMAL#, #custName:VARCHAR#,
       #scProductId:DECIMAL#, #prodName:VARCHAR#, #scModuleId:DECIMAL#, #moduleName:VARCHAR#,
-      #icOwnerType:VARCHAR#, #icOwnerId:DECIMAL#, #icOwnerCod:VARCHARe#, #icOwnerName:VARCHAR#,
+      #icOwnerType:VARCHAR#, #icOwnerId:DECIMAL#, #icOwnerCode:VARCHARe#, #icOwnerName:VARCHAR#,
       #plObjectType:VARCHAR#, #plObjectId:DECIMAL#, #plLoginCode:VARCHAR#, #plObjectName:VARCHAR#,
       #scOpId:DECIMAL#, #scLoginCode:VARCHAR#, #scLoginName:VARCHAR#, #icObjectType:VARCHAR#, #icObjectId:DECIMAL#,
       #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:DATE#, #happenTime:DATE#,

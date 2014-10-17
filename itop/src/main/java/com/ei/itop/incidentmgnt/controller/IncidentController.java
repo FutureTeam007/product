@@ -94,7 +94,7 @@ public class IncidentController {
 		//调用查询获取总数据条数
 		long count = incidentService.MBLQueryIncidentCount(qi, oi);
 		//调用查询获取分页数据
-		List<IcIncident> data = incidentService.MBLQueryIncident(qi, startIndex, pageSize, oi.getOpId());
+		List<IcIncident> data = incidentService.MBLQueryIncident(qi, startIndex, pageSize, oi);
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("total", count);
 		result.put("rows", data);

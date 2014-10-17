@@ -31,7 +31,7 @@ public interface IncidentService {
 	 * @throws Exception
 	 */
 	public List<IcIncident> MBLQueryIncident(QCIncident qcIncident,
-			long startIndex, int pageSize, long opId) throws Exception;
+			long startIndex, int pageSize, OpInfo opInfo) throws Exception;
 
 	/**
 	 * 查询事件记录数
@@ -152,12 +152,12 @@ public interface IncidentService {
 			throws Exception;
 
 	/**
-	 * 顾问补全事件影响度、事件分类、事件优先级三部分内容，此逻辑在顾问提交事务时判断信息是否尚未补全触发调用
+	 * 顾问补全事件影响度、事件分类、事件优先级、时间复杂度几部分内容，此逻辑在顾问提交事务时判断信息是否尚未补全触发调用
 	 * 
 	 * @param incidentId
 	 *            事件ID
 	 * @param incident
-	 *            事件信息，此逻辑仅关注顾问设置的影响度、分类、优先级三个信息
+	 *            事件信息，此逻辑仅关注顾问设置的影响度、分类、优先级、复杂度几个信息
 	 * @throws Exception
 	 */
 	public void MBLAdviserCompleteInfo(long incidentId, IcIncident incident,

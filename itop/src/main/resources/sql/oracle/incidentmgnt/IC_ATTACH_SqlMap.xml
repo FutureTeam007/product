@@ -18,7 +18,7 @@
   </delete>
   <delete id="deleteByIncident" parameterClass="long" >
     delete from IC_ATTACH
-    where TRANS_ID = null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#
+    where TRANS_ID is null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#
   </delete>
   <delete id="deleteByTransaction" parameterClass="java.util.Map" >
     delete from IC_ATTACH
@@ -34,7 +34,7 @@
   <update id="changeTransAttach2IncidAttach" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
     update IC_ATTACH
     set TRANS_ID = #transId:DECIMAL#
-    where TRANS_ID = null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#
+    where TRANS_ID is null and IC_INCIDENT_ID = #icIncidentId:DECIMAL#
   </update>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
     update IC_ATTACH

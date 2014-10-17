@@ -3,6 +3,7 @@
  */
 package com.ei.itop.incidentmgnt.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,6 +15,8 @@ import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.CommonDAO;
+import com.ei.itop.common.dbentity.CcUser;
+import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.custmgnt.service.UserService;
@@ -57,7 +60,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 * .itop.incidentmgnt.bean.QCIncident, long, int, long)
 	 */
 	public List<IcIncident> MBLQueryIncident(QCIncident qcIncident,
-			long startIndex, int pageSize, long opId) throws Exception {
+			long startIndex, int pageSize, OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -167,8 +170,11 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setIncidentCode(generateIncidentCode());
 
 		// 自动填入商户信息、客户信息
-		// CcUser user = userService.queryUser(userId);
-		// *********
+		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
+		incidentInfo.setScOrgId(user.getScOrgId());
+		incidentInfo.setScOrgName(user.getScOrgName());
+		incidentInfo.setCcCustId(user.getCcCustId());
+		incidentInfo.setCustName(user.getCustName());
 
 		// 自动填入事件提出用户、创建人
 		incidentInfo.setPlObjectType(opInfo.getOpType());
@@ -271,9 +277,15 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ScOp getInChargeAdviser() throws Exception {
+	protected ScOp getInChargeAdviser() throws Exception {
 		// ***********
-		return null;
+		ScOp scOp = new ScOp();
+
+		scOp.setScOpId(new Long(200005));
+		scOp.setOpCode("SP200005");
+		scOp.setOpName("EI-PM");
+
+		return scOp;
 	}
 
 	/**
@@ -282,7 +294,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String getItPhase() throws Exception {
+	protected String getItPhase() throws Exception {
 		// ***********
 
 		String itPhase = "事件所处阶段";
@@ -326,11 +338,14 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
+		transactionInfo.setItPhase(incidentInfo.getItPhase());
 		transactionInfo.setContents(incidentInfo.getDetail());
-		transactionService.addTransaction(incidentId, transactionInfo, opInfo);
+		long transactionId = transactionService.addTransaction(incidentId,
+				transactionInfo, opInfo);
 
 		// 将事件的附件转为第一条事务的附件
 		// 即将附件表的事务ID由null改为第一条事务的ID
+		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
 
 		// 记录系统操作日志
 
@@ -356,10 +371,14 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setRegisteTime(commonDAO.getSysDate());
 
 		// 提交时自动分派负责顾问，并作为干系人
-		// ********
+		ScOp inChargeAdviser = getInChargeAdviser();
+		incidentInfo.setIcObjectType("OP");
+		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
+		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
+		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
 		// 填入事件所处阶段
-		// ********
+		incidentInfo.setItPhase(getItPhase());
 
 		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
 		// ********
@@ -368,9 +387,15 @@ public class IncidentServiceImpl implements IncidentService {
 		modifyIncidentAndAttach(incidentId, incidentInfo, opInfo);
 
 		// 系统自动生成第一条事务
+		TransactionInfo transactionInfo = new TransactionInfo();
+		transactionInfo.setItPhase(incidentInfo.getItPhase());
+		transactionInfo.setContents(incidentInfo.getDetail());
+		long transactionId = transactionService.addTransaction(incidentId,
+				transactionInfo, opInfo);
 
 		// 将事件的附件转为第一条事务的附件
 		// 即将附件表的事务ID由null改为第一条事务的ID
+		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
 
 		// 记录系统操作日志
 
@@ -405,15 +430,21 @@ public class IncidentServiceImpl implements IncidentService {
 		IcIncident incident = queryIncident(incidentId);
 
 		// 如果不是待提交状态，则不允许删除事件
-		if (!"0".equals(incident.getItStateCode())) {
+		if (!"1".equals(incident.getItStateCode())) {
 			throw new Exception("只有待提交状态的事件才可以删除");
+		}
+
+		// 如果不是事件提出人，则不允许删除事件
+		if (!opInfo.getOpType().equals(incident.getPlObjectType())
+				&& opInfo.getOpId() != incident.getPlObjectId()) {
+			throw new Exception("只有事件提出人才可以删除事件");
 		}
 
 		// 修改事件数据状态为已失效
 		IncidentInfo ii = new IncidentInfo();
 		ii.setDataState(new Long(0));
 
-		// 修改记录
+		// 修改记录状态
 		modifyIncidentAndAttach(incidentId, ii, opInfo);
 
 		// 记录系统操作日志
@@ -523,13 +554,21 @@ public class IncidentServiceImpl implements IncidentService {
 
 		IncidentInfo ii = new IncidentInfo();
 
+		// 设置事件状态
 		ii.setItStateCode("9");
 		ii.setItStateVal("已关闭");
+
+		// 业务信息
+		ii.setCloseTime(commonDAO.getSysDate());
 
 		// 保存事件信息
 		modifyIncidentAndAttach(incidentId, ii, opInfo);
 
 		// 系统自动生成最后一条事务
+		TransactionInfo transactionInfo = new TransactionInfo();
+		transactionInfo.setTransType("流程事务-关闭");
+		transactionInfo.setContents("顾问关闭事务");
+		transactionService.addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 记录系统操作日志
 	}
@@ -545,35 +584,68 @@ public class IncidentServiceImpl implements IncidentService {
 		oi.setOpName("Sam.Zhang（张三）");
 
 		IncidentInfo ii = new IncidentInfo();
-		// is.MBLAddIncident(ii, oi);
+		ii.setIcOwnerType("USER");
+		ii.setIcOwnerId(new Long(9001));
+		ii.setIcOwnerCode("ITOPCNH1@163.com");
+		ii.setIcOwnerName("itop1-cnh");
+		ii.setScProductId(new Long(101));
+		ii.setProdName("BaaN 财务模块");
+		ii.setScModuleId(new Long(12));
+		ii.setModuleName("日记账");
+		// ii.setHappenTime();
+		ii.setClassCodeOp("21");
+		ii.setClassValOp("操作故障");
+		ii.setAffectCodeOp("2");
+		ii.setAffectValOp("一般");
+		ii.setComplexCode("2");
+		ii.setComplexCode("复杂");
+		ii.setPriorityCode("3");
+		ii.setPriorityVal("高");
+		ii.setCcList("a@a.com,b@b.com,c@c.com,d@d.com");
+		ii.setBrief("事件简述11");
+		ii.setDetail("事件详细描述22");
+		List<IcAttach> attachList = new ArrayList<IcAttach>();
+		IcAttach attach1 = new IcAttach();
+		attach1.setAttachPath("/data/attach1234.txt");
+		IcAttach attach2 = new IcAttach();
+		attach2.setAttachPath("/data/attach2234.doc");
+		attachList.add(attach1);
+		attachList.add(attach2);
+		ii.setAttachList(attachList);
+		// is.MBLAddIncidentAndAttach(ii, oi);
 
-		// ii.setScOrgId(new Long(2001));
-		// ii.setScOrgName("拓创");
-		// is.MBLModifyIncidentAndAttach(10000, ii, oi);
+		// is.MBLRemoveIncident(10026, oi);
 
-		// ii.setCcCustId(new Long(300001));
-		// ii.setCustName("CNH公司");
-		// is.MBLModifyAndCommitIncidentAndAttach(10000, ii, oi);
+		// is.MBLModifyIncidentAndAttach(10021, ii, oi);
+
+		// is.MBLCommitIncident(10026, oi);
+
+		// is.MBLAddAndCommitIncidentAndAttach(ii, oi);
+
+		// is.MBLModifyAndCommitIncidentAndAttach(10025, ii, oi);
 
 		// ii.setAffectCodeOp("2");
-		// ii.setAffectValOp("一般");
+		// ii.setAffectValOp("一般1");
 		// ii.setClassCodeOp("12");
-		// ii.setClassValOp("业务咨询");
+		// ii.setClassValOp("业务咨询1");
 		// ii.setPriorityCode("3");
-		// ii.setPriorityVal("高");
-		// is.adviserCompleteInfo(10000, ii, oi);
-
-		// is.MBLRemoveIncident(10001, oi);
+		// ii.setPriorityVal("高1");
+		// ii.setComplexCode("2");
+		// ii.setComplexVal("复杂1");
+		// is.MBLAdviserCompleteInfo(10025, ii, oi);
 
 		// is.queryIncident(10003);
 
 		// ii.setFeedbackCode("3");
 		// ii.setFeedbackVal("不满意");
-		// is.MBLUserSetFeedbackVal(10003, ii, oi);
+		// is.MBLUserSetFeedbackVal(10027, ii, oi);
 
-		// is.MBLAdviserCloseIncident(10005, oi);
+		// is.MBLAdviserCloseIncident(10027, oi);
 
-		is.MBLAddAndCommitIncidentAndAttach(ii, oi);
-		is.MBLModifyAndCommitIncidentAndAttach(10000, ii, oi);
+		// 测试查询
+		QCIncident qc = new QCIncident();
+		is.MBLQueryIncident(100027, oi);
+		is.MBLQueryIncidentCount(qc, oi);
+		is.MBLQueryIncident(qc, 1, 10, oi);
 	}
 }
