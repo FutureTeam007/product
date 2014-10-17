@@ -700,7 +700,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// is.MBLAdviserCloseIncident(10027, oi);
 
 		// 测试查询
-		QCIncident qc = new QCIncident();
+		// QCIncident qc = new QCIncident();
 		// is.MBLQueryIncident(100027, oi);
 		// qc.setIncidentCode("%");
 		// is.MBLQueryIncidentCount(qc, oi);
