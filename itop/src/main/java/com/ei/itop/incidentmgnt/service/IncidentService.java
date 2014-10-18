@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
 
@@ -58,6 +59,16 @@ public interface IncidentService {
 	 */
 	public IcIncident MBLQueryIncident(long incidentId, OpInfo opInfo)
 			throws Exception;
+
+	/**
+	 * 查询事件数量，按状态分组
+	 * 
+	 * @param qcIncident
+	 * @param opInfo
+	 * @throws Exception
+	 */
+	public List<IncidentCountInfoByState> MBLQueryIncidentCountGroupByState(
+			QCIncident qcIncident, OpInfo opInfo) throws Exception;
 
 	/**
 	 * 根据ID查询某一事件详细信息，此逻辑为原子逻辑，不会触发记录系统操作日志

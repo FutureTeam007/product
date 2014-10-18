@@ -24,6 +24,7 @@ import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.incidentmgnt.bean.AdviserTaskQuantity;
+import com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
 import com.ei.itop.incidentmgnt.bean.TransactionInfo;
@@ -48,6 +49,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, Long> incidentDAOCount;
+
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, IncidentCountInfoByState> incidentCountInfoByStateDAO;
 
 	@Resource(name = "commonDDLDAO")
 	private CommonDAO commonDAO;
@@ -152,6 +156,36 @@ public class IncidentServiceImpl implements IncidentService {
 				hm);
 
 		return rowCount;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ei.itop.incidentmgnt.service.IncidentService#
+	 * MBLQueryIncidentCountGroupByState
+	 * (com.ei.itop.incidentmgnt.bean.QCIncident,
+	 * com.ei.itop.common.bean.OpInfo)
+	 */
+	public List<IncidentCountInfoByState> MBLQueryIncidentCountGroupByState(
+			QCIncident qcIncident, OpInfo opInfo) throws Exception {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("incidentCode", qcIncident.getIncidentCode());
+		hm.put("brief", qcIncident.getBrief());
+		hm.put("productId", qcIncident.getProductId());
+		hm.put("affectCode", qcIncident.getAffectCode());
+		hm.put("classCode", qcIncident.getClassCode());
+		hm.put("priorityCode", qcIncident.getPriorityCode());
+		hm.put("complexCode", qcIncident.getComplexCode());
+		hm.put("stateCode", qcIncident.getStateCode());
+		hm.put("registerTimeBegin", qcIncident.getRegisterTimeBegin());
+		hm.put("registerTimeEnd", qcIncident.getRegisterTimeEnd());
+
+		List<IncidentCountInfoByState> list = incidentCountInfoByStateDAO
+				.findByParams("IC_INCIDENT.queryIncidentCountGroupByState", hm);
+
+		return list;
 	}
 
 	/*

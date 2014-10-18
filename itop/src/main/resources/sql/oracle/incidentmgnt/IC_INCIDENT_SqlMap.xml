@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="IC_INCIDENT" >
+  <resultMap id="incidentCountInfoByStateResult" class="com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState" >
+    <result column="STATE_CODE" property="stateCode" jdbcType="VARCHAR" />
+    <result column="STATE_VAL" property="stateVal" jdbcType="VARCHAR" />
+    <result column="RECORD_COUNT" property="recordCount" jdbcType="DECIMAL" />
+  </resultMap>
   <resultMap id="icIncidentResult" class="com.ei.itop.common.dbentity.IcIncident" >
     <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
     <result column="INCIDENT_CODE" property="incidentCode" jdbcType="VARCHAR" />
@@ -238,6 +243,53 @@
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
       )
+  </select>
+  <select id="queryIncidentCountGroupByState" resultClass="incidentCountInfoByStateResult" parameterClass="java.util.Map" >
+  	select it_state_code state_code,it_state_val state_val,count(*) record_count from ic_incident
+	where data_state=1
+      <isNotNull prepend="" property="incidentCode" >
+    	and incident_code like '%$incidentCode:VARCHAR$%'
+      </isNotNull>
+      <isNotNull prepend="" property="brief" >
+    	and brief like '%$brief:VARCHAR$%'
+      </isNotNull>
+      <isNotNull prepend="" property="scProductId" >
+    	and sc_product_id = #scProductId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="" property="affectCode" >
+      	and affect_code in
+      	<iterate property="affectCode" open="(" close=")" conjunction=",">
+    		#affectCode[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="classCode" >
+      	and class_code in
+      	<iterate property="classCode" open="(" close=")" conjunction=",">
+    		#classCode[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="priorityCode" >
+      	and PRIORITY_CODE in
+      	<iterate property="priorityCode" open="(" close=")" conjunction=",">
+    		#priorityCode[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="complexCode" >
+      	and COMPLEX_CODE in
+      	<iterate property="complexCode" open="(" close=")" conjunction=",">
+    		#complexCode[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="stateCode" >
+    	and it_state_code = #stateCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="" property="registerTimeBegin" >
+    	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="registerTimeEnd" >
+    	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
+      </isNotNull>
+	group by it_state_code,it_state_val
   </select>
   <select id="selectByPrimaryKey" resultMap="icIncidentResult" parameterClass="Long" >
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
