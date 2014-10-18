@@ -411,7 +411,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public synchronized String generateIncidentCode(long custId)
+	protected synchronized String generateIncidentCode(long custId)
 			throws Exception {
 		// 客户编码（大写）_YYYYMM_000001
 
@@ -565,27 +565,28 @@ public class IncidentServiceImpl implements IncidentService {
 		if (noQuantityList.size() > 0) {
 			result = custProdOpList.get(0);
 		}
-
 		// 所有顾问均有工作量，那么取最小工作量的那个作为负责顾问
-		long minQuantity = -1;
-		int minIndex = -1;
-		for (int i = 0; adviserTaskQuantityList != null
-				&& i < adviserTaskQuantityList.size(); i++) {
-			AdviserTaskQuantity atq = adviserTaskQuantityList.get(i);
-			if (minQuantity == -1) {
-				minQuantity = atq.getTaskQuantity();
-				minIndex = i;
+		else {
+			long minQuantity = -1;
+			int minIndex = -1;
+			for (int i = 0; adviserTaskQuantityList != null
+					&& i < adviserTaskQuantityList.size(); i++) {
+				AdviserTaskQuantity atq = adviserTaskQuantityList.get(i);
+				if (minQuantity == -1) {
+					minQuantity = atq.getTaskQuantity();
+					minIndex = i;
+				}
+				if (atq.getTaskQuantity() < minQuantity) {
+					minQuantity = atq.getTaskQuantity();
+					minIndex = i;
+				}
 			}
-			if (atq.getTaskQuantity() < minQuantity) {
-				minQuantity = atq.getTaskQuantity();
-				minIndex = i;
-			}
-		}
-		for (int i = 0; i < custProdOpList.size(); i++) {
-			CcCustProdOp cpo = custProdOpList.get(i);
-			if (cpo.getScOpId() == adviserTaskQuantityList.get(minIndex)
-					.getAdviserId()) {
-				result = cpo;
+			for (int i = 0; i < custProdOpList.size(); i++) {
+				CcCustProdOp cpo = custProdOpList.get(i);
+				if (cpo.getScOpId() == adviserTaskQuantityList.get(minIndex)
+						.getAdviserId()) {
+					result = cpo;
+				}
 			}
 		}
 
@@ -1007,6 +1008,6 @@ public class IncidentServiceImpl implements IncidentService {
 		// log.debug(message);
 		// }
 
-		log.debug(is.generateIncidentCode(300001));
+		// log.debug(is.generateIncidentCode(300001));
 	}
 }
