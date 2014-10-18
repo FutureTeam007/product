@@ -127,7 +127,7 @@
       <isNotNull prepend="" property="registerTimeEnd" >
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
-      order by $orderBy$
+      order by $orderBy$,ic_incident_id desc
   </select>
   <select id="queryIncidentPaging" resultMap="icIncidentResult" parameterClass="java.util.Map" >
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
@@ -184,7 +184,7 @@
       <isNotNull prepend="" property="registerTimeEnd" >
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
-      order by $orderBy$
+      order by $orderBy$,ic_incident_id desc
       ) t where t.rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
   </select>
   <select id="queryIncidentCount" resultClass="Long" parameterClass="java.util.Map" >
