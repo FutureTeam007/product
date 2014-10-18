@@ -22,6 +22,7 @@
     from SC_PARAM
     where SC_ORG_ID = #orgId:DECIMAL#
     and PARAM_KIND_CODE = #paramKindCode:VARCHAR#
+    order by to_number(PARAM_CODE)
   </select>
   <select id="selectByPrimaryKey" resultMap="scParamResult" parameterClass="com.ei.itop.common.dbentity.ScParam" >
     select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC

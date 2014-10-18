@@ -68,7 +68,7 @@ public interface IncidentService {
 	 * @throws Exception
 	 */
 	public List<IncidentCountInfoByState> MBLQueryIncidentCountGroupByState(
-			QCIncident qcIncident, OpInfo opInfo) throws Exception;
+			QCIncident qcIncident, long orgId, OpInfo opInfo) throws Exception;
 
 	/**
 	 * 根据ID查询某一事件详细信息，此逻辑为原子逻辑，不会触发记录系统操作日志
