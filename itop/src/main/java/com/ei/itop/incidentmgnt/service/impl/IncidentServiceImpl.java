@@ -21,6 +21,7 @@ import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScOp;
+import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.incidentmgnt.bean.AdviserTaskQuantity;
@@ -167,7 +168,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 * com.ei.itop.common.bean.OpInfo)
 	 */
 	public List<IncidentCountInfoByState> MBLQueryIncidentCountGroupByState(
-			QCIncident qcIncident, OpInfo opInfo) throws Exception {
+			QCIncident qcIncident, long orgId, OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
@@ -182,19 +183,48 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("registerTimeBegin", qcIncident.getRegisterTimeBegin());
 		hm.put("registerTimeEnd", qcIncident.getRegisterTimeEnd());
 
+		// 得到状态定义表所有状态定义
+		List<ScParam> paramList = paramService.getParamList(orgId, "IC_STATE");
+
+		if (paramList == null || paramList.size() == 0) {
+			throw new Exception("参数表尚未定义该商户的事件状态");
+		}
+
+		// 查询事件表所有状态分组数量信息
 		List<IncidentCountInfoByState> list = incidentCountInfoByStateDAO
 				.findByParams("IC_INCIDENT.queryIncidentCountGroupByState", hm);
 
-		// 全部
-		IncidentCountInfoByState info = new IncidentCountInfoByState();
-		info.setStateCode("-1");
-		info.setStateVal("全部");
+		List<IncidentCountInfoByState> resultList = new ArrayList<IncidentCountInfoByState>();
+
+		// 遍历所有已定义事件状态
+		// 总数量
 		long recordCount = 0;
-		for (int i = 0; list != null && i < list.size(); i++) {
-			IncidentCountInfoByState item = list.get(i);
-			recordCount += item.getRecordCount();
+		for (int i = 0; paramList != null && i < paramList.size(); i++) {
+			ScParam param = paramList.get(i);
+			IncidentCountInfoByState result = new IncidentCountInfoByState();
+			result.setStateCode(param.getParamCode());
+			result.setStateVal(param.getParamValue());
+			result.setRecordCount(new Long(0));
+			// 匹配是否有数量
+			for (int j = 0; list != null && j < list.size(); j++) {
+				IncidentCountInfoByState item = list.get(i);
+				if (item.getStateCode().equals(param.getParamCode())) {
+					result.setRecordCount(item.getRecordCount());
+					recordCount += item.getRecordCount();
+					break;
+				}
+			}
+			resultList.add(result);
 		}
-		info.setRecordCount(recordCount);
+
+		// 生成全部状态的数量记录
+		IncidentCountInfoByState all = new IncidentCountInfoByState();
+		all.setStateCode("-1");
+		all.setStateVal("全部");
+		all.setRecordCount(recordCount);
+
+		// 把全部信息加入result
+		resultList.add(all);
 
 		return list;
 	}
