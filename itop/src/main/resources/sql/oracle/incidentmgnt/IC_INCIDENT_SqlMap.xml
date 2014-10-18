@@ -244,7 +244,7 @@
       </isNotNull>
       )
   </select>
-  <select id="queryIncidentCountGroupByState" resultClass="incidentCountInfoByStateResult" parameterClass="java.util.Map" >
+  <select id="queryIncidentCountGroupByState" resultMap="incidentCountInfoByStateResult" parameterClass="java.util.Map" >
   	select it_state_code state_code,it_state_val state_val,count(*) record_count from ic_incident
 	where data_state=1
       <isNotNull prepend="" property="incidentCode" >
