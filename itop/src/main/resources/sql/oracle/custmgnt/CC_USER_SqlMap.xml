@@ -21,6 +21,13 @@
     <result column="NOTES" property="notes" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
+  <select id="queryUserByLoginCode" resultMap="ccUserResult" parameterClass="java.util.Map" >
+    select CC_USER_ID, CC_CUST_ID, CUST_NAME, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE, LOGIN_CODE,
+      LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES,
+      STATE
+    from CC_USER
+    where LOGIN_CODE = #loginCode:VARCHAR#
+  </select>
   <select id="selectByPrimaryKey" resultMap="ccUserResult" parameterClass="long" >
     select CC_USER_ID, CC_CUST_ID, CUST_NAME, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE, LOGIN_CODE,
       LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES,
