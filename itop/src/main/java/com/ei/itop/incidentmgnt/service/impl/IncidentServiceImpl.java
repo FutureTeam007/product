@@ -283,6 +283,13 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setItStateCode("1");
 		incidentInfo.setItStateVal("待提交");
 
+		// // 自动填入商户信息、客户信息
+		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
+		incidentInfo.setScOrgId(user.getScOrgId());
+		incidentInfo.setScOrgName(user.getScOrgName());
+		incidentInfo.setCcCustId(user.getCcCustId());
+		incidentInfo.setCustName(user.getCustName());
+
 		// 保存事件信息
 		long incidentId = addIncidentAndAttach(incidentInfo, opInfo);
 
