@@ -6,6 +6,7 @@ package com.ei.itop.incidentmgnt.service;
 import java.util.List;
 
 import com.ei.itop.common.bean.OpInfo;
+import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
@@ -23,7 +24,7 @@ public interface IncidentService {
 	 * @param qcIncident
 	 *            查询条件
 	 * @param startIndex
-	 *            分页起始记录，-1为不分页
+	 *            分页起始记录，从1开始，-1为不分页
 	 * @param pageSize
 	 *            每页记录数
 	 * @param opId
@@ -220,4 +221,6 @@ public interface IncidentService {
 	 */
 	public long modifyIncidentAndAttach(long incidentId,
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception;
+
+	public CcCust getLastIncidentByCustId(long custId) throws Exception;
 }

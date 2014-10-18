@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ailk.dazzle.util.type.DateUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.CommonDAO;
+import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.IcAttach;
@@ -120,7 +122,7 @@ public class IncidentServiceImpl implements IncidentService {
 		}
 		// 分页
 		else {
-			long endIndex = startIndex + pageSize;
+			long endIndex = startIndex + pageSize - 1;
 			hm.put("endIndex", endIndex);
 
 			incidentList = incidentDAO.findByParams(
@@ -319,15 +321,16 @@ public class IncidentServiceImpl implements IncidentService {
 		// ii.setDetail(incidentInfo.getDetail());
 		// ii.setCcList(incidentInfo.getCcList());
 
-		// 自动填入事件系列号
-		incidentInfo.setIncidentCode(generateIncidentCode());
+		// // 自动填入商户信息、客户信息
+		// CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
+		// incidentInfo.setScOrgId(user.getScOrgId());
+		// incidentInfo.setScOrgName(user.getScOrgName());
+		// incidentInfo.setCcCustId(user.getCcCustId());
+		// incidentInfo.setCustName(user.getCustName());
 
-		// 自动填入商户信息、客户信息
-		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
-		incidentInfo.setScOrgId(user.getScOrgId());
-		incidentInfo.setScOrgName(user.getScOrgName());
-		incidentInfo.setCcCustId(user.getCcCustId());
-		incidentInfo.setCustName(user.getCustName());
+		// 自动填入事件系列号
+		incidentInfo.setIncidentCode(generateIncidentCode(incidentInfo
+				.getCcCustId()));
 
 		// 自动填入事件提出用户、创建人
 		incidentInfo.setPlObjectType(opInfo.getOpType());
@@ -363,16 +366,63 @@ public class IncidentServiceImpl implements IncidentService {
 		return incidentId;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ei.itop.incidentmgnt.service.IncidentService#getLastIncidentByCustId
+	 * (long)
+	 */
+	public CcCust getLastIncidentByCustId(long custId) throws Exception {
+		// TODO Auto-generated method stub
+
+		CcCust rtnValue = null;
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("custId", custId);
+
+		List<IcIncident> list = incidentDAO.findByParams(
+				"IC_INCIDENT.queryIncidentByCustId", hm);
+
+		if (list != null && list.size() == 0) {
+
+		}
+
+		return rtnValue;
+	}
+
 	/**
 	 * 生成事件系列号
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	protected String generateIncidentCode() throws Exception {
+	protected synchronized String generateIncidentCode(long custId)
+			throws Exception {
 		// 客户编码（大写）_YYYYMM_000001
+
+		String incidentCode = "";
+
+		// 取得客户信息
+		CcCust cust = custMgntService.getCustInfo(custId);
+
+		incidentCode = cust.getCustCode().toUpperCase() + "-";
+
+		String ym = DateUtils.date2String(commonDAO.getSysDate(),
+				DateUtils.FORMATTYPE_yyyyMMdd);
+		ym = ym.substring(0, ym.length() - 2);
+
+		incidentCode += ym + "-";
+
+		// 取得当前客户的最新一条事件记录
+		IcIncident incident = null;
+
+		String lastIncidentCode = incident.getIncidentCode();
+
+		lastIncidentCode.substring(lastIncidentCode.length() - 6 - 1);
+
 		// ********
-		return "XXX_YYYYMM_000001";
+		return incidentCode;
 	}
 
 	/*
