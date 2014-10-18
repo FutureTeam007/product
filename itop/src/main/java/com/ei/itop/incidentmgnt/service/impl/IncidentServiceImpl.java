@@ -23,12 +23,14 @@ import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.custmgnt.service.UserService;
+import com.ei.itop.incidentmgnt.bean.AdviserTaskQuantity;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
 import com.ei.itop.incidentmgnt.bean.TransactionInfo;
 import com.ei.itop.incidentmgnt.service.AttachService;
 import com.ei.itop.incidentmgnt.service.IncidentService;
 import com.ei.itop.incidentmgnt.service.TransactionService;
+import com.ei.itop.scmgnt.service.OpService;
 import com.ei.itop.scmgnt.service.ParamService;
 
 /**
@@ -64,6 +66,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "paramService")
 	private ParamService paramService;
+
+	@Resource(name = "opService")
+	private OpService opService;
 
 	/*
 	 * (non-Javadoc)
@@ -337,20 +342,91 @@ public class IncidentServiceImpl implements IncidentService {
 	}
 
 	/**
+	 * 根据商户、客户查询顾问工作量
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	protected List<AdviserTaskQuantity> queryAdviserTaskQuantity(long orgId,
+			long custId) throws Exception {
+		return null;
+	}
+
+	/**
 	 * 自动分派负责顾问
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	protected ScOp getInChargeAdviser() throws Exception {
-		// ***********
-		ScOp scOp = new ScOp();
+	protected ScOp getInChargeAdviser(long orgId, long custId, long productId)
+			throws Exception {
 
-		scOp.setScOpId(new Long(200005));
-		scOp.setOpCode("SP200005");
-		scOp.setOpName("EI-PM");
+		// 取得商户、客户、产品的负责顾问列表
+		List<CcCustProdOp> custProdOpList = custMgntService.getCustProdOpList(
+				orgId, custId, productId);
 
-		return scOp;
+		if (custProdOpList == null || custProdOpList.size() == 0) {
+			throw new Exception("系统尚未配置负责该产品线的顾问");
+		}
+
+		// 查询商户、客户下当前负责顾问的工作量
+		List<AdviserTaskQuantity> adviserTaskQuantityList = queryAdviserTaskQuantity(
+				orgId, custId);
+
+		// 处理事件最少的顾问作为自动分派的顾问
+		CcCustProdOp result = null;
+		// 如果有顾问还不在当前负责顾问列表里，那么直接指定该顾问
+		List<CcCustProdOp> noQuantityList = new ArrayList<CcCustProdOp>();
+		for (int i = 0; i < custProdOpList.size(); i++) {
+			CcCustProdOp cpo = custProdOpList.get(i);
+			boolean inFlag = false;
+			for (int j = 0; adviserTaskQuantityList != null
+					&& j < adviserTaskQuantityList.size(); j++) {
+				AdviserTaskQuantity atq = adviserTaskQuantityList.get(j);
+				if (cpo.getScOpId() == atq.getAdviserId()) {
+					inFlag = true;
+					break;
+				}
+			}
+			if (!inFlag) {
+				noQuantityList.add(cpo);
+			}
+		}
+		// 存在没有工作量的顾问，取第一个作为负责顾问
+		if (noQuantityList.size() > 0) {
+			result = custProdOpList.get(0);
+		}
+
+		// 所有顾问均有工作量，那么取最小工作量的那个作为负责顾问
+		long minQuantity = -1;
+		int minIndex = -1;
+		for (int i = 0; adviserTaskQuantityList != null
+				&& i < adviserTaskQuantityList.size(); i++) {
+			AdviserTaskQuantity atq = adviserTaskQuantityList.get(i);
+			if (minQuantity == -1) {
+				minQuantity = atq.getTaskQuantity();
+				minIndex = i;
+			}
+			if (atq.getTaskQuantity() < minQuantity) {
+				minQuantity = atq.getTaskQuantity();
+				minIndex = i;
+			}
+		}
+		for (int i = 0; i < custProdOpList.size(); i++) {
+			CcCustProdOp cpo = custProdOpList.get(i);
+			if (cpo.getScOpId() == adviserTaskQuantityList.get(minIndex)
+					.getAdviserId()) {
+				result = cpo;
+			}
+		}
+
+		// 处理返回结果
+		ScOp op = opService.queryScOp(result.getScOpId());
+		// scOp.setScOpId(new Long(200005));
+		// scOp.setOpCode("SP200005");
+		// scOp.setOpName("EI-PM");
+
+		return op;
 	}
 
 	/**
@@ -394,15 +470,21 @@ public class IncidentServiceImpl implements IncidentService {
 		// 提交时自动填入登记时间
 		incidentInfo.setRegisteTime(commonDAO.getSysDate());
 
+		// 自动填入商户信息、客户信息
+		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
+		incidentInfo.setScOrgId(user.getScOrgId());
+		incidentInfo.setScOrgName(user.getScOrgName());
+		incidentInfo.setCcCustId(user.getCcCustId());
+		incidentInfo.setCustName(user.getCustName());
+
 		// 提交时自动分派负责顾问，并作为干系人
-		ScOp inChargeAdviser = getInChargeAdviser();
+		ScOp inChargeAdviser = getInChargeAdviser(incidentInfo.getScOrgId(),
+				incidentInfo.getCcCustId(), incidentInfo.getScProductId());
 		incidentInfo.setIcObjectType("OP");
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
 		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
-		// 取得用户信息
-		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
 		// 填入事件所处阶段
 		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
 				user.getCcCustId(), incidentInfo.getScProductId(),
@@ -449,15 +531,21 @@ public class IncidentServiceImpl implements IncidentService {
 		// 提交时自动填入登记时间
 		incidentInfo.setRegisteTime(commonDAO.getSysDate());
 
+		// 自动填入商户信息、客户信息
+		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
+		incidentInfo.setScOrgId(user.getScOrgId());
+		incidentInfo.setScOrgName(user.getScOrgName());
+		incidentInfo.setCcCustId(user.getCcCustId());
+		incidentInfo.setCustName(user.getCustName());
+
 		// 提交时自动分派负责顾问，并作为干系人
-		ScOp inChargeAdviser = getInChargeAdviser();
+		ScOp inChargeAdviser = getInChargeAdviser(incidentInfo.getScOrgId(),
+				incidentInfo.getCcCustId(), incidentInfo.getScProductId());
 		incidentInfo.setIcObjectType("OP");
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
 		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
-		// 取得用户信息
-		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
 		// 填入事件所处阶段
 		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
 				user.getCcCustId(), incidentInfo.getScProductId(),

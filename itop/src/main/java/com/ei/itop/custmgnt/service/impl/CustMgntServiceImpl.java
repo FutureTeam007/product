@@ -4,6 +4,7 @@
 package com.ei.itop.custmgnt.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -47,6 +48,18 @@ public class CustMgntServiceImpl implements CustMgntService {
 				"CC_CUST_PROD_OP.queryCustProdOpInfo", hm);
 
 		return custProdOp;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ei.itop.custmgnt.service.CustMgntService#getCustProdOpList(long,
+	 * long, long)
+	 */
+	public List<CcCustProdOp> getCustProdOpList(long orgId, long custId,
+			long productId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
