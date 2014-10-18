@@ -117,10 +117,10 @@
     	and it_state_code = #stateCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="registerTimeBegin" >
-    	and REGISTE_TIME >= #registerTimeBegin:DATE#
+    	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#
       </isNotNull>
       <isNotNull prepend="" property="registerTimeEnd" >
-    	and REGISTE_TIME <= #registerTimeEnd:DATE#
+    	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
       order by $orderBy$
   </select>
@@ -174,10 +174,10 @@
     	and it_state_code = #stateCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="registerTimeBegin" >
-    	and REGISTE_TIME >= #registerTimeBegin:DATE#
+    	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#
       </isNotNull>
       <isNotNull prepend="" property="registerTimeEnd" >
-    	and REGISTE_TIME <= #registerTimeEnd:DATE#
+    	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
       order by $orderBy$
       ) t where t.rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
@@ -232,10 +232,10 @@
     	and it_state_code = #stateCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="registerTimeBegin" >
-    	and REGISTE_TIME >= #registerTimeBegin:DATE#
+    	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#
       </isNotNull>
       <isNotNull prepend="" property="registerTimeEnd" >
-    	and REGISTE_TIME <= #registerTimeEnd:DATE#
+    	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
       )
   </select>
