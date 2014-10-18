@@ -41,4 +41,21 @@ public class IncidentPageController {
 		mav.setViewName("page/incidentmgnt/incidentQry");
 		return mav;
 	}
+	
+	/**
+	 * 进入新增或查看页面
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/dtl")
+	public ModelAndView mgntDtl(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		OpInfo oi = SessionUtil.getOpInfo();
+		ModelAndView mav = new ModelAndView();
+		//查询影响度数据
+		List<ScParam> affectP = paramService.getParamList(oi.getOrgId(), "IC_EFFECT");
+		mav.addObject("affectP", affectP);
+		mav.setViewName("page/incidentmgnt/incidentDtl");
+		return mav;
+	}
 }

@@ -93,8 +93,8 @@ public class IncidentController {
 			qi.setRegisterTimeEnd(DateUtils.string2Date(registerTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd));
 		}
 		//事件状态
-		String stateVal = request.getParameter("stateVal");
-		qi.setStateVal(stateVal);
+		String stateCode = request.getParameter("stateVal");
+		qi.setStateCode(stateCode);
 		//调用查询获取总数据条数
 		long count = incidentService.MBLQueryIncidentCount(qi, oi);
 		//调用查询获取分页数据
