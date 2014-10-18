@@ -20,7 +20,9 @@ public class SessionUtil implements ServletRequestListener{
 		oi.setOpCode("100");
 		oi.setOpId(100);
 		oi.setOpName("test");
-		oi.setOpType("USER");
+		oi.setOpType("OP");
+		oi.setOrgId(2001);
+		oi.setOrgName("EI");
 		return oi;
 		//return (OpInfo)value.get().getSession().getAttribute("opInfo");
 	}

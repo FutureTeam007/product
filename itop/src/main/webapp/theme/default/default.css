@@ -33,7 +33,7 @@ a:active {star:expression(this.onFocus=this.blur());}
 .inci-search span label{width:80px;display:inline;float:left;line-height:22px;font-weight:bold;color:#555;}
 .inci-search span.form-item{width:25%;float:left;display:inline;margin-bottom:20px}
 .form-item .checkbox-inline{margin-left:3px}
-.inci-search .form-control{float:left;display:inline;width:60%;height:24px;font-size:12px;padding-top:2px}
+.inci-search .form-control{float:left;display:inline;width:60%;height:24px;font-size:10px;padding-top:3px}
 .inci-search .btn-sm{height:24px;line-height:22px;padding-top:0px}
 .inci-data .datagrid-header-row .datagrid-cell{font-weight:bold;}
 .inci-data .btn-danger{height:30px;font-size:14px;padding-top:3px}

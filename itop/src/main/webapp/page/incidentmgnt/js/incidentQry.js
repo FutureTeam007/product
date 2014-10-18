@@ -1,7 +1,7 @@
 //全局查询条件
 var qp={};
 //默认查询待响应事件
-qp.stateVar = 2;
+qp.stateVal = 2;
 qp.incidentCode = null;
 qp.brief = null;
 qp.classVar = null;
@@ -33,6 +33,7 @@ function edit(id){
 function add(){
 	showSubPage("incidentDtl.jsp?openFlag=a");
 }
+
 //重置表单
 function reset(){
 	//事件系列号
@@ -40,16 +41,16 @@ function reset(){
 	//事件简述
 	$("#brief").val("");
 	//事件分类
-	$("#classVar").combobox('setValue',-1);
+	$("#classVar").combobox('setValue',"");
 	//产品线
-	$("#prodSel").combobox('setValue',-1);
+	$("#prodSel").combobox('setValue',"");
 	//影响度
 	$("input[name=affectVar]").each(function(){
-		$(this).attr("checked","false");
+		$(this).removeAttr("checked");
 	});
 	//优先级
 	$("input[name=priorityVar]").each(function(){
-		$(this).attr("checked","false");
+		$(this).removeAttr("checked");
 	});
 	//起始时间
 	$("#qryStartDate").val("");
@@ -177,23 +178,21 @@ function setQueryConditions(){
 		qp.priorityVal = pritVarArr.join(",");
 	}
 	//起始时间
-	qp.registerTimeBegin = $("#qryStartDate").val();
+	qp.registerTimeBegin = $("#qryStartDate").datebox('getValue');
 	//截止时间
-	qp.registerTimeEnd = $("#qryEndDate").val();
+	qp.registerTimeEnd = $("#qryEndDate").datebox('getValue');
 }
 //查询主方法
 function query(){
 	setQueryConditions();
-	$('#incidentDataTable').datagrid().load({
-		queryParams:qp
-	});
+	$('#incidentDataTable').datagrid('load',qp);
 }
 //绑定切换状态标签页事件
 function bindStatusToggle(){
 	$("#statusNav li").click(function(){
 		$(this).addClass("active");
 		$(this).siblings().removeClass("active");
-		qp.stateVar = $(this).val()=="-1"?null: $(this).val();
+		qp.stateVal = $(this).val()=="0"?null: $(this).val();
 		query();
 	});
 }
@@ -244,22 +243,44 @@ function reloadData(){
 //格式化操作列
 function formatOperations(val,row){
 	var buttons = "";
-	if(row.itStateVar.indexOf("1,4")!=-1){
+	if(row.itStateCode==1||row.itStateCode==4){
 		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>提交</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>编辑</button>";
-	}else if(row.itStateVar.indexOf("2,3,5,8")!=-1){
+	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==5||row.itStateCode==8){
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
-		buttons += "<button type='button' class='btn btn-link' onclick='close("+val+")'>关闭</button>";
+		if(opType=="OP"){
+			buttons += "<button type='button' class='btn btn-link' onclick='close("+val+")'>关闭</button>";
+		}
 	}else{
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
 	}
 	return buttons;
 }
+//格式化时间列
+function dateFormatter(val,row){
+	if(!val){
+		return;
+	}
+	var date = new Date(val);
+	//年
+	var year = date.getFullYear();
+	//月
+	var month = date.getMonth();
+	//日
+	var day = date.getDate();
+	//小时
+	var hour = date.getHours();
+	//分钟
+	var minute = date.getMinutes();
+	//秒
+	var second = date.getSeconds();
+	return year+"/"+(month+1)+"/"+day;
+}
 //格式化评价列
 function formatFeedback(val,row){
 	if(val!=null){
 		return val;
-	}else if(row.itStateVar=="8"){
+	}else if(row.itStateCode=="8"){
 		 return "<button type='button' class='btn btn-link' onclick='showFeedback("+val+")'>待评价</button>";
 	}
 }

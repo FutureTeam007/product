@@ -32,6 +32,8 @@ public class TransactionController {
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
 		List<IcTransaction> data = transactionService.MBLQueryTransaction(incidentId, SessionUtil.getOpInfo());
 		String jsonData = JSONUtils.toJSONString(data);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
 	

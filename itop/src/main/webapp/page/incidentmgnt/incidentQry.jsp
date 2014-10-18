@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,7 +26,7 @@
 		  	<span class="form-item">
 		    	<label for="inciTypeSel">事件类别</label>
 		    	<input class="easyui-combobox" style="width:60%"  name="classVar" id="classVar" data-options="
-					url:'js/json/incidentType_data.json',
+					url:rootPath+'/param/list?kindCode=IC_CLASS',
 					method:'get',
 					valueField:'paramCode',
 					textField:'paramValue',
@@ -35,47 +36,29 @@
 		  	<span class="form-item">
 		    	<label for="prodSel">产品线</label>
 		    	<input class="easyui-combobox" style="width:60%"  name="prodSel" id="prodSel" data-options="
-					url:'js/json/prod_data.json',
+					url:rootPath+'/product/productList',
 					method:'get',
-					valueField:'prodId',
+					valueField:'scProdId',
 					textField:'prodName',
 					panelHeight:'auto'"
 				/>
 		  	</span>
 	  	</div>
 	  	<div>
-			<span class="form-item">
+			<span class="form-item" id="affectQry">
 		    	<label>影响度</label>
-		    	<span class="checkbox-inline">
-				  <input type="checkbox" name="affectVar" id="affectVar1" value="1"> 咨询
-				</span>
-				<span class="checkbox-inline">
-				  <input type="checkbox" name="affectVar" id="affectVar2" value="2"> 一般
-				</span>
-				<span class="checkbox-inline">
-				  <input type="checkbox" name="affectVar" id="affectVar3" value="3"> 严重
-				</span>
-				<span class="checkbox-inline">
-				  <input type="checkbox" name="affectVar" id="affectVar4" value="4"> 重大
-				</span>
+		    	<c:forEach var="affect" items="${affectP}" begin="0" step="1">
+		    		<span class="checkbox-inline"><input type="checkbox" name="affectVar" value="${affect.paramCode}">${affect.paramValue}</span>
+		    	</c:forEach>
+		  	</span>
+		  	<span class="form-item" id="priorityQry">
+		    	<label>优先级</label>
+		    	<c:forEach var="priority" items="${priorityP}" begin="0" step="1">
+		    		<span class="checkbox-inline"><input type="checkbox" name="priorityVar" value="${priority.paramCode}">${priority.paramValue}</span>
+		    	</c:forEach>
 		  	</span>
 		  	<span class="form-item">
-		    	<label for="inciNo">优先级</label>
-		    	<span class="checkbox-inline">
-				  <input type="checkbox" name="priorityVar" id="priLevel1" value="1"> 低
-				</span>
-				<span class="checkbox-inline">
-				  <input type="checkbox" name="priorityVar" id="priLevel2" value="2"> 中
-				</span>
-				<span class="checkbox-inline">
-				  <input type="checkbox" name="priorityVar" id="priLevel3" value="3"> 高
-				</span>
-				<span class="checkbox-inline">
-				  <input type="checkbox" name="priorityVar" id="priLevel4" value="4"> 紧急
-				</span>
-		  	</span>
-		  	<span class="form-item">
-		    	<label for="inciType">提出时间</label>
+		    	<label>提出时间</label>
 		    	<input class="easyui-datebox" style="width:28%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
 		    	至&nbsp;<input class="easyui-datebox" style="width:28%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
 		  	</span>
@@ -91,7 +74,7 @@
 				<button type="button" class="btn btn-danger" onclick="add()">+ 新建一条事件</button>
 			</span>
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
-			  <li role="presentation" value="-1"><a href="#">全部(612)</a></li>
+			  <li role="presentation" value="0"><a href="#">全部(612)</a></li>
 			  <li role="presentation" value="9"><a href="#">已关闭(129)</a></li>
 			  <li role="presentation" value="8"><a href="#">已完成(421)</a></li>
 			  <li role="presentation" value="5"><a href="#">已挂起(2)</a></li>
@@ -113,19 +96,19 @@
 			">
 			<thead>
 				<tr>
-					<th data-options="field:'incidentId',formatter:formatOperations" width="9%"></th>
-					<th data-options="field:'incidentCode'" width="9%">事件序列号</th>
-					<th data-options="field:'brief'" width="15%">事件简述</th>
+					<th data-options="field:'incidentId',formatter:formatOperations,align:'center'" width="9%"></th>
+					<th data-options="field:'incidentCode'" width="11%">事件序列号</th>
+					<th data-options="field:'brief'" width="14%">事件简述</th>
 					<th data-options="field:'prodName'" width="8%">产品线</th>
-					<th data-options="field:'classCodeOp'" width="5%">类别</th>
-					<th data-options="field:'affectVarOp'" width="5%">影响度</th>
-					<th data-options="field:'priorityVar'" width="5%">优先级</th>
-					<th data-options="field:'itStateCode'" width="5%">当前状态</th>
-					<th data-options="field:'plObjectName'" width="5%">提交人</th>
-					<th data-options="field:'registTime',sortable:true" width="8%">提交时间</th>
-					<th data-options="field:'scLoginName'" width="5%">处理人</th>
-					<th data-options="field:'modifyDate',sortable:true" width="8%">最近更新时间</th>
-					<th data-options="field:'finishTime'" width="8%">完成时间</th>
+					<th data-options="field:'classValOp'" width="5%">类别</th>
+					<th data-options="field:'affectValOp'" width="4%">影响度</th>
+					<th data-options="field:'priorityVal'" width="4%">优先级</th>
+					<th data-options="field:'itStateVal'" width="5%">当前状态</th>
+					<th data-options="field:'plObjectName'" width="9%">提交人</th>
+					<th data-options="field:'registeTime',sortable:true,formatter:dateFormatter" width="6%">提交时间</th>
+					<th data-options="field:'scLoginName'" width="9%">处理人</th>
+					<th data-options="field:'modifyDate',sortable:true,formatter:dateFormatter" width="6%">最近更新时间</th>
+					<th data-options="field:'finishTime'" width="6%">完成时间</th>
 					<th data-options="field:'feedbackVal',formatter:formatFeedback" width="5%">满意度</th>
 				</tr>
 			</thead>

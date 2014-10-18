@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ailk.dazzle.util.json.JSONUtils;
 import com.ailk.dazzle.util.type.DateUtils;
@@ -18,10 +19,12 @@ import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
 import com.ei.itop.incidentmgnt.service.IncidentService;
+import com.ei.itop.scmgnt.service.ParamService;
 
 @Controller
 @RequestMapping("/incident")
@@ -29,6 +32,7 @@ public class IncidentController {
 
 	@Autowired
 	private IncidentService incidentService;
+	
 	/**
 	 * 查询列表
 	 * @param request
@@ -99,6 +103,8 @@ public class IncidentController {
 		result.put("total", count);
 		result.put("rows", data);
 		String jsonData = JSONUtils.toJSONString(result);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
 	/**
@@ -239,6 +245,8 @@ public class IncidentController {
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
 		IcIncident ii = incidentService.MBLQueryIncident(incidentId, oi);
 		String jsonData = JSONUtils.toJSONString(ii);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
 	/**

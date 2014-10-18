@@ -20,6 +20,12 @@ public class OpInfo {
 
 	// 操作员姓名
 	private String opName;
+	
+	// 商户ID
+	private long orgId;
+	
+	// 商户名称
+	private String orgName;
 
 	/**
 	 * @return the opType
@@ -80,4 +86,21 @@ public class OpInfo {
 	public void setOpName(String opName) {
 		this.opName = opName;
 	}
+
+	public long getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(long orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+	
 }
