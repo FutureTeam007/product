@@ -74,20 +74,10 @@
 				<button type="button" class="btn btn-danger" onclick="add()">+ 新建一条事件</button>
 			</span>
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
-			  <li role="presentation" value="0"><a href="#">全部(612)</a></li>
-			  <li role="presentation" value="9"><a href="#">已关闭(129)</a></li>
-			  <li role="presentation" value="8"><a href="#">已完成(421)</a></li>
-			  <li role="presentation" value="5"><a href="#">已挂起(2)</a></li>
-			  <li role="presentation" value="4"><a href="#">客户处理中(12)</a></li>
-			  <li role="presentation" value="3"><a href="#">顾问处理中(6)</a></li>
-			  <li role="presentation" value="1"><a href="#">待提交(8)</a></li>
-			  <li role="presentation" value="2" class="active"><a href="#">待响应(8)</a></li>
 			</ul>
 		</div>
 		<table class="easyui-datagrid" style="width:99%;height:390px" id="incidentDataTable"
 			data-options="singleSelect:true,collapsible:false,
-				url:rootPath+'/incident/list',
-				queryParams:{'stateVal':2},
 				method:'get',
 				loadMsg:'数据加载中，请稍后……',
 				remoteSort:true,

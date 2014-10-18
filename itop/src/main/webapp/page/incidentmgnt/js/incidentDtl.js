@@ -10,6 +10,11 @@ $(function(){
 	}
 });
 
+//当产品列表选中时，触发服务目录重新加载
+function prodSelChange(data){
+	$("#moduleSel").combotree('reload',rootPath+'/product/moduleTree?productId='+data.scProductId);
+}
+
 //查看事件
 function queryIncident(){
 	$.ajax({
@@ -56,17 +61,25 @@ function getFromVars(){
 	//影响度
 	$("input[name=affectVar]").each(function(){
 		if($(this).get(0).checked){
-			fv.affectCode = $(this).text();
-			fv.affectVar = $(this).val();
+			fv.affectCode =  $(this).val();
+			fv.affectVar = $(this).attr("text");
 		}
 	});
 	//事件分类
-	fv.classCode = $("#inciTypeSel").combobox('getText');
-	fv.classVar = $("#inciTypeSel").combobox('getValue');
-	fv.brief = encodeURIComponent(encodeURI($.trim($("#brief").val())));
+	fv.classCode = $("#inciTypeSel").combobox('getValue');
+	fv.classVar = $("#inciTypeSel").combobox('getText');
+	fv.brief = $.trim($("#brief").val());
 	fv.happenTime =$("#happenTime").datebox('getValue');
-	fv.detail = encodeURIComponent(encodeURI($.trim($("#detail").val())));
+	fv.detail = $.trim($("#detail").val());
 	fv.ccList = $.trim($("#ccList").val());
+	//1-用户报告 2-顾问开单
+	if(opType=="USER"){
+		fv.sourceCode = 1;
+		fv.sourceVal = "用户报告";
+	}else if(opType=="OP"){
+		fv.sourceCode = 2;
+		fv.sourceVal = "顾问开单";
+	}
 	//附件列表
 	fv.attachList = "[{\"attachPath\":\"upload/123.txt\"}]";
 }
@@ -111,6 +124,7 @@ function validateForm(){
 			}
 		}
 	}
+	return true;
 }
 //保存按钮
 function save(){
@@ -139,10 +153,10 @@ function addIncident(){
 		type : 'post',
 		url : rootPath + "/incident/add",
 		data : fv,
-		dataType : 'json',
-		success : function(msg) {
+		success : function() {
 			parent.hideSubPage();
-			parent.reloadData();
+			parent.changeStatusNav(1);
+			parent.query();
 		},
 		error : function() {
 			$.messager.alert('提示','保存事件失败！');

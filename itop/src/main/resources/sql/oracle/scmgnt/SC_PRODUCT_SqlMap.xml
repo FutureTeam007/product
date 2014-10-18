@@ -14,10 +14,10 @@
     from SC_PRODUCT
     where SC_PRODUCT_ID = #scProductId:DECIMAL#
   </select>
-  <select id="selectByOrgId" resultMap="scProductResult" parameterClass="long" >
+  <select id="selectByOrgId" resultMap="scProductResult" parameterClass="java.util.Map" >
     select SC_PRODUCT_ID, SC_ORG_ID, PROD_CODE, PROD_NAME, PROD_DESC, STATE
     from SC_PRODUCT
-    where SC_ORG_ID = #value:DECIMAL# and STATE=1
+    where SC_ORG_ID = #orgId:DECIMAL# and STATE=1
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
     delete from SC_PRODUCT

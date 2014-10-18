@@ -15,10 +15,10 @@ qp.registerTimeEnd = null;
 $(function(){
 	//初始化分页条
 	initDataPager();
-	//初始化状态切换标签
-	bindStatusToggle();
 	//初始化子页滑动
 	initSubPage();
+	//默认执行一次查询
+	query();
 });
 
 //查看事件
@@ -31,7 +31,7 @@ function edit(id){
 } 
 //新增事件
 function add(){
-	showSubPage("incidentDtl.jsp?openFlag=a");
+	showSubPage(rootPath+"/page/incidentmgnt/dtl?openFlag=a");
 }
 
 //重置表单
@@ -53,9 +53,9 @@ function reset(){
 		$(this).removeAttr("checked");
 	});
 	//起始时间
-	$("#qryStartDate").val("");
+	$("#qryStartDate").datebox('setValue','');
 	//截止时间
-	$("#qryEndDate").val("");
+	$("#qryEndDate").datebox('setValue','');
 }
 //提交事件
 function commit(id){
@@ -183,17 +183,62 @@ function setQueryConditions(){
 	qp.registerTimeEnd = $("#qryEndDate").datebox('getValue');
 }
 //查询主方法
-function query(){
+function query(flag){
 	setQueryConditions();
-	$('#incidentDataTable').datagrid('load',qp);
+	//通过点击标签查询
+	if(flag&&flag==1){
+		$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
+	}else{
+		reRenderStatusNav();
+	}
 }
-//绑定切换状态标签页事件
+//重新渲染状态标签
+function reRenderStatusNav(status){
+	$.ajax({
+		type : 'get',
+		url : rootPath + "/incident/statusCount",
+		data : qp,
+		dataType : 'json',
+		success : function(msg) {
+			if(msg!=null&&msg.length!=0){
+				$("#statusNav").empty();
+				for(var i=msg.length-1;i>=0;i--){
+					if(i==0){
+						$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
+						qp.stateVal = msg[i].stateCode;
+					}else{
+						$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" ><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
+					}
+				}
+				bindStatusToggle();
+				var pagger = $('#incidentDataTable').datagrid('getPager');
+				$(pagger).pagination('refresh',{
+					pageNumber:1,
+					pageSize:10
+				});
+				$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
+			}
+		},
+		error : function() {}
+	});
+}
+//绑定状态标签事件
 function bindStatusToggle(){
 	$("#statusNav li").click(function(){
 		$(this).addClass("active");
 		$(this).siblings().removeClass("active");
 		qp.stateVal = $(this).val()=="0"?null: $(this).val();
-		query();
+		query(1);
+	});
+}
+//切换状态标签
+function changeStatusNav(status){
+	$("#statusNav li").each(function(){
+		if($(this).attr("value")==status){
+			$(this).addClass("active");
+			$(this).siblings().removeClass("active");
+			qp.stateVal =status;
+		}
 	});
 }
 //显示子页
@@ -230,16 +275,26 @@ function initDataPager(){
 	var pager = $('#incidentDataTable').datagrid('getPager');
 	$(pager).pagination({
 		pageSize: 10,
-		pageList: [10,20],
+		pageList: [10],
 		beforePageText: '第',
 		afterPageText: '页共 {pages} 页',
 		displayMsg: '当前显示 {from} - {to} 条记录共 {total} 条记录',
+	});
+	$('#incidentDataTable').datagrid({
+		onLoadSuccess:function(){
+			var data = $(this).datagrid("getData");
+			if(data.rows.length==0){
+				 $(this).parent().find("div").filter(".datagrid-body").html("<div class='none-data-info'>暂无数据记录</div>");
+			}
+		}
 	});
 }
 //重新加载数据
 function reloadData(){
 	$('#incidentDataTable').datagrid('reload');
 }
+
+
 //格式化操作列
 function formatOperations(val,row){
 	var buttons = "";

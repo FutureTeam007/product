@@ -10,6 +10,7 @@
             	<span class="site-logo">&nbsp;</span>
                 <a class="navbar-brand brand-fix" href="#">ITOP</a>
             </div>
+            <!-- 
             <div class="input-group custom-search-form" style="width:300px;float:left;margin:15px auto 15px 32px">
                 <input type="text" class="form-control" placeholder="输入事件系列号查询事件" />
                 <span class="input-group-btn">
@@ -18,6 +19,7 @@
                  </button>
             	</span>
             </div>
+             -->
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right topbar-fix">
                 <!-- /.dropdown -->

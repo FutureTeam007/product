@@ -9,6 +9,7 @@ a:active {star:expression(this.onFocus=this.blur());}
 .textbox-icon .combo-arrow{float:right}
 .nav-tabs li{height:30px;font-size:12px;}
 .nav-tabs li a{padding:5px;}
+.none-data-info{width:100%;padding:10px;text-align:center}
 
 /*login*/
 .login-header-fix{height:60px;padding-top:3px;}
@@ -49,8 +50,12 @@ a:active {star:expression(this.onFocus=this.blur());}
 .inci-info-form{width:780px;padding:10px}
 .inci-dtl-title{padding:5px;border-bottom:solid 1px #bbb;width:98%}
 .inci-info-form .col-sm-2{padding-right:0px}
+.inci-info-form .small-control{float:left;display:inline;height:25px;font-size:12px;padding:1px;}
+.inci-info-form .small-control-large{float:left;display:inline;font-size:12px;padding:2px;}
 .inci-info-form .form-desc{font-size:12px;color:#999;}
 .inci-form-btns{margin-top:30px;}
+.inci-dtl-title h4{margin-top:3px;margin-bottom:8px;font-weight:bold;margin-left:5px}
+.top-close-link{padding:3px;}
 /*incident-view*/
 .inci-trans-commit-form .btn-warning{margin-right:15px;}
 .inci-trans-commit-form .form-btns{text-align: center}

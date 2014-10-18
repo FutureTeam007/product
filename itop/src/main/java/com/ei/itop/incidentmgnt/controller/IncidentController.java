@@ -16,11 +16,13 @@ import com.ailk.dazzle.util.json.JSONUtils;
 import com.ailk.dazzle.util.type.DateUtils;
 import com.ailk.dazzle.util.type.StringUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
+import com.ailk.dazzle.util.web.ActionUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.util.SessionUtil;
+import com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
 import com.ei.itop.incidentmgnt.service.IncidentService;
@@ -42,10 +44,11 @@ public class IncidentController {
 	@RequestMapping("/list")
 	public void queryIncidentList(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
-		//获取分页起始位置
-		long startIndex = VarTypeConvertUtils.string2Long(request.getParameter("page"),0);
+		int page = VarTypeConvertUtils.string2Integer(request.getParameter("page"),0);
 		//获取分页大小
 		int pageSize = VarTypeConvertUtils.string2Integer(request.getParameter("rows"),0);
+		//获取分页起始位置
+		long startIndex = (page-1)*pageSize+1;
 		//构建查询条件实体
 		QCIncident qi = new QCIncident();
 		//影响度
@@ -56,7 +59,7 @@ public class IncidentController {
 		//简述
 		String brief = request.getParameter("brief");
 		if(!StringUtils.isEmpty(brief)){
-			qi.setBrief(brief);
+			qi.setBrief(ActionUtils.transParamDecode(brief,"UTF-8"));
 		}
 		//类别
 		String classVal = request.getParameter("classVal");
@@ -94,7 +97,9 @@ public class IncidentController {
 		}
 		//事件状态
 		String stateCode = request.getParameter("stateVal");
-		qi.setStateCode(stateCode);
+		if(!StringUtils.isEmpty(stateCode)){
+			qi.setStateCode(stateCode);
+		}
 		//调用查询获取总数据条数
 		long count = incidentService.MBLQueryIncidentCount(qi, oi);
 		//调用查询获取分页数据
@@ -103,6 +108,65 @@ public class IncidentController {
 		result.put("total", count);
 		result.put("rows", data);
 		String jsonData = JSONUtils.toJSONString(result);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(jsonData);
+	}
+	
+	/**
+	 * 获取各事件状态的事件个数
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/statusCount")
+	public void queryStatusCount(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		OpInfo oi = SessionUtil.getOpInfo();
+		//构建查询条件实体
+		QCIncident qi = new QCIncident();
+		//影响度
+		String affectVal = request.getParameter("affectVal");
+		if(!StringUtils.isEmpty(affectVal)){
+			qi.setAffectCode(affectVal.split(","));
+		}
+		//简述
+		String brief = request.getParameter("brief");
+		if(!StringUtils.isEmpty(brief)){
+			qi.setBrief(ActionUtils.transParamDecode(brief,"UTF-8"));
+		}
+		//类别
+		String classVal = request.getParameter("classVal");
+		if(!StringUtils.isEmpty(classVal)){
+			qi.setClassCode(classVal.split(","));
+		}
+		//事件系列号
+		String incidentCode = request.getParameter("incidentCode");
+		if(!StringUtils.isEmpty(incidentCode)){
+			qi.setIncidentCode(incidentCode);
+		}
+		//优先级
+		String priorityVal = request.getParameter("priorityVal");
+		if(!StringUtils.isEmpty(priorityVal)){
+			qi.setPriorityCode(priorityVal.split(","));
+		}
+		//产品线
+		String productId = request.getParameter("productId");
+		if(!StringUtils.isEmpty(productId)){
+			qi.setProductId(VarTypeConvertUtils.string2Long(productId,0));
+		}
+		//登记时间起始
+		String registerTimeBegin = request.getParameter("registerTimeBegin");
+		if(!StringUtils.isEmpty(registerTimeBegin)){
+			qi.setRegisterTimeBegin(DateUtils.string2Date(registerTimeBegin, DateUtils.FORMATTYPE_yyyy_MM_dd));
+		}
+		//登记时间截止
+		String registerTimeEnd = request.getParameter("registerTimeEnd");
+		if(!StringUtils.isEmpty(registerTimeEnd)){
+			qi.setRegisterTimeEnd(DateUtils.string2Date(registerTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd));
+		}
+		List<IncidentCountInfoByState> stateCount = incidentService.MBLQueryIncidentCountGroupByState(qi, oi.getOrgId(), oi);
+		String jsonData = JSONUtils.toJSONString(stateCount);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
@@ -129,16 +193,18 @@ public class IncidentController {
 		OpInfo oi = SessionUtil.getOpInfo();
 		IncidentInfo ii = new IncidentInfo();
 		//产品线
-		String scProductId = request.getParameter("scProductId");
+		String scProductId = request.getParameter("productId");
 		ii.setScProductId(VarTypeConvertUtils.string2Long(scProductId));
+		String productName = request.getParameter("productName");
+		ii.setProdName(productName);
 		//服务目录
-		String scModuleId = request.getParameter("scModuleId");
+		String scModuleId = request.getParameter("moduleId");
 		String moduleName = request.getParameter("moduleName");
 		ii.setScModuleId(VarTypeConvertUtils.string2Long(scModuleId));
 		ii.setModuleName(moduleName);
 		//影响度
 		String affectCode = request.getParameter("affectCode");
-		String affectVal = request.getParameter("affectVal");
+		String affectVal = request.getParameter("affectVar");
 		ii.setAffectCodeOp(affectCode);
 		ii.setAffectValOp(affectVal);
 		//事件类别
@@ -153,11 +219,25 @@ public class IncidentController {
 		String happenTime = request.getParameter("happenTime");
 		ii.setHappenTime(DateUtils.string2Date(happenTime, DateUtils.FORMATTYPE_yyyy_MM_dd));
 		//详细描述
-		String detail = request.getParameter("happenTime");
+		String detail = request.getParameter("detail");
 		ii.setDetail(detail);
+		//事件来源
+		String sourceCode = request.getParameter("sourceCode");
+		String sourceVal = request.getParameter("sourceVal");
+		ii.setSourceCode(sourceCode);
+		ii.setSourceVal(sourceVal);
+		
 		//抄送
 		String ccList = request.getParameter("ccList");
 		ii.setCcList(ccList);
+		
+		//目前默认填写操作员的信息,待后续开放了顾问代客户提交事件后再设置前台传入的值
+		ii.setIcOwnerCode(oi.getOpCode());
+		ii.setIcOwnerId(oi.getOpId());
+		ii.setIcOwnerName(oi.getOpName());
+		ii.setIcOwnerType("USER");
+		
+		
 		//附件
 		String attachList = request.getParameter("attachList");
 		List<IcAttach> attachs = JSONUtils.parseArray(attachList, IcAttach.class);
@@ -195,31 +275,31 @@ public class IncidentController {
 		String scProductId = request.getParameter("productId");
 		ii.setScProductId(VarTypeConvertUtils.string2Long(scProductId));
 		String productName = request.getParameter("productName");
-		ii.setProdName(productName);
+		ii.setProdName(ActionUtils.transParamDecode(productName,"UTF-8"));
 		//服务目录
 		String scModuleId = request.getParameter("moduleId");
 		String moduleName = request.getParameter("moduleName");
 		ii.setScModuleId(VarTypeConvertUtils.string2Long(scModuleId));
-		ii.setModuleName(moduleName);
+		ii.setModuleName(ActionUtils.transParamDecode(moduleName,"UTF-8"));
 		//影响度
 		String affectCode = request.getParameter("affectCode");
 		String affectVal = request.getParameter("affectVal");
 		ii.setAffectCodeOp(affectCode);
-		ii.setAffectValOp(affectVal);
+		ii.setAffectValOp(ActionUtils.transParamDecode(affectVal,"UTF-8"));
 		//事件类别
 		String classCode = request.getParameter("classCode");
 		String classVar = request.getParameter("classVar");
 		ii.setClassCodeOp(classCode);
-		ii.setClassValOp(classVar);
+		ii.setClassValOp(ActionUtils.transParamDecode(classVar,"UTF-8"));
 		//事件简述
 		String brief = request.getParameter("brief");
-		ii.setBrief(brief);
+		ii.setBrief(ActionUtils.transParamDecode(brief,"UTF-8"));
 		//发生时间
 		String happenTime = request.getParameter("happenTime");
 		ii.setHappenTime(DateUtils.string2Date(happenTime, DateUtils.FORMATTYPE_yyyy_MM_dd));
 		//详细描述
 		String detail = request.getParameter("detail");
-		ii.setDetail(detail);
+		ii.setDetail(ActionUtils.transParamDecode(detail,"UTF-8"));
 		//抄送
 		String ccList = request.getParameter("ccList");
 		ii.setCcList(ccList);
@@ -305,13 +385,13 @@ public class IncidentController {
 		String complexCode = request.getParameter("complexCode");
 		String complexVal = request.getParameter("complexVal");
 		ii.setClassCodeOp(classCodeOp);
-		ii.setClassValOp(classValOp);
+		ii.setClassValOp(ActionUtils.transParamDecode(classValOp,"UTF-8"));
 		ii.setAffectValOp(affectValOp);
-		ii.setAffectCode(affectCodeUser);
+		ii.setAffectCode(ActionUtils.transParamDecode(affectValOp,"UTF-8"));
 		ii.setPriorityCode(priorityCode);
-		ii.setPriorityVal(priorityVal);
+		ii.setPriorityVal(ActionUtils.transParamDecode(priorityVal,"UTF-8"));
 		ii.setComplexCode(complexCode);
-		ii.setComplexVal(complexVal);
+		ii.setComplexVal(ActionUtils.transParamDecode(complexVal,"UTF-8"));
 		incidentService.MBLAdviserCompleteInfo(incidentId, ii, oi);
 	}
 	/**

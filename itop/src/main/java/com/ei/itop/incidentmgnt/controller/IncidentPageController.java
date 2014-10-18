@@ -13,6 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.util.SessionUtil;
+import com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState;
+import com.ei.itop.incidentmgnt.bean.QCIncident;
+import com.ei.itop.incidentmgnt.service.IncidentService;
 import com.ei.itop.scmgnt.service.ParamService;
 
 @Controller
@@ -21,6 +24,8 @@ public class IncidentPageController {
 
 	@Autowired
 	private ParamService paramService;
+	@Autowired
+	private IncidentService incidentService;
 	
 	/**
 	 * 进入管理页面

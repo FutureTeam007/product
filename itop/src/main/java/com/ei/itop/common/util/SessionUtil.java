@@ -17,10 +17,10 @@ public class SessionUtil implements ServletRequestListener{
 	
 	public static OpInfo getOpInfo(){
 		OpInfo oi = new OpInfo();
-		oi.setOpCode("100");
-		oi.setOpId(100);
-		oi.setOpName("test");
-		oi.setOpType("OP");
+		oi.setOpCode("NO-1");
+		oi.setOpId(9001);
+		oi.setOpName("拓创");
+		oi.setOpType("USER");
 		oi.setOrgId(2001);
 		oi.setOrgName("EI");
 		return oi;
