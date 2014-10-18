@@ -140,7 +140,7 @@ function save(){
 }
 //保存提交按钮
 function saveAndCommit(){
-	if(openFlag='a'){
+	if(openFlag=='a'){
 		addIncidentAutoCommit();
 	}else{
 		modifyIncidentAutoCommit();
@@ -180,8 +180,7 @@ function addIncidentAutoCommit(){
 		dataType : 'text',
 		success : function() {
 			parent.hideSubPage();
-			parent.changeStatusNav(2);
-			parent.reloadData();
+			parent.reloadData(2);
 		},
 		error : function() {
 			$.messager.alert('提示','提交事件失败！');
@@ -223,7 +222,7 @@ function modifyIncidentAutoCommit(){
 		dataType : 'text',
 		success : function() {
 			parent.hideSubPage();
-			parent.reloadData();
+			parent.reloadData(2);
 		},
 		error : function() {
 			$.messager.alert('提示','提交事件失败！');

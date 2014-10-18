@@ -38,10 +38,10 @@
 		    	<input class="easyui-combobox" style="width:60%"  name="prodSel" id="prodSel" data-options="
 					url:rootPath+'/product/productList',
 					method:'get',
-					valueField:'scProdId',
+					valueField:'scProductId',
 					textField:'prodName',
 					panelHeight:'auto'"
-				/>
+			   />
 		  	</span>
 	  	</div>
 	  	<div>

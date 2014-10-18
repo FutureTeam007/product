@@ -1,7 +1,7 @@
 //全局查询条件
 var qp={};
-//默认查询待响应事件
-qp.stateVal = 2;
+//默认查询待提交事件
+qp.stateVal = 1;
 qp.incidentCode = null;
 qp.brief = null;
 qp.classVar = null;
@@ -68,7 +68,7 @@ function commit(id){
 		dataType : 'text',
 		success : function() {
 			$.messager.alert('提示','提交事件成功！');
-			$('#incidentDataTable').datagrid('reload');
+			reloadData(2);
 		},
 		error : function() {
 			$.messager.alert('提示','提交事件失败！');
@@ -76,7 +76,7 @@ function commit(id){
 	});
 }
 //删除事件
-function remove(){
+function remove(id){
 	$.messager.confirm('Confirm','您确认要删除该事件？',function(r){
 	    if (r){
 	    	$.ajax({
@@ -88,7 +88,7 @@ function remove(){
 	    		dataType : 'text',
 	    		success : function() {
 	    			$.messager.alert('提示','删除事件成功！');
-	    			$('#incidentDataTable').datagrid('reload');
+	    			reloadData(1);
 	    		},
 	    		error : function() {
 	    			$.messager.alert('提示','删除事件失败！');
@@ -108,7 +108,7 @@ function close(id){
 		dataType : 'text',
 		success : function() {
 			$.messager.alert('提示','关闭事件成功！');
-			$('#incidentDataTable').datagrid('reload');
+			reloadData(8);
 		},
 		error : function() {
 			$.messager.alert('提示','关闭事件失败！');
@@ -152,6 +152,14 @@ function feedback(){
 
 //设置查询条件
 function setQueryConditions(){
+	qp.incidentCode = null;
+	qp.brief = null;
+	qp.classVar = null;
+	qp.productId = null;
+	qp.affectVar = null;
+	qp.priorityVal = null;
+	qp.registerTimeBegin = null;
+	qp.registerTimeEnd = null;
 	//事件系列号
 	qp.incidentCode = $.trim($("#incidentCode").val());
 	//事件简述
@@ -162,20 +170,16 @@ function setQueryConditions(){
 	qp.productId = $("#prodSel").combobox('getValue');
 	//影响度
 	var affectVarArr = [];
-	$("input[name=affectVar]").each(function(){
-		if($(this).get(0).checked){
-			affectVarArr.push($(this).val());
-		}
+	$("input[name=affectVar]:checked").each(function(){
+		affectVarArr.push($(this).val());
 	});
 	if(affectVarArr.length!=0){
 		qp.affectVar = affectVarArr.join(",");
 	}
 	//优先级
 	var pritVarArr = [];
-	$("input[name=priorityVar]").each(function(){
-		if($(this).get(0).checked){
-			pritVarArr.push($(this).val());
-		}
+	$("input[name=priorityVar]:checked").each(function(){
+		pritVarArr.push($(this).val());
 	});
 	if(pritVarArr.length!=0){
 		qp.priorityVal = pritVarArr.join(",");
@@ -205,21 +209,37 @@ function reRenderStatusNav(status){
 		success : function(msg) {
 			if(msg!=null&&msg.length!=0){
 				$("#statusNav").empty();
-				for(var i=msg.length-1;i>=0;i--){
-					if(i==0){
-						$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
-						qp.stateVal = msg[i].stateCode;
-					}else{
-						$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" ><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
+				//如果传递了status，加载完直接选中该status值对应的标签
+				if(status){
+					for(var i=msg.length-1;i>=0;i--){
+						if(status==msg[i].stateCode){
+							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
+							qp.stateVal = msg[i].stateCode;
+						}else{
+							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" ><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
+						}
+					}
+				}
+				//否则如果客户点击了标签进行查询，则选中待提交标签
+				else {
+					for(var i=msg.length-1;i>=0;i--){
+						if(qp.stateVal==msg[i].stateCode){
+							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
+						}else{
+							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" ><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
+						}
 					}
 				}
 				bindStatusToggle();
-				var pagger = $('#incidentDataTable').datagrid('getPager');
-				$(pagger).pagination('refresh',{
-					pageNumber:1,
-					pageSize:10
-				});
-				$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
+				//如果没设置状态，则说明是普通查询，需重新加载表格；如果设置了状态，说明只是刷新nav状态导航
+				if(!status){
+					var pagger = $('#incidentDataTable').datagrid('getPager');
+					$(pagger).pagination('refresh',{
+						pageNumber:1,
+						pageSize:10
+					});
+					$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
+				}
 			}
 		},
 		error : function() {}
@@ -295,8 +315,9 @@ function initDataPager(){
 	});
 }
 //重新加载数据
-function reloadData(){
-	$('#incidentDataTable').datagrid('reload');
+function reloadData(status){
+	reRenderStatusNav(status);
+	$('#incidentDataTable').datagrid('load',qp);
 }
 
 
@@ -306,6 +327,7 @@ function formatOperations(val,row){
 	if(row.itStateCode==1||row.itStateCode==4){
 		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>提交</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>编辑</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='remove("+val+")'>删除</button>";
 	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==5||row.itStateCode==8){
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
 		if(opType=="OP"){

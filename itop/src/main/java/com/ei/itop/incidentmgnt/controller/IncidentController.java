@@ -52,7 +52,7 @@ public class IncidentController {
 		//构建查询条件实体
 		QCIncident qi = new QCIncident();
 		//影响度
-		String affectVal = request.getParameter("affectVal");
+		String affectVal = request.getParameter("affectVar");
 		if(!StringUtils.isEmpty(affectVal)){
 			qi.setAffectCode(affectVal.split(","));
 		}
@@ -62,7 +62,7 @@ public class IncidentController {
 			qi.setBrief(ActionUtils.transParamDecode(brief,"UTF-8"));
 		}
 		//类别
-		String classVal = request.getParameter("classVal");
+		String classVal = request.getParameter("classVar");
 		if(!StringUtils.isEmpty(classVal)){
 			qi.setClassCode(classVal.split(","));
 		}
@@ -136,7 +136,7 @@ public class IncidentController {
 		//构建查询条件实体
 		QCIncident qi = new QCIncident();
 		//影响度
-		String affectVal = request.getParameter("affectVal");
+		String affectVal = request.getParameter("affectVar");
 		if(!StringUtils.isEmpty(affectVal)){
 			qi.setAffectCode(affectVal.split(","));
 		}
@@ -146,7 +146,7 @@ public class IncidentController {
 			qi.setBrief(ActionUtils.transParamDecode(brief,"UTF-8"));
 		}
 		//类别
-		String classVal = request.getParameter("classVal");
+		String classVal = request.getParameter("classVar");
 		if(!StringUtils.isEmpty(classVal)){
 			qi.setClassCode(classVal.split(","));
 		}
@@ -317,6 +317,11 @@ public class IncidentController {
 		String attachList = request.getParameter("attachList");
 		List<IcAttach> attachs = JSONUtils.parseArray(attachList, IcAttach.class);
 		ii.setAttachList(attachs);
+		//目前默认填写操作员的信息,待后续开放了顾问代客户提交事件后再设置前台传入的值
+		ii.setIcOwnerCode(oi.getOpCode());
+		ii.setIcOwnerId(oi.getOpId());
+		ii.setIcOwnerName(oi.getOpName());
+		ii.setIcOwnerType("USER");
 		if(request.getAttribute("notCommit")!=null){
 			incidentService.MBLModifyIncidentAndAttach(incidentId, ii, oi);
 		}else{
