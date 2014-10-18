@@ -764,6 +764,8 @@ public class IncidentServiceImpl implements IncidentService {
 
 		IncidentInfo incidentInfo = new IncidentInfo();
 
+		IcIncident incident = queryIncident(incidentId);
+
 		// 提交时需调整事件状态为待响应
 		incidentInfo.setItStateVal("待响应");
 		incidentInfo.setItStateCode("2");
@@ -772,15 +774,15 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setRegisteTime(commonDAO.getSysDate());
 
 		// // 自动填入商户信息、客户信息
-		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
+		CcUser user = userService.queryUser(incident.getIcOwnerId());
 		// incidentInfo.setScOrgId(user.getScOrgId());
 		// incidentInfo.setScOrgName(user.getScOrgName());
 		// incidentInfo.setCcCustId(user.getCcCustId());
 		// incidentInfo.setCustName(user.getCustName());
 
 		// 提交时自动分派负责顾问，并作为干系人
-		ScOp inChargeAdviser = getInChargeAdviser(incidentInfo.getScOrgId(),
-				incidentInfo.getCcCustId(), incidentInfo.getScProductId());
+		ScOp inChargeAdviser = getInChargeAdviser(incident.getScOrgId(),
+				incident.getCcCustId(), incident.getScProductId());
 		incidentInfo.setIcObjectType("OP");
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
 		incidentInfo.setIcLoginCode(inChargeAdviser.getLoginCode());
@@ -788,7 +790,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 填入事件所处阶段
 		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
-				user.getCcCustId(), incidentInfo.getScProductId(),
+				user.getCcCustId(), incident.getScProductId(),
 				inChargeAdviser.getScOpId()));
 
 		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
@@ -799,9 +801,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
-		transactionInfo.setItPhase(incidentInfo.getItPhase());
+		transactionInfo.setItPhase(incident.getItPhase());
 		transactionInfo.setTransType("流程事务-顾问处理中");
-		transactionInfo.setContents(incidentInfo.getDetail());
+		transactionInfo.setContents(incident.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
 
