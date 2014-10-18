@@ -307,7 +307,7 @@ public class IncidentController {
 		ii.setClassCodeOp(classCodeOp);
 		ii.setClassValOp(classValOp);
 		ii.setAffectValOp(affectValOp);
-		ii.setAffectCodeUser(affectCodeUser);
+		ii.setAffectCode(affectCodeUser);
 		ii.setPriorityCode(priorityCode);
 		ii.setPriorityVal(priorityVal);
 		ii.setComplexCode(complexCode);
