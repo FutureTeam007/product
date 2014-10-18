@@ -27,7 +27,7 @@ function view(id){
 }
 //编辑事件
 function edit(id){
-	showSubPage("incidentDtl.jsp?openFlag=m&id="+id);
+	showSubPage(rootPath+"/page/incidentmgnt/dtl?openFlag=m&id="+id);
 } 
 //新增事件
 function add(){
@@ -65,9 +65,10 @@ function commit(id){
 		data : {
 			incidentId :id
 		},
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
 			$.messager.alert('提示','提交事件成功！');
+			$('#incidentDataTable').datagrid('reload');
 		},
 		error : function() {
 			$.messager.alert('提示','提交事件失败！');
@@ -84,9 +85,10 @@ function remove(){
 	    		data : {
 	    			incidentId :id
 	    		},
-	    		dataType : 'json',
-	    		success : function(msg) {
+	    		dataType : 'text',
+	    		success : function() {
 	    			$.messager.alert('提示','删除事件成功！');
+	    			$('#incidentDataTable').datagrid('reload');
 	    		},
 	    		error : function() {
 	    			$.messager.alert('提示','删除事件失败！');
@@ -103,9 +105,10 @@ function close(id){
 		data : {
 			incidentId :id
 		},
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
 			$.messager.alert('提示','关闭事件成功！');
+			$('#incidentDataTable').datagrid('reload');
 		},
 		error : function() {
 			$.messager.alert('提示','关闭事件失败！');
@@ -247,7 +250,9 @@ function showSubPage(url){
 	$("body").css({"overflow":"hidden"});
 	$("#pageMask").show();
 	$("#subPage").show();
-	$("#subPageIframe").attr("src",url);
+	setTimeout(function(){
+		$("#subPageIframe").attr("src",url);
+	},300);
 	$("#subPage").animate({right: '0px'}, "50");
 }
 //隐藏子页
@@ -275,7 +280,7 @@ function initDataPager(){
 	var pager = $('#incidentDataTable').datagrid('getPager');
 	$(pager).pagination({
 		pageSize: 10,
-		pageList: [10],
+		showPageList:false,
 		beforePageText: '第',
 		afterPageText: '页共 {pages} 页',
 		displayMsg: '当前显示 {from} - {to} 条记录共 {total} 条记录',

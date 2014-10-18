@@ -82,22 +82,23 @@
 				loadMsg:'数据加载中，请稍后……',
 				remoteSort:true,
 				multiSort:true,
-				pagination:true
+				pagination:true,
+				showPageList:false,
 			">
 			<thead>
 				<tr>
-					<th data-options="field:'incidentId',formatter:formatOperations,align:'center'" width="9%"></th>
-					<th data-options="field:'incidentCode'" width="11%">事件序列号</th>
-					<th data-options="field:'brief'" width="14%">事件简述</th>
+					<th data-options="field:'icIncidentId',formatter:formatOperations,align:'center'" width="9%"></th>
+					<th data-options="field:'incidentCode'" width="10%">事件序列号</th>
+					<th data-options="field:'brief'" width="11%">事件简述</th>
 					<th data-options="field:'prodName'" width="8%">产品线</th>
 					<th data-options="field:'classValOp'" width="5%">类别</th>
 					<th data-options="field:'affectValOp'" width="4%">影响度</th>
 					<th data-options="field:'priorityVal'" width="4%">优先级</th>
 					<th data-options="field:'itStateVal'" width="5%">当前状态</th>
 					<th data-options="field:'plObjectName'" width="9%">提交人</th>
-					<th data-options="field:'registeTime',sortable:true,formatter:dateFormatter" width="6%">提交时间</th>
-					<th data-options="field:'scLoginName'" width="9%">处理人</th>
-					<th data-options="field:'modifyDate',sortable:true,formatter:dateFormatter" width="6%">最近更新时间</th>
+					<th data-options="field:'registeTime',sortable:true,formatter:dateFormatter" width="8%">提交时间</th>
+					<th data-options="field:'icObjectName'" width="9%">处理人</th>
+					<th data-options="field:'modifyDate',sortable:true,formatter:dateFormatter" width="8%">最近更新时间</th>
 					<th data-options="field:'finishTime'" width="6%">完成时间</th>
 					<th data-options="field:'feedbackVal',formatter:formatFeedback" width="5%">满意度</th>
 				</tr>

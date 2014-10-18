@@ -12,6 +12,7 @@ $(function(){
 
 //当产品列表选中时，触发服务目录重新加载
 function prodSelChange(data){
+	$("#moduleSel").combotree('setValue','');
 	$("#moduleSel").combotree('reload',rootPath+'/product/moduleTree?productId='+data.scProductId);
 }
 
@@ -26,17 +27,20 @@ function queryIncident(){
 		dataType : 'json',
 		success : function(msg) {
 			//绑定表单
-			$("#prodSel").combobox().setValue(msg.scProductId);
-			$("#moduleSel").combobox().setValue(msg.scModuleId);
+			$("#prodSel").combobox('setValue',msg.scProductId);
+			$("#moduleSel").combotree('reload',rootPath+'/product/moduleTree?productId='+msg.scProductId);
+			setTimeout(function(){
+				$("#moduleSel").combotree('setValue',msg.scModuleId);
+			},200);
 			//影响度
 			$("input[name=affectVar]").each(function(){
-				if($(this).val()==msg.affectValOp){
+				if($(this).val()==msg.affectCode){
 					$(this).attr("checked","checked");
 				}
 			});
-			$("#inciTypeSel").combobox().setValue(msg.classValOp);
+			$("#inciTypeSel").combobox('setValue',msg.classCode);
 			$("#brief").val(msg.brief);
-			$("#happenTime").val(msg.happenTime);
+			$("#happenTime").datebox('setValue',dateFormatter(msg.happenTime));
 			$("#detail").val(msg.detail);
 			$("#ccList").val(msg.ccList);
 			var attachData = msg.attachList;
@@ -128,7 +132,7 @@ function validateForm(){
 }
 //保存按钮
 function save(){
-	if(openFlag='a'){
+	if(openFlag=='a'){
 		addIncident();
 	}else{
 		modifyIncident();
@@ -173,9 +177,10 @@ function addIncidentAutoCommit(){
 		type : 'post',
 		url : rootPath + "/incident/addc",
 		data : fv,
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
 			parent.hideSubPage();
+			parent.changeStatusNav(2);
 			parent.reloadData();
 		},
 		error : function() {
@@ -194,8 +199,8 @@ function modifyIncident(){
 		type : 'post',
 		url : rootPath + "/incident/modify",
 		data : fv,
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
 			parent.hideSubPage();
 			parent.reloadData();
 		},
@@ -215,8 +220,8 @@ function modifyIncidentAutoCommit(){
 		type : 'post',
 		url : rootPath + "/incident/modifyc",
 		data : fv,
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
 			parent.hideSubPage();
 			parent.reloadData();
 		},
@@ -224,5 +229,25 @@ function modifyIncidentAutoCommit(){
 			$.messager.alert('提示','提交事件失败！');
 		}
 	});
+}
+//格式化时间列
+function dateFormatter(val){
+	if(!val){
+		return;
+	}
+	var date = new Date(val);
+	//年
+	var year = date.getFullYear();
+	//月
+	var month = date.getMonth();
+	//日
+	var day = date.getDate();
+	//小时
+	var hour = date.getHours();
+	//分钟
+	var minute = date.getMinutes();
+	//秒
+	var second = date.getSeconds();
+	return year+"/"+(month+1)+"/"+day;
 }
 

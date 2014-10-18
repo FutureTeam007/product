@@ -122,7 +122,7 @@
   		</div>
   		<div class="form-group clearfix inci-form-btns">
 		    <button class="btn btn-outline btn-warning btn-lg" style="margin-left:280px;margin-right:20px" type="button" onclick="save()">保存</button>
-		    <button class="btn btn-warning btn-lg" type="button" onclick="commit()">直接提交</button>
+		    <button class="btn btn-warning btn-lg" type="button" onclick="saveAndCommit()">直接提交</button>
   		</div>
 	</form>
 </body>

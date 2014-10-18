@@ -71,10 +71,20 @@ public class IncidentController {
 		if(!StringUtils.isEmpty(incidentCode)){
 			qi.setIncidentCode(incidentCode);
 		}
-		//两个时间排序字段
-		//TODO
-		qi.setOrderByLastModifyTime("1");
-		qi.setOrderByRegisterTime("1");
+		//两个时间排序字段的设置
+		String sort = request.getParameter("sort");
+		String order = request.getParameter("order");
+		if(!StringUtils.isEmpty(sort)&&!StringUtils.isEmpty(order)){
+			String[] sorts = sort.split(",");
+			String[] orders = order.split(",");
+			for(int i=0;i<sorts.length;i++){
+				if("registeTime".equals(sorts[i])){
+					qi.setOrderByRegisterTime(orders[i]);
+				}else if("modifyDate".equals(sorts[i])){
+					qi.setOrderByLastModifyTime(orders[i]);
+				}
+			}
+		}
 		//优先级
 		String priorityVal = request.getParameter("priorityVal");
 		if(!StringUtils.isEmpty(priorityVal)){
