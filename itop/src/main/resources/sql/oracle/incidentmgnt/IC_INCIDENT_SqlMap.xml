@@ -91,8 +91,8 @@
       <isNotNull prepend="" property="brief" >
     	and brief like '%$brief:VARCHAR$%'
       </isNotNull>
-      <isNotNull prepend="" property="scProductId" >
-    	and sc_product_id = #scProductId:DECIMAL#
+      <isNotNull prepend="" property="productId" >
+    	and sc_product_id = #productId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="affectCode" >
       	and affect_code in
@@ -148,8 +148,8 @@
       <isNotNull prepend="" property="brief" >
     	and brief like '%$brief:VARCHAR$%'
       </isNotNull>
-      <isNotNull prepend="" property="scProductId" >
-    	and sc_product_id = #scProductId:DECIMAL#
+      <isNotNull prepend="" property="productId" >
+    	and sc_product_id = #productId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="affectCode" >
       	and affect_code in
@@ -206,8 +206,8 @@
       <isNotNull prepend="" property="brief" >
     	and brief like '%$brief:VARCHAR$%'
       </isNotNull>
-      <isNotNull prepend="" property="scProductId" >
-    	and sc_product_id = #scProductId:DECIMAL#
+      <isNotNull prepend="" property="productId" >
+    	and sc_product_id = #productId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="affectCode" >
       	and affect_code in
@@ -253,8 +253,8 @@
       <isNotNull prepend="" property="brief" >
     	and brief like '%$brief:VARCHAR$%'
       </isNotNull>
-      <isNotNull prepend="" property="scProductId" >
-    	and sc_product_id = #scProductId:DECIMAL#
+      <isNotNull prepend="" property="productId" >
+    	and sc_product_id = #productId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="affectCode" >
       	and affect_code in
