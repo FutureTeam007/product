@@ -207,7 +207,7 @@ public class IncidentServiceImpl implements IncidentService {
 			result.setRecordCount(new Long(0));
 			// 匹配是否有数量
 			for (int j = 0; list != null && j < list.size(); j++) {
-				IncidentCountInfoByState item = list.get(i);
+				IncidentCountInfoByState item = list.get(j);
 				if (item.getStateCode().equals(param.getParamCode())) {
 					result.setRecordCount(item.getRecordCount());
 					recordCount += item.getRecordCount();
