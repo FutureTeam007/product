@@ -185,6 +185,17 @@ public class IncidentServiceImpl implements IncidentService {
 		List<IncidentCountInfoByState> list = incidentCountInfoByStateDAO
 				.findByParams("IC_INCIDENT.queryIncidentCountGroupByState", hm);
 
+		// 全部
+		IncidentCountInfoByState info = new IncidentCountInfoByState();
+		info.setStateCode("-1");
+		info.setStateVal("全部");
+		long recordCount = 0;
+		for (int i = 0; list != null && i < list.size(); i++) {
+			IncidentCountInfoByState item = list.get(i);
+			recordCount += item.getRecordCount();
+		}
+		info.setRecordCount(recordCount);
+
 		return list;
 	}
 

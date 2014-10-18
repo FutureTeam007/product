@@ -290,6 +290,7 @@
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
 	group by it_state_code,it_state_val
+	order by state_code
   </select>
   <select id="selectByPrimaryKey" resultMap="icIncidentResult" parameterClass="Long" >
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
