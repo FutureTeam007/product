@@ -31,14 +31,10 @@
     <result column="HAPPEN_TIME" property="happenTime" jdbcType="DATE" />
     <result column="SOURCE_CODE" property="sourceCode" jdbcType="VARCHAR" />
     <result column="SOURCE_VAL" property="sourceVal" jdbcType="VARCHAR" />
-    <result column="CLASS_CODE_USER" property="classCodeUser" jdbcType="VARCHAR" />
-    <result column="CLASS_VAL_USER" property="classValUser" jdbcType="VARCHAR" />
-    <result column="AFFECT_CODE_USER" property="affectCodeUser" jdbcType="VARCHAR" />
-    <result column="AFFECT_VAL_USER" property="affectValUser" jdbcType="VARCHAR" />
-    <result column="CLASS_CODE_OP" property="classCodeOp" jdbcType="VARCHAR" />
-    <result column="CLASS_VAL_OP" property="classValOp" jdbcType="VARCHAR" />
-    <result column="AFFECT_CODE_OP" property="affectCodeOp" jdbcType="VARCHAR" />
-    <result column="AFFECT_VAL_OP" property="affectValOp" jdbcType="VARCHAR" />
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+    <result column="CLASS_VAL" property="classVal" jdbcType="VARCHAR" />
+    <result column="AFFECT_CODE" property="affectCode" jdbcType="VARCHAR" />
+    <result column="AFFECT_VAL" property="affectVal" jdbcType="VARCHAR" />
     <result column="COMPLEX_CODE" property="complexCode" jdbcType="VARCHAR" />
     <result column="COMPLEX_VAL" property="complexVal" jdbcType="VARCHAR" />
     <result column="PRIORITY_CODE" property="priorityCode" jdbcType="VARCHAR" />
@@ -77,8 +73,8 @@
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
       SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, SC_LOGIN_CODE, SC_LOGIN_NAME,
       IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE, REGISTE_TIME, HAPPEN_TIME,
-      SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER, AFFECT_CODE_USER, AFFECT_VAL_USER,
-      CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP, COMPLEX_CODE, COMPLEX_VAL,
+      SOURCE_CODE, SOURCE_VAL,
+      CLASS_CODE, CLASS_VAL, AFFECT_CODE, AFFECT_VAL, COMPLEX_CODE, COMPLEX_VAL,
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
@@ -93,17 +89,29 @@
       <isNotNull prepend="" property="scProductId" >
     	and sc_product_id = #scProductId:DECIMAL#
       </isNotNull>
-      <isNotNull prepend="" property="affectCodeOp" >
-    	and affect_code_op = #affectCodeOp:VARCHAR#
+      <isNotNull prepend="" property="affectCode" >
+      	and affect_code in
+      	<iterate property="affectCode" open="(" close=")" conjunction=",">
+    		#affectCode[]#
+      	</iterate>
       </isNotNull>
-      <isNotNull prepend="" property="classCodeOp" >
-    	and class_code_op = #classCodeOp:VARCHAR#
+      <isNotNull prepend="" property="classCode" >
+      	and class_code in
+      	<iterate property="classCode" open="(" close=")" conjunction=",">
+    		#classCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="priorityCode" >
-    	and PRIORITY_CODE = #priorityCode:VARCHAR#
+      	and PRIORITY_CODE in
+      	<iterate property="priorityCode" open="(" close=")" conjunction=",">
+    		#priorityCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="complexCode" >
-    	and COMPLEX_CODE = #complexCode:VARCHAR#
+      	and COMPLEX_CODE in
+      	<iterate property="complexCode" open="(" close=")" conjunction=",">
+    		#complexCode[]#
+      	</iterate>
       </isNotNull>
       order by $orderBy$
   </select>
@@ -113,8 +121,8 @@
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
       SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, SC_LOGIN_CODE, SC_LOGIN_NAME,
       IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE, REGISTE_TIME, HAPPEN_TIME,
-      SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER, AFFECT_CODE_USER, AFFECT_VAL_USER,
-      CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP, COMPLEX_CODE, COMPLEX_VAL,
+      SOURCE_CODE, SOURCE_VAL,
+      CLASS_CODE, CLASS_VAL, AFFECT_CODE, AFFECT_VAL, COMPLEX_CODE, COMPLEX_VAL,
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
@@ -129,17 +137,29 @@
       <isNotNull prepend="" property="scProductId" >
     	and sc_product_id = #scProductId:DECIMAL#
       </isNotNull>
-      <isNotNull prepend="" property="affectCodeOp" >
-    	and affect_code_op = #affectCodeOp:VARCHAR#
+      <isNotNull prepend="" property="affectCode" >
+      	and affect_code in
+      	<iterate property="affectCode" open="(" close=")" conjunction=",">
+    		#affectCode[]#
+      	</iterate>
       </isNotNull>
-      <isNotNull prepend="" property="classCodeOp" >
-    	and class_code_op = #classCodeOp:VARCHAR#
+      <isNotNull prepend="" property="classCode" >
+      	and class_code in
+      	<iterate property="classCode" open="(" close=")" conjunction=",">
+    		#classCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="priorityCode" >
-    	and PRIORITY_CODE = #priorityCode:VARCHAR#
+      	and PRIORITY_CODE in
+      	<iterate property="priorityCode" open="(" close=")" conjunction=",">
+    		#priorityCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="complexCode" >
-    	and COMPLEX_CODE = #complexCode:VARCHAR#
+      	and COMPLEX_CODE in
+      	<iterate property="complexCode" open="(" close=")" conjunction=",">
+    		#complexCode[]#
+      	</iterate>
       </isNotNull>
       order by $orderBy$
       ) t where t.rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
@@ -150,8 +170,8 @@
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
       SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, SC_LOGIN_CODE, SC_LOGIN_NAME,
       IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE, REGISTE_TIME, HAPPEN_TIME,
-      SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER, AFFECT_CODE_USER, AFFECT_VAL_USER,
-      CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP, COMPLEX_CODE, COMPLEX_VAL,
+      SOURCE_CODE, SOURCE_VAL,
+      CLASS_CODE, CLASS_VAL, AFFECT_CODE, AFFECT_VAL, COMPLEX_CODE, COMPLEX_VAL,
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
@@ -166,17 +186,29 @@
       <isNotNull prepend="" property="scProductId" >
     	and sc_product_id = #scProductId:DECIMAL#
       </isNotNull>
-      <isNotNull prepend="" property="affectCodeOp" >
-    	and affect_code_op = #affectCodeOp:VARCHAR#
+      <isNotNull prepend="" property="affectCode" >
+      	and affect_code in
+      	<iterate property="affectCode" open="(" close=")" conjunction=",">
+    		#affectCode[]#
+      	</iterate>
       </isNotNull>
-      <isNotNull prepend="" property="classCodeOp" >
-    	and class_code_op = #classCodeOp:VARCHAR#
+      <isNotNull prepend="" property="classCode" >
+      	and class_code in
+      	<iterate property="classCode" open="(" close=")" conjunction=",">
+    		#classCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="priorityCode" >
-    	and PRIORITY_CODE = #priorityCode:VARCHAR#
+      	and PRIORITY_CODE in
+      	<iterate property="priorityCode" open="(" close=")" conjunction=",">
+    		#priorityCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="complexCode" >
-    	and COMPLEX_CODE = #complexCode:VARCHAR#
+      	and COMPLEX_CODE in
+      	<iterate property="complexCode" open="(" close=")" conjunction=",">
+    		#complexCode[]#
+      	</iterate>
       </isNotNull>
       )
   </select>
@@ -186,8 +218,8 @@
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
       SC_PRODUCT_ID, PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, SC_LOGIN_CODE, SC_LOGIN_NAME,
       IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE, REGISTE_TIME, HAPPEN_TIME,
-      SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER, AFFECT_CODE_USER, AFFECT_VAL_USER,
-      CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP, COMPLEX_CODE, COMPLEX_VAL,
+      SOURCE_CODE, SOURCE_VAL,
+      CLASS_CODE, CLASS_VAL, AFFECT_CODE, AFFECT_VAL, COMPLEX_CODE, COMPLEX_VAL,
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
@@ -208,8 +240,8 @@
       IC_OWNER_TYPE, IC_OWNER_ID, IC_OWNER_CODE, IC_OWNER_NAME,
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
       SC_OP_ID, SC_LOGIN_CODE, SC_LOGIN_NAME, IC_OBJECT_TYPE, IC_OBJECT_ID, IC_OBJECT_NAME, IC_LOGIN_CODE,
-      REGISTE_TIME, HAPPEN_TIME, SOURCE_CODE, SOURCE_VAL, CLASS_CODE_USER, CLASS_VAL_USER,
-      AFFECT_CODE_USER, AFFECT_VAL_USER, CLASS_CODE_OP, CLASS_VAL_OP, AFFECT_CODE_OP, AFFECT_VAL_OP,
+      REGISTE_TIME, HAPPEN_TIME, SOURCE_CODE, SOURCE_VAL,
+      CLASS_CODE, CLASS_VAL, AFFECT_CODE, AFFECT_VAL,
       COMPLEX_CODE, COMPLEX_VAL, PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME,
       DEAL_TIME, REPONSE_DUR2, DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR,
       DEAL_DUR, FINISH_TIME, IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL,
@@ -222,9 +254,9 @@
       #plObjectType:VARCHAR#, #plObjectId:DECIMAL#, #plLoginCode:VARCHAR#, #plObjectName:VARCHAR#,
       #scOpId:DECIMAL#, #scLoginCode:VARCHAR#, #scLoginName:VARCHAR#, #icObjectType:VARCHAR#, #icObjectId:DECIMAL#,
       #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:DATE#, #happenTime:DATE#,
-      #sourceCode:VARCHAR#, #sourceVal:VARCHAR#, #classCodeUser:VARCHAR#, #classValUser:VARCHAR#,
-      #affectCodeUser:VARCHAR#, #affectValUser:VARCHAR#, #classCodeOp:VARCHAR#,
-      #classValOp:VARCHAR#, #affectCodeOp:VARCHAR#, #affectValOp:VARCHAR#, #complexCode:VARCHAR#,
+      #sourceCode:VARCHAR#, #sourceVal:VARCHAR#,
+      #classCode:VARCHAR#,
+      #classVal:VARCHAR#, #affectCode:VARCHAR#, #affectVal:VARCHAR#, #complexCode:VARCHAR#,
       #complexVal:VARCHAR#, #priorityCode:VARCHAR#, #priorityVal:VARCHAR#, #ccList:VARCHAR#,
       #brief:VARCHAR#, #detail:VARCHAR#, #responseTime:DECIMAL#, #dealTime:DECIMAL#,
       #reponseDur2:DATE#, #dealDur2:DATE#, #reponseNum:VARCHAR#, #dealNum:VARCHAR#,
@@ -264,14 +296,10 @@
       HAPPEN_TIME = #happenTime:DATE#,
       SOURCE_CODE = #sourceCode:VARCHAR#,
       SOURCE_VAL = #sourceVal:VARCHAR#,
-      CLASS_CODE_USER = #classCodeUser:VARCHAR#,
-      CLASS_VAL_USER = #classValUser:VARCHAR#,
-      AFFECT_CODE_USER = #affectCodeUser:VARCHAR#,
-      AFFECT_VAL_USER = #affectValUser:VARCHAR#,
-      CLASS_CODE_OP = #classCodeOp:VARCHAR#,
-      CLASS_VAL_OP = #classValOp:VARCHAR#,
-      AFFECT_CODE_OP = #affectCodeOp:VARCHAR#,
-      AFFECT_VAL_OP = #affectValOp:VARCHAR#,
+      CLASS_CODE = #classCode:VARCHAR#,
+      CLASS_VAL = #classVal:VARCHAR#,
+      AFFECT_CODE = #affectCode:VARCHAR#,
+      AFFECT_VAL = #affectVal:VARCHAR#,
       COMPLEX_CODE = #complexCode:VARCHAR#,
       COMPLEX_VAL = #complexVal:VARCHAR#,
       PRIORITY_CODE = #priorityCode:VARCHAR#,
@@ -391,29 +419,17 @@
       <isNotNull prepend="," property="sourceVal" >
         SOURCE_VAL = #sourceVal:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="classCodeUser" >
-        CLASS_CODE_USER = #classCodeUser:VARCHAR#
+      <isNotNull prepend="," property="classCode" >
+        CLASS_CODE = #classCode:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="classValUser" >
-        CLASS_VAL_USER = #classValUser:VARCHAR#
+      <isNotNull prepend="," property="classVal" >
+        CLASS_VAL = #classVal:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="affectCodeUser" >
-        AFFECT_CODE_USER = #affectCodeUser:VARCHAR#
+      <isNotNull prepend="," property="affectCode" >
+        AFFECT_CODE = #affectCode:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="affectValUser" >
-        AFFECT_VAL_USER = #affectValUser:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="classCodeOp" >
-        CLASS_CODE_OP = #classCodeOp:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="classValOp" >
-        CLASS_VAL_OP = #classValOp:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="affectCodeOp" >
-        AFFECT_CODE_OP = #affectCodeOp:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="affectValOp" >
-        AFFECT_VAL_OP = #affectValOp:VARCHAR#
+      <isNotNull prepend="," property="affectVal" >
+        AFFECT_VAL = #affectVal:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="complexCode" >
         COMPLEX_CODE = #complexCode:VARCHAR#
