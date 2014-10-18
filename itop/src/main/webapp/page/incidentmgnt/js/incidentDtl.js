@@ -242,12 +242,6 @@ function dateFormatter(val){
 	var month = date.getMonth();
 	//日
 	var day = date.getDate();
-	//小时
-	var hour = date.getHours();
-	//分钟
-	var minute = date.getMinutes();
-	//秒
-	var second = date.getSeconds();
-	return year+"/"+(month+1)+"/"+day;
+	return year+"-"+(month+1)+"-"+day;
 }
 
