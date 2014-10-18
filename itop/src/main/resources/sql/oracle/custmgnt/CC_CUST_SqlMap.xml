@@ -17,7 +17,7 @@
     <result column="NOTES" property="notes" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="ccCustResult" parameterClass="com.ei.itop.common.dbentity.CcCust" >
+  <select id="selectByPrimaryKey" resultMap="ccCustResult" parameterClass="long" >
     select CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL, ORG_LVL_PATH,
       CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
     from CC_CUST

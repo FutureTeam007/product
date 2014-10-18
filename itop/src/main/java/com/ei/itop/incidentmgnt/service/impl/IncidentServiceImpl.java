@@ -369,6 +369,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 */
 	protected String generateIncidentCode() throws Exception {
 		// 客户编码（大写）_YYYYMM_000001
+		// ********
 		return "XXX_YYYYMM_000001";
 	}
 

@@ -40,6 +40,9 @@
     where CC_USER_ID = #ccUserId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcUser" >
+  	<selectKey resultClass="long" keyProperty="ccUserId">
+  		select CC_USER$$SEQ.nextval from dual
+  	</selectKey>
     insert into CC_USER (CC_USER_ID, CC_CUST_ID, CUST_NAME, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE,
       LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO,
       OFFICE_TEL, NOTES, STATE)

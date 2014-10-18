@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
 import com.ei.itop.custmgnt.service.CustMgntService;
 
@@ -27,6 +28,9 @@ public class CustMgntServiceImpl implements CustMgntService {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, CcCustProdOp> custProdOpDAO;
+
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, CcCust> custDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -69,6 +73,19 @@ public class CustMgntServiceImpl implements CustMgntService {
 				"CC_CUST_PROD_OP.queryCustProdOpInfo", hm);
 
 		return custProdOpList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ei.itop.custmgnt.service.CustMgntService#getCustInfo(long)
+	 */
+	public CcCust getCustInfo(long custId) throws Exception {
+		// TODO Auto-generated method stub
+
+		CcCust cust = custDAO.find("CC_CUST.selectByPrimaryKey", custId);
+
+		return cust;
 	}
 
 }

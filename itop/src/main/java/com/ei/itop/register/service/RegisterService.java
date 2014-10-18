@@ -45,13 +45,13 @@ public interface RegisterService {
 	public void activeAccount(long userId) throws Exception;
 
 	/**
-	 * 验证邮箱是否存在，存在则发送修改密码链接邮件
+	 * 校验注册的登录工号是否已存在
 	 * 
-	 * @param email
-	 * @return
+	 * @param loginCode
+	 * @return true-已存在 false-不存在
 	 * @throws Exception
 	 */
-	public boolean checkEmail(String email) throws Exception;
+	public boolean checkLoginCodeIsExist(String loginCode) throws Exception;
 
 	/**
 	 * 用户点击修改密码链接后打开修改密码窗口，填入信息，调用该逻辑修改密码

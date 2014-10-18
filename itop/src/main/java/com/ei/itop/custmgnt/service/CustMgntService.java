@@ -5,6 +5,7 @@ package com.ei.itop.custmgnt.service;
 
 import java.util.List;
 
+import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
 
 /**
@@ -37,4 +38,13 @@ public interface CustMgntService {
 	 */
 	public List<CcCustProdOp> getCustProdOpList(long orgId, long custId,
 			long productId) throws Exception;
+
+	/**
+	 * 根据客户ID查询客户信息
+	 * 
+	 * @param custId
+	 * @return
+	 * @throws Exception
+	 */
+	public CcCust getCustInfo(long custId) throws Exception;
 }

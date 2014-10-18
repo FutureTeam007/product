@@ -3,9 +3,18 @@
  */
 package com.ei.itop.register.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcCust;
+import com.ei.itop.common.dbentity.CcUser;
+import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.register.bean.RegisterInfo;
 import com.ei.itop.register.service.RegisterService;
 
@@ -13,7 +22,17 @@ import com.ei.itop.register.service.RegisterService;
  * @author Jack.Qi
  * 
  */
+@Service("registerService")
 public class RegisterServiceImpl implements RegisterService {
+
+	private static final Logger log = Logger
+			.getLogger(RegisterServiceImpl.class);
+
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, CcUser> userDAO;
+
+	@Resource(name = "custMgntService")
+	private CustMgntService custMgntService;
 
 	/*
 	 * (non-Javadoc)
@@ -24,7 +43,21 @@ public class RegisterServiceImpl implements RegisterService {
 	 */
 	public long userRegister(RegisterInfo registerInfo) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+
+		// 填入商户信息
+		CcCust cust = custMgntService.getCustInfo(registerInfo.getCcCustId());
+		registerInfo.setScOrgId(cust.getScOrgId());
+		registerInfo.setScOrgName(cust.getScOrgName());
+
+		// 设置操作员类别，2-普通用户
+		registerInfo.setOpKind(new Long(2));
+
+		// 设置账户状态，2-锁定
+		registerInfo.setState(new Long(2));
+
+		long userId = userDAO.save("CC_USER.insert", registerInfo);
+
+		return userId;
 	}
 
 	/*
@@ -64,18 +97,6 @@ public class RegisterServiceImpl implements RegisterService {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ei.itop.register.service.IRegisterService#checkEmail(java.lang.String
-	 * )
-	 */
-	public boolean checkEmail(String email) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	/**
 	 * 发送修改密码链接邮件
 	 * 
@@ -97,6 +118,32 @@ public class RegisterServiceImpl implements RegisterService {
 			throws Exception {
 		// TODO Auto-generated method stub
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ei.itop.register.service.RegisterService#checkLoginCodeIsExist(java
+	 * .lang.String)
+	 */
+	public boolean checkLoginCodeIsExist(String loginCode) throws Exception {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("loginCode", loginCode);
+
+		List<CcUser> userList = userDAO.findByParams(
+				"CC_USER.queryUserByLoginCode", hm);
+
+		boolean rtnValue = false;
+
+		// 已存在
+		if (userList != null && userList.size() > 0) {
+			rtnValue = true;
+		}
+
+		return rtnValue;
 	}
 
 }
