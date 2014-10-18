@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SC_ORG" >
+  <resultMap id="scOrgResult" class="com.ei.itop.common.dbentity.ScOrg" >
+    <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
+    <result column="SUP_ORG_ID" property="supOrgId" jdbcType="DECIMAL" />
+    <result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+    <result column="ORG_LEVEL" property="orgLevel" jdbcType="DECIMAL" />
+    <result column="ORG_LVL_PATH" property="orgLvlPath" jdbcType="VARCHAR" />
+    <result column="SC_ORG_NAME" property="scOrgName" jdbcType="VARCHAR" />
+    <result column="SHORT_NAME" property="shortName" jdbcType="VARCHAR" />
+    <result column="LAST_NAME" property="lastName" jdbcType="VARCHAR" />
+    <result column="DOMAIN_NAME" property="domainName" jdbcType="VARCHAR" />
+    <result column="DOMAIN_NAME_SEC" property="domainNameSec" jdbcType="VARCHAR" />
+    <result column="NOTES" property="notes" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="scOrgResult" parameterClass="com.ei.itop.common.dbentity.ScOrg" >
+    select SC_ORG_ID, SUP_ORG_ID, ORG_CODE, ORG_LEVEL, ORG_LVL_PATH, SC_ORG_NAME, SHORT_NAME,
+      LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
+    from SC_ORG
+    where SC_ORG_ID = #scOrgId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScOrg" >
+    delete from SC_ORG
+    where SC_ORG_ID = #scOrgId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScOrg" >
+    insert into SC_ORG (SC_ORG_ID, SUP_ORG_ID, ORG_CODE, ORG_LEVEL, ORG_LVL_PATH, SC_ORG_NAME,
+      SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE)
+    values (#scOrgId:DECIMAL#, #supOrgId:DECIMAL#, #orgCode:VARCHAR#, #orgLevel:DECIMAL#,
+      #orgLvlPath:VARCHAR#, #scOrgName:VARCHAR#, #shortName:VARCHAR#, #lastName:VARCHAR#,
+      #domainName:VARCHAR#, #domainNameSec:VARCHAR#, #notes:VARCHAR#, #state:DECIMAL#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScOrg" >
+    update SC_ORG
+    set SUP_ORG_ID = #supOrgId:DECIMAL#,
+      ORG_CODE = #orgCode:VARCHAR#,
+      ORG_LEVEL = #orgLevel:DECIMAL#,
+      ORG_LVL_PATH = #orgLvlPath:VARCHAR#,
+      SC_ORG_NAME = #scOrgName:VARCHAR#,
+      SHORT_NAME = #shortName:VARCHAR#,
+      LAST_NAME = #lastName:VARCHAR#,
+      DOMAIN_NAME = #domainName:VARCHAR#,
+      DOMAIN_NAME_SEC = #domainNameSec:VARCHAR#,
+      NOTES = #notes:VARCHAR#,
+      STATE = #state:DECIMAL#
+    where SC_ORG_ID = #scOrgId:DECIMAL#
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.ScOrg" >
+    update SC_ORG
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="supOrgId" >
+        SUP_ORG_ID = #supOrgId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="orgCode" >
+        ORG_CODE = #orgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="orgLevel" >
+        ORG_LEVEL = #orgLevel:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="orgLvlPath" >
+        ORG_LVL_PATH = #orgLvlPath:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="scOrgName" >
+        SC_ORG_NAME = #scOrgName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="shortName" >
+        SHORT_NAME = #shortName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="lastName" >
+        LAST_NAME = #lastName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="domainName" >
+        DOMAIN_NAME = #domainName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="domainNameSec" >
+        DOMAIN_NAME_SEC = #domainNameSec:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="notes" >
+        NOTES = #notes:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE = #state:DECIMAL#
+      </isNotNull>
+    </dynamic>
+    where SC_ORG_ID = #scOrgId:DECIMAL#
+  </update>
+</sqlMap>
