@@ -116,6 +116,12 @@
       <isNotNull prepend="" property="stateCode" >
     	and it_state_code = #stateCode:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="" property="registerTimeBegin" >
+    	and REGISTE_TIME >= #registerTimeBegin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="registerTimeEnd" >
+    	and REGISTE_TIME <= #registerTimeEnd:DATE#
+      </isNotNull>
       order by $orderBy$
   </select>
   <select id="queryIncidentPaging" resultMap="icIncidentResult" parameterClass="java.util.Map" >
@@ -166,6 +172,12 @@
       </isNotNull>
       <isNotNull prepend="" property="stateCode" >
     	and it_state_code = #stateCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="" property="registerTimeBegin" >
+    	and REGISTE_TIME >= #registerTimeBegin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="registerTimeEnd" >
+    	and REGISTE_TIME <= #registerTimeEnd:DATE#
       </isNotNull>
       order by $orderBy$
       ) t where t.rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
@@ -218,6 +230,12 @@
       </isNotNull>
       <isNotNull prepend="" property="stateCode" >
     	and it_state_code = #stateCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="" property="registerTimeBegin" >
+    	and REGISTE_TIME >= #registerTimeBegin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="registerTimeEnd" >
+    	and REGISTE_TIME <= #registerTimeEnd:DATE#
       </isNotNull>
       )
   </select>
