@@ -27,10 +27,31 @@ public class QCIncident {
 	private String[] priorityCode;
 	// 事件复杂度
 	private String[] complexCode;
+	// 事件状态
+	private String stateCode;
+	// 事件提出时间开始范围
+	private Date registerTimeBegin;
+	// 事件提出时间开始范围
+	private Date registerTimeEnd;
 	// 按客户登记时间排序，取值：desc、asc
 	private String orderByRegisterTime;
 	// 按最新更新时间排序，取值：desc、asc
 	private String orderByLastModifyTime;
+
+	/**
+	 * @return the stateCode
+	 */
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	/**
+	 * @param stateCode
+	 *            the stateCode to set
+	 */
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
 
 	/**
 	 * @return the affectCode
@@ -168,36 +189,6 @@ public class QCIncident {
 	}
 
 	/**
-	 * @return the stateVal
-	 */
-	public String getStateVal() {
-		return stateVal;
-	}
-
-	/**
-	 * @param stateVal
-	 *            the stateVal to set
-	 */
-	public void setStateVal(String stateVal) {
-		this.stateVal = stateVal;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public Long getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId
-	 *            the userId to set
-	 */
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	/**
 	 * @return the registerTimeBegin
 	 */
 	public Date getRegisterTimeBegin() {
@@ -227,8 +218,4 @@ public class QCIncident {
 		this.registerTimeEnd = registerTimeEnd;
 	}
 
-	private String stateVal;
-	private Long userId;
-	private Date registerTimeBegin;
-	private Date registerTimeEnd;
 }

@@ -89,6 +89,9 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("classCode", qcIncident.getClassCode());
 		hm.put("priorityCode", qcIncident.getPriorityCode());
 		hm.put("complexCode", qcIncident.getComplexCode());
+		hm.put("stateCode", qcIncident.getStateCode());
+		hm.put("registerTimeBegin", qcIncident.getRegisterTimeBegin());
+		hm.put("registerTimeEnd", qcIncident.getRegisterTimeEnd());
 
 		if (!"desc".equals(qcIncident.getOrderByRegisterTime())
 				&& !"asc".equals(qcIncident.getOrderByRegisterTime())) {
@@ -141,6 +144,9 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("classCode", qcIncident.getClassCode());
 		hm.put("priorityCode", qcIncident.getPriorityCode());
 		hm.put("complexCode", qcIncident.getComplexCode());
+		hm.put("stateCode", qcIncident.getStateCode());
+		hm.put("registerTimeBegin", qcIncident.getRegisterTimeBegin());
+		hm.put("registerTimeEnd", qcIncident.getRegisterTimeEnd());
 
 		long rowCount = incidentDAOCount.find("IC_INCIDENT.queryIncidentCount",
 				hm);
@@ -818,6 +824,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// is.MBLQueryIncident(100027, oi);
 		// qc.setIncidentCode("%");
 		qc.setClassCode(new String[] { "101", "102" });
+		qc.setStateCode("2");
 		is.MBLQueryIncidentCount(qc, oi);
 		// is.MBLQueryIncident(qc, -1, 10, oi);
 		// is.MBLQueryIncident(qc, 0, 3, oi);

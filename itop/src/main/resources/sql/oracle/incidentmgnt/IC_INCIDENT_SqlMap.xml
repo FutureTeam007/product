@@ -113,6 +113,9 @@
     		#complexCode[]#
       	</iterate>
       </isNotNull>
+      <isNotNull prepend="" property="stateCode" >
+    	and it_state_code = #stateCode:VARCHAR#
+      </isNotNull>
       order by $orderBy$
   </select>
   <select id="queryIncidentPaging" resultMap="icIncidentResult" parameterClass="java.util.Map" >
@@ -160,6 +163,9 @@
       	<iterate property="complexCode" open="(" close=")" conjunction=",">
     		#complexCode[]#
       	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="stateCode" >
+    	and it_state_code = #stateCode:VARCHAR#
       </isNotNull>
       order by $orderBy$
       ) t where t.rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
@@ -209,6 +215,9 @@
       	<iterate property="complexCode" open="(" close=")" conjunction=",">
     		#complexCode[]#
       	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="stateCode" >
+    	and it_state_code = #stateCode:VARCHAR#
       </isNotNull>
       )
   </select>
