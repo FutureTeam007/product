@@ -814,14 +814,15 @@ public class IncidentServiceImpl implements IncidentService {
 		// is.MBLAdviserCloseIncident(10027, oi);
 
 		// 测试查询
-		// QCIncident qc = new QCIncident();
+		QCIncident qc = new QCIncident();
 		// is.MBLQueryIncident(100027, oi);
 		// qc.setIncidentCode("%");
-		// is.MBLQueryIncidentCount(qc, oi);
+		qc.setClassCode(new String[] { "101", "102" });
+		is.MBLQueryIncidentCount(qc, oi);
 		// is.MBLQueryIncident(qc, -1, 10, oi);
 		// is.MBLQueryIncident(qc, 0, 3, oi);
 
-		String itPhase = is.getItPhase(2001, 300002, 102, 200006);
-		log.debug(itPhase);
+		// String itPhase = is.getItPhase(2001, 300002, 102, 200006);
+		// log.debug(itPhase);
 	}
 }
