@@ -70,7 +70,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		hm.put("productId", productId);
 
 		List<CcCustProdOp> custProdOpList = custProdOpDAO.findByParams(
-				"CC_CUST_PROD_OP.queryCustProdOpInfo", hm);
+				"CC_CUST_PROD_OP.queryCustProdOpList", hm);
 
 		return custProdOpList;
 	}
