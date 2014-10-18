@@ -507,6 +507,11 @@ public class IncidentServiceImpl implements IncidentService {
 		// 修改人
 		incidentInfo.setModifier(opInfo.getOpName());
 
+		// 设置HappenTime
+		incidentInfo.setStrHappenTime(DateUtils.date2String(
+				incidentInfo.getHappenTime(),
+				DateUtils.FORMATTYPE_yyyyMMddHHmmss));
+
 		// 保存事件实体信息
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective",
 				incidentInfo);
