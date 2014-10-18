@@ -652,7 +652,7 @@ public class IncidentServiceImpl implements IncidentService {
 				incidentInfo.getCcCustId(), incidentInfo.getScProductId());
 		incidentInfo.setIcObjectType("OP");
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
-		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
+		incidentInfo.setIcLoginCode(inChargeAdviser.getLoginCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
 		// 填入事件所处阶段
@@ -713,7 +713,7 @@ public class IncidentServiceImpl implements IncidentService {
 				incidentInfo.getCcCustId(), incidentInfo.getScProductId());
 		incidentInfo.setIcObjectType("OP");
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
-		incidentInfo.setIcLoginCode(inChargeAdviser.getOpCode());
+		incidentInfo.setIcLoginCode(inChargeAdviser.getLoginCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
 
 		// 填入事件所处阶段
