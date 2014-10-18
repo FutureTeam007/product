@@ -708,12 +708,12 @@ public class IncidentServiceImpl implements IncidentService {
 		// 提交时自动填入登记时间
 		incidentInfo.setRegisteTime(commonDAO.getSysDate());
 
-		// 自动填入商户信息、客户信息
+		// // 自动填入商户信息、客户信息
 		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
-		incidentInfo.setScOrgId(user.getScOrgId());
-		incidentInfo.setScOrgName(user.getScOrgName());
-		incidentInfo.setCcCustId(user.getCcCustId());
-		incidentInfo.setCustName(user.getCustName());
+		// incidentInfo.setScOrgId(user.getScOrgId());
+		// incidentInfo.setScOrgName(user.getScOrgName());
+		// incidentInfo.setCcCustId(user.getCcCustId());
+		// incidentInfo.setCustName(user.getCustName());
 
 		// 提交时自动分派负责顾问，并作为干系人
 		ScOp inChargeAdviser = getInChargeAdviser(incidentInfo.getScOrgId(),
@@ -762,7 +762,58 @@ public class IncidentServiceImpl implements IncidentService {
 			throws Exception {
 		// TODO Auto-generated method stub
 
-		throw new Exception("目前系统中并没有直接提交事件的入口，此逻辑暂未实现");
+		IncidentInfo incidentInfo = new IncidentInfo();
+
+		// 提交时需调整事件状态为待响应
+		incidentInfo.setItStateVal("待响应");
+		incidentInfo.setItStateCode("2");
+
+		// 提交时自动填入登记时间
+		incidentInfo.setRegisteTime(commonDAO.getSysDate());
+
+		// // 自动填入商户信息、客户信息
+		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
+		// incidentInfo.setScOrgId(user.getScOrgId());
+		// incidentInfo.setScOrgName(user.getScOrgName());
+		// incidentInfo.setCcCustId(user.getCcCustId());
+		// incidentInfo.setCustName(user.getCustName());
+
+		// 提交时自动分派负责顾问，并作为干系人
+		ScOp inChargeAdviser = getInChargeAdviser(incidentInfo.getScOrgId(),
+				incidentInfo.getCcCustId(), incidentInfo.getScProductId());
+		incidentInfo.setIcObjectType("OP");
+		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
+		incidentInfo.setIcLoginCode(inChargeAdviser.getLoginCode());
+		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
+
+		// 填入事件所处阶段
+		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
+				user.getCcCustId(), incidentInfo.getScProductId(),
+				inChargeAdviser.getScOpId()));
+
+		// 填入响应时限、处理时限、响应截止时间、处理截止时间、红绿灯-响应时限、红绿灯-处理时限
+		// ********
+
+		// 保存事件信息
+		modifyIncidentAndAttach(incidentId, incidentInfo, opInfo);
+
+		// 系统自动生成第一条事务
+		TransactionInfo transactionInfo = new TransactionInfo();
+		transactionInfo.setItPhase(incidentInfo.getItPhase());
+		transactionInfo.setTransType("流程事务-顾问处理中");
+		transactionInfo.setContents(incidentInfo.getDetail());
+		long transactionId = transactionService.addTransaction(incidentId,
+				transactionInfo, opInfo);
+
+		// 将事件的附件转为第一条事务的附件
+		// 即将附件表的事务ID由null改为第一条事务的ID
+		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
+
+		// 记录系统操作日志
+
+		return incidentId;
+
+		// throw new Exception("目前系统中并没有直接提交事件的入口，此逻辑暂未实现");
 	}
 
 	/*
