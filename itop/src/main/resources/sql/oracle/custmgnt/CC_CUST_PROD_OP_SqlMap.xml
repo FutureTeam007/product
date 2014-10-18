@@ -39,7 +39,7 @@
       PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
       JOB_LEVEL)
     values (#ccCustId:DECIMAL#, #custName:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
-      #scProductId:DECIMAL#, #prodName:VARCHAR#, #scModuleId:DECIMAL#, #moduleName:VARCHAR#,
+      #scProductId:DECIMAL#, #prodName:VARCHAR#,
       #scOpId:DECIMAL#, #loginCode:VARCHAR#, #scJobId:DECIMAL#, #jobName:VARCHAR#,
       #jobClass:VARCHAR#, #jobLevel:VARCHAR#)
   </insert>
