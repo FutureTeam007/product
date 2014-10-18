@@ -56,7 +56,15 @@ public class ParamServiceImpl implements ParamService {
 	public List<ScParam> getParamList(long orgId, String paramKindCode)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("paramKindCode", paramKindCode);
+
+		List<ScParam> paramList = paramDAO.findByParams(
+				"SC_PARAM.queryParamList", hm);
+
+		return paramList;
 	}
 
 }
