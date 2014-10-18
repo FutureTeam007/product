@@ -710,10 +710,10 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// // 自动填入商户信息、客户信息
 		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
-		// incidentInfo.setScOrgId(user.getScOrgId());
-		// incidentInfo.setScOrgName(user.getScOrgName());
-		// incidentInfo.setCcCustId(user.getCcCustId());
-		// incidentInfo.setCustName(user.getCustName());
+		incidentInfo.setScOrgId(user.getScOrgId());
+		incidentInfo.setScOrgName(user.getScOrgName());
+		incidentInfo.setCcCustId(user.getCcCustId());
+		incidentInfo.setCustName(user.getCustName());
 
 		// 提交时自动分派负责顾问，并作为干系人
 		ScOp inChargeAdviser = getInChargeAdviser(incidentInfo.getScOrgId(),
