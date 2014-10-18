@@ -215,6 +215,8 @@ public class IncidentServiceImpl implements IncidentService {
 				}
 			}
 			resultList.add(result);
+			log.debug(result.getStateCode() + "," + result.getStateVal() + ","
+					+ result.getRecordCount());
 		}
 
 		// 生成全部状态的数量记录
@@ -226,7 +228,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 把全部信息加入result
 		resultList.add(all);
 
-		return list;
+		return resultList;
 	}
 
 	/*
@@ -899,13 +901,25 @@ public class IncidentServiceImpl implements IncidentService {
 		QCIncident qc = new QCIncident();
 		// is.MBLQueryIncident(100027, oi);
 		// qc.setIncidentCode("%");
-		qc.setClassCode(new String[] { "101", "102" });
-		qc.setStateCode("2");
-		is.MBLQueryIncidentCount(qc, oi);
+		// qc.setClassCode(new String[] { "101", "102" });
+		// qc.setStateCode("2");
+		// is.MBLQueryIncidentCount(qc, oi);
 		// is.MBLQueryIncident(qc, -1, 10, oi);
 		// is.MBLQueryIncident(qc, 0, 3, oi);
 
 		// String itPhase = is.getItPhase(2001, 300002, 102, 200006);
 		// log.debug(itPhase);
+		oi.setOpType("USER");
+		oi.setOpId(new Long(9001));
+		oi.setOpCode("NO-1");
+		oi.setOpName("拓创");
+		List<IncidentCountInfoByState> list = is
+				.MBLQueryIncidentCountGroupByState(qc, 2001, oi);
+		for (int i = 0; list != null && i < list.size(); i++) {
+			IncidentCountInfoByState item = list.get(i);
+			String message = item.getStateCode() + "," + item.getStateVal()
+					+ "," + item.getRecordCount();
+			log.debug(message);
+		}
 	}
 }
