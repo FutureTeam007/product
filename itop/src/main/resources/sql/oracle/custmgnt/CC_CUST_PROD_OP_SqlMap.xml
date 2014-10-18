@@ -8,8 +8,6 @@
     <result column="SC_ORG_NAME" property="scOrgName" jdbcType="VARCHAR" />
     <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
     <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
-    <result column="SC_MODULE_ID" property="scModuleId" jdbcType="DECIMAL" />
-    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
     <result column="SC_OP_ID" property="scOpId" jdbcType="DECIMAL" />
     <result column="LOGIN_CODE" property="loginCode" jdbcType="VARCHAR" />
     <result column="SC_JOB_ID" property="scJobId" jdbcType="DECIMAL" />
@@ -19,7 +17,7 @@
   </resultMap>
   <select id="queryCustProdOpInfo" resultMap="ccCustProdOpResult" parameterClass="java.util.Map" >
     select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
-      PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
+      PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
       JOB_LEVEL
     from CC_CUST_PROD_OP
     where SC_ORG_ID = #orgId:DECIMAL#
@@ -29,7 +27,7 @@
   </select>
   <select id="queryCustProdOpList" resultMap="ccCustProdOpResult" parameterClass="java.util.Map" >
     select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
-      PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
+      PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
       JOB_LEVEL
     from CC_CUST_PROD_OP
     where SC_ORG_ID = #orgId:DECIMAL#
@@ -38,7 +36,7 @@
   </select>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcCustProdOp" >
     insert into CC_CUST_PROD_OP (CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
-      PROD_NAME, SC_MODULE_ID, MODULE_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
+      PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
       JOB_LEVEL)
     values (#ccCustId:DECIMAL#, #custName:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
       #scProductId:DECIMAL#, #prodName:VARCHAR#, #scModuleId:DECIMAL#, #moduleName:VARCHAR#,
