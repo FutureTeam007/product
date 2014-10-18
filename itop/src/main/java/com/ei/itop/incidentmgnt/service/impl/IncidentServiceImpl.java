@@ -613,11 +613,11 @@ public class IncidentServiceImpl implements IncidentService {
 		CcCustProdOp custProdOp = custMgntService.getCustProdOpInfo(orgId,
 				custId, productId, opId);
 
-		itPhase = paramService.getParam(orgId, "JOB_CLASS",
-				custProdOp.getJobClass()).getParamValue();
+		itPhase = paramService.getParam(orgId, "JOB_LEVEL",
+				custProdOp.getJobLevel()).getParamValue();
 		itPhase += "-"
-				+ paramService.getParam(orgId, "JOB_LEVEL",
-						custProdOp.getJobLevel()).getParamValue();
+				+ paramService.getParam(orgId, "JOB_CLASS",
+						custProdOp.getJobClass()).getParamValue();
 
 		return itPhase;
 	}
