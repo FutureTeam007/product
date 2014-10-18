@@ -305,7 +305,8 @@
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
       IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
     from IC_INCIDENT
-    where CC_CUST_ID = #value:DECIMAL#
+    where CC_CUST_ID = #custId:DECIMAL#
+    and create_date >= #currentMonthFirstDay:DATE#
     order by ic_incident_id desc
   </select>
   <select id="selectByPrimaryKey" resultMap="icIncidentResult" parameterClass="Long" >

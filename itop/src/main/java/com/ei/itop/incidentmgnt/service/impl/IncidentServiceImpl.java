@@ -4,6 +4,7 @@
 package com.ei.itop.incidentmgnt.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ailk.dazzle.util.type.DateUtils;
+import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.CcCust;
@@ -366,26 +368,38 @@ public class IncidentServiceImpl implements IncidentService {
 		return incidentId;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 查询某个客户当月的最新事件记录，注意是当月
 	 * 
-	 * @see
-	 * com.ei.itop.incidentmgnt.service.IncidentService#getLastIncidentByCustId
-	 * (long)
+	 * @param custId
+	 * @return
+	 * @throws Exception
 	 */
-	public CcCust getLastIncidentByCustId(long custId) throws Exception {
+	protected IcIncident getLastIncidentByCustId(long custId) throws Exception {
 		// TODO Auto-generated method stub
 
-		CcCust rtnValue = null;
+		IcIncident rtnValue = null;
+
+		// 取得当前时间
+		Date currentDate = commonDAO.getSysDate();
+		String strCurrentMonthFirstDay = DateUtils.date2String(currentDate,
+				DateUtils.FORMATTYPE_yyyy_MM_dd);
+		strCurrentMonthFirstDay = strCurrentMonthFirstDay.substring(0,
+				strCurrentMonthFirstDay.length() - 2);
+		strCurrentMonthFirstDay += "01 00:00:00";
+		Date currentMonthFirstDay = DateUtils.string2Date(
+				strCurrentMonthFirstDay,
+				DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss);
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("custId", custId);
+		hm.put("currentMonthFirstDay", currentMonthFirstDay);
 
 		List<IcIncident> list = incidentDAO.findByParams(
 				"IC_INCIDENT.queryIncidentByCustId", hm);
 
-		if (list != null && list.size() == 0) {
-
+		if (list != null && list.size() > 0) {
+			rtnValue = list.get(0);
 		}
 
 		return rtnValue;
@@ -397,7 +411,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	protected synchronized String generateIncidentCode(long custId)
+	public synchronized String generateIncidentCode(long custId)
 			throws Exception {
 		// 客户编码（大写）_YYYYMM_000001
 
@@ -415,13 +429,34 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentCode += ym + "-";
 
 		// 取得当前客户的最新一条事件记录
-		IcIncident incident = null;
+		IcIncident incident = getLastIncidentByCustId(custId);
 
-		String lastIncidentCode = incident.getIncidentCode();
+		// 取得当前顺序号
+		String strCurrentSerial = "000000";
+		if (incident != null) {
+			strCurrentSerial = incident.getIncidentCode().substring(
+					incident.getIncidentCode().length() - 6);
+		}
+		log.debug("strCurrentSerial is " + strCurrentSerial);
+		log.debug("VarTypeConvertUtils.string2Long(strCurrentSerial) is "
+				+ VarTypeConvertUtils.string2Long(strCurrentSerial));
 
-		lastIncidentCode.substring(lastIncidentCode.length() - 6 - 1);
+		// 得出新的顺序号
+		long lNewSerial = VarTypeConvertUtils.string2Long(strCurrentSerial) + 1;
+		log.debug("lNewSerial is " + lNewSerial);
+		log.debug("VarTypeConvertUtils.long2String(lNewSerial) is "
+				+ VarTypeConvertUtils.long2String(lNewSerial));
+		String strNewSerial = VarTypeConvertUtils.long2String(lNewSerial);
+		log.debug("strNewSerial1 is " + strNewSerial);
+		int j = strNewSerial.length();
+		for (int i = 0; i < 6 - j; i++) {
+			strNewSerial = "0" + strNewSerial;
+		}
+		log.debug("strNewSerial2 is " + strNewSerial);
 
-		// ********
+		// 拼出最终事件系列号
+		incidentCode += strNewSerial;
+
 		return incidentCode;
 	}
 
@@ -959,17 +994,19 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// String itPhase = is.getItPhase(2001, 300002, 102, 200006);
 		// log.debug(itPhase);
-		oi.setOpType("USER");
-		oi.setOpId(new Long(9001));
-		oi.setOpCode("NO-1");
-		oi.setOpName("拓创");
-		List<IncidentCountInfoByState> list = is
-				.MBLQueryIncidentCountGroupByState(qc, 2001, oi);
-		for (int i = 0; list != null && i < list.size(); i++) {
-			IncidentCountInfoByState item = list.get(i);
-			String message = item.getStateCode() + "," + item.getStateVal()
-					+ "," + item.getRecordCount();
-			log.debug(message);
-		}
+		// oi.setOpType("USER");
+		// oi.setOpId(new Long(9001));
+		// oi.setOpCode("NO-1");
+		// oi.setOpName("拓创");
+		// List<IncidentCountInfoByState> list = is
+		// .MBLQueryIncidentCountGroupByState(qc, 2001, oi);
+		// for (int i = 0; list != null && i < list.size(); i++) {
+		// IncidentCountInfoByState item = list.get(i);
+		// String message = item.getStateCode() + "," + item.getStateVal()
+		// + "," + item.getRecordCount();
+		// log.debug(message);
+		// }
+
+		log.debug(is.generateIncidentCode(300001));
 	}
 }

@@ -222,5 +222,5 @@ public interface IncidentService {
 	public long modifyIncidentAndAttach(long incidentId,
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception;
 
-	public CcCust getLastIncidentByCustId(long custId) throws Exception;
+	public String generateIncidentCode(long custId) throws Exception;
 }
