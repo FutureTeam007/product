@@ -59,7 +59,16 @@ public class CustMgntServiceImpl implements CustMgntService {
 	public List<CcCustProdOp> getCustProdOpList(long orgId, long custId,
 			long productId) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("custId", custId);
+		hm.put("productId", productId);
+
+		List<CcCustProdOp> custProdOpList = custProdOpDAO.findByParams(
+				"CC_CUST_PROD_OP.queryCustProdOpInfo", hm);
+
+		return custProdOpList;
 	}
 
 }
