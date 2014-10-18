@@ -19,23 +19,6 @@ public class IncidentInfo extends IcIncident {
 	// 附件列表
 	private List<IcAttach> attachList;
 
-	private String strHappenTime;
-
-	/**
-	 * @return the strHappenTime
-	 */
-	public String getStrHappenTime() {
-		return strHappenTime;
-	}
-
-	/**
-	 * @param strHappenTime
-	 *            the strHappenTime to set
-	 */
-	public void setStrHappenTime(String strHappenTime) {
-		this.strHappenTime = strHappenTime;
-	}
-
 	/**
 	 * @return the attachList
 	 */

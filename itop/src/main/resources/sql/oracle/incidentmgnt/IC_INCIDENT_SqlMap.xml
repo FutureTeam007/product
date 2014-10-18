@@ -507,8 +507,8 @@
       <isNotNull prepend="," property="registeTime" >
         REGISTE_TIME = #registeTime:DATE#
       </isNotNull>
-      <isNotNull prepend="," property="strHappenTime" >
-        HAPPEN_TIME = to_date('$strHappenTime$','yyyymmddhh24miss')
+      <isNotNull prepend="," property="happenTime" >
+        HAPPEN_TIME = #happenTime:DATE#
       </isNotNull>
       <isNotNull prepend="," property="sourceCode" >
         SOURCE_CODE = #sourceCode:VARCHAR#
