@@ -231,14 +231,17 @@ function reRenderStatusNav(status){
 					}
 				}
 				bindStatusToggle();
-				//如果没设置状态，则说明是普通查询，需重新加载表格；如果设置了状态，说明只是刷新nav状态导航
+				//如果没设置状态，则说明是普通查询，需重新从第一页加载表格；如果设置了状态，说明只是刷新nav状态导航并刷新当前页
 				if(!status){
 					var pagger = $('#incidentDataTable').datagrid('getPager');
 					$(pagger).pagination('refresh',{
 						pageNumber:1,
-						pageSize:10
+						pageSize:10,
+						showPageList:false
 					});
 					$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
+				}else{
+					$('#incidentDataTable').datagrid('reload',qp);
 				}
 			}
 		},
@@ -272,7 +275,7 @@ function showSubPage(url){
 	$("#subPage").show();
 	setTimeout(function(){
 		$("#subPageIframe").attr("src",url);
-	},300);
+	},350);
 	$("#subPage").animate({right: '0px'}, "50");
 }
 //隐藏子页
@@ -317,7 +320,6 @@ function initDataPager(){
 //重新加载数据
 function reloadData(status){
 	reRenderStatusNav(status);
-	$('#incidentDataTable').datagrid('load',qp);
 }
 
 

@@ -18,10 +18,10 @@
 </head>
 <body style="background:#fff;padding-left:5px;overflow-x:hidden;">
   <div>
-		<button type='button' class='btn btn-link' onclick='parent.hideSubPage()'>&lt;&lt;关闭</button>
+		<button type='button' class='btn btn-link top-close-link' onclick='parent.hideSubPage()'>&lt;&lt;关闭</button>
   </div>
   <div class="inci-dtl-title">
-		<h5 style="font-weight:bold">[系列号:<span id="incidentCode"></span>]提出时间：<span id="registTime"></span>，处理人：<span id="scLoginName"></span>，状态：<span id="itStateCode"></span></h5>
+		<h5 style="font-weight:bold">[<span id="incidentCode"></span>]&nbsp;提出时间：<span id="registTime"></span>，处理人：<span id="scLoginName"></span>，状态：<span id="itStateCode"></span></h5>
   </div>
   <div class="inci-trans-commit-form" style="width:99%">
 		<form class="form-horizonta inci-info-form" role="form">
@@ -34,17 +34,17 @@
   			<div class="form-group clearfix">
 			    <label for="attachments" class="col-sm-2 control-label">附件</label>
 			    <div class="col-sm-10">
-			       <div id="commitAttach"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a> <a href="#">附件4</a> <a href="#">附件5</a></div>
-			       <button type="button" class="btn btn-primary btn-outline btn-sm">选择文件</button>
+			       <div id="commitAttach" class="list-inline pull-left ml5"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a> <a href="#">附件4</a> <a href="#">附件5</a></div>
+			       <button type="button" class="btn btn-primary btn-outline btn-xs ml10">选择文件</button>
 			    </div>
   			</div>
   			<div class="form-group clearfix">
 	  			<div class="col-sm-12 form-btns">
 			      <input type="button" class="btn btn-warning" onclick="transCommit()" value="提交" />
-			      <input type="button" class="btn btn-warning" onclick="openConsultantSelWin()" value="转顾问处理" />
-			      <input type="button" class="btn btn-warning" onclick="deliverCustCommit()" value="转客户补充资料" />
-			      <input type="button" class="btn btn-warning" onclick="blockCommit()" value="挂起" />
-			      <input type="button" class="btn btn-warning" onclick="finishCommit()" value="完成" />
+			      <input type="button" class="btn btn-warning undis" id="openConsultantSelBtn" onclick="openConsultantSelWin()" value="转顾问处理" />
+			      <input type="button" class="btn btn-warning undis" id="deliverCustCommitBtn" onclick="deliverCustCommit()" value="转客户补充资料" />
+			      <input type="button" class="btn btn-warning undis" id="blockCommitBtn" onclick="blockCommit()" value="挂起" />
+			      <input type="button" class="btn btn-warning undis" id="finishCommitBtn" onclick="finishCommit()" value="完成" />
 			    </div>
   			</div>
 		</form>
@@ -111,7 +111,7 @@
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>当前处理人</label></div>
-      		<div class="col-sm-10" id="scLoginName"></div>
+      		<div class="col-sm-10" id="infoScLoginName"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>事件简述</label></div>

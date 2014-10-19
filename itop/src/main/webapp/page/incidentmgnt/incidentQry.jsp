@@ -83,7 +83,7 @@
 				remoteSort:true,
 				multiSort:true,
 				pagination:true,
-				showPageList:false,
+				showPageList:false
 			">
 			<thead>
 				<tr>

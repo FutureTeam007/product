@@ -3,9 +3,10 @@ var r = null;
 //事件提出人类别,判断是否为顾问提交的问题
 var incidentPlObjectType = null;
 //事件处理人ID，判断是否为当前处理人，产生流程事务还是非流程事务
-var scOpId = null;
+var icObjectId = null;
 
 $(function(){
+	$.template( "transListTpl", transListTpl); 
 	initSubPage();
 	queryIncidentInfo();
 	//延迟加载，加快页面渲染速度
@@ -14,6 +15,9 @@ $(function(){
 
 function initSubPage(){
 	$('#completeWin').dialog({
+		modal:true
+	}).dialog('close');
+	$('#consultantSelWin').dialog({
 		modal:true
 	}).dialog('close');
 };
@@ -28,28 +32,36 @@ function queryIncidentInfo(flag){
 		success : function(msg) {
 			//绑定标题数据
 			$("#incidentCode").html(msg.incidentCode);
-			$("#scLoginName").html(msg.scLoginName);
-			$("#registTime").html(msg.registTime);
+			$("#scLoginName").html(msg.icObjectName);
+			$("#registTime").html(dateFormatter(msg.registeTime));
 			$("#itStateCode").html(msg.itPhase);
 			//绑定事件详细信息数据
 			$("#custName").html(msg.custName);
-			$("#classCodeOp").html(msg.classCodeOp);
+			$("#classCodeOp").html(msg.classVal);
 			$("#prodName").html(msg.prodName);
 			$("#moduleName").html(msg.moduleName);
-			$("#affectCodeOp").html(msg.affectCodeOp);
+			$("#affectCodeOp").html(msg.affectVal);
 			$("#complexCode").html(msg.complexCode);
-			$("#happenTime").html(msg.happenTime);
+			$("#happenTime").html(dateFormatter(msg.happenTime));
 			$("#itPhase").html(msg.itPhase);
 			$("#responseTime").html(msg.responseTime);
 			$("#dealTime").html(msg.dealTime);
-			$("#responseDur2").html(msg.responseDur2+caculateLights(msg.responseNum));
-			$("#dealDur2").html(msg.dealDur2+caculateLights(msg.dealNum));
-			$("#scLoginName").html(msg.scLoginName);
+			//$("#responseDur2").html(msg.responseDur2+caculateLights(msg.responseNum));
+			//$("#dealDur2").html(msg.dealDur2+caculateLights(msg.dealNum));
+			$("#infoScLoginName").html(msg.icObjectName);
 			$("#brief").html(msg.brief);
 			$("#detail").html(msg.detail);
 			$("#attachments").html(msg.attachList);
 			incidentPlObjectId = msg.plObjectId;
-			scOpId = msg.scOpId;
+			icObjectId = msg.icObjectId;
+			//显示操作按钮
+			if(opId==icObjectId){
+				$("#openConsultantSelBtn").show();
+				$("#deliverCustCommitBtn").show();
+				$("#blockCommitBtn").show();
+				$("#finishCommitBtn").show();
+			}
+			//查询联系人信息
 			if(!flag){
 				queryContactorInfo(msg.plObjectId);
 			}
@@ -59,6 +71,14 @@ function queryIncidentInfo(flag){
 		}
 	});
 }
+//事务列表html模板
+var transListTpl = "<div class='trans-item'><div class='col-sm-1'>${order}</div><div class='col-sm-11'>";
+transListTpl+="<div class='trans-item-header clearfix'>";
+transListTpl+="<div><label>处理人：</label><span>${objectName}</span></div>";
+transListTpl+="<div><label>处理时间：</label><span>${createTime}</span></div>";
+transListTpl+="<div><label>类型：</label><span>${transType}</span></div></div>";
+transListTpl+="<div><div><label>事务说明：</label><br/><span class='trans-content'>${contents}</span></div></div>";
+transListTpl+="<div><div><label></label><br/><span>${attachs}</span></div></div></div></div>";
 
 //查询事务列表
 function queryTransList(){
@@ -69,13 +89,16 @@ function queryTransList(){
 		dataType : 'json',
 		success : function(msg) {
 			$("#transList").empty();
-			for(var i=0;msg!=null&&i<msg.length;i++){
-				msg[i].order = "事务"+(msg.length-i);
-				var attachs = msg[i].attachList;
-				for(var j=0;attachs!=null&&j<attachs;j++){
-					msg[i].attachs += "<a href=\"javascript:downloadAttach("+attachs[j].attachId+")\">"+attachs[j].attachName+"</a>";
+			if(msg!=null){
+				for(var i=0;i<msg.length;i++){
+					msg[i].order = "事务"+(msg.length-i);
+					msg[i].createTime = dateTimeFormatter(msg[i].createTime);
+					var attachs = msg[i].attachList;
+					for(var j=0;attachs!=null&&j<attachs;j++){
+						msg[i].attachs += "<a href=\"javascript:downloadAttach("+attachs[j].attachId+")\">"+attachs[j].attachName+"</a>";
+					}
 				}
-				$("#transListTpl").tmpl(msg).appendTo("#transList");
+				$.tmpl('transListTpl', msg).appendTo('#transList'); 
 			}
 		},
 		error : function() {
@@ -89,8 +112,8 @@ function queryContactorInfo(id){
 	setTimeout(function(){
 		$.ajax({
 			type : 'get',
-			url : rootPath + "/custmgnt/contactorinfo/get",
-			data : {plObjectId:id},
+			url : rootPath + "/custmgnt/user/get",
+			data : {userId:id},
 			dataType : 'json',
 			success : function(msg) {
 				$("#opName").html(msg.opName+"/"+msg.lastName+"."+msg.firstName);
@@ -112,7 +135,7 @@ function validateFormAndWrapVar(){
 		return false;
 	}
 	//顾问如果没有填写复杂度字段说明没有审核更正过事件信息，弹出窗口，由顾问审核更新事件信息
-	if(opId==scOpId&&$("#complexCode").html()==""){
+	if(opId==icObjectId&&$("#complexCode").html()==""){
 		$('#completeWin').dialog('open');
 		return false;
 	}
@@ -313,6 +336,9 @@ function completeIncident(){
 
 //计算红绿灯的html
 function caculateLights(str){
+	if(!str){
+		return "";
+	}
 	var lightsHtml = "";
 	var lights = str.split("/");
 	var redLightNum = lights[0].split("=")[1];
@@ -330,12 +356,42 @@ function caculateLights(str){
 	return lightsHtml;
 }
 
-//事务列表html模板
-var transListTpl = "<div class='trans-item'><div class='col-sm-1'>{order}</div><div class='col-sm-11'>";
-transListTpl+="<div class='trans-item-header clearfix'>";
-transListTpl+="<div><label>处理人：</label><span>{objectName}</span></div>";
-transListTpl+="<div><label>处理时间：</label><span>{createTime}</span></div>";
-transListTpl+="<div><label>类型：</label><span>{transType}</span></div></div>";
-transListTpl+="<div><div><label>事务说明：</label><br/><span class='trans-content'>{contents}</span></div></div>";
-transListTpl+="<div><div><label>附件：</label><br/><span>{attachs}</span></div></div></div></div>";
-$.template( "transListTpl", transListTpl); 
+
+
+//格式化时间列
+function dateFormatter(val){
+	if(!val){
+		return;
+	}
+	var date = new Date(val);
+	//年
+	var year = date.getFullYear();
+	//月
+	var month = date.getMonth();
+	//日
+	var day = date.getDate();
+	return year+"-"+(month+1)+"-"+day;
+}
+//格式化时间列
+function dateTimeFormatter(val){
+	if(!val){
+		return;
+	}
+	var date = new Date(val);
+	//年
+	var year = date.getFullYear();
+	//月
+	var month = date.getMonth();
+	//日
+	var day = date.getDate();
+	//小时
+	var hour = date.getHours();
+	hour = hour<10?"0"+hour:hour;
+	//分钟
+	var minute = date.getMinutes();
+	minute = minute<10?"0"+minute:minute;
+	//秒
+	var second = date.getSeconds();
+	second = second<10?"0"+second:second;
+	return year+"-"+(month+1)+"-"+day+" "+hour+":"+minute+":"+second;
+}

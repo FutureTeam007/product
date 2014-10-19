@@ -1,6 +1,16 @@
 body{background-color: #f8f8f8;font-family:"microsoft yahei", Arial, Tahoma, Geneva, sans-serif;}
 a {outline: none;}
 a:active {star:expression(this.onFocus=this.blur());}
+.ml5{margin-left:5px;}.mr5{margin-right:5px;}.mt5{margin-top:5px;}.mb5{margin-bottom:5px;}
+.ml10{margin-left:10px;}.mr10{margin-right:10px;}.mt10{margin-top:10px;}.mb10{margin-bottom:10px;}
+.ml15{margin-left:15px;}.mr15{margin-right:15px;}.mt15{margin-top:15px;}.mb15{margin-bottom:15px;}
+.ml20{margin-left:20px;}.mr20{margin-right:20px;}.mt20{margin-top:20px;}.mb20{margin-bottom:20px;}
+.pl5{padding-left:5px;}.pr5{padding-right:5px;}.pt5{padding-top:5px;}.pb5{padding-bottom:5px;}
+.pl10{padding-left:10px;}.pr10{padding-right:10px;}.pt10{padding-top:10px;}.pb10{padding-bottom:10px;}
+.pl15{padding-left:15px;}.pr15{padding-right:15px;}.pt15{padding-top:15px;}.pb15{padding-bottom:15px;}
+.pl20{padding-left:20px;}.pr20{padding-right:20px;}.pt20{padding-top:20px;}.pb20{padding-bottom:20px;}
+.pl25{padding-left:25px;}.pr25{padding-right:25px;}.pt25{padding-top:25px;}.pb25{padding-bottom:25px;}
+.pl30{padding-left:30px;}.pr30{padding-right:30px;}.pt30{padding-top:30px;}.pb30{padding-bottom:30px;}
 .header-fix{height:60px;line-height:60px;padding-left:10px;padding-top:5px;}
 .brand-fix{font-family:"microsoft yahei";font-size:38px;color:#333;margin-left:0px;padding-left:8px;padding-top:18px}
 .navbar-brand-small{font-family:"microsoft yahei";font-size:12px;color:#333;font-style:italic;margin-top:40px}
@@ -10,6 +20,8 @@ a:active {star:expression(this.onFocus=this.blur());}
 .nav-tabs li{height:30px;font-size:12px;}
 .nav-tabs li a{padding:5px;}
 .none-data-info{width:100%;padding:10px;text-align:center}
+.pagination-page-list,.pagination-btn-separator{display:none}
+.undis{display:none}
 
 /*login*/
 .login-header-fix{height:60px;padding-top:3px;}
@@ -47,7 +59,7 @@ a:active {star:expression(this.onFocus=this.blur());}
 .subPage{display:none;float:right;position:absolute;top:0px;right:-1000px;z-index:9999;overflow-y:auto;border-left:solid 5px #eee;width:1000px;background:#fff;}
 .pageMask{display:none;position:absolute;top:0px;z-index:1001;left:0px;background-color:#111;filter:alpha(opacity=40); -moz-opacity:0.4; opacity:0.4;}
 /*incident-dtl*/
-.inci-info-form{width:780px;padding:10px}
+.inci-info-form{width:900px;padding:10px}
 .inci-dtl-title{padding:5px;border-bottom:solid 1px #bbb;width:98%}
 .inci-info-form .col-sm-2{padding-right:0px}
 .inci-info-form .small-control{float:left;display:inline;height:25px;font-size:12px;padding:1px;}
