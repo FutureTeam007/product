@@ -23,7 +23,7 @@ $(function(){
 
 //查看事件
 function view(id){
-	showSubPage("incidentView.jsp?id="+id);
+	showSubPage(rootPath+"/page/incidentmgnt/view?id="+id);
 }
 //编辑事件
 function edit(id){

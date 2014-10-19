@@ -391,22 +391,22 @@ public class IncidentController {
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
 		IncidentInfo ii = new IncidentInfo();
-		String classCodeOp = request.getParameter("classCodeOp");
-		String classValOp = request.getParameter("classValOp");
-		String affectValOp = request.getParameter("affectValOp");
-		String affectCodeUser = request.getParameter("affectCodeUser");
+		String classCodeOp = request.getParameter("classCode");
+		String classValOp = request.getParameter("classVal");
+		String affectValOp = request.getParameter("affectVal");
+		String affectCode= request.getParameter("affectCode");
 		String priorityCode = request.getParameter("priorityCode");
 		String priorityVal = request.getParameter("priorityVal");
 		String complexCode = request.getParameter("complexCode");
 		String complexVal = request.getParameter("complexVal");
 		ii.setClassCodeOp(classCodeOp);
-		ii.setClassValOp(ActionUtils.transParamDecode(classValOp,"UTF-8"));
+		ii.setClassValOp(classValOp);
 		ii.setAffectValOp(affectValOp);
-		ii.setAffectCode(ActionUtils.transParamDecode(affectValOp,"UTF-8"));
+		ii.setAffectCode(affectCode);
 		ii.setPriorityCode(priorityCode);
-		ii.setPriorityVal(ActionUtils.transParamDecode(priorityVal,"UTF-8"));
+		ii.setPriorityVal(priorityVal);
 		ii.setComplexCode(complexCode);
-		ii.setComplexVal(ActionUtils.transParamDecode(complexVal,"UTF-8"));
+		ii.setComplexVal(complexVal);
 		incidentService.MBLAdviserCompleteInfo(incidentId, ii, oi);
 	}
 	/**

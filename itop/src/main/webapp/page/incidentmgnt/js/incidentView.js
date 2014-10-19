@@ -41,11 +41,13 @@ function queryIncidentInfo(flag){
 			$("#prodName").html(msg.prodName);
 			$("#moduleName").html(msg.moduleName);
 			$("#affectCodeOp").html(msg.affectVal);
-			$("#complexCode").html(msg.complexCode);
+			$("#complexCode").html(msg.complexVal);
 			$("#happenTime").html(dateFormatter(msg.happenTime));
 			$("#itPhase").html(msg.itPhase);
 			$("#responseTime").html(msg.responseTime);
 			$("#dealTime").html(msg.dealTime);
+			$("#priorityValInfo").html(msg.priorityVal);
+			$("#itSolution").html(msg.itSolution);
 			//$("#responseDur2").html(msg.responseDur2+caculateLights(msg.responseNum));
 			//$("#dealDur2").html(msg.dealDur2+caculateLights(msg.dealNum));
 			$("#infoScLoginName").html(msg.icObjectName);
@@ -64,6 +66,17 @@ function queryIncidentInfo(flag){
 			//查询联系人信息
 			if(!flag){
 				queryContactorInfo(msg.plObjectId);
+			}
+			//如果复杂度字段为空， 说明顾问还未补全事件信息，则初始化事件信息确认弹出窗口
+			if(!msg.complexCode){
+				//事件分类
+				$("#inciTypeSel").combobox('setValue',msg.classCode);
+				//影响度
+				$("input[name=affectVar]").each(function(){
+					if($(this).val()==msg.affectCode){
+						$(this).attr("checked","checked");
+					}
+				});
 			}
 		},
 		error : function() {
@@ -198,7 +211,7 @@ function deliverConstCommit(){
 	//从表格上得到选中行的顾问ID
 	var rows = $("#consultantSelTable").datagrid('getSelections');
 	if(!rows||rows.length<1){
-		$.messager.alert('提示','请选择一条顾问数据！');
+		$.messager.alert('提示','请选择一个转派的顾问！');
 	}
 	//设置转派的顾问参数
 	var opInfo = rows[0];
@@ -294,38 +307,39 @@ function finishCommit(){
 function completeIncident(){
 	var fv = {};
 	fv.incidentId = incidentId;
-	fv.classCodeOp = $("#inciTypeSel").combobox('getText');
-	fv.classValOp =  $("#inciTypeSel").combobox('getValue');
+	//事件类别
+	fv.classCode = $("#inciTypeSel").combobox('getValue');
+	fv.classVal =  $("#inciTypeSel").combobox('getText');
 	//影响度
-	$("input[name=affectVar]").each(function(){
-		if($(this).get(0).checked){
-			fv.affectCode = $(this).text();
-			fv.affectVar = $(this).val();
-		}
-	});
+	var affectEl = $("input[name=affectVar]:checked");
+	fv.affectCode = affectEl.val();
+	fv.affectVal = affectEl.attr("text");
 	//优先级
-	$("input[name=priorityVar]").each(function(){
-		if($(this).get(0).checked){
-			fv.priorityCode = $(this).text();
-			fv.priorityVal = $(this).val();
-		}
-	});
+	var priorityEl = $("input[name=priorityVar]:checked");
+	fv.priorityCode = priorityEl.val();
+	fv.priorityVal = priorityEl.attr("text");
+	if(!fv.priorityCode){
+		$.messager.alert('提示','请选择事件优先级');
+		return;
+	}
 	//复杂度
-	$("input[name=complexVar]").each(function(){
-		if($(this).get(0).checked){
-			fv.complexCode = $(this).text();
-			fv.complexVal = $(this).val();
-		}
-	});
-	
+	var complexEl = $("input[name=complexVar]:checked");
+	fv.complexCode = complexEl.val();
+	fv.complexVal = complexEl.attr("text");
+	if(!fv.complexCode){
+		$.messager.alert('提示','请选择事件复杂度');
+		return;
+	}
 	$.ajax({
 		type : 'post',
 		url : rootPath + "/incident/complete",
 		data : fv,
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
 			//提交成功，重新查询事件信息
 			queryIncidentInfo(1);
+			$('#completeWin').dialog('close');
+			$.messager.alert('提示','事件信息审核补全成功，可以继续事务了！');
 		},
 		error : function() {
 			$.messager.alert('Error','更新事件信息失败！');

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String id = request.getParameter("id");
 %>
@@ -92,10 +93,16 @@
       		<div class="col-sm-4" id="complexCode"></div>
       	</div>
       	<div class="clearfix">
-      		<div class="col-sm-2"><label>发生时间</label></div>
-      		<div class="col-sm-4" id="happenTime"></div>
+      		<div class="col-sm-2"><label>优先级</label></div>
+      		<div class="col-sm-4" id="priorityValInfo"></div>
       		<div class="col-sm-2"><label>事件状态</label></div>
       		<div class="col-sm-4" id="itPhase"></div>
+      	</div>
+      	<div class="clearfix">
+      		<div class="col-sm-2"><label>当前处理人</label></div>
+      		<div class="col-sm-4" id="infoScLoginName"></div>
+      		<div class="col-sm-2"><label>发生时间</label></div>
+      		<div class="col-sm-4" id="happenTime"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>响应时限</label></div>
@@ -110,10 +117,6 @@
       		<div class="col-sm-4" id="dealDur2"></div>
       	</div>
       	<div class="clearfix">
-      		<div class="col-sm-2"><label>当前处理人</label></div>
-      		<div class="col-sm-10" id="infoScLoginName"></div>
-      	</div>
-      	<div class="clearfix">
       		<div class="col-sm-2"><label>事件简述</label></div>
       		<div class="col-sm-10" id="brief"></div>
       	</div>
@@ -124,6 +127,10 @@
       	<div class="clearfix">
       		<div class="col-sm-2"><label>附件</label></div>
       		<div class="col-sm-10" id="attachments"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></div>
+      	</div>
+      	<div class="clearfix">
+      		<div class="col-sm-2"><label>事件解决方案</label></div>
+      		<div class="col-sm-10" id="itSolution"></div>
       	</div>
       </div>
     </div>
@@ -154,71 +161,50 @@
     </div>
   </div>
 </div>
-<div id="completeWin" title="审核事件信息" style="width:400px;height:200px;">
-	<div class="form-group clearfix">
-   	 	<label for="inciTypeSel" class="col-sm-2 control-label">事件类别</label>
-    	<div class="col-sm-10">
-		       <input class="easyui-combobox" style="width:100%"  name="inciTypeSel" id="inciTypeSel" data-options="
-				url:'js/json/incidentType_data.json',
-				method:'get',
-				valueField:'paramCode',
-				textField:'paramValue',
-				panelHeight:'auto'"
-			/>
+<div id="completeWin" title="提交事务前，请审核类别及影响度，并补全优先级和复杂度" style="width:400px;height:320px;">
+	<div class="form-group clearfix p10">
+   	 	<label for="inciTypeSel" class="col-sm-3 control-label">事件类别</label>
+    	<div class="col-sm-9">
+		      <input class="easyui-combobox" style="width:100%"  name="classVar" id="inciTypeSel" data-options="
+					url:rootPath+'/param/list?kindCode=IC_CLASS',
+					method:'get',
+					valueField:'paramCode',
+					textField:'paramValue',
+					panelHeight:'auto'"
+				/>
 		</div>
 	</div>
-	<div class="form-group clearfix">
-	    <label for="moduleSel" class="col-sm-2 control-label">影响度</label>
-	    <div class="col-sm-10">
-	      	<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel1" value="1"> 咨询
-			</span>
-			<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel2" value="2"> 一般
-			</span>
-			<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel3" value="3"> 严重
-			</span>
-			<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel4" value="4"> 重大
-			</span>
+	<div class="form-group clearfix p10">
+	    <label for="moduleSel" class="col-sm-3 control-label">影响度</label>
+	    <div class="col-sm-9">
+	      	<c:forEach var="affect" items="${affectP}" begin="0" step="1">
+		    		<span class="radio-inline"><input type="radio" name="affectVar" value="${affect.paramCode}" text="${affect.paramValue}">${affect.paramValue}</span>
+		    </c:forEach>
 	    </div>
 	</div>
-	<div class="form-group clearfix">
-	    <label for="moduleSel" class="col-sm-2 control-label">优先级</label>
-	    <div class="col-sm-10">
-	      	<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel1" value="1"> 低
-			</span>
-			<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel2" value="2" checked="checked"> 中
-			</span>
-			<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel3" value="3"> 高
-			</span>
-			<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel4" value="4"> 紧急
-			</span>
+	<div class="form-group clearfix  p10">
+	    <label for="moduleSel" class="col-sm-3 control-label">优先级</label>
+	    <div class="col-sm-9">
+	      	<c:forEach var="priority" items="${priorityP}" begin="0" step="1">
+		    		<span class="radio-inline"><input type="radio" name="priorityVar" value="${priority.paramCode}" text="${priority.paramValue}">${priority.paramValue}</span>
+		    </c:forEach>
 	    </div>
 	</div>
-	<div class="form-group clearfix">
-	    <label for="moduleSel" class="col-sm-2 control-label">复杂度</label>
-	    <div class="col-sm-10">
-	      	<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel1" value="1" checked="checked"> 一般
-			</span>
-			<span class="radio-inline">
-			  <input type="radio" name="affectVar" id="effectLevel2" value="2"> 复杂
-			</span>
+	<div class="form-group clearfix p10">
+	    <label for="moduleSel" class="col-sm-3 control-label">复杂度</label>
+	    <div class="col-sm-9">
+	      	<c:forEach var="complex" items="${complexP}" begin="0" step="1">
+		    		<span class="radio-inline"><input type="radio" name="complexVar" value="${complex.paramCode}" text="${complex.paramValue}">${complex.paramValue}</span>
+		    </c:forEach>
 	    </div>
 	</div>
 	
-    <div class="clearfix">
+    <div class="clearfix p10" style="text-align:center">
 		<button id="completeBtn" class="btn btn-warning" type="button" incidentId="" onclick="completeIncident()">提交</button>
   	</div>
 </div>
-<div id="consultantSelWin" title="选择转派的顾问" style="width:500px;height:200px;">
-	<div class="clearfix">
+<div id="consultantSelWin" title="选择转派的顾问" style="width:550px;height:400px;">
+	<div class="clearfix p10">
    	 	<div class="input-group custom-search-form" style="width:300px;float:left;">
            <input type="text" class="form-control" placeholder="输入顾问姓名查询" />
            <span class="input-group-btn">
@@ -228,8 +214,8 @@
        		</span>
          </div>
 	</div>
-	<div class="clearfix">
-	    <table class="easyui-datagrid" style="width:99%;height:300px" id="consultantSelTable"
+	<div class="clearfix p10">
+	    <table class="easyui-datagrid" style="width:99%;height:240px" id="consultantSelTable"
 			data-options="singleSelect:true,collapsible:false,
 				url:rootPath+'/incident/list',
 				queryParams:{'stateVal':2},
@@ -252,7 +238,7 @@
 			</thead>
 		</table>
 	</div>
-    <div class="clearfix">
+    <div class="clearfix" style="text-align:center">
 		<button id="consultantSelBtn" class="btn btn-warning" type="button" incidentId="" onclick="deliverConstCommit()">提交</button>
   	</div>
 </div>
