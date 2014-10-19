@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="CC_CUST_PROD_OP" >
+  <resultMap id="inChargeAdviserResult" class="com.ei.itop.custmgnt.bean.InChargeAdviser" >
+    <result column="CC_CUST_ID" property="custId" jdbcType="DECIMAL" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="SC_PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+    <result column="PROD_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="SC_JOB_ID" property="jobId" jdbcType="DECIMAL" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR" />
+    <result column="JOB_LEVEL" property="jobLevel" jdbcType="VARCHAR" />
+    <result column="SC_OP_ID" property="scOpId" jdbcType="DECIMAL" />
+    <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
+    <result column="OP_CODE" property="opCode" jdbcType="VARCHAR" />
+    <result column="LOGIN_CODE" property="loginCode" jdbcType="VARCHAR" />
+    <result column="LOGIN_PASSWD" property="loginPasswd" jdbcType="VARCHAR" />
+    <result column="FIRST_NAME" property="firstName" jdbcType="VARCHAR" />
+    <result column="LAST_NAME" property="lastName" jdbcType="VARCHAR" />
+    <result column="OP_NAME" property="opName" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="DECIMAL" />
+    <result column="OP_KIND" property="opKind" jdbcType="DECIMAL" />
+    <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR" />
+    <result column="OFFICE_TEL" property="officeTel" jdbcType="VARCHAR" />
+    <result column="NOTES" property="notes" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+  </resultMap>
   <resultMap id="ccCustProdOpResult" class="com.ei.itop.common.dbentity.CcCustProdOp" >
     <result column="CC_CUST_ID" property="ccCustId" jdbcType="DECIMAL" />
     <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
@@ -15,6 +39,52 @@
     <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR" />
     <result column="JOB_LEVEL" property="jobLevel" jdbcType="VARCHAR" />
   </resultMap>
+  <select id="queryInChargeAdviser" resultMap="inChargeAdviserResult" parameterClass="java.util.Map" >
+	select so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
+	from CC_CUST_PROD_OP ccpo left join sc_op so on ccpo.sc_op_id = so.sc_op_id
+	where so.state = 1
+	<isNotNull prepend="" property="custId" >
+	  and ccpo.cc_cust_id = #custId:DECIMAL#
+	</isNotNull>
+	<isNotNull prepend="" property="productId" >
+	  and ccpo.sc_product_id = #productId:DECIMAL#
+	</isNotNull>
+	and (so.op_name like #adviserName:VARCHAR#
+	or so.first_name like #adviserName:VARCHAR#
+	or so.last_name like #adviserName:VARCHAR#)
+  </select>
+  <select id="queryInChargeAdviserPaging" resultMap="inChargeAdviserResult" parameterClass="java.util.Map" >
+    select t.* from (
+      select rownum rn,so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
+      from CC_CUST_PROD_OP ccpo left join sc_op so on ccpo.sc_op_id = so.sc_op_id
+	  where so.state = 1
+	<isNotNull prepend="" property="custId" >
+	  and ccpo.cc_cust_id = #custId:DECIMAL#
+	</isNotNull>
+	<isNotNull prepend="" property="productId" >
+	  and ccpo.sc_product_id = #productId:DECIMAL#
+	</isNotNull>
+	  and (so.op_name like #adviserName:VARCHAR#
+	  or so.first_name like #adviserName:VARCHAR#
+	  or so.last_name like #adviserName:VARCHAR#)
+	) t where t.rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
+  </select>
+  <select id="queryInChargeAdviserCount" resultClass="long" parameterClass="java.util.Map" >
+	select count(*) from (
+      select so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
+      from CC_CUST_PROD_OP ccpo left join sc_op so on ccpo.sc_op_id = so.sc_op_id
+	  where so.state = 1
+	  <isNotNull prepend="" property="custId" >
+	    and ccpo.cc_cust_id = #custId:DECIMAL#
+	  </isNotNull>
+	  <isNotNull prepend="" property="productId" >
+	    and ccpo.sc_product_id = #productId:DECIMAL#
+	  </isNotNull>
+	  and (so.op_name like #adviserName:VARCHAR#
+	  or so.first_name like #adviserName:VARCHAR#
+	  or so.last_name like #adviserName:VARCHAR#)
+	)
+  </select>
   <select id="queryCustProdOpInfo" resultMap="ccCustProdOpResult" parameterClass="java.util.Map" >
     select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
       PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,

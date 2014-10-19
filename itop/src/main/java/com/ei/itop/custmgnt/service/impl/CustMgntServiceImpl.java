@@ -11,9 +11,12 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
+import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.custmgnt.bean.InChargeAdviser;
 import com.ei.itop.custmgnt.service.CustMgntService;
 
 /**
@@ -31,6 +34,12 @@ public class CustMgntServiceImpl implements CustMgntService {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, CcCust> custDAO;
+
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, InChargeAdviser> inChargeAdviserDAO;
+
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, Long> inChargeAdviserCountDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -88,4 +97,89 @@ public class CustMgntServiceImpl implements CustMgntService {
 		return cust;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ei.itop.custmgnt.service.CustMgntService#queryInChargeAdviser(java
+	 * .lang.Long, java.lang.Long, java.lang.String)
+	 */
+	public List<InChargeAdviser> queryInChargeAdviser(Long custId,
+			Long productId, String adviserName, long startIndex, int pageSize)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("custId", custId);
+		hm.put("productId", productId);
+		hm.put("adviserName", "%" + adviserName + "%");
+		hm.put("startIndex", startIndex);
+
+		List<InChargeAdviser> list = null;
+
+		// 不分页
+		if (startIndex == -1) {
+			list = inChargeAdviserDAO.findByParams(
+					"CC_CUST_PROD_OP.queryInChargeAdviser", hm);
+		}
+		// 分页
+		else {
+			long endIndex = startIndex + pageSize - 1;
+			hm.put("endIndex", endIndex);
+
+			list = inChargeAdviserDAO.findByParams(
+					"CC_CUST_PROD_OP.queryInChargeAdviserPaging", hm);
+		}
+
+		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ei.itop.custmgnt.service.CustMgntService#queryInChargeAdviserCount
+	 * (java.lang.Long, java.lang.Long, java.lang.String)
+	 */
+	public long queryInChargeAdviserCount(Long custId, Long productId,
+			String adviserName) throws Exception {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("custId", custId);
+		hm.put("productId", productId);
+		hm.put("adviserName", "%" + adviserName + "%");
+
+		long rowCount = inChargeAdviserCountDAO.find(
+				"CC_CUST_PROD_OP.queryInChargeAdviserCount", hm);
+
+		return rowCount;
+	}
+
+	public static void main(String[] args) throws Exception {
+		CustMgntService cms = (CustMgntService) AppContext
+				.getBean("custMgntService");
+
+		List<InChargeAdviser> list = null;
+
+		// 不分页
+		list = cms.queryInChargeAdviser(new Long(300001), new Long(102), "",
+				-1, 2);
+		log.debug("list.size() is " + list.size());
+		for (int i = 0; list != null && i < list.size(); i++) {
+			log.debug(list.get(i).getCustId() + "," + list.get(i).getCustName());
+		}
+
+		// 分页
+		list = cms.queryInChargeAdviser(new Long(300001), new Long(102), "", 1,
+				2);
+		log.debug("list.size() is " + list.size());
+		for (int i = 0; list != null && i < list.size(); i++) {
+			log.debug(list.get(i).getCustId() + "," + list.get(i).getCustName());
+		}
+
+		long cnt = cms.queryInChargeAdviserCount(new Long(300001),
+				new Long(102), "PM");
+		log.debug(cnt);
+	}
 }

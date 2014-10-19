@@ -86,10 +86,10 @@
       IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
     from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="incidentCode" >
-    	and incident_code like '%$incidentCode:VARCHAR$%'
+    	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="brief" >
-    	and brief like '%$brief:VARCHAR$%'
+    	and brief like #brief:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="productId" >
     	and sc_product_id = #productId:DECIMAL#
@@ -143,10 +143,10 @@
       IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
     from (select ii.*,rownum rn from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="incidentCode" >
-    	and incident_code like '%$incidentCode:VARCHAR$%'
+    	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="brief" >
-    	and brief like '%$brief:VARCHAR$%'
+    	and brief like #brief:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="productId" >
     	and sc_product_id = #productId:DECIMAL#
@@ -201,10 +201,10 @@
       IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
     from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="incidentCode" >
-    	and incident_code like '%$incidentCode:VARCHAR$%'
+    	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="brief" >
-    	and brief like '%$brief:VARCHAR$%'
+    	and brief like #brief:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="productId" >
     	and sc_product_id = #productId:DECIMAL#
@@ -248,10 +248,10 @@
   	select it_state_code state_code,it_state_val state_val,count(*) record_count from ic_incident
 	where data_state=1
       <isNotNull prepend="" property="incidentCode" >
-    	and incident_code like '%$incidentCode:VARCHAR$%'
+    	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="brief" >
-    	and brief like '%$brief:VARCHAR$%'
+    	and brief like #brief:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="productId" >
     	and sc_product_id = #productId:DECIMAL#

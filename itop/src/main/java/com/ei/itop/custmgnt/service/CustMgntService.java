@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
+import com.ei.itop.custmgnt.bean.InChargeAdviser;
 
 /**
  * @author Jack.Qi
@@ -47,4 +48,35 @@ public interface CustMgntService {
 	 * @throws Exception
 	 */
 	public CcCust getCustInfo(long custId) throws Exception;
+
+	/**
+	 * 根据客户、产品线、顾问姓名（模糊匹配）查询负责的顾问列表
+	 * 
+	 * @param custId
+	 *            客户ID
+	 * @param productId
+	 *            产品线ID
+	 * @param adviserName
+	 *            顾问姓名（模糊匹配）
+	 * @param startIndex
+	 *            分页起始记录，从1开始，-1为不分页
+	 * @param pageSize
+	 *            每页记录数
+	 * @throws Exception
+	 */
+	public List<InChargeAdviser> queryInChargeAdviser(Long custId,
+			Long productId, String adviserName, long startIndex, int pageSize)
+			throws Exception;
+
+	/**
+	 * 查询记录数，根据客户、产品线、顾问姓名（模糊匹配）查询负责的顾问列表
+	 * 
+	 * @param custId
+	 * @param productId
+	 * @param adviserName
+	 * @return
+	 * @throws Exception
+	 */
+	public long queryInChargeAdviserCount(Long custId, Long productId,
+			String adviserName) throws Exception;
 }
