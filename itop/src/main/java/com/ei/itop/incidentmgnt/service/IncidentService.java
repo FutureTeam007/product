@@ -79,7 +79,7 @@ public interface IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public IcIncident queryIncident(long incidentId) throws Exception;
+	public IncidentInfo queryIncident(long incidentId) throws Exception;
 
 	/**
 	 * 获得事件所处阶段

@@ -6,6 +6,72 @@
     <result column="STATE_VAL" property="stateVal" jdbcType="VARCHAR" />
     <result column="RECORD_COUNT" property="recordCount" jdbcType="DECIMAL" />
   </resultMap>
+  <resultMap id="incidentInfoResult" class="com.ei.itop.incidentmgnt.bean.IncidentInfo" >
+    <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
+    <result column="INCIDENT_CODE" property="incidentCode" jdbcType="VARCHAR" />
+    <result column="SC_ORG_ID" property="scOrgId" jdbcType="DECIMAL" />
+    <result column="SC_ORG_NAME" property="scOrgName" jdbcType="VARCHAR" />
+    <result column="CC_CUST_ID" property="ccCustId" jdbcType="DECIMAL" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
+    <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
+    <result column="SC_MODULE_ID" property="scModuleId" jdbcType="DECIMAL" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="IC_OWNER_TYPE" property="icOwnerType" jdbcType="VARCHAR" />
+    <result column="IC_OWNER_ID" property="icOwnerId" jdbcType="DECIMAL" />
+    <result column="IC_OWNER_CODE" property="icOwnerCode" jdbcType="VARCHAR" />
+    <result column="IC_OWNER_NAME" property="icOwnerName" jdbcType="VARCHAR" />
+    <result column="PL_OBJECT_TYPE" property="plObjectType" jdbcType="VARCHAR" />
+    <result column="PL_OBJECT_ID" property="plObjectId" jdbcType="DECIMAL" />
+    <result column="PL_LOGIN_CODE" property="plLoginCode" jdbcType="VARCHAR" />
+    <result column="PL_OBJECT_NAME" property="plObjectName" jdbcType="VARCHAR" />
+    <result column="SC_OP_ID" property="scOpId" jdbcType="DECIMAL" />
+    <result column="SC_LOGIN_CODE" property="scLoginCode" jdbcType="VARCHAR" />
+    <result column="SC_LOGIN_NAME" property="scLoginName" jdbcType="VARCHAR" />
+    <result column="IC_OBJECT_TYPE" property="icObjectType" jdbcType="VARCHAR" />
+    <result column="IC_OBJECT_ID" property="icObjectId" jdbcType="DECIMAL" />
+    <result column="IC_OBJECT_NAME" property="icObjectName" jdbcType="VARCHAR" />
+    <result column="IC_LOGIN_CODE" property="icLoginCode" jdbcType="VARCHAR" />
+    <result column="REGISTE_TIME" property="registeTime" jdbcType="DATE" />
+    <result column="HAPPEN_TIME" property="happenTime" jdbcType="DATE" />
+    <result column="SOURCE_CODE" property="sourceCode" jdbcType="VARCHAR" />
+    <result column="SOURCE_VAL" property="sourceVal" jdbcType="VARCHAR" />
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+    <result column="CLASS_VAL" property="classVal" jdbcType="VARCHAR" />
+    <result column="AFFECT_CODE" property="affectCode" jdbcType="VARCHAR" />
+    <result column="AFFECT_VAL" property="affectVal" jdbcType="VARCHAR" />
+    <result column="COMPLEX_CODE" property="complexCode" jdbcType="VARCHAR" />
+    <result column="COMPLEX_VAL" property="complexVal" jdbcType="VARCHAR" />
+    <result column="PRIORITY_CODE" property="priorityCode" jdbcType="VARCHAR" />
+    <result column="PRIORITY_VAL" property="priorityVal" jdbcType="VARCHAR" />
+    <result column="CC_LIST" property="ccList" jdbcType="VARCHAR" />
+    <result column="BRIEF" property="brief" jdbcType="VARCHAR" />
+    <result column="DETAIL" property="detail" jdbcType="VARCHAR" />
+    <result column="RESPONSE_TIME" property="responseTime" jdbcType="DECIMAL" />
+    <result column="DEAL_TIME" property="dealTime" jdbcType="DECIMAL" />
+    <result column="REPONSE_DUR2" property="reponseDur2" jdbcType="DATE" />
+    <result column="DEAL_DUR2" property="dealDur2" jdbcType="DATE" />
+    <result column="REPONSE_NUM" property="reponseNum" jdbcType="VARCHAR" />
+    <result column="DEAL_NUM" property="dealNum" jdbcType="VARCHAR" />
+    <result column="RESTORE_TIME" property="restoreTime" jdbcType="DATE" />
+    <result column="REPONSE_DUR" property="reponseDur" jdbcType="DECIMAL" />
+    <result column="DEAL_DUR" property="dealDur" jdbcType="DECIMAL" />
+    <result column="FINISH_TIME" property="finishTime" jdbcType="DATE" />
+    <result column="IT_SOLUTION" property="itSolution" jdbcType="VARCHAR" />
+    <result column="FINISH_CODE" property="finishCode" jdbcType="VARCHAR" />
+    <result column="FINISH_VAL" property="finishVal" jdbcType="VARCHAR" />
+    <result column="FEEDBACK_CODE" property="feedbackCode" jdbcType="VARCHAR" />
+    <result column="FEEDBACK_VAL" property="feedbackVal" jdbcType="VARCHAR" />
+    <result column="FEEDBACK_TIME" property="feedbackTime" jdbcType="DATE" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="DATE" />
+    <result column="IT_PHASE" property="itPhase" jdbcType="VARCHAR" />
+    <result column="IT_STATE_CODE" property="itStateCode" jdbcType="VARCHAR" />
+    <result column="IT_STATE_VAL" property="itStateVal" jdbcType="VARCHAR" />
+    <result column="DATA_STATE" property="dataState" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+  </resultMap>
   <resultMap id="icIncidentResult" class="com.ei.itop.common.dbentity.IcIncident" >
     <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
     <result column="INCIDENT_CODE" property="incidentCode" jdbcType="VARCHAR" />
@@ -309,7 +375,7 @@
     and create_date >= #currentMonthFirstDay:DATE#
     order by ic_incident_id desc
   </select>
-  <select id="selectByPrimaryKey" resultMap="icIncidentResult" parameterClass="Long" >
+  <select id="selectByPrimaryKey" resultMap="incidentInfoResult" parameterClass="Long" >
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
       IC_OWNER_TYPE, IC_OWNER_ID, IC_OWNER_CODE, IC_OWNER_NAME,
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,

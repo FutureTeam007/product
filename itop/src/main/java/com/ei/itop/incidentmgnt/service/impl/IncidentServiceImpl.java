@@ -53,6 +53,9 @@ public class IncidentServiceImpl implements IncidentService {
 	private GenericDAO<Long, IcIncident> incidentDAO;
 
 	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, IncidentInfo> incidentInfoDAO;
+
+	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, Long> incidentDAOCount;
 
 	@Resource(name = "app.siCommonDAO")
@@ -280,13 +283,13 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @see
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncident(long)
 	 */
-	public IcIncident queryIncident(long incidentId) throws Exception {
+	public IncidentInfo queryIncident(long incidentId) throws Exception {
 		// TODO Auto-generated method stub
 
-		IcIncident incident = incidentDAO.find(
+		IncidentInfo incidentInfo = incidentInfoDAO.find(
 				"IC_INCIDENT.selectByPrimaryKey", incidentId);
 
-		return incident;
+		return incidentInfo;
 	}
 
 	/*
