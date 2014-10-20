@@ -24,6 +24,14 @@
     from IC_ATTACH
     where IC_ATTACH_ID = #icAttachId:DECIMAL#
   </select>
+  <select id="selectAttachListByIds" resultMap="icAttachResult" parameterClass="java.util.Map" >
+    select IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH, ATTACH_NAME
+    from IC_ATTACH
+    where IC_ATTACH_ID in
+  	<iterate property="ids" open="(" close=")" conjunction=",">
+		#ids[]#
+  	</iterate>
+  </select>
   <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from IC_ATTACH
     where IC_ATTACH_ID = #icAttachId:DECIMAL#

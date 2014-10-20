@@ -346,9 +346,11 @@ public class IncidentController {
 		ii.setCcList(ccList);
 		// 附件
 		String attachList = request.getParameter("attachList");
-		List<IcAttach> attachs = JSONUtils.parseArray(attachList,
-				IcAttach.class);
-		ii.setAttachList(attachs);
+		if (!StringUtils.isEmpty(attachList)) {
+			List<IcAttach> attachs = attachService.queryAttachList(ArrayUtils
+					.stringArray2LongArray(attachList.split(",")));
+			ii.setAttachList(attachs);
+		}
 		// 目前默认填写操作员的信息,待后续开放了顾问代客户提交事件后再设置前台传入的值
 		ii.setIcOwnerCode(oi.getOpCode());
 		ii.setIcOwnerId(oi.getOpId());
@@ -376,6 +378,12 @@ public class IncidentController {
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
 		IncidentInfo ii = incidentService.MBLQueryIncident(incidentId, oi);
+		List<IcAttach> attachList = ii.getAttachList();
+		if(attachList!=null&&attachList.size()>0){
+			for(IcAttach attach:attachList){
+				attach.setAttachPath("");
+			}
+		}
 		String jsonData = JSONUtils.toJSONString(ii);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");

@@ -30,7 +30,7 @@ public class TransactionController {
 	@RequestMapping("/list")
 	public void queryTransList(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
-		List<IcTransaction> data = transactionService.MBLQueryTransaction(incidentId, SessionUtil.getOpInfo());
+		List<TransactionInfo> data = transactionService.MBLQueryTransaction(incidentId, SessionUtil.getOpInfo());
 		String jsonData = JSONUtils.toJSONString(data);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");

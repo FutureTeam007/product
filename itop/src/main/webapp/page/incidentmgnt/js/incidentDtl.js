@@ -47,7 +47,7 @@ function queryIncident(){
 			if(attachData!=null){
 				for(var i=0;i<attachData.length;i++){
 					var attachInfo = '<div attachId='+attachData[i].attachId+'><a href="javascript:attachDownLoad('+attachData[i].attachId+')">'+attachData[i].attachName+'</a><i class="fa fa-times" onclick="attachRemove(this,'+attachData[i].attachId+')"></i></div>';
-					$("#attach").prepend(attachInfo);
+					$("#attachList").prepend(attachInfo);
 				}
 			}
 		},
