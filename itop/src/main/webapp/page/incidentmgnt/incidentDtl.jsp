@@ -16,6 +16,7 @@
 		var incidentId = "<%=id%>";
 		var openFlag = "<%=openFlag%>";
 	</script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/jquery.ajaxfileupload.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/page/incidentmgnt/js/incidentDtl.js"></script>
 </head>
 <body style="background:#fff;overflow-x:hidden;">
@@ -114,10 +115,8 @@
   		</div>
   		<div class="form-group clearfix">
 		    <label for="happenDate" class="col-sm-2 control-label">附件</label>
-		    <div class="col-sm-10" id="attach">
-		       <div><a href="#">附件1</a><i class="fa fa-times"></i></div>
-		       <div><a href="#">附件2</a><i class="fa fa-times"></i></div>
-		       <input type="file" value="选择文件"/>
+		    <div class="col-sm-10 attachList" id="attachList">
+		       <input type="file" id="uploadFile1" name="uploadFile" value="选择文件" onchange="attachUpload()"/>
 		    </div>
   		</div>
   		<div class="form-group clearfix inci-form-btns">

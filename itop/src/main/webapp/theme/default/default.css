@@ -23,7 +23,8 @@ a:active {star:expression(this.onFocus=this.blur());}
 .none-data-info{width:100%;padding:10px;text-align:center}
 .pagination-page-list,.pagination-btn-separator{display:none}
 .undis{display:none}
-
+.attachList .fa-times{color:red;cursor:pointer;margin-left:5px;}
+.attachList div{margin-top:5px;margin-bottom:5px}
 /*login*/
 .login-header-fix{height:60px;padding-top:3px;}
 .login-header-fix .site-logo{margin-left:90px;}

@@ -46,7 +46,8 @@ function queryIncident(){
 			var attachData = msg.attachList;
 			if(attachData!=null){
 				for(var i=0;i<attachData.length;i++){
-					$("#attach").prepend("<div><a href='#'>"+attachData[i].attachPath+"</a><i class='fa fa-times'></i></div>");
+					var attachInfo = '<div attachId='+attachData[i].attachId+'><a href="javascript:attachDownLoad('+attachData[i].attachId+')">'+attachData[i].attachName+'</a><i class="fa fa-times" onclick="attachRemove(this,'+attachData[i].attachId+')"></i></div>';
+					$("#attach").prepend(attachInfo);
 				}
 			}
 		},
@@ -85,7 +86,11 @@ function getFromVars(){
 		fv.sourceVal = "顾问开单";
 	}
 	//附件列表
-	fv.attachList = "[{\"attachPath\":\"upload/123.txt\"}]";
+	var attachIdArray = [];
+	$("#attachList div").each(function(){
+		attachIdArray.push($(this).attr("attachId"));
+	});
+	fv.attachList = attachIdArray.join(",");
 }
 
 //检查form表单数据正确性
@@ -244,3 +249,43 @@ function dateFormatter(val){
 	return year+"-"+(month+1)+"-"+day;
 }
 
+//上传附件
+function attachUpload(){
+	 $.ajaxFileUpload({
+			url:rootPath+'/attach/upload', 
+			secureuri:false,
+			fileElementId:'uploadFile1',
+			dataType: 'json',
+			success: function (data, status){
+				if(data.success){
+					var attachInfo = '<div attachId='+data.attachId+'><a href="javascript:attachDownLoad('+data.attachId+')">'+data.filename+'</a><i class="fa fa-times" onclick="attachRemove(this,'+data.attachId+')"></i></div>';
+					$("#attachList").prepend(attachInfo);
+				}else{
+					alert(data.message);
+				}
+			},
+			error: function (data, status, e){
+				//mask.hide();
+			}
+	  });
+}
+
+//下载附件
+function attachDownLoad(id){
+	window.open(rootPath+'/attach/download?attachId='+id);
+}
+
+//删除附件
+function attachRemove(obj,id){
+	$(obj).parent().remove();
+	$.ajax({
+		type : 'post',
+		url : rootPath + "/attach/remove",
+		data : {attachId:id},
+		dataType : 'text',
+		success : function() {},
+		error : function() {
+			$.messager.alert('提示','删除附件失败！');
+		}
+	});
+}

@@ -71,7 +71,7 @@
 	<div class="inci-data">
 		<div>
 			<span style="width:7.5%;float:left">
-				<button type="button" class="btn btn-danger" onclick="add()">+ 新建一条事件</button>
+				<button type="button" class="btn btn-danger undis" id="addBtn" onclick="add()">+ 新建一条事件</button>
 			</span>
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
 			</ul>

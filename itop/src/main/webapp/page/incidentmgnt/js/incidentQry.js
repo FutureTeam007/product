@@ -13,6 +13,10 @@ qp.registerTimeBegin = null;
 qp.registerTimeEnd = null;
 
 $(function(){
+	//判断是否可以显示新建按钮，如果是用户才显示，顾问不显示
+	if(opType=='USER'){
+		$("#addBtn").show();
+	}
 	//初始化分页条
 	initDataPager();
 	//初始化子页滑动

@@ -4,6 +4,12 @@ var r = null;
 var incidentPlObjectType = null;
 //事件处理人ID，判断是否为当前处理人，产生流程事务还是非流程事务
 var icObjectId = null;
+//顾问选择表格
+var consultantGrid = null;
+//CustId
+var gCustId = null;
+//ProductId
+var gProdId = null;
 
 $(function(){
 	$.template( "transListTpl", transListTpl); 
@@ -56,6 +62,8 @@ function queryIncidentInfo(flag){
 			$("#attachments").html(msg.attachList);
 			incidentPlObjectId = msg.plObjectId;
 			icObjectId = msg.icObjectId;
+			gCustId = ccCustId;
+			gProdId = scProductId;
 			//显示操作按钮
 			if(opId==icObjectId){
 				$("#openConsultantSelBtn").show();
@@ -202,6 +210,46 @@ function openConsultantSelWin(){
 	r = validateFormAndWrapVar();
 	if(!r){
 		return;
+	};
+	if(consultantGrid==null){
+		consultantGrid = $("#consultantSelTable").datagrid({
+			idField: 'scOpId',
+			height:240,
+			remoteSort:false,
+			loadMsg:"数据加载中，请稍侯……",
+			nowrap:true,
+			fitColumns:true,
+			url: rootPath + '/custmgnt/op/list',
+			columns:[[
+			    {field:'ck',checkbox: true},
+			    {field:'opName',title:'姓名',formatter:nameFormatter},
+				{field:'loginCode',title:'账号'},
+				{field:'mobileNo',title:'手机号码'},
+				{field:'officeTel',title:'办公电话'},
+				{field:'firstName',hidden:true},
+				{field:'lastName',hidden:true}
+			]],
+			queryParams:{
+				custId: gCustId,
+				productId:gProdId
+			},
+			onLoadSuccess:function(){
+				var data = $(this).datagrid("getData");
+				if(data.rows.length==0){
+					 $(this).parent().find("div").filter(".datagrid-body").html("<div class='ml10 mt10'>暂无数据记录</div>");
+				}
+			},
+			pagination:true,
+			pageNumber:1,
+			pageSize:10
+		}); 
+		var pagger = $('#consultantSelTable').datagrid('getPager');
+		$(pagger).pagination({
+			showPageList:false,
+			beforePageText: '第',   
+			afterPageText: '页 共 {pages} 页',   
+			displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+		});
 	}
 	$('#consultantSelWin').dialog('open');
 }
@@ -212,12 +260,18 @@ function deliverConstCommit(){
 	var rows = $("#consultantSelTable").datagrid('getSelections');
 	if(!rows||rows.length<1){
 		$.messager.alert('提示','请选择一个转派的顾问！');
+		return;
 	}
 	//设置转派的顾问参数
 	var opInfo = rows[0];
 	r.opId = opInfo.scOpId;
 	r.opCode = opInfo.loginCode;
 	r.opName = opInfo.opName;
+	//判断是否转派给自己
+	if(opId==opInfo.scOpId){
+		$.messager.alert('提示','请注意：事件转派不能转派给自己！');
+		return;
+	}
 	//转顾问操作
 	r.xcode=1;
 	$.ajax({
@@ -339,7 +393,7 @@ function completeIncident(){
 			//提交成功，重新查询事件信息
 			queryIncidentInfo(1);
 			$('#completeWin').dialog('close');
-			$.messager.alert('提示','事件信息审核补全成功，可以继续事务了！');
+			$.messager.alert('提示','事件信息审核补全成功，可以继续提交事务了！');
 		},
 		error : function() {
 			$.messager.alert('Error','更新事件信息失败！');
@@ -408,4 +462,8 @@ function dateTimeFormatter(val){
 	var second = date.getSeconds();
 	second = second<10?"0"+second:second;
 	return year+"-"+(month+1)+"-"+day+" "+hour+":"+minute+":"+second;
+}
+//顾问姓名列格式化
+function nameFormatter(val,row){
+	return row.opName+"/"+row.firstName+"."+row.lastName;
 }
