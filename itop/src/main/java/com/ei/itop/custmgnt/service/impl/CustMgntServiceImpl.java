@@ -112,7 +112,8 @@ public class CustMgntServiceImpl implements CustMgntService {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("custId", custId);
 		hm.put("productId", productId);
-		hm.put("adviserName", "%" + adviserName + "%");
+		hm.put("adviserName", "%" + adviserName == null ? "" : adviserName
+				+ "%");
 		hm.put("startIndex", startIndex);
 
 		List<InChargeAdviser> list = null;
@@ -148,7 +149,8 @@ public class CustMgntServiceImpl implements CustMgntService {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("custId", custId);
 		hm.put("productId", productId);
-		hm.put("adviserName", "%" + adviserName + "%");
+		hm.put("adviserName", "%" + adviserName == null ? "" : adviserName
+				+ "%");
 
 		long rowCount = inChargeAdviserCountDAO.find(
 				"CC_CUST_PROD_OP.queryInChargeAdviserCount", hm);

@@ -91,8 +91,11 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() + "%");
-		hm.put("brief", "%" + qcIncident.getBrief() + "%");
+		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() == null ? ""
+				: qcIncident.getIncidentCode() + "%");
+		hm.put("brief",
+				"%" + qcIncident.getBrief() == null ? "" : qcIncident
+						.getBrief() + "%");
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -146,8 +149,11 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() + "%");
-		hm.put("brief", "%" + qcIncident.getBrief() + "%");
+		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() == null ? ""
+				: qcIncident.getIncidentCode() + "%");
+		hm.put("brief",
+				"%" + qcIncident.getBrief() == null ? "" : qcIncident
+						.getBrief() + "%");
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -176,8 +182,11 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() + "%");
-		hm.put("brief", "%" + qcIncident.getBrief() + "%");
+		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() == null ? ""
+				: qcIncident.getIncidentCode() + "%");
+		hm.put("brief",
+				"%" + qcIncident.getBrief() == null ? "" : qcIncident
+						.getBrief() + "%");
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
