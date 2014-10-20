@@ -701,7 +701,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incidentInfo.getItPhase());
-		transactionInfo.setTransType("流程事务-顾问处理中");
+		transactionInfo.setTransType("流程事务-待响应");
 		transactionInfo.setContents(incidentInfo.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
@@ -762,7 +762,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incidentInfo.getItPhase());
-		transactionInfo.setTransType("流程事务-顾问处理中");
+		transactionInfo.setTransType("流程事务-待响应");
 		transactionInfo.setContents(incidentInfo.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
@@ -827,7 +827,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incident.getItPhase());
-		transactionInfo.setTransType("流程事务-顾问处理中");
+		transactionInfo.setTransType("流程事务-待响应");
 		transactionInfo.setContents(incident.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
