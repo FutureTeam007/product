@@ -26,7 +26,7 @@
 		</li>
 		<li>
 			<div>OpCode[SP200002],OpId[200002],OpName[ITOPEI2-EI],OrgId[2001],OrgName[EI]</div>
-			<a href="${pageContext.request.contextPath}/test/login?role=4">用户02</a>
+			<a href="${pageContext.request.contextPath}/test/login?role=4">顾问02</a>
 		</li>
 	</ul>
 	<div><a href="${pageContext.request.contextPath}/test/logout">注销</a></div>
