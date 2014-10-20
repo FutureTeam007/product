@@ -91,11 +91,12 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() == null ? ""
-				: qcIncident.getIncidentCode() + "%");
-		hm.put("brief",
-				"%" + qcIncident.getBrief() == null ? "" : qcIncident
-						.getBrief() + "%");
+		String incidentCode = qcIncident.getIncidentCode() == null ? ""
+				: qcIncident.getIncidentCode();
+		hm.put("incidentCode", "%" + incidentCode + "%");
+		String brirf = qcIncident.getBrief() == null ? "" : qcIncident
+				.getBrief();
+		hm.put("brief", "%" + brirf + "%");
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -149,11 +150,12 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() == null ? ""
-				: qcIncident.getIncidentCode() + "%");
-		hm.put("brief",
-				"%" + qcIncident.getBrief() == null ? "" : qcIncident
-						.getBrief() + "%");
+		String incidentCode = qcIncident.getIncidentCode() == null ? ""
+				: qcIncident.getIncidentCode();
+		hm.put("incidentCode", "%" + incidentCode + "%");
+		String brirf = qcIncident.getBrief() == null ? "" : qcIncident
+				.getBrief();
+		hm.put("brief", "%" + brirf + "%");
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -182,11 +184,12 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("incidentCode", "%" + qcIncident.getIncidentCode() == null ? ""
-				: qcIncident.getIncidentCode() + "%");
-		hm.put("brief",
-				"%" + qcIncident.getBrief() == null ? "" : qcIncident
-						.getBrief() + "%");
+		String incidentCode = qcIncident.getIncidentCode() == null ? ""
+				: qcIncident.getIncidentCode();
+		hm.put("incidentCode", "%" + incidentCode + "%");
+		String brirf = qcIncident.getBrief() == null ? "" : qcIncident
+				.getBrief();
+		hm.put("brief", "%" + brirf + "%");
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -251,15 +254,20 @@ public class IncidentServiceImpl implements IncidentService {
 	 * com.ei.itop.incidentmgnt.service.IIncidentService#queryIncident(long,
 	 * long)
 	 */
-	public IcIncident MBLQueryIncident(long incidentId, OpInfo opInfo)
+	public IncidentInfo MBLQueryIncident(long incidentId, OpInfo opInfo)
 			throws Exception {
 		// TODO Auto-generated method stub
 
-		IcIncident incident = queryIncident(incidentId);
+		IncidentInfo incidentInfo = null;
+
+		// 查询事件信息
+		incidentInfo = (IncidentInfo) queryIncident(incidentId);
+
+		// 查询附件信息
 
 		// 记录系统操作日志
 
-		return incident;
+		return incidentInfo;
 	}
 
 	/*
