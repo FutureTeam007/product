@@ -35,7 +35,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i>修改密码</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i>注销</a>
+                        <li><a href="${pageContext.request.contextPath}/test/logout"><i class="fa fa-sign-out fa-fw"></i>注销</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
