@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="IC_TRANSACTION" >
+  <resultMap id="transactionInfoResult" class="com.ei.itop.incidentmgnt.bean.TransactionInfo" >
+    <result column="TRANS_ID" property="transId" jdbcType="DECIMAL" />
+    <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="LOGIN_CODE" property="loginCode" jdbcType="VARCHAR" />
+    <result column="OBJECT_NAME" property="objectName" jdbcType="VARCHAR" />
+    <result column="IT_PHASE" property="itPhase" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="CONTENTS" property="contents" jdbcType="VARCHAR" />
+  </resultMap>
   <resultMap id="icTransactionResult" class="com.ei.itop.common.dbentity.IcTransaction" >
     <result column="TRANS_ID" property="transId" jdbcType="DECIMAL" />
     <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
@@ -19,7 +31,7 @@
     from IC_TRANSACTION
     where TRANS_ID = #transId:DECIMAL#
   </select>
-  <select id="queryTransactionByIncident" resultMap="icTransactionResult" parameterClass="java.util.Map" >
+  <select id="queryTransactionByIncident" resultMap="transactionInfoResult" parameterClass="java.util.Map" >
     select TRANS_ID, IC_INCIDENT_ID, CREATE_TIME, OBJECT_TYPE, OBJECT_ID, LOGIN_CODE, OBJECT_NAME,
       IT_PHASE, TRANS_TYPE, CONTENTS
     from IC_TRANSACTION

@@ -26,7 +26,7 @@ public interface TransactionService {
 	 * @return 事务列表
 	 * @throws Exception
 	 */
-	public List<IcTransaction> MBLQueryTransaction(long incidentId,
+	public List<TransactionInfo> MBLQueryTransaction(long incidentId,
 			OpInfo opInfo) throws Exception;
 
 	/**

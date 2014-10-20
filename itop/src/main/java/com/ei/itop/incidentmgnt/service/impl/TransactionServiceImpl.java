@@ -38,6 +38,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, IcTransaction> transactionDAO;
 
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, TransactionInfo> transactionInfoDAO;
+
 	@Resource(name = "commonDDLDAO")
 	private CommonDAO commonDAO;
 
@@ -54,19 +57,31 @@ public class TransactionServiceImpl implements TransactionService {
 	 * com.ei.itop.incidentmgnt.service.ITransactionService#queryTransaction
 	 * (long, long)
 	 */
-	public List<IcTransaction> MBLQueryTransaction(long incidentId,
+	public List<TransactionInfo> MBLQueryTransaction(long incidentId,
 			OpInfo opInfo) throws Exception {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("incidentId", incidentId);
 
-		List<IcTransaction> transactionList = transactionDAO.findByParams(
-				"IC_TRANSACTION.queryTransactionByIncident", hm);
+		// 查询事务信息
+		List<TransactionInfo> transactionInfoList = transactionInfoDAO
+				.findByParams("IC_TRANSACTION.queryTransactionByIncident", hm);
+
+		// 挨个查询事务附件，此逻辑后续可调整为一次查出全部事务的附件，在内存中匹配事务
+		for (int i = 0; transactionInfoList != null
+				&& i < transactionInfoList.size(); i++) {
+			TransactionInfo transactionInfo = new TransactionInfo();
+
+			List<IcAttach> attachList = attachService.getAttachList(incidentId,
+					transactionInfo.getTransId());
+
+			transactionInfo.setAttachList(attachList);
+		}
 
 		// 记录操作日志
 
-		return transactionList;
+		return transactionInfoList;
 	}
 
 	/**
