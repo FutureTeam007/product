@@ -5,7 +5,6 @@ package com.ei.itop.incidentmgnt.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -39,13 +38,6 @@ public class AttachServiceImpl implements AttachService {
 
 		attachDAO.delete("IC_ATTACH.deleteByIncident", incidentId);
 	}
-	/**
-	 * 根据主键删除单条附件
-	 */
-	public void deleteAttachByPrimaryId(long id) throws Exception {
-		attachDAO.delete("IC_ATTACH.deleteByPrimaryKey", id);
-	}
-
 
 	/**
 	 * 删除某事务的附件
@@ -87,7 +79,7 @@ public class AttachServiceImpl implements AttachService {
 		}
 
 		// 保存新附件
-		attachDAO.updateBatch("IC_ATTACH.updateByPrimaryKeySelective", attachList);
+		attachDAO.saveBatch("IC_ATTACH.insert", attachList);
 	}
 
 	/*
@@ -110,7 +102,7 @@ public class AttachServiceImpl implements AttachService {
 		}
 
 		// 保存新附件
-		attachDAO.updateBatch("IC_ATTACH.updateByPrimaryKeySelective", attachList);
+		attachDAO.saveBatch("IC_ATTACH.insert", attachList);
 	}
 
 	/*
@@ -131,15 +123,24 @@ public class AttachServiceImpl implements AttachService {
 		attachDAO.update("IC_ATTACH.changeTransAttach2IncidAttach", attach);
 	}
 
-	public long saveAttach(IcAttach attach) throws Exception {
-		return attachDAO.save("IC_ATTACH.insert", attach);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ei.itop.incidentmgnt.service.AttachService#getAttachList(long,
+	 * long)
+	 */
+	public List<IcAttach> getAttachList(long incidentId, Long transactionId)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("incidentId", incidentId);
+		hm.put("transactionId", transactionId);
+
+		List<IcAttach> list = attachDAO.findByParams(
+				"IC_ATTACH.queryAttachLIstByIncidentIdAndTransactionId", hm);
+
+		return list;
 	}
 
-	public List<IcAttach> queryAttachList(long[] ids) throws Exception {
-		Map params = new HashMap();
-		params.put("ids", ids);
-		return attachDAO.findByParams("IC_ATTACH.selectAttachListByIds", params);
-	}
-
-	
 }

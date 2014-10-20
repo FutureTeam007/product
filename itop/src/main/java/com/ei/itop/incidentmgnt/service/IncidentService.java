@@ -58,7 +58,7 @@ public interface IncidentService {
 	 * @return
 	 * @throws Exception
 	 */
-	public IcIncident MBLQueryIncident(long incidentId, OpInfo opInfo)
+	public IncidentInfo MBLQueryIncident(long incidentId, OpInfo opInfo)
 			throws Exception;
 
 	/**

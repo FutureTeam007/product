@@ -6,20 +6,22 @@
     <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
     <result column="TRANS_ID" property="transId" jdbcType="DECIMAL" />
     <result column="ATTACH_PATH" property="attachPath" jdbcType="VARCHAR" />
-    <result column="ATTACH_NAME" property="attachName" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="icAttachResult" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
-    select IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH, ATTACH_NAME
+  <select id="queryAttachLIstByIncidentIdAndTransactionId" resultMap="icAttachResult" parameterClass="java.util.Map" >
+    select IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH
+    from IC_ATTACH
+    where 1=1
+    <isNotNull prepend="" property="incidentId" >
+      and IC_INCIDENT_ID = #incidentId:DECIMAL#
+    </isNotNull>
+    <isNotNull prepend="" property="transactionId" >
+      and TRANS_ID = #transactionId:DECIMAL#
+    </isNotNull>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="icAttachResult" parameterClass="long" >
+    select IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH
     from IC_ATTACH
     where IC_ATTACH_ID = #icAttachId:DECIMAL#
-  </select>
-  <select id="selectAttachListByIds" resultMap="icAttachResult" parameterClass="java.util.Map" >
-    select IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH, ATTACH_NAME
-    from IC_ATTACH
-    where IC_ATTACH_ID in
-  	<iterate property="ids" open="(" close=")" conjunction=",">
-		#ids[]#
-  	</iterate>
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from IC_ATTACH
@@ -37,8 +39,8 @@
   	<selectKey resultClass="long" keyProperty="icAttachId">
   		select IC_ATTACH$$SEQ.nextval from dual
   	</selectKey>
-    insert into IC_ATTACH (IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH, ATTACH_NAME)
-    values (#icAttachId:DECIMAL#, #icIncidentId:DECIMAL#, #transId:DECIMAL#, #attachPath:VARCHAR#, #attachName:VARCHAR#)
+    insert into IC_ATTACH (IC_ATTACH_ID, IC_INCIDENT_ID, TRANS_ID, ATTACH_PATH)
+    values (#icAttachId:DECIMAL#, #icIncidentId:DECIMAL#, #transId:DECIMAL#, #attachPath:VARCHAR#)
   </insert>
   <update id="changeTransAttach2IncidAttach" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
     update IC_ATTACH
@@ -50,8 +52,7 @@
     set IC_INCIDENT_ID = #icIncidentId:DECIMAL#,
       TRANS_ID = #transId:DECIMAL#,
       ATTACH_PATH = #attachPath:VARCHAR#
-      ATTACH_NAME = #attachPath:VARCHAR#
-    where IC_ATTACH_ID = #attachName:VARCHAR#
+    where IC_ATTACH_ID = #icAttachId:DECIMAL#
   </update>
   <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
     update IC_ATTACH
@@ -64,9 +65,6 @@
       </isNotNull>
       <isNotNull prepend="," property="attachPath" >
         ATTACH_PATH = #attachPath:VARCHAR#
-      </isNotNull>
-       <isNotNull prepend="," property="attachName" >
-        ATTACH_NAME = #attachName:VARCHAR#
       </isNotNull>
     </dynamic>
     where IC_ATTACH_ID = #icAttachId:DECIMAL#
