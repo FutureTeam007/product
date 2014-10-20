@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ailk.dazzle.util.type.DateUtils;
@@ -206,7 +207,7 @@ public class IncidentServiceImpl implements IncidentService {
 		List<ScParam> paramList = paramService.getParamList(orgId, "IC_STATE");
 
 		if (paramList == null || paramList.size() == 0) {
-			throw new Exception("参数表尚未定义该商户的事件状态");
+			throw new BizException("参数表尚未定义该商户的事件状态");
 		}
 
 		// 查询事件表所有状态分组数量信息
@@ -566,7 +567,7 @@ public class IncidentServiceImpl implements IncidentService {
 				orgId, custId, productId);
 
 		if (custProdOpList == null || custProdOpList.size() == 0) {
-			throw new Exception("系统尚未配置负责该产品线的顾问");
+			throw new BizException("系统尚未配置负责该产品线的顾问");
 		}
 
 		// 查询商户、客户下当前负责顾问的工作量
@@ -839,7 +840,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		return incidentId;
 
-		// throw new Exception("目前系统中并没有直接提交事件的入口，此逻辑暂未实现");
+		// throw new BizException("目前系统中并没有直接提交事件的入口，此逻辑暂未实现");
 	}
 
 	/*
@@ -857,13 +858,13 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 如果不是待提交状态，则不允许删除事件
 		if (!"1".equals(incident.getItStateCode())) {
-			throw new Exception("只有待提交状态的事件才可以删除");
+			throw new BizException("只有待提交状态的事件才可以删除");
 		}
 
 		// 如果不是事件提出人，则不允许删除事件
 		if (!opInfo.getOpType().equals(incident.getPlObjectType())
 				&& opInfo.getOpId() != incident.getPlObjectId()) {
-			throw new Exception("只有事件提出人才可以删除事件");
+			throw new BizException("只有事件提出人才可以删除事件");
 		}
 
 		// 修改事件数据状态为已失效
@@ -895,7 +896,7 @@ public class IncidentServiceImpl implements IncidentService {
 				|| incident.getPriorityVal() == null
 				|| incident.getComplexCode() == null
 				|| incident.getComplexVal() == null) {
-			throw new Exception("必须一次性补全顾问影响度、分类、优先级、复杂度，缺一不可");
+			throw new BizException("必须一次性补全顾问影响度、分类、优先级、复杂度，缺一不可");
 		}
 
 		IncidentInfo ii = new IncidentInfo();
@@ -933,7 +934,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 判断传入信息是否完整
 		if (incident.getFeedbackCode() == null
 				|| incident.getFeedbackVal() == null) {
-			throw new Exception("用户满意度信息填写不完整");
+			throw new BizException("用户满意度信息填写不完整");
 		}
 
 		// 查询事件信息
@@ -941,7 +942,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 仅当事件状态为8-已完成时才可以进行用户反馈满意度操作
 		if (!"8".equals(icIncident.getItStateCode())) {
-			throw new Exception("仅当事件状态为已完成时才可以评价");
+			throw new BizException("仅当事件状态为已完成时才可以评价");
 		}
 
 		IncidentInfo ii = new IncidentInfo();
@@ -972,9 +973,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 仅当事件状态为8-已完成，且用户已经评价完毕时才可以进行用户反馈满意度操作
 		if (!"8".equals(incident.getItStateCode())) {
-			throw new Exception("仅当事件状态为已完成且用户已经评价完毕时才可以关闭");
+			throw new BizException("仅当事件状态为已完成且用户已经评价完毕时才可以关闭");
 		} else if (incident.getFeedbackCode() == null) {
-			throw new Exception("仅当事件状态为已完成且用户已经评价完毕时才可以关闭");
+			throw new BizException("仅当事件状态为已完成且用户已经评价完毕时才可以关闭");
 		}
 
 		IncidentInfo ii = new IncidentInfo();

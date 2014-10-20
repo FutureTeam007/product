@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.ScOp;
@@ -45,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
 				|| "".equals(loginInfo.getLoginCode())
 				|| loginInfo.getLoginPasswd() == null
 				|| "".equals(loginInfo.getLoginPasswd())) {
-			throw new Exception("用户名及密码均不能为空");
+			throw new BizException("用户名及密码均不能为空");
 		}
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
@@ -54,15 +55,15 @@ public class LoginServiceImpl implements LoginService {
 		CcUser user = userDAO.find("CC_USER.queryUserByLoginCode", hm);
 
 		if (user == null) {
-			throw new Exception("用户不存在");
+			throw new BizException("用户不存在");
 		}
 
 		if (user.getState() != 1) {
-			throw new Exception("用户状态不正常");
+			throw new BizException("用户状态不正常");
 		}
 
 		if (!loginInfo.getLoginPasswd().equals(user.getLoginPasswd())) {
-			throw new Exception("密码错误");
+			throw new BizException("密码错误");
 		}
 
 		return user;
@@ -82,7 +83,7 @@ public class LoginServiceImpl implements LoginService {
 				|| "".equals(loginInfo.getLoginCode())
 				|| loginInfo.getLoginPasswd() == null
 				|| "".equals(loginInfo.getLoginPasswd())) {
-			throw new Exception("用户名及密码均不能为空");
+			throw new BizException("用户名及密码均不能为空");
 		}
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
@@ -91,15 +92,15 @@ public class LoginServiceImpl implements LoginService {
 		ScOp op = adviserDAO.find("SC_OP.queryOpByLoginCode", hm);
 
 		if (op == null) {
-			throw new Exception("用户不存在");
+			throw new BizException("用户不存在");
 		}
 
 		if (op.getState() != 1) {
-			throw new Exception("用户状态不正常");
+			throw new BizException("用户状态不正常");
 		}
 
 		if (!loginInfo.getLoginPasswd().equals(op.getLoginPasswd())) {
-			throw new Exception("密码错误");
+			throw new BizException("密码错误");
 		}
 
 		return op;
