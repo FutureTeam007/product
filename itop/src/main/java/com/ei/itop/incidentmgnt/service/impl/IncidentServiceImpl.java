@@ -264,7 +264,7 @@ public class IncidentServiceImpl implements IncidentService {
 		IncidentInfo incidentInfo = null;
 
 		// 查询事件信息
-		incidentInfo = (IncidentInfo) queryIncident(incidentId);
+		incidentInfo = queryIncident(incidentId);
 
 		// 查询附件信息
 		List<IcAttach> attachList = attachService.getAttachList(incidentId,
