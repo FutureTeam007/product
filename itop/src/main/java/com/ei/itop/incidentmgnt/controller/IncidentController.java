@@ -375,8 +375,7 @@ public class IncidentController {
 		OpInfo oi = SessionUtil.getOpInfo();
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
-		IcIncident ii = incidentService.MBLQueryIncident(incidentId, oi);
-		
+		IncidentInfo ii = incidentService.MBLQueryIncident(incidentId, oi);
 		String jsonData = JSONUtils.toJSONString(ii);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");

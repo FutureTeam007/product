@@ -36,7 +36,7 @@
                                     	<input class="form-control" placeholder="验证码" name="verifyCode" type="text" value=""/>
                                     </div>
                                     <div class="col-sm-3">
-                                    	验证码图片
+                                    	<img id="imgObj" class="verify-code" onclick="verifyCodeChange()" align="absMiddle" src="<%=rootPath%>/verifycode/get" />
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">

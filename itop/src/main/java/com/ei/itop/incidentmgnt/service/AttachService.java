@@ -54,4 +54,24 @@ public interface AttachService {
 	 */
 	public List<IcAttach> getAttachList(long incidentId, Long transactionId)
 			throws Exception;
+	/**
+	 * 保存单个附件
+	 * @param attach
+	 * @return
+	 * @throws Exception
+	 */
+	public long saveAttach(IcAttach attach) throws Exception;
+	/**
+	 * 查询附件列表
+	 * @param ids
+	 * @return
+	 * @throws Exception
+	 */
+	public List<IcAttach> queryAttachList(long[] ids) throws Exception;
+	/**
+	 * 根据主键删除附件
+	 * @param id
+	 * @throws Exception
+	 */
+	public void deleteAttachByPrimaryId(long id) throws Exception;
 }
