@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ailk.dazzle.util.json.JSONUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
+import com.ailk.dazzle.util.web.ActionUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.util.SessionUtil;
@@ -31,7 +32,7 @@ public class CustController {
 	public void queryInChargeAdviser(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		long custId = VarTypeConvertUtils.string2Long(request.getParameter("custId"));
 		long productId = VarTypeConvertUtils.string2Long(request.getParameter("productId"));
-		String adviserName = request.getParameter("consultantName");
+		String adviserName = ActionUtils.transParamDecode(request.getParameter("consultantName"),"UTF-8");
 		int page = VarTypeConvertUtils.string2Integer(request.getParameter("page"),0);
 		//获取分页大小
 		int pageSize = VarTypeConvertUtils.string2Integer(request.getParameter("rows"),0);

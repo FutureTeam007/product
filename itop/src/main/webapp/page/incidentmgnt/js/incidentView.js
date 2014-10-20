@@ -26,6 +26,9 @@ function initSubPage(){
 	$('#consultantSelWin').dialog({
 		modal:true
 	}).dialog('close');
+	$('#finishWin').dialog({
+		modal:true
+	}).dialog('close');
 };
 
 //查询事件信息
@@ -73,11 +76,13 @@ function queryIncidentInfo(flag){
 			gCustId = msg.ccCustId;
 			gProdId = msg.scProductId;
 			//显示操作按钮
-			if(opId==icObjectId){
+			if(opId==icObjectId&&msg.itStateCode!=8&&msg.itStateCode!=9){
 				$("#openConsultantSelBtn").show();
 				$("#deliverCustCommitBtn").show();
 				$("#blockCommitBtn").show();
-				$("#finishCommitBtn").show();
+				if(msg.itStateCode==3){
+					$("#finishCommitBtn").show();
+				}
 			}
 			//查询联系人信息
 			if(!flag){
@@ -101,13 +106,15 @@ function queryIncidentInfo(flag){
 	});
 }
 //事务列表html模板
-var transListTpl = "<div class='trans-item'><div class='col-sm-1'>${order}</div><div class='col-sm-11'>";
+var transListTpl = "<div class='trans-item'><div class='col-sm-1'><label>${order}</label></div><div class='col-sm-11'>";
 transListTpl+="<div class='trans-item-header clearfix'>";
 transListTpl+="<div><label>处理人：</label><span>${objectName}</span></div>";
 transListTpl+="<div><label>处理时间：</label><span>${createTime}</span></div>";
 transListTpl+="<div><label>类型：</label><span>${transType}</span></div></div>";
 transListTpl+="<div><div><label>事务说明：</label><br/><span class='trans-content'>${contents}</span></div></div>";
-transListTpl+="<div><div><label></label><br/><span>${attachs}</span></div></div></div></div>";
+transListTpl+="<div><div><label></label><br/><span>";
+transListTpl+="{{each(i,attach) attachList}}<div><a href=\"javascript:attachDownLoad({{= attach.icAttachId}})\">{{= attach.attachName}}</a></div>";
+transListTpl+="{{/each}}</span></div></div></div></div>";
 
 //查询事务列表
 function queryTransList(){
@@ -122,10 +129,6 @@ function queryTransList(){
 				for(var i=0;i<msg.length;i++){
 					msg[i].order = "事务"+(msg.length-i);
 					msg[i].createTime = dateTimeFormatter(msg[i].createTime);
-					var attachs = msg[i].attachList;
-					for(var j=0;attachs!=null&&j<attachs;j++){
-						msg[i].attachs += "<a href=\"javascript:attachDownLoad("+attachs[j].icAttachId+")\">"+attachs[j].attachName+"</a>";
-					}
 				}
 				$.tmpl('transListTpl', msg).appendTo('#transList'); 
 			}
@@ -158,7 +161,7 @@ function queryContactorInfo(id){
 }
 //检查表单项，并封装表单内容
 function validateFormAndWrapVar(){
-	var transDesc = encodeURIComponent(encodeURI($.trim($("#transDesc").html())));
+	var transDesc = $.trim($("#transDesc").html());
 	if(transDesc==""){
 		$.messager.alert('提示','请填写事务内容！');
 		return false;
@@ -199,8 +202,13 @@ function transCommit(){
 		type : 'post',
 		url : rootPath + "/trans/commit",
 		data : r,
-		dataType : 'json',
+		dataType : 'text',
 		success : function(msg) {
+			$.messager.alert('提示','提交成功！');
+			//显示操作按钮
+			if(opId==icObjectId){
+				$("#finishCommitBtn").show();
+			}
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
@@ -208,6 +216,14 @@ function transCommit(){
 			$.messager.alert('提示','提交事务失败！');
 		}
 	});
+}
+//查询顾问列表
+function queryConsultants(){
+	var p = {};
+	p.consultantName = encodeURIComponent($.trim($("#consultantNameTxt").val()));
+	p.custId=gCustId;
+	p.productId=gProdId;
+	$("#consultantSelTable").datagrid('load',p);
 }
 //打开顾问选择窗口
 function openConsultantSelWin(){
@@ -221,15 +237,16 @@ function openConsultantSelWin(){
 			height:240,
 			remoteSort:false,
 			loadMsg:"数据加载中，请稍侯……",
+			singleSelect:true,
 			nowrap:true,
 			fitColumns:true,
 			url: rootPath + '/custmgnt/op/list',
 			columns:[[
 			    {field:'ck',checkbox: true},
-			    {field:'opName',title:'姓名',formatter:nameFormatter},
-				{field:'loginCode',title:'账号'},
-				{field:'mobileNo',title:'手机号码'},
-				{field:'officeTel',title:'办公电话'},
+			    {field:'opName',title:'姓名',formatter:nameFormatter,width:110},
+				{field:'loginCode',title:'账号',width:90},
+				{field:'mobileNo',title:'手机号码',width:60},
+				{field:'officeTel',title:'办公电话',width:50},
 				{field:'firstName',hidden:true},
 				{field:'lastName',hidden:true}
 			]],
@@ -282,8 +299,15 @@ function deliverConstCommit(){
 		type : 'post',
 		url : rootPath + "/trans/commit",
 		data : r,
-		dataType : 'json',
+		dataType : 'text',
 		success : function(msg) {
+			$('#consultantSelWin').dialog('close');
+			$.messager.alert('提示','转派成功！');
+			//转派成功后,当前顾问只能提交普通事务,不能再提交流程事务
+			$("#openConsultantSelBtn").hide();
+			$("#deliverCustCommitBtn").hide();
+			$("#blockCommitBtn").hide();
+			$("#finishCommitBtn").hide();
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
@@ -305,8 +329,13 @@ function deliverCustCommit(){
 		type : 'post',
 		url : rootPath + "/trans/commit",
 		data : r,
-		dataType : 'json',
+		dataType : 'text',
 		success : function(msg) {
+			$.messager.alert('提示','提交成功！');
+			$("#openConsultantSelBtn").hide();
+			$("#deliverCustCommitBtn").hide();
+			$("#blockCommitBtn").hide();
+			$("#finishCommitBtn").hide();
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
@@ -328,8 +357,13 @@ function blockCommit(){
 		type : 'post',
 		url : rootPath + "/trans/commit",
 		data : r,
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
+			$.messager.alert('提示','提交成功！');
+			$("#openConsultantSelBtn").hide();
+			$("#deliverCustCommitBtn").hide();
+			$("#blockCommitBtn").hide();
+			$("#finishCommitBtn").hide();
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
@@ -338,11 +372,25 @@ function blockCommit(){
 		}
 	});
 }
-
+//打开完成窗口
+function openFinishWin(){
+	r = validateFormAndWrapVar();
+	if(!r){
+		return;
+	};
+	$('#finishWin').dialog('open');
+}
 //完成
 function finishCommit(){
 	r = validateFormAndWrapVar();
 	if(!r){
+		return;
+	}
+	var finishEl = $("input[name=finishVal]:checked");
+	r.finishCode = finishEl.val();
+	r.finishVal = finishEl.attr("text");
+	if(!r.finishCode){
+		$.messager.alert('提示','请选择一个事件完成结果！');
 		return;
 	}
 	//完成操作
@@ -351,10 +399,16 @@ function finishCommit(){
 		type : 'post',
 		url : rootPath + "/trans/commit",
 		data : r,
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
+			$.messager.alert('提示','提交成功！');
+			$('#finishWin').dialog('close');
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
+			$("#openConsultantSelBtn").hide();
+			$("#deliverCustCommitBtn").hide();
+			$("#blockCommitBtn").hide();
+			$("#finishCommitBtn").hide();
 		},
 		error : function() {
 			$.messager.alert('提示','提交事务失败！');
@@ -510,4 +564,6 @@ function attachRemove(obj,id){
 		}
 	});
 }
+
+
 

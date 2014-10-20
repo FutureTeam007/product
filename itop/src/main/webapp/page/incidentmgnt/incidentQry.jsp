@@ -108,18 +108,12 @@
 </div>
 <div id="feedbackWin" title="评价事件" style="width:300px;height:120px;">
 	<div class="col-sm-12 feedback-options">
-      	<span class="radio-inline">
-		  <input type="radio" name="feedbackVar" value="1" checked="checked">十分满意
-		</span>
-		<span class="radio-inline">
-		  <input type="radio" name="feedbackVar" value="2" >满意
-		</span>
-		<span class="radio-inline">
-		  <input type="radio" name="feedbackVar" value="3">不满意
-		</span>
+		<c:forEach var="feedback" items="${feedbackP}" begin="0" step="1">
+		    <span class="radio-inline"><input type="radio" name="feedbackVar" value="${feedback.paramCode}" text="${feedback.paramValue}">${feedback.paramValue}</span>
+		</c:forEach>
     </div>
     <div class="clearfix">
-		<button id="feedbackBtn" class="btn btn-warning" type="button" incidentId="" onclick="feedback()">提交</button>
+		<button id="feedbackBtn" class="btn btn-warning" type="button" onclick="feedback()">提交</button>
   	</div>
 </div>
 <div id="subPage" class="subPage"><iframe id="subPageIframe" frameborder="0" scrolling="auto" style="overflow-x:hidden" width="100%" height="100%" src=""></iframe></div>

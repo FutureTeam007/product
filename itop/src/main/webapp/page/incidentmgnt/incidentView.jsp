@@ -20,7 +20,7 @@
 </head>
 <body style="background:#fff;padding-left:5px;overflow-x:hidden;">
   <div>
-		<button type='button' class='btn btn-link top-close-link' onclick='parent.hideSubPage()'>&lt;&lt;关闭</button>
+		<button type='button' class='btn btn-link top-close-link' onclick='parent.reloadData();parent.hideSubPage()'>&lt;&lt;关闭</button>
   </div>
   <div class="inci-dtl-title">
 		<h5 style="font-weight:bold">[<span id="incidentCode"></span>]&nbsp;提出时间：<span id="registTime"></span>，处理人：<span id="scLoginName"></span>，状态：<span id="itStateCode"></span></h5>
@@ -46,7 +46,7 @@
 			      <input type="button" class="btn btn-warning undis" id="openConsultantSelBtn" onclick="openConsultantSelWin()" value="转顾问处理" />
 			      <input type="button" class="btn btn-warning undis" id="deliverCustCommitBtn" onclick="deliverCustCommit()" value="转客户补充资料" />
 			      <input type="button" class="btn btn-warning undis" id="blockCommitBtn" onclick="blockCommit()" value="挂起" />
-			      <input type="button" class="btn btn-warning undis" id="finishCommitBtn" onclick="finishCommit()" value="完成" />
+			      <input type="button" class="btn btn-warning undis" id="finishCommitBtn" onclick="openFinishWin()" value="完成" />
 			    </div>
   			</div>
 		</form>
@@ -162,6 +162,18 @@
     </div>
   </div>
 </div>
+<div id="finishWin" title="请标记事件完成结果" style="width:530px;height:150px;">
+	<div class="form-group clearfix  p10">
+	    <div class="col-sm-12">
+	      	<c:forEach var="finishVal" items="${finishValP}" begin="0" step="1">
+		    		<span class="radio-inline"><input type="radio" name="finishVal" value="${finishVal.paramCode}" text="${finishVal.paramValue}">${finishVal.paramValue}</span>
+		    </c:forEach>
+	    </div>
+	</div>
+    <div class="clearfix p10" style="text-align:center">
+		<button id="finishBtn" class="btn btn-warning" type="button" incidentId="" onclick="finishCommit()">提交</button>
+  	</div>
+</div>
 <div id="completeWin" title="提交事务前，请审核类别及影响度，并补全优先级和复杂度" style="width:400px;height:320px;">
 	<div class="form-group clearfix p10">
    	 	<label for="inciTypeSel" class="col-sm-3 control-label">事件类别</label>
@@ -207,37 +219,16 @@
 <div id="consultantSelWin" title="选择转派的顾问" style="width:550px;height:400px;">
 	<div class="clearfix p10">
    	 	<div class="input-group custom-search-form" style="width:300px;float:left;">
-           <input type="text" class="form-control" placeholder="输入顾问姓名查询" />
+           <input type="text" class="form-control" placeholder="输入顾问姓名查询" id="consultantNameTxt"/>
            <span class="input-group-btn">
-	            <button class="btn btn-default" style="height:34px" type="button">
+	            <button class="btn btn-default" style="height:34px" type="button" onclick="queryConsultants()">
 	                <i class="fa fa-search"></i>
 	            </button>
        		</span>
          </div>
 	</div>
 	<div class="clearfix p10">
-	    <table class="easyui-datagrid" style="width:99%;height:240px" id="consultantSelTable"
-			data-options="singleSelect:true,collapsible:false,
-				url:rootPath+'/incident/list',
-				queryParams:{'stateVal':2},
-				method:'get',
-				loadMsg:'数据加载中，请稍后……',
-				remoteSort:false,
-				multiSort:false,
-				pagination:true
-			">
-			<thead>
-				<tr>
-					<th data-options="field:'scOpId'," width="20%">选择</th>
-					<th data-options="field:'opName'" width="20%">顾问姓名</th>
-					<th data-options="field:'loginCode'" width="20%">顾问账号</th>
-					<th data-options="field:'mobileNo'" width="20%">手机号码</th>
-					<th data-options="field:'officeTel'" width="20%">办公电话</th>
-					<th data-options="field:'firstName',hidden:true"></th>
-					<th data-options="field:'lastName',hidden:true"></th>
-				</tr>
-			</thead>
-		</table>
+	    <table  style="width:99%;height:240px" id="consultantSelTable"></table>
 	</div>
     <div class="clearfix" style="text-align:center">
 		<button id="consultantSelBtn" class="btn btn-warning" type="button" incidentId="" onclick="deliverConstCommit()">提交</button>

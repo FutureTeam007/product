@@ -102,7 +102,7 @@ function remove(id){
 	});
 }
 //关闭事件
-function close(id){
+function closeIncident(id){
 	$.ajax({
 		type : 'post',
 		url : rootPath + "/incident/close",
@@ -127,14 +127,13 @@ function showFeedback(id){
 //评价事件
 function feedback(){
 	var id = $("#feedbackBtn").attr("incidentId");
-	var feedbackVal = null;
-	var feedbackCode = null;
-	$("input[name=feedbackVar]").each(function(){
-		if($(this).get(0).checked){
-			feedbackCode = $(this).text();
-			feedbackVal = $(this).val();
-		}
-	});
+	var el = $("input[name=feedbackVar]:checked");
+	var feedbackVal = el.attr("text");
+	var feedbackCode =el.val();
+	if(!feedbackVal){
+		$.messager.alert('提示','请选择一个评价值！');
+		return;
+	}
 	$.ajax({
 		type : 'post',
 		url : rootPath + "/incident/feedback",
@@ -143,13 +142,14 @@ function feedback(){
 			feedbackVal:feedbackVal,
 			feedbackCode:feedbackCode
 		},
-		dataType : 'json',
-		success : function(msg) {
+		dataType : 'text',
+		success : function() {
+			$.messager.alert('提示','评价成功！');
 			$('#feedbackWin').dialog('close');
 			reloadData();
 		},
 		error : function() {
-			$.messager.alert('提示','评价事件失败！');
+			$.messager.alert('提示','评价失败！');
 		}
 	});
 }
@@ -330,17 +330,14 @@ function reloadData(status){
 //格式化操作列
 function formatOperations(val,row){
 	var buttons = "";
-	if(row.itStateCode==1||row.itStateCode==4){
+	if((row.itStateCode==1||row.itStateCode==4)&&row.plObjectId==opId){
 		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>提交</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>编辑</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='remove("+val+")'>删除</button>";
-	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==5||row.itStateCode==8){
+	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9){
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
-		if(opType=="OP"){
-			buttons += "<button type='button' class='btn btn-link' onclick='close("+val+")'>关闭</button>";
-		}
-	}else{
-		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
+	}if(row.itStateCode==8&&opType=="OP"){
+		buttons += "<button type='button' class='btn btn-link' onclick='closeIncident("+val+")'>关闭</button>";
 	}
 	return buttons;
 }
@@ -366,9 +363,9 @@ function dateFormatter(val,row){
 }
 //格式化评价列
 function formatFeedback(val,row){
-	if(val!=null){
-		return val;
-	}else if(row.itStateCode=="8"){
-		 return "<button type='button' class='btn btn-link' onclick='showFeedback("+val+")'>待评价</button>";
+	if(row.feedbackVal!=null){
+		return row.feedbackVal;
+	}else if(row.itStateCode=="8"&&opType=="USER"){
+		 return "<button type='button' class='btn btn-link' onclick='showFeedback("+row.icIncidentId+")'>待评价</button>";
 	}
 }

@@ -77,7 +77,7 @@ a:active {star:expression(this.onFocus=this.blur());}
 .inci-trans-data .datagrid-cell{min-height:30px;}
 .trans-item-header div{width:33%;float:left;display:inline;}
 .trans-content{text-indent:24px;}
-.trans-item{min-height:120px;}
+.trans-item{min-height:120px;margin-bottom:10px;border-bottom:dashed 1px #ddd;}
 .inci-base-info .clearfix{margin-top:5px;margin-bottom:5px;}
 .inci-base-info .btn-circle{width:15px;height:15px;padding:3px 0px 3px 0px}
 #completeWin .radio-inline{width:50px}

@@ -13,6 +13,7 @@ import com.ailk.dazzle.util.json.JSONUtils;
 import com.ailk.dazzle.util.type.ArrayUtils;
 import com.ailk.dazzle.util.type.StringUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
+import com.ailk.dazzle.util.web.ActionUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcTransaction;
@@ -49,7 +50,7 @@ public class TransactionController {
 		//获取事件ID
 		long incidentId = VarTypeConvertUtils.string2Long(request.getParameter("incidentId"));
 		//获取事务内容
-		String contents = request.getParameter("transDesc");
+		String contents = ActionUtils.transParamDecode(request.getParameter("transDesc"),"UTF-8");
 		//获取事务附件
 		String attachList = request.getParameter("attachList");
 		//创建一个事务信息对象
@@ -93,6 +94,10 @@ public class TransactionController {
 				IncidentInfo ii = new IncidentInfo();
 				ii.setItSolution(contents);
 				ii.setIcIncidentId(incidentId);
+				String finishVal = request.getParameter("finishVal");
+				String finishCode = request.getParameter("finishCode");
+				ii.setFinishVal(finishVal);
+				ii.setFinishCode(finishCode);
 				transactionService.MBLAdviserCompleteTransaction(incidentId, ii, ti, opInfo);
 				break;
 			default:break;

@@ -33,7 +33,7 @@ import com.ei.itop.incidentmgnt.service.AttachService;
 @RequestMapping("/attach")
 public class AttachController extends BizController {
 
-	private static final String UPLOAD_SUPPORT = "xls,xlsx,doc,docx,jpg,jpeg,png,rar,zip,tar,7z";
+	private static final String UPLOAD_SUPPORT = "xls,xlsx,doc,docx,jpg,jpeg,png,rar,zip,tar,7z,log,txt,pdf,mmap";
 
 	private static final Logger log = Logger
 			.getLogger(AttachController.class);

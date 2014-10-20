@@ -41,8 +41,11 @@ public class IncidentPageController {
 		List<ScParam> affectP = paramService.getParamList(oi.getOrgId(), "IC_EFFECT");
 		//查询优先级数据
 		List<ScParam> priorityP = paramService.getParamList(oi.getOrgId(), "IC_PRIORITY");
+		//查询满意度数据
+		List<ScParam> feedbackP = paramService.getParamList(oi.getOrgId(), "IC_FEEDBACK_CODE");
 		mav.addObject("affectP", affectP);
 		mav.addObject("priorityP", priorityP);
+		mav.addObject("feedbackP", feedbackP);
 		mav.setViewName("page/incidentmgnt/incidentQry");
 		return mav;
 	}
@@ -80,9 +83,12 @@ public class IncidentPageController {
 		List<ScParam> priorityP = paramService.getParamList(oi.getOrgId(), "IC_PRIORITY");
 		//查询复杂度数据
 		List<ScParam> complexP = paramService.getParamList(oi.getOrgId(), "IC_COMPLEX");
+		//查询完成结果数据
+		List<ScParam> finishValP = paramService.getParamList(oi.getOrgId(), "IC_FINISH_CODE");
 		mav.addObject("affectP", affectP);
 		mav.addObject("priorityP", priorityP);
 		mav.addObject("complexP", complexP);
+		mav.addObject("finishValP", finishValP);
 		mav.setViewName("page/incidentmgnt/incidentView");
 		return mav;
 	}
