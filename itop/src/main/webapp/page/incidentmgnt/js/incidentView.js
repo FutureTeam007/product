@@ -60,10 +60,18 @@ function queryIncidentInfo(flag){
 			$("#brief").html(msg.brief);
 			$("#detail").html(msg.detail);
 			$("#attachments").html(msg.attachList);
+			//绑定附件
+			var attachData = msg.attachList;
+			if(attachData!=null){
+				for(var i=0;i<attachData.length;i++){
+					var attachInfo = '<div attachId='+attachData[i].icAttachId+'><a href="javascript:attachDownLoad('+attachData[i].icAttachId+')">'+attachData[i].attachName+'</a></div>';
+					$("#attachments").prepend(attachInfo);
+				}
+			}
 			incidentPlObjectId = msg.plObjectId;
 			icObjectId = msg.icObjectId;
-			gCustId = ccCustId;
-			gProdId = scProductId;
+			gCustId = msg.ccCustId;
+			gProdId = msg.scProductId;
 			//显示操作按钮
 			if(opId==icObjectId){
 				$("#openConsultantSelBtn").show();
@@ -116,7 +124,7 @@ function queryTransList(){
 					msg[i].createTime = dateTimeFormatter(msg[i].createTime);
 					var attachs = msg[i].attachList;
 					for(var j=0;attachs!=null&&j<attachs;j++){
-						msg[i].attachs += "<a href=\"javascript:downloadAttach("+attachs[j].attachId+")\">"+attachs[j].attachName+"</a>";
+						msg[i].attachs += "<a href=\"javascript:attachDownLoad("+attachs[j].icAttachId+")\">"+attachs[j].attachName+"</a>";
 					}
 				}
 				$.tmpl('transListTpl', msg).appendTo('#transList'); 
@@ -165,16 +173,12 @@ function validateFormAndWrapVar(){
 	cp.transDesc = transDesc;
 	//判断附件
 	var attachEl = $("#commitAttach").children();
-	if(attachEl.has("a")){
-		var attachList = [];
+	if(attachEl!=null&&attachEl.length>0){
+		var attachIdArray = [];
 		attachEl.each(function(){
-			var attach = {};
-			attach.incidentId = incidentId;
-			attach.attachName = $(this).attr("name");
-			attach.attachPath = $(this).attr("path");
-			attachList.push(attach);
+			attachIdArray.push($(this).attr("attachId"));
 		});
-		cp.attachList = attachList;
+		cp.attachList = attachIdArray.join(",");
 	}
 	return cp;
 }
@@ -467,3 +471,43 @@ function dateTimeFormatter(val){
 function nameFormatter(val,row){
 	return row.opName+"/"+row.firstName+"."+row.lastName;
 }
+
+//上传附件
+function attachUpload(){
+	 $.ajaxFileUpload({
+			url:rootPath+'/attach/upload', 
+			secureuri:false,
+			fileElementId:'uploadFile1',
+			dataType: 'json',
+			success: function (data, status){
+				if(data.success){
+					var attachInfo = '<div attachId='+data.attachId+'><a href="javascript:attachDownLoad('+data.attachId+')">'+data.filename+'</a><i class="fa fa-times" onclick="attachRemove(this,'+data.attachId+')"></i></div>';
+					$("#commitAttach").prepend(attachInfo);
+				}else{
+					alert(data.message);
+				}
+			},
+			error: function (data, status, e){}
+	  });
+}
+
+//下载附件
+function attachDownLoad(id){
+	window.open(rootPath+'/attach/download?attachId='+id);
+}
+
+//删除附件
+function attachRemove(obj,id){
+	$(obj).parent().remove();
+	$.ajax({
+		type : 'post',
+		url : rootPath + "/attach/remove",
+		data : {attachId:id},
+		dataType : 'text',
+		success : function() {},
+		error : function() {
+			$.messager.alert('提示','删除附件失败！');
+		}
+	});
+}
+

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ailk.dazzle.util.json.JSONUtils;
+import com.ailk.dazzle.util.type.ArrayUtils;
 import com.ailk.dazzle.util.type.StringUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.bean.OpInfo;
@@ -18,6 +19,7 @@ import com.ei.itop.common.dbentity.IcTransaction;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.TransactionInfo;
+import com.ei.itop.incidentmgnt.service.AttachService;
 import com.ei.itop.incidentmgnt.service.TransactionService;
 
 @Controller
@@ -26,6 +28,9 @@ public class TransactionController {
 
 	@Autowired
 	private TransactionService transactionService;
+	
+	@Autowired
+	private AttachService attachService;
 	
 	@RequestMapping("/list")
 	public void queryTransList(HttpServletRequest request,HttpServletResponse response) throws Exception{
@@ -51,8 +56,11 @@ public class TransactionController {
 		TransactionInfo ti = new TransactionInfo();
 		ti.setIcIncidentId(incidentId);
 		ti.setContents(contents);
-		if(!StringUtils.isEmpty(attachList)){
-			ti.setAttachList(JSONUtils.parseArray(attachList, IcAttach.class));
+		//设置附件
+		if (!StringUtils.isEmpty(attachList)) {
+			List<IcAttach> attachs = attachService.queryAttachList(ArrayUtils
+					.stringArray2LongArray(attachList.split(",")));
+			ti.setAttachList(attachs);
 		}
 		//获取操作员信息
 		OpInfo opInfo = SessionUtil.getOpInfo();
@@ -60,8 +68,10 @@ public class TransactionController {
 		switch(xcode){
 			case -1://用户提交一条普通事务
 				transactionService.MBLUserCommitTransaction(incidentId, ti, opInfo);
+				break;
 			case 0://顾问提交一条普通事务
 				transactionService.MBLAdviserCommitTransaction(incidentId, ti, opInfo);
+				break;
 			case 1://顾问提交一条转派事务
 				long opId = VarTypeConvertUtils.string2Long(request.getParameter("opId"));
 				String opCode = request.getParameter("opCode");
@@ -72,16 +82,20 @@ public class TransactionController {
 				nextOpInfo.setOpName(opName);
 				nextOpInfo.setOpType("OP");
 				transactionService.MBLAdviserTransferTransaction(incidentId, ti, nextOpInfo, opInfo);
+				break;
 			case 2://顾问提交一条客户补充资料事务
 				transactionService.MBLNeedAdditionalInfo(incidentId, ti, opInfo);
+				break;
 			case 3://顾问提交一条挂起事务
 				transactionService.MBLAdviserHangUpTransaction(incidentId, ti, opInfo);
+				break;
 			case 4://顾问提交一条完成事务
 				IncidentInfo ii = new IncidentInfo();
 				ii.setItSolution(contents);
 				ii.setIcIncidentId(incidentId);
 				transactionService.MBLAdviserCompleteTransaction(incidentId, ii, ti, opInfo);
-			default:;
+				break;
+			default:break;
 		}
 	}
 	

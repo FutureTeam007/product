@@ -74,7 +74,7 @@ function commit(id){
 			$.messager.alert('提示','提交事件成功！');
 			reloadData(2);
 		},
-		error : function() {
+		error : function(request) {
 			$.messager.alert('提示','提交事件失败！');
 		}
 	});

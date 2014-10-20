@@ -15,6 +15,7 @@
 		var incidentId = "<%=id%>";
 	</script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/jquery.ajaxfileupload.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/page/incidentmgnt/js/incidentView.js"></script>
 </head>
 <body style="background:#fff;padding-left:5px;overflow-x:hidden;">
@@ -34,9 +35,9 @@
   			</div>
   			<div class="form-group clearfix">
 			    <label for="attachments" class="col-sm-2 control-label">附件</label>
-			    <div class="col-sm-10">
-			       <div id="commitAttach" class="list-inline pull-left ml5"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a> <a href="#">附件4</a> <a href="#">附件5</a></div>
-			       <button type="button" class="btn btn-primary btn-outline btn-xs ml10">选择文件</button>
+			    <div class="col-sm-10 attachList">
+			       <div id="commitAttach" class="ml5"></div>
+			       <input type="file" id="uploadFile1" name="uploadFile" value="选择文件" onchange="attachUpload()"/>
 			    </div>
   			</div>
   			<div class="form-group clearfix">
@@ -126,7 +127,7 @@
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>附件</label></div>
-      		<div class="col-sm-10" id="attachments"><a href="#">附件1</a> <a href="#">附件2</a> <a href="#">附件3</a></div>
+      		<div class="col-sm-10" id="attachments"></div>
       	</div>
       	<div class="clearfix">
       		<div class="col-sm-2"><label>事件解决方案</label></div>
