@@ -196,6 +196,7 @@
       order by $orderBy$,ic_incident_id desc
   </select>
   <select id="queryIncidentPaging" resultMap="icIncidentResult" parameterClass="java.util.Map" >
+    select * from (
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
       IC_OWNER_TYPE, IC_OWNER_ID, IC_OWNER_CODE, IC_OWNER_NAME,
       PL_OBJECT_TYPE, PL_OBJECT_ID, PL_LOGIN_CODE, PL_OBJECT_NAME,
@@ -206,8 +207,8 @@
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
-    from (select ii.*,rownum rn from IC_INCIDENT ii where data_state=1
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE, rownum rn
+    from (select ii.* from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
@@ -251,7 +252,7 @@
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
       order by $orderBy$,ic_incident_id desc
-      ) t where t.rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
+      ) t ) where rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
   </select>
   <select id="queryIncidentCount" resultClass="Long" parameterClass="java.util.Map" >
     select count(*) from (select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
