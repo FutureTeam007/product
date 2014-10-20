@@ -72,7 +72,7 @@ public class TransactionServiceImpl implements TransactionService {
 		// 挨个查询事务附件，此逻辑后续可调整为一次查出全部事务的附件，在内存中匹配事务
 		for (int i = 0; transactionInfoList != null
 				&& i < transactionInfoList.size(); i++) {
-			TransactionInfo transactionInfo = new TransactionInfo();
+			TransactionInfo transactionInfo = transactionInfoList.get(i);
 
 			List<IcAttach> attachList = attachService.getAttachList(incidentId,
 					transactionInfo.getTransId());
