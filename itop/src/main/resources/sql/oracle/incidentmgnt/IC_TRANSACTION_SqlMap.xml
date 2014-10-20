@@ -36,6 +36,7 @@
       IT_PHASE, TRANS_TYPE, CONTENTS
     from IC_TRANSACTION
     where IC_INCIDENT_ID = #incidentId:DECIMAL#
+    order by TRANS_ID desc
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.IcTransaction" >
     delete from IC_TRANSACTION
