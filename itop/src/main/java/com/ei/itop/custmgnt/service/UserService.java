@@ -20,4 +20,12 @@ public interface UserService {
 	 * @throws Exception
 	 */
 	public CcUser queryUser(long userId) throws Exception;
+
+	/**
+	 * 修改用户登录密码
+	 * 
+	 * @param passwd
+	 * @throws Exception
+	 */
+	public void changeLoginPasswd(long userId, String passwd) throws Exception;
 }

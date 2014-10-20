@@ -11,10 +11,12 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.custmgnt.service.CustMgntService;
+import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.register.bean.RegisterInfo;
 import com.ei.itop.register.service.RegisterService;
 
@@ -33,6 +35,9 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Resource(name = "custMgntService")
 	private CustMgntService custMgntService;
+
+	@Resource(name = "userService")
+	private UserService userService;
 
 	/*
 	 * (non-Javadoc)
@@ -118,6 +123,15 @@ public class RegisterServiceImpl implements RegisterService {
 			throws Exception {
 		// TODO Auto-generated method stub
 
+		CcUser user = userService.queryUser(userId);
+
+		// 校验原密码
+		if (!user.getLoginPasswd().equals(oldPasswd)) {
+			throw new BizException("原密码有误");
+		}
+
+		// 保存新密码
+		userService.changeLoginPasswd(userId, newPasswd);
 	}
 
 	/*
