@@ -34,6 +34,11 @@ function initSubPage(){
 		modal:true
 	}).dialog('close');
 };
+//清空提交表单
+function resetCommitForm(){
+	$("#transDesc").html("");
+	$("#commitAttach").empty();
+}
 
 //查询事件信息
 function queryIncidentInfo(flag){
@@ -209,6 +214,7 @@ function transCommit(){
 		dataType : 'text',
 		success : function(msg) {
 			$.messager.alert('提示','提交成功！');
+			resetCommitForm();
 			//显示操作按钮
 			if(opId==icObjectId){
 				$("#finishCommitBtn").show();
@@ -308,6 +314,7 @@ function deliverConstCommit(){
 		success : function(msg) {
 			$('#consultantSelWin').dialog('close');
 			$.messager.alert('提示','转派成功！');
+			resetCommitForm();
 			//转派成功后,当前顾问只能提交普通事务,不能再提交流程事务
 			$("#openConsultantSelBtn").hide();
 			$("#deliverCustCommitBtn").hide();
@@ -338,6 +345,7 @@ function deliverCustCommit(){
 		dataType : 'text',
 		success : function(msg) {
 			$.messager.alert('提示','提交成功！');
+			resetCommitForm();
 			$("#openConsultantSelBtn").hide();
 			$("#deliverCustCommitBtn").hide();
 			$("#blockCommitBtn").hide();
@@ -367,6 +375,7 @@ function blockCommit(){
 		dataType : 'text',
 		success : function() {
 			$.messager.alert('提示','提交成功！');
+			resetCommitForm();
 			$("#openConsultantSelBtn").hide();
 			$("#deliverCustCommitBtn").hide();
 			$("#blockCommitBtn").hide();
@@ -410,6 +419,7 @@ function finishCommit(){
 		dataType : 'text',
 		success : function() {
 			$.messager.alert('提示','提交成功！');
+			resetCommitForm();
 			$('#finishWin').dialog('close');
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
