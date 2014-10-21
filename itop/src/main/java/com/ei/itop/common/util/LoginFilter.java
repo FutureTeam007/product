@@ -22,7 +22,7 @@ public class LoginFilter implements Filter{
 		HttpServletRequest hrs = (HttpServletRequest)request;
 		HttpServletResponse hrq = (HttpServletResponse)response;
 		if(hrs.getSession().getAttribute(SysConstants.SessionAttribute.OP_SESSION)==null){
-			hrq.sendRedirect(hrs.getContextPath()+"/login.jsp");
+			hrq.sendRedirect(hrs.getContextPath()+"/sessionTimeout.jsp");
 		}else{
 			chain.doFilter(request, response);
 		}
