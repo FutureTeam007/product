@@ -36,10 +36,12 @@
 <script type="text/javascript">
 <!--
 	var rootPath = "<%=rootPath%>";
-	var opId = "<%=opInfo.getOpId()%>";
-	var opName = "<%=opInfo.getOpName()%>";
-	var opCode = "<%=opInfo.getOpCode()%>";
-	var opType = "<%=opInfo.getOpType()%>";
+	<% if (opInfo!=null) {%>
+		var opId = "<%=opInfo.getOpId()%>";
+		var opName = "<%=opInfo.getOpName()%>";
+		var opCode = "<%=opInfo.getOpCode()%>";
+		var opType = "<%=opInfo.getOpType()%>";
+	<% }%>
 //-->
 </script>
 

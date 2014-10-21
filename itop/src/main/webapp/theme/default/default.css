@@ -27,8 +27,11 @@ a:active {star:expression(this.onFocus=this.blur());}
 .attachList div{margin-top:5px;margin-bottom:5px}
 /*login*/
 .login-header-fix{height:60px;padding-top:3px;}
-.login-header-fix .site-logo{margin-left:90px;}
+.login-header-fix .site-logo{margin-left:10px;margin-right:10px}
 .login-header-fix .panel-title{font-size:38px;padding-top:5px;color:#666;}
+.login-header-fix h3{width:90px;float:left}
+.login-nav{width:165px;float:right;border:none;margin-top:25px;}
+.login-nav li{float:right;font-size:14px;padding:1px}
 .login-form label{font-weight:normal;padding:0px 0px 0px 20px;height:34px;line-height:34px}
 .login-findpwd-link{font-size:12px;padding-left:10px;paddding-right:0px;line-height:30px}
 /*register*/

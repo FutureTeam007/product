@@ -25,7 +25,7 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>Vintin&nbsp;<i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i>${sessionScope.opInfo.opFullName}&nbsp;<i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="nav nav-tabs" role="tablist" style="display:none">
 					  <li role="presentation"><a href="#">事件管理</a></li>
@@ -35,7 +35,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i>修改密码</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="${pageContext.request.contextPath}/test/logout"><i class="fa fa-sign-out fa-fw"></i>注销</a>
+                        <li><a href="${pageContext.request.contextPath}/doLogout"><i class="fa fa-sign-out fa-fw"></i>注销</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

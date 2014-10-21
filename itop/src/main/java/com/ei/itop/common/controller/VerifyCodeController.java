@@ -22,6 +22,7 @@ public class VerifyCodeController {
 			throws IOException {
 		//设置Mime类型
 		response.setContentType(VerifyCodeUtil.getMimeType());
+		response.reset();
 		//生成验证码
 		String sRand = VerifyCodeUtil.createVerifyCode(response.getOutputStream()) ;
 		//将生成的验证码放入session

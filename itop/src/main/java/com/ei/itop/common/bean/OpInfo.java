@@ -21,6 +21,9 @@ public class OpInfo {
 	// 操作员姓名
 	private String opName;
 	
+	// 操作员全名(中文名/英文名.英文姓)
+	private String opFullName;
+	
 	// 商户ID
 	private long orgId;
 	
@@ -101,6 +104,14 @@ public class OpInfo {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public String getOpFullName() {
+		return opFullName;
+	}
+
+	public void setOpFullName(String opFullName) {
+		this.opFullName = opFullName;
 	}
 	
 }

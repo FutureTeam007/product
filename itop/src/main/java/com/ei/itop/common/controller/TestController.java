@@ -22,7 +22,7 @@ public class TestController {
 	public String test1(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		int role = Integer.parseInt(request.getParameter("role"));
-		request.getSession().removeAttribute("opInfo");
+		request.getSession().removeAttribute(SysConstants.SessionAttribute.OP_SESSION);
 		OpInfo oi = new OpInfo();
 		switch (role) {
 			case 1:
@@ -32,7 +32,7 @@ public class TestController {
 				oi.setOpType("USER");
 				oi.setOrgId(2001);
 				oi.setOrgName("EI");
-				request.getSession().setAttribute("opInfo", oi);
+				request.getSession().setAttribute(SysConstants.SessionAttribute.OP_SESSION, oi);
 				break;
 			case 2:
 				oi.setOpCode("NO-2");
@@ -41,7 +41,7 @@ public class TestController {
 				oi.setOpType("USER");
 				oi.setOrgId(2001);
 				oi.setOrgName("EI");	
-				request.getSession().setAttribute("opInfo", oi);
+				request.getSession().setAttribute(SysConstants.SessionAttribute.OP_SESSION, oi);
 				break;
 			case 3:
 				oi.setOpCode("SP200001");
@@ -50,7 +50,7 @@ public class TestController {
 				oi.setOpType("OP");
 				oi.setOrgId(2001);
 				oi.setOrgName("EI");
-				request.getSession().setAttribute("opInfo", oi);
+				request.getSession().setAttribute(SysConstants.SessionAttribute.OP_SESSION, oi);
 				break;
 			case 4:
 				oi.setOpCode("SP200002");
@@ -59,7 +59,7 @@ public class TestController {
 				oi.setOpType("OP");
 				oi.setOrgId(2001);
 				oi.setOrgName("EI");
-				request.getSession().setAttribute("opInfo", oi);
+				request.getSession().setAttribute(SysConstants.SessionAttribute.OP_SESSION, oi);
 				break;
 			default:
 				break;

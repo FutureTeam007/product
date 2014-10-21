@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.springframework.web.util.NestedServletException;
 
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.json.JSONUtils;

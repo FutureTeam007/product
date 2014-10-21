@@ -9,8 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.ei.itop.common.bean.OpInfo;
+import com.ei.itop.common.constants.SysConstants;
 
 public class LoginFilter implements Filter{
 
@@ -18,15 +19,10 @@ public class LoginFilter implements Filter{
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest hr = (HttpServletRequest)request;
-//		OpInfo oi = new OpInfo();
-//		oi.setOpCode("100");
-//		oi.setOpId(100);
-//		oi.setOpName("test");
-//		oi.setOpType("user");
-//		hr.getSession().setAttribute("opInfo", oi);
-		if(hr.getSession().getAttribute("opInfo")==null){
-			response.getWriter().print("<script>location.href='../test.jsp'</script>");
+		HttpServletRequest hrs = (HttpServletRequest)request;
+		HttpServletResponse hrq = (HttpServletResponse)response;
+		if(hrs.getSession().getAttribute(SysConstants.SessionAttribute.OP_SESSION)==null){
+			hrq.sendRedirect(hrs.getContextPath()+"/login.jsp");
 		}else{
 			chain.doFilter(request, response);
 		}

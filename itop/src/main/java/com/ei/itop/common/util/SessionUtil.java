@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.ei.itop.common.bean.OpInfo;
+import com.ei.itop.common.constants.SysConstants;
 
 public class SessionUtil implements ServletRequestListener{
 	
@@ -16,23 +17,7 @@ public class SessionUtil implements ServletRequestListener{
 	}
 	
 	public static OpInfo getOpInfo(){
-//		OpInfo oi = new OpInfo();
-//		//普通用户
-//		oi.setOpCode("NO-1");
-//		oi.setOpId(9001);
-//		oi.setOpName("拓创");
-//		oi.setOpType("USER");
-//		oi.setOrgId(2001);
-//		oi.setOrgName("EI");
-//		//顾问
-////		oi.setOpCode("SP200001");
-////		oi.setOpId(200001);
-////		oi.setOpName("ITOPEI1-EI");
-////		oi.setOpType("OP");
-////		oi.setOrgId(2001);
-////		oi.setOrgName("EI");
-//		return oi;
-		return (OpInfo)value.get().getSession().getAttribute("opInfo");
+		return (OpInfo)value.get().getSession().getAttribute(SysConstants.SessionAttribute.OP_SESSION);
 	}
 	
 	public void requestDestroyed(ServletRequestEvent sre) {
