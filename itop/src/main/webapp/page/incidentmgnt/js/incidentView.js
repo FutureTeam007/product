@@ -10,6 +10,10 @@ var consultantGrid = null;
 var gCustId = null;
 //ProductId
 var gProdId = null;
+//顾问补全信息时，弹出窗口，保存该变量，当提交补全信息成功后，直接执行该函数提交事务
+var callBackFunc = null;
+//是否已经补全
+var isCompleted = false;
 
 $(function(){
 	$.template( "transListTpl", transListTpl); 
@@ -36,7 +40,7 @@ function initSubPage(){
 };
 //清空提交表单
 function resetCommitForm(){
-	$("#transDesc").html("");
+	$("#transDesc").val("");
 	$("#commitAttach").empty();
 }
 
@@ -84,6 +88,8 @@ function queryIncidentInfo(flag){
 			icObjectId = msg.icObjectId;
 			gCustId = msg.ccCustId;
 			gProdId = msg.scProductId;
+			//设置补全状态
+			isCompleted = msg.complexVal?true:false;
 			//显示操作按钮
 			if(opId==icObjectId&&msg.itStateCode!=8&&msg.itStateCode!=9){
 				$("#openConsultantSelBtn").show();
@@ -169,15 +175,16 @@ function queryContactorInfo(id){
 	},500);
 }
 //检查表单项，并封装表单内容
-function validateFormAndWrapVar(){
+function validateFormAndWrapVar(func){
 	var transDesc = $.trim($("#transDesc").val());
 	if(transDesc==""){
 		$.messager.alert('提示','请填写事务内容！');
 		return false;
 	}
 	//顾问如果没有填写复杂度字段说明没有审核更正过事件信息，弹出窗口，由顾问审核更新事件信息
-	if(opId==icObjectId&&$("#complexCode").html()==""){
+	if(opId==icObjectId&&!isCompleted){
 		$('#completeWin').dialog('open');
+		callBackFunc = func;
 		return false;
 	}
 	var cp = {};
@@ -197,7 +204,7 @@ function validateFormAndWrapVar(){
 
 //提交事务
 function transCommit(){
-	r = validateFormAndWrapVar();
+	r = validateFormAndWrapVar(transCommit);
 	if(!r){
 		return;
 	}
@@ -238,7 +245,7 @@ function queryConsultants(){
 }
 //打开顾问选择窗口
 function openConsultantSelWin(){
-	r = validateFormAndWrapVar();
+	r = validateFormAndWrapVar(openConsultantSelWin);
 	if(!r){
 		return;
 	};
@@ -332,7 +339,7 @@ function deliverConstCommit(){
 
 //转客户补充资料
 function deliverCustCommit(){
-	r = validateFormAndWrapVar();
+	r = validateFormAndWrapVar(deliverCustCommit);
 	if(!r){
 		return;
 	}
@@ -362,7 +369,7 @@ function deliverCustCommit(){
 
 //挂起
 function blockCommit(){
-	r = validateFormAndWrapVar();
+	r = validateFormAndWrapVar(blockCommit);
 	if(!r){
 		return;
 	}
@@ -434,6 +441,7 @@ function finishCommit(){
 		}
 	});
 }
+
 //顾问补全事件信息
 function completeIncident(){
 	var fv = {};
@@ -470,7 +478,11 @@ function completeIncident(){
 			//提交成功，重新查询事件信息
 			queryIncidentInfo(1);
 			$('#completeWin').dialog('close');
-			$.messager.alert('提示','事件信息审核补全成功，可以继续提交事务了！');
+			isCompleted = true;
+			//补全后，继续提交之前拦截的提交请求
+			if(callBackFunc){
+				callBackFunc();
+			}
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;

@@ -262,7 +262,7 @@ function bindStatusToggle(){
 		$(this).addClass("active");
 		$(this).siblings().removeClass("active");
 		qp.stateVal = $(this).val()=="0"?null: $(this).val();
-		query(1);
+		reRenderStatusNav(qp.stateVal);
 	});
 }
 //切换状态标签
