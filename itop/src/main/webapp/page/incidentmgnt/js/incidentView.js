@@ -170,7 +170,7 @@ function queryContactorInfo(id){
 }
 //检查表单项，并封装表单内容
 function validateFormAndWrapVar(){
-	var transDesc = $.trim($("#transDesc").html());
+	var transDesc = $.trim($("#transDesc").val());
 	if(transDesc==""){
 		$.messager.alert('提示','请填写事务内容！');
 		return false;
