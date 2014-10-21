@@ -234,5 +234,13 @@
 		<button id="consultantSelBtn" class="btn btn-warning" type="button" incidentId="" onclick="deliverConstCommit()">提交</button>
   	</div>
 </div>
+<div id="uploadProgress" title="" style="width:300px;height:100px;border-top-width:1px">
+		<div style="text-align:center;margin-top:10px;">上传中，请稍后</div>
+		<div class="progress" style="width:90%;margin-left:15px;margin-top:10px;">
+		  <div class="progress-bar progress-bar-striped active"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+		    <span class="sr-only">上传中，请稍后</span>
+		  </div>
+		</div>
+</div>
 </body>
 </html>

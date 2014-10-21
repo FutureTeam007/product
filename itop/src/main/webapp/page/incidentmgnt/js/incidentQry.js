@@ -75,7 +75,8 @@ function commit(id){
 			reloadData(2);
 		},
 		error : function(request) {
-			$.messager.alert('提示','提交事件失败！');
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','提交错误：'+msg);
 		}
 	});
 }
@@ -94,8 +95,9 @@ function remove(id){
 	    			$.messager.alert('提示','删除事件成功！');
 	    			reloadData(1);
 	    		},
-	    		error : function() {
-	    			$.messager.alert('提示','删除事件失败！');
+	    		error : function(request) {
+	    			var msg = eval("("+request.responseText+")").errorMsg;
+	    			$.messager.alert('提示','删除错误：'+msg);
 	    		}
 	    	});
 	    }
@@ -114,8 +116,9 @@ function closeIncident(id){
 			$.messager.alert('提示','关闭事件成功！');
 			reloadData(8);
 		},
-		error : function() {
-			$.messager.alert('提示','关闭事件失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','关闭错误：'+msg);
 		}
 	});
 }
@@ -148,8 +151,9 @@ function feedback(){
 			$('#feedbackWin').dialog('close');
 			reloadData();
 		},
-		error : function() {
-			$.messager.alert('提示','评价失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','评价错误：'+msg);
 		}
 	});
 }

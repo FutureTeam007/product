@@ -8,6 +8,10 @@ $(function(){
 		//查询事件信息绑定表单
 		queryIncident();
 	}
+	//上传进度条窗口初始化
+	$('#uploadProgress').dialog({
+		modal:true
+	}).dialog('close');
 });
 
 //当产品列表选中时，触发服务目录重新加载
@@ -167,8 +171,9 @@ function addIncident(){
 			parent.changeStatusNav(1);
 			parent.query();
 		},
-		error : function() {
-			$.messager.alert('提示','保存事件失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','保存错误：'+msg);
 		}
 	});
 }
@@ -187,8 +192,9 @@ function addIncidentAutoCommit(){
 			parent.hideSubPage();
 			parent.reloadData(2);
 		},
-		error : function() {
-			$.messager.alert('提示','提交事件失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','提交错误：'+msg);
 		}
 	});
 }
@@ -208,8 +214,9 @@ function modifyIncident(){
 			parent.hideSubPage();
 			parent.reloadData();
 		},
-		error : function() {
-			$.messager.alert('提示','修改事件失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','修改错误：'+msg);
 		}
 	});
 }
@@ -229,8 +236,9 @@ function modifyIncidentAutoCommit(){
 			parent.hideSubPage();
 			parent.reloadData(2);
 		},
-		error : function() {
-			$.messager.alert('提示','提交事件失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','提交错误：'+msg);
 		}
 	});
 }
@@ -251,12 +259,14 @@ function dateFormatter(val){
 
 //上传附件
 function attachUpload(){
+	 $('#uploadProgress').dialog('open');
 	 $.ajaxFileUpload({
 			url:rootPath+'/attach/upload', 
 			secureuri:false,
 			fileElementId:'uploadFile1',
 			dataType: 'json',
 			success: function (data, status){
+				$('#uploadProgress').dialog('close');
 				if(data.success){
 					var attachInfo = '<div attachId='+data.attachId+'><a href="javascript:attachDownLoad('+data.attachId+')">'+data.filename+'</a><i class="fa fa-times" onclick="attachRemove(this,'+data.attachId+')"></i></div>';
 					$("#attachList").prepend(attachInfo);
@@ -265,7 +275,8 @@ function attachUpload(){
 				}
 			},
 			error: function (data, status, e){
-				//mask.hide();
+				$('#uploadProgress').dialog('close');
+				$.messager.alert('提示','上传失败了，可能是网络原因或系统故障，请稍后再试');
 			}
 	  });
 }
@@ -284,8 +295,9 @@ function attachRemove(obj,id){
 		data : {attachId:id},
 		dataType : 'text',
 		success : function() {},
-		error : function() {
-			$.messager.alert('提示','删除附件失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','删除错误：'+msg);
 		}
 	});
 }

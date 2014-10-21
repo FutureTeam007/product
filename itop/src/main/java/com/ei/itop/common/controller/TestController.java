@@ -28,7 +28,7 @@ public class TestController {
 			case 1:
 				oi.setOpCode("NO-1");
 				oi.setOpId(9001);
-				oi.setOpName("拓创");
+				oi.setOpName("itop1-cnh");
 				oi.setOpType("USER");
 				oi.setOrgId(2001);
 				oi.setOrgName("EI");
@@ -37,7 +37,7 @@ public class TestController {
 			case 2:
 				oi.setOpCode("NO-2");
 				oi.setOpId(9002);
-				oi.setOpName("拓创");
+				oi.setOpName("itop2-cnh");
 				oi.setOpType("USER");
 				oi.setOrgId(2001);
 				oi.setOrgName("EI");	
@@ -46,7 +46,7 @@ public class TestController {
 			case 3:
 				oi.setOpCode("SP200001");
 				oi.setOpId(200001);
-				oi.setOpName("拓创");
+				oi.setOpName("ITOPEI2-EI");
 				oi.setOpType("OP");
 				oi.setOrgId(2001);
 				oi.setOrgName("EI");

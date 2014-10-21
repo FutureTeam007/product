@@ -35,6 +35,7 @@
 					method:'get',
 					valueField:'scProductId',
 					textField:'prodName',
+					editable:false,
 					onSelect:prodSelChange,
 					panelHeight:'auto'"
 			  />
@@ -70,6 +71,7 @@
 		    	<input class="easyui-combobox" style="width:100%"  name="classVar" id="inciTypeSel" data-options="
 					url:rootPath+'/param/list?kindCode=IC_CLASS',
 					method:'get',
+					editable:false,
 					valueField:'paramCode',
 					textField:'paramValue',
 					panelHeight:'auto'"
@@ -124,5 +126,13 @@
 		    <button class="btn btn-warning btn-lg" type="button" onclick="saveAndCommit()">直接提交</button>
   		</div>
 	</form>
+	<div id="uploadProgress" title="" style="width:300px;height:100px;border-top-width:1px">
+		<div style="text-align:center;margin-top:10px;">上传中，请稍后</div>
+		<div class="progress" style="width:90%;margin-left:15px;margin-top:10px;">
+		  <div class="progress-bar progress-bar-striped active"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+		    <span class="sr-only">上传中，请稍后</span>
+		  </div>
+		</div>
+	</div>
 </body>
 </html>

@@ -30,6 +30,7 @@
 					method:'get',
 					valueField:'paramCode',
 					textField:'paramValue',
+					editable:false,
 					panelHeight:'auto'"
 				/>
 		  	</span>
@@ -38,6 +39,7 @@
 		    	<input class="easyui-combobox" style="width:60%"  name="prodSel" id="prodSel" data-options="
 					url:rootPath+'/product/productList',
 					method:'get',
+					editable:false,
 					valueField:'scProductId',
 					textField:'prodName',
 					panelHeight:'auto'"

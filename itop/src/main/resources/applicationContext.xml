@@ -28,7 +28,6 @@
 	<context:property-placeholder location="classpath:database.properties" />
 	<!-- 注册MVC的注解驱动，否则Controller的RequestMapping不生效导致404错误 -->  
 	<mvc:annotation-driven />
-	<mvc:view-controller path="/error" view-name="/error/error.jsp"/>
 	
 	<!-- 引入数据库配置 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  

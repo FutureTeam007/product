@@ -29,6 +29,10 @@ function initSubPage(){
 	$('#finishWin').dialog({
 		modal:true
 	}).dialog('close');
+	//上传进度条窗口初始化
+	$('#uploadProgress').dialog({
+		modal:true
+	}).dialog('close');
 };
 
 //查询事件信息
@@ -101,7 +105,7 @@ function queryIncidentInfo(flag){
 			}
 		},
 		error : function() {
-			$.messager.alert('提示','查询事件信息失败！');
+			$.messager.alert('提示','查询事件信息错误！');
 		}
 	});
 }
@@ -134,7 +138,7 @@ function queryTransList(){
 			}
 		},
 		error : function() {
-			$.messager.alert('提示','查询事务信息失败！');
+			$.messager.alert('提示','查询事务信息错误！');
 		}
 	});
 }
@@ -154,7 +158,7 @@ function queryContactorInfo(id){
 				$("#officeTel").html(msg.officeTel);
 			},
 			error : function() {
-				$.messager.alert('提示','查询联系人信息失败！');
+				$.messager.alert('提示','查询联系人信息错误！');
 			}
 		});
 	},500);
@@ -212,8 +216,9 @@ function transCommit(){
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
-		error : function() {
-			$.messager.alert('提示','提交事务失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','提交错误：'+msg);
 		}
 	});
 }
@@ -311,8 +316,9 @@ function deliverConstCommit(){
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
-		error : function() {
-			$.messager.alert('提示','提交事务失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','转派出现错误：'+msg);
 		}
 	});
 }
@@ -339,8 +345,9 @@ function deliverCustCommit(){
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
-		error : function() {
-			$.messager.alert('提示','提交事务失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','提交错误：'+msg);
 		}
 	});
 }
@@ -367,8 +374,9 @@ function blockCommit(){
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
-		error : function() {
-			$.messager.alert('提示','提交事务失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','挂起错误：'+msg);
 		}
 	});
 }
@@ -410,8 +418,9 @@ function finishCommit(){
 			$("#blockCommitBtn").hide();
 			$("#finishCommitBtn").hide();
 		},
-		error : function() {
-			$.messager.alert('提示','提交事务失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','提交错误：'+msg);
 		}
 	});
 }
@@ -453,8 +462,9 @@ function completeIncident(){
 			$('#completeWin').dialog('close');
 			$.messager.alert('提示','事件信息审核补全成功，可以继续提交事务了！');
 		},
-		error : function() {
-			$.messager.alert('Error','更新事件信息失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','提交错误：'+msg);
 		}
 	});
 }
@@ -528,12 +538,14 @@ function nameFormatter(val,row){
 
 //上传附件
 function attachUpload(){
+	 $('#uploadProgress').dialog('open');
 	 $.ajaxFileUpload({
 			url:rootPath+'/attach/upload', 
 			secureuri:false,
 			fileElementId:'uploadFile1',
 			dataType: 'json',
 			success: function (data, status){
+				$('#uploadProgress').dialog('close');
 				if(data.success){
 					var attachInfo = '<div attachId='+data.attachId+'><a href="javascript:attachDownLoad('+data.attachId+')">'+data.filename+'</a><i class="fa fa-times" onclick="attachRemove(this,'+data.attachId+')"></i></div>';
 					$("#commitAttach").prepend(attachInfo);
@@ -541,7 +553,10 @@ function attachUpload(){
 					alert(data.message);
 				}
 			},
-			error: function (data, status, e){}
+			error: function (data, status, e){
+				$('#uploadProgress').dialog('close');
+				$.messager.alert('提示','上传失败了，可能是网络原因或系统故障，请稍后再试');
+			}
 	  });
 }
 
@@ -559,8 +574,9 @@ function attachRemove(obj,id){
 		data : {attachId:id},
 		dataType : 'text',
 		success : function() {},
-		error : function() {
-			$.messager.alert('提示','删除附件失败！');
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','删除错误：'+msg);
 		}
 	});
 }
