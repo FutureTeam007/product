@@ -65,6 +65,7 @@
 	<isNotNull prepend="" property="productId" >
 	  and ccpo.sc_product_id = #productId:DECIMAL#
 	</isNotNull>
+	  and so.sc_op_id != #currentAdviserId:DECIMAL#
 	  and (so.op_name like #adviserName:VARCHAR#
 	  or so.first_name like #adviserName:VARCHAR#
 	  or so.last_name like #adviserName:VARCHAR#)
@@ -81,6 +82,7 @@
 	  <isNotNull prepend="" property="productId" >
 	    and ccpo.sc_product_id = #productId:DECIMAL#
 	  </isNotNull>
+	  and so.sc_op_id != #currentAdviserId:DECIMAL#
 	  and (so.op_name like #adviserName:VARCHAR#
 	  or so.first_name like #adviserName:VARCHAR#
 	  or so.last_name like #adviserName:VARCHAR#)

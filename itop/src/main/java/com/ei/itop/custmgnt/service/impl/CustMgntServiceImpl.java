@@ -105,13 +105,13 @@ public class CustMgntServiceImpl implements CustMgntService {
 	 * .lang.Long, java.lang.Long, java.lang.String)
 	 */
 	public List<InChargeAdviser> queryInChargeAdviser(Long custId,
-			Long productId, String adviserName, long startIndex, int pageSize)
+			Long productId, String adviserName, long currentAdviserId, long startIndex, int pageSize)
 			throws Exception {
 		// TODO Auto-generated method stub
-
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("custId", custId);
 		hm.put("productId", productId);
+		hm.put("currentAdviserId",currentAdviserId);
 		String conditionAdviserName = adviserName == null ? "" : adviserName;
 		hm.put("adviserName", "%" + conditionAdviserName + "%");
 		hm.put("startIndex", startIndex);
@@ -143,12 +143,13 @@ public class CustMgntServiceImpl implements CustMgntService {
 	 * (java.lang.Long, java.lang.Long, java.lang.String)
 	 */
 	public long queryInChargeAdviserCount(Long custId, Long productId,
-			String adviserName) throws Exception {
+			String adviserName,long currentAdviserId) throws Exception {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("custId", custId);
 		hm.put("productId", productId);
+		hm.put("currentAdviserId",currentAdviserId);
 		String conditionAdviserName = adviserName == null ? "" : adviserName;
 		hm.put("adviserName", "%" + conditionAdviserName + "%");
 
@@ -165,7 +166,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		List<InChargeAdviser> list = null;
 
 		// 不分页
-		list = cms.queryInChargeAdviser(new Long(300001), new Long(102), "",
+		list = cms.queryInChargeAdviser(new Long(300001), new Long(102), "",200001l,
 				-1, 2);
 		log.debug("list.size() is " + list.size());
 		for (int i = 0; list != null && i < list.size(); i++) {
@@ -173,7 +174,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		}
 
 		// 分页
-		list = cms.queryInChargeAdviser(new Long(300001), new Long(102), "", 1,
+		list = cms.queryInChargeAdviser(new Long(300001), new Long(102), "",200001l, 1,
 				2);
 		log.debug("list.size() is " + list.size());
 		for (int i = 0; list != null && i < list.size(); i++) {
@@ -181,7 +182,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		}
 
 		long cnt = cms.queryInChargeAdviserCount(new Long(300001),
-				new Long(102), "PM");
+				new Long(102), "PM",200001l);
 		log.debug(cnt);
 	}
 }

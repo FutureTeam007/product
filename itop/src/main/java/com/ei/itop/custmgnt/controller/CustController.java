@@ -30,6 +30,7 @@ public class CustController {
 	
 	@RequestMapping("/list")
 	public void queryInChargeAdviser(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		OpInfo oi = SessionUtil.getOpInfo();
 		long custId = VarTypeConvertUtils.string2Long(request.getParameter("custId"));
 		long productId = VarTypeConvertUtils.string2Long(request.getParameter("productId"));
 		String adviserName = ActionUtils.transParamDecode(request.getParameter("consultantName"),"UTF-8");
@@ -39,9 +40,9 @@ public class CustController {
 		//获取分页起始位置
 		long startIndex = (page-1)*pageSize+1;
 		//查询数据
-		List<InChargeAdviser> datas= custMgntService.queryInChargeAdviser(custId, productId, adviserName, startIndex, pageSize);
+		List<InChargeAdviser> datas= custMgntService.queryInChargeAdviser(custId, productId, adviserName,oi.getOpId(), startIndex, pageSize);
 		//查询数据条数
-		long count = custMgntService.queryInChargeAdviserCount(custId, productId, adviserName);
+		long count = custMgntService.queryInChargeAdviserCount(custId, productId, adviserName,oi.getOpId());
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("total", count);
 		result.put("rows", datas);

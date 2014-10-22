@@ -65,7 +65,7 @@ public interface CustMgntService {
 	 * @throws Exception
 	 */
 	public List<InChargeAdviser> queryInChargeAdviser(Long custId,
-			Long productId, String adviserName, long startIndex, int pageSize)
+			Long productId, String adviserName,long currentAdviserId, long startIndex, int pageSize)
 			throws Exception;
 
 	/**
@@ -78,5 +78,5 @@ public interface CustMgntService {
 	 * @throws Exception
 	 */
 	public long queryInChargeAdviserCount(Long custId, Long productId,
-			String adviserName) throws Exception;
+			String adviserName,long currentAdviserId) throws Exception;
 }

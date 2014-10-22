@@ -23,7 +23,6 @@ public class UserController {
 	
 	@RequestMapping("/get")
 	public void queryUserInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		OpInfo oi = SessionUtil.getOpInfo();
 		long userId = VarTypeConvertUtils.string2Long(request.getParameter("userId"));
 		CcUser user = userService.queryUser(userId);
 		String jsonData = JSONUtils.toJSONString(user);
