@@ -62,6 +62,9 @@ public class IncidentServiceImpl implements IncidentService {
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, IncidentCountInfoByState> incidentCountInfoByStateDAO;
 
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, AdviserTaskQuantity> queryAdviserTaskQuantityDAO;
+
 	@Resource(name = "commonDDLDAO")
 	private CommonDAO commonDAO;
 
@@ -550,7 +553,15 @@ public class IncidentServiceImpl implements IncidentService {
 	 */
 	protected List<AdviserTaskQuantity> queryAdviserTaskQuantity(long orgId,
 			long custId) throws Exception {
-		return null;
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("custId", custId);
+
+		List<AdviserTaskQuantity> list = queryAdviserTaskQuantityDAO
+				.findByParams("IC_INCIDENT.queryAdviserTaskQuantity", hm);
+
+		return list;
 	}
 
 	/**
@@ -565,6 +576,12 @@ public class IncidentServiceImpl implements IncidentService {
 		// 取得商户、客户、产品的负责顾问列表
 		List<CcCustProdOp> custProdOpList = custMgntService.getCustProdOpList(
 				orgId, custId, productId);
+		if (custProdOpList == null) {
+			log.debug("custProdOpList is null");
+
+		} else {
+			log.debug("custProdOpList.size() is " + custProdOpList.size());
+		}
 
 		if (custProdOpList == null || custProdOpList.size() == 0) {
 			throw new BizException("系统尚未配置负责该产品线的顾问");
@@ -573,6 +590,13 @@ public class IncidentServiceImpl implements IncidentService {
 		// 查询商户、客户下当前负责顾问的工作量
 		List<AdviserTaskQuantity> adviserTaskQuantityList = queryAdviserTaskQuantity(
 				orgId, custId);
+		if (adviserTaskQuantityList == null) {
+			log.debug("adviserTaskQuantityList is null");
+
+		} else {
+			log.debug("adviserTaskQuantityList.size() is "
+					+ adviserTaskQuantityList.size());
+		}
 
 		// 处理事件最少的顾问作为自动分派的顾问
 		CcCustProdOp result = null;
@@ -584,18 +608,25 @@ public class IncidentServiceImpl implements IncidentService {
 			for (int j = 0; adviserTaskQuantityList != null
 					&& j < adviserTaskQuantityList.size(); j++) {
 				AdviserTaskQuantity atq = adviserTaskQuantityList.get(j);
-				if (cpo.getScOpId() == atq.getAdviserId()) {
+				log.debug("******" + cpo.getScOpId() + "," + atq.getAdviserId());
+				if (cpo.getScOpId().longValue() == atq.getAdviserId()
+						.longValue()) {
 					inFlag = true;
 					break;
 				}
 			}
+			log.debug("inFlag is " + inFlag);
 			if (!inFlag) {
+				log.debug("noQuantityList.added");
 				noQuantityList.add(cpo);
 			}
 		}
 		// 存在没有工作量的顾问，取第一个作为负责顾问
+		log.debug("noQuantityList.size() is " + noQuantityList.size());
 		if (noQuantityList.size() > 0) {
-			result = custProdOpList.get(0);
+			result = noQuantityList.get(0);
+			log.debug("result is " + result.getLoginCode() + ","
+					+ result.getScOpId());
 		}
 		// 所有顾问均有工作量，那么取最小工作量的那个作为负责顾问
 		else {
@@ -686,6 +717,10 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
 		incidentInfo.setIcLoginCode(inChargeAdviser.getLoginCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
+		// 设置干系人为当前处理顾问
+		incidentInfo.setScOpId(incidentInfo.getIcObjectId());
+		incidentInfo.setScLoginCode(incidentInfo.getIcLoginCode());
+		incidentInfo.setScLoginName(incidentInfo.getIcObjectName());
 
 		// 填入事件所处阶段
 		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
@@ -747,6 +782,10 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
 		incidentInfo.setIcLoginCode(inChargeAdviser.getLoginCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
+		// 设置干系人为当前处理顾问
+		incidentInfo.setScOpId(incidentInfo.getIcObjectId());
+		incidentInfo.setScLoginCode(incidentInfo.getIcLoginCode());
+		incidentInfo.setScLoginName(incidentInfo.getIcObjectName());
 
 		// 填入事件所处阶段
 		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),

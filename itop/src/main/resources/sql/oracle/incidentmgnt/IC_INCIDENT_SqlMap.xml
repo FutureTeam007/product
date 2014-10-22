@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="IC_INCIDENT" >
+  <resultMap id="adviserTaskQuantityResult" class="com.ei.itop.incidentmgnt.bean.AdviserTaskQuantity" >
+    <result column="ADVISER_ID" property="adviserId" jdbcType="DECIMAL" />
+    <result column="TASK_QUANTITY" property="taskQuantity" jdbcType="DECIMAL" />
+  </resultMap>
   <resultMap id="incidentCountInfoByStateResult" class="com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState" >
     <result column="STATE_CODE" property="stateCode" jdbcType="VARCHAR" />
     <result column="STATE_VAL" property="stateVal" jdbcType="VARCHAR" />
@@ -138,6 +142,13 @@
     <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
     <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
   </resultMap>
+  <select id="queryAdviserTaskQuantity" resultMap="adviserTaskQuantityResult" parameterClass="java.util.Map" >
+    select sc_op_id adviser_id,count(*) task_quantity from ic_incident
+	where sc_op_id is not null and data_state = 1 and it_state_code not in (8,9)
+	and sc_org_id = #orgId:DECIMAL#
+	and cc_cust_id = #custId:DECIMAL#
+	group by sc_op_id
+  </select>
   <select id="queryIncident" resultMap="icIncidentResult" parameterClass="java.util.Map" >
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
       IC_OWNER_TYPE, IC_OWNER_ID, IC_OWNER_CODE, IC_OWNER_NAME,
