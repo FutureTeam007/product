@@ -99,6 +99,10 @@ function queryIncidentInfo(flag){
 					$("#finishCommitBtn").show();
 				}
 			}
+			//设置提交按钮文字
+			if(opType=="OP"&&icObjectId!=opId){
+				$(".form-btns input:first").val("搭把手");
+			}
 			//查询联系人信息
 			if(!flag){
 				queryContactorInfo(msg.plObjectId);
@@ -123,7 +127,7 @@ function queryIncidentInfo(flag){
 //事务列表html模板
 var transListTpl = "<div class='trans-item'><div class='col-sm-1'><label>${order}</label></div><div class='col-sm-11'>";
 transListTpl+="<div class='trans-item-header clearfix'>";
-transListTpl+="<div><label>处理人：</label><span>${objectName}</span></div>";
+transListTpl+="<div><label>发起人：</label><span>${objectName}</span></div>";
 transListTpl+="<div><label>处理时间：</label><span>${createTime}</span></div>";
 transListTpl+="<div><label>类型：</label><span>${transType}</span></div></div>";
 transListTpl+="<div><div><label>事务说明：</label><br/><span class='trans-content'>${contents}</span></div></div>";
@@ -327,6 +331,7 @@ function deliverConstCommit(){
 			$("#deliverCustCommitBtn").hide();
 			$("#blockCommitBtn").hide();
 			$("#finishCommitBtn").hide();
+			$(".form-btns input:first").val("搭把手");
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},

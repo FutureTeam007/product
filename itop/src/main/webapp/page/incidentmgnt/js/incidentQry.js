@@ -222,13 +222,13 @@ function reRenderStatusNav(status){
 					for(var i=msg.length-1;i>=0;i--){
 						if(status==msg[i].stateCode){
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
-							qp.stateVal = msg[i].stateCode;
+							qp.stateVal = (msg[i].stateCode==-1?null:msg[i].stateCode);
 						}else{
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" ><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
 						}
 					}
 				}
-				//否则如果客户点击了标签进行查询，则选中待提交标签
+				//否则如果客户点击了查询按钮进行查询，则选中待提交标签
 				else {
 					for(var i=msg.length-1;i>=0;i--){
 						if(qp.stateVal==msg[i].stateCode){
@@ -261,8 +261,9 @@ function bindStatusToggle(){
 	$("#statusNav li").click(function(){
 		$(this).addClass("active");
 		$(this).siblings().removeClass("active");
-		qp.stateVal = $(this).val()=="0"?null: $(this).val();
-		reRenderStatusNav(qp.stateVal);
+		qp.stateVal = ($(this).val()=="0"||$(this).val()=="-1")?null: $(this).val();
+		var status = qp.stateVal==null?-1:qp.stateVal;
+		reRenderStatusNav(status);
 	});
 }
 //切换状态标签
@@ -334,11 +335,11 @@ function reloadData(status){
 //格式化操作列
 function formatOperations(val,row){
 	var buttons = "";
-	if((row.itStateCode==1||row.itStateCode==4)&&row.plObjectId==opId){
+	if(row.itStateCode==1&&row.plObjectId==opId){
 		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>提交</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>编辑</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='remove("+val+")'>删除</button>";
-	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9){
+	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==4||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9){
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
 	}if(row.itStateCode==8&&opType=="OP"){
 		buttons += "<button type='button' class='btn btn-link' onclick='closeIncident("+val+")'>关闭</button>";

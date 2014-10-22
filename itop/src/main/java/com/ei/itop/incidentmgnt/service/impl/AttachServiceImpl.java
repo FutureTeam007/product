@@ -70,15 +70,14 @@ public class AttachServiceImpl implements AttachService {
 			throws Exception {
 		// TODO Auto-generated method stub
 
-		// 先删除原有附件
-		deleteAttach(incidentId);
+		// 先删除原有附件（added by vintin,前台已删附件，不用删除）
+		//deleteAttach(incidentId);
 
 		// 设置事件ID
 		for (int i = 0; attachList != null && i < attachList.size(); i++) {
 			attachList.get(i).setIcIncidentId(incidentId);
 			attachList.get(i).setTransId(null);
 		}
-
 		// 保存新附件
 		attachDAO.updateBatch("IC_ATTACH.updateByPrimaryKeySelective", attachList);
 	}
