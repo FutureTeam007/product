@@ -42,7 +42,7 @@
   </delete>
   <delete id="deleteByTransaction" parameterClass="java.util.Map" >
     delete from IC_ATTACH
-    where IC_INCIDENT_ID = #icIncidentId:DECIMAL# and TRANS_ID = #transactionId:DECIMAL#
+    where IC_INCIDENT_ID = #incidentId:DECIMAL# and TRANS_ID = #transactionId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.IcAttach" >
   	<selectKey resultClass="long" keyProperty="icAttachId">
