@@ -58,6 +58,8 @@ public interface CustMgntService {
 	 *            产品线ID
 	 * @param adviserName
 	 *            顾问姓名（模糊匹配）
+	 * @param currentAdviserId
+	 *            要排除的当前顾问Id
 	 * @param startIndex
 	 *            分页起始记录，从1开始，-1为不分页
 	 * @param pageSize
@@ -65,7 +67,7 @@ public interface CustMgntService {
 	 * @throws Exception
 	 */
 	public List<InChargeAdviser> queryInChargeAdviser(Long custId,
-			Long productId, String adviserName,long currentAdviserId, long startIndex, int pageSize)
+			Long productId, String adviserName,Long currentAdviserId, long startIndex, int pageSize)
 			throws Exception;
 
 	/**
@@ -74,9 +76,10 @@ public interface CustMgntService {
 	 * @param custId
 	 * @param productId
 	 * @param adviserName
+	 * @param currentAdviserId 要排除的当前顾问
 	 * @return
 	 * @throws Exception
 	 */
 	public long queryInChargeAdviserCount(Long custId, Long productId,
-			String adviserName,long currentAdviserId) throws Exception;
+			String adviserName,Long currentAdviserId) throws Exception;
 }

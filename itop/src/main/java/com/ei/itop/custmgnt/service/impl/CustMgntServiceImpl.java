@@ -105,7 +105,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 	 * .lang.Long, java.lang.Long, java.lang.String)
 	 */
 	public List<InChargeAdviser> queryInChargeAdviser(Long custId,
-			Long productId, String adviserName, long currentAdviserId, long startIndex, int pageSize)
+			Long productId, String adviserName, Long currentAdviserId, long startIndex, int pageSize)
 			throws Exception {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> hm = new HashMap<String, Object>();
@@ -143,7 +143,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 	 * (java.lang.Long, java.lang.Long, java.lang.String)
 	 */
 	public long queryInChargeAdviserCount(Long custId, Long productId,
-			String adviserName,long currentAdviserId) throws Exception {
+			String adviserName,Long currentAdviserId) throws Exception {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
