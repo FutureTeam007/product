@@ -1,3 +1,4 @@
+<%@page import="com.ei.itop.common.util.SessionUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%

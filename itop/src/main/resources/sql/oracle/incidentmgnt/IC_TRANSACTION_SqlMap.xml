@@ -4,7 +4,7 @@
   <resultMap id="transactionInfoResult" class="com.ei.itop.incidentmgnt.bean.TransactionInfo" >
     <result column="TRANS_ID" property="transId" jdbcType="DECIMAL" />
     <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
     <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
     <result column="LOGIN_CODE" property="loginCode" jdbcType="VARCHAR" />
@@ -16,7 +16,7 @@
   <resultMap id="icTransactionResult" class="com.ei.itop.common.dbentity.IcTransaction" >
     <result column="TRANS_ID" property="transId" jdbcType="DECIMAL" />
     <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
     <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
     <result column="LOGIN_CODE" property="loginCode" jdbcType="VARCHAR" />

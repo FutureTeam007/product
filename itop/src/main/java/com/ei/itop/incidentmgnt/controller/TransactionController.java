@@ -77,7 +77,7 @@ public class TransactionController {
 				long opId = VarTypeConvertUtils.string2Long(request.getParameter("opId"));
 				String opCode = request.getParameter("opCode");
 				String opName = request.getParameter("opName");
-				OpInfo nextOpInfo = SessionUtil.getOpInfo();
+				OpInfo nextOpInfo = new OpInfo();
 				nextOpInfo.setOpId(opId);
 				nextOpInfo.setOpCode(opCode);
 				nextOpInfo.setOpName(opName);
