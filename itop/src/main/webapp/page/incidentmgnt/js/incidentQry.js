@@ -11,6 +11,8 @@ qp.priorityVal = null;
 qp.productId = null;
 qp.registerTimeBegin = null;
 qp.registerTimeEnd = null;
+//默认选中的数据行
+var selectedDataRow = null;
 
 $(function(){
 	//判断是否可以显示新建按钮，如果是用户才显示，顾问不显示
@@ -239,6 +241,11 @@ function reRenderStatusNav(status){
 					}
 				}
 				bindStatusToggle();
+				//取得当前选中数据行的主键ID
+				var rows = $("#incidentDataTable").datagrid('getSelections');
+				if(rows&&rows.length!=0){
+					selectedDataRow = rows[0].icIncidentId;
+				}
 				//如果没设置状态，则说明是普通查询，需重新从第一页加载表格；如果设置了状态，说明只是刷新nav状态导航并刷新当前页
 				if(!status){
 					var pagger = $('#incidentDataTable').datagrid('getPager');
@@ -322,6 +329,21 @@ function initDataPager(){
 			var data = $(this).datagrid("getData");
 			if(data.rows.length==0){
 				 $(this).parent().find("div").filter(".datagrid-body").html("<div class='none-data-info'>暂无数据记录</div>");
+			}else{
+				//增加逻辑，默认选中之前选中的行或者选中第一行
+				if(selectedDataRow){
+					var pageRows = $('#incidentDataTable').datagrid('getRows');
+					if(pageRows&&pageRows.length>0){
+						for(var i=0;i<pageRows.length;i++){
+							if(pageRows[i].icIncidentId==selectedDataRow){
+								var index = $('#incidentDataTable').datagrid('getRowIndex',pageRows[i]);
+								$('#incidentDataTable').datagrid('selectRow',index);
+							}
+						}
+					}
+				}else{
+					$('#incidentDataTable').datagrid('selectRow',0);
+				}
 			}
 		}
 	});

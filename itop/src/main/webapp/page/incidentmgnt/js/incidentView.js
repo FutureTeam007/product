@@ -14,6 +14,8 @@ var gProdId = null;
 var callBackFunc = null;
 //是否已经补全
 var isCompleted = false;
+//当前事件状态
+var inciCurStateCode = null;
 
 $(function(){
 	$.template( "transListTpl", transListTpl); 
@@ -22,7 +24,7 @@ $(function(){
 	//延迟加载，加快页面渲染速度
 	setTimeout(queryTransList,500);
 });
-
+//初始化弹出窗口
 function initSubPage(){
 	$('#completeWin').dialog({
 		modal:true
@@ -38,11 +40,84 @@ function initSubPage(){
 		modal:true
 	}).dialog('close');
 };
+
 //清空提交表单
 function resetCommitForm(){
 	$("#transDesc").val("");
 	$("#commitAttach").empty();
 }
+
+//渲染操作按钮
+function renderOpBtns(){
+	//如果当前用户是顾问
+	if(opType=="OP"){
+		//如果当前顾问不是干系顾问，则提交按钮变为搭把手
+		if(icObjectId!=opId){
+			$(".form-btns input:first").val("搭把手");
+		}
+		//依据事件状态，显示不同按钮
+		switch(parseInt(inciCurStateCode)){
+			//待提交，不可能进入查看界面，退出
+			case 1:
+				break;
+			//待响应,除完成按钮外，干系顾问全部按钮可见
+			case 2:
+				//干系顾问是当前顾问
+				if(icObjectId==opId){
+					$("#openConsultantSelBtn").show();
+					$("#deliverCustCommitBtn").show();
+					$("#blockCommitBtn").show();
+					$("#finishCommitBtn").hide();
+				}else{
+					$("#openConsultantSelBtn").hide();
+					$("#deliverCustCommitBtn").hide();
+					$("#blockCommitBtn").hide();
+					$("#finishCommitBtn").hide();
+				}
+				break;
+			//顾问处理中、挂起中，干系顾问全部按钮均可见
+			case 3:case 5:
+				//干系顾问是当前顾问
+				if(icObjectId==opId){
+					$("#openConsultantSelBtn").show();
+					$("#deliverCustCommitBtn").show();
+					$("#blockCommitBtn").show();
+					$("#finishCommitBtn").show();
+				}else{
+					$("#openConsultantSelBtn").hide();
+					$("#deliverCustCommitBtn").hide();
+					$("#blockCommitBtn").hide();
+					$("#finishCommitBtn").hide();
+				}
+				break;
+			//客户处理中，顾问只可见提交按钮
+			case 4:
+				$("#openConsultantSelBtn").hide();
+				$("#deliverCustCommitBtn").hide();
+				$("#blockCommitBtn").hide();
+				$("#finishCommitBtn").hide();
+				break;
+			//已完成，顾问只可见提交按钮
+			case 8:
+				$("#openConsultantSelBtn").hide();
+				$("#deliverCustCommitBtn").hide();
+				$("#blockCommitBtn").hide();
+				$("#finishCommitBtn").hide();
+				break;
+			default:
+				break;
+		}
+	}
+	//如果当前用户是普通用户
+	else if(opType=="USER"){
+		$("#openConsultantSelBtn").hide();
+		$("#deliverCustCommitBtn").hide();
+		$("#blockCommitBtn").hide();
+		$("#finishCommitBtn").hide()();
+	}
+}
+
+
 
 //查询事件信息
 function queryIncidentInfo(flag){
@@ -56,7 +131,7 @@ function queryIncidentInfo(flag){
 			$("#incidentCode").html(msg.incidentCode);
 			$("#scLoginName").html(msg.icObjectName);
 			$("#registTime").html(dateFormatter(msg.registeTime));
-			$("#itStateCode").html(msg.itPhase);
+			$("#itStateCode").html(msg.itStateVal);
 			//绑定事件详细信息数据
 			$("#custName").html(msg.custName);
 			$("#classCodeOp").html(msg.classVal);
@@ -88,21 +163,10 @@ function queryIncidentInfo(flag){
 			icObjectId = msg.icObjectId;
 			gCustId = msg.ccCustId;
 			gProdId = msg.scProductId;
-			//设置补全状态
+			inciCurStateCode = msg.itStateCode;
 			isCompleted = msg.complexVal?true:false;
 			//显示操作按钮
-			if(opId==icObjectId&&msg.itStateCode!=8&&msg.itStateCode!=9){
-				$("#openConsultantSelBtn").show();
-				$("#deliverCustCommitBtn").show();
-				$("#blockCommitBtn").show();
-				if(msg.itStateCode==3){
-					$("#finishCommitBtn").show();
-				}
-			}
-			//设置提交按钮文字
-			if(opType=="OP"&&icObjectId!=opId){
-				$(".form-btns input:first").val("搭把手");
-			}
+			renderOpBtns();
 			//查询联系人信息
 			if(!flag){
 				queryContactorInfo(msg.plObjectId);
@@ -226,10 +290,7 @@ function transCommit(){
 		success : function(msg) {
 			$.messager.alert('提示','提交成功！');
 			resetCommitForm();
-			//显示操作按钮
-			if(opId==icObjectId){
-				$("#finishCommitBtn").show();
-			}
+			queryIncidentInfo();
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
@@ -326,13 +387,7 @@ function deliverConstCommit(){
 			$('#consultantSelWin').dialog('close');
 			$.messager.alert('提示','转派成功！');
 			resetCommitForm();
-			//转派成功后,当前顾问只能提交普通事务,不能再提交流程事务
-			$("#openConsultantSelBtn").hide();
-			$("#deliverCustCommitBtn").hide();
-			$("#blockCommitBtn").hide();
-			$("#finishCommitBtn").hide();
-			$(".form-btns input:first").val("搭把手");
-			//提交成功，再刷新一遍事务列表
+			queryIncidentInfo();
 			queryTransList();
 		},
 		error : function(request) {
@@ -358,10 +413,7 @@ function deliverCustCommit(){
 		success : function(msg) {
 			$.messager.alert('提示','提交成功！');
 			resetCommitForm();
-			$("#openConsultantSelBtn").hide();
-			$("#deliverCustCommitBtn").hide();
-			$("#blockCommitBtn").hide();
-			$("#finishCommitBtn").hide();
+			queryIncidentInfo();
 			//提交成功，再刷新一遍事务列表
 			queryTransList();
 		},
@@ -388,11 +440,7 @@ function blockCommit(){
 		success : function() {
 			$.messager.alert('提示','提交成功！');
 			resetCommitForm();
-			$("#openConsultantSelBtn").hide();
-			$("#deliverCustCommitBtn").hide();
-			$("#blockCommitBtn").hide();
-			$("#finishCommitBtn").hide();
-			//提交成功，再刷新一遍事务列表
+			queryIncidentInfo();
 			queryTransList();
 		},
 		error : function(request) {
@@ -433,12 +481,8 @@ function finishCommit(){
 			$.messager.alert('提示','提交成功！');
 			resetCommitForm();
 			$('#finishWin').dialog('close');
-			//提交成功，再刷新一遍事务列表
+			queryIncidentInfo();
 			queryTransList();
-			$("#openConsultantSelBtn").hide();
-			$("#deliverCustCommitBtn").hide();
-			$("#blockCommitBtn").hide();
-			$("#finishCommitBtn").hide();
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
