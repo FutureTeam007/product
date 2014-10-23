@@ -56,7 +56,7 @@ function queryIncident(){
 			}
 		},
 		error : function() {
-			$.messager.alert('Error','查询事件信息失败！');
+			$.messager.alert('提示','查询事件信息失败！');
 		}
 	});
 	

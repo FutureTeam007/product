@@ -20,7 +20,7 @@
 		<div class="form-group clearfix">
 		    <label for="acountNo" class="col-sm-2 control-label">账号</label>
 		    <div class="col-sm-7">
-		      	<input type="text" class="form-control" id="acountNo"/>
+		      	<input type="text" class="form-control" id="acountNo" onkeyup="queryCompanyList()" maxlength="30"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		     	请使用公司邮箱
@@ -29,7 +29,7 @@
   		<div class="form-group clearfix">
 		    <label for="passwd" class="col-sm-2 control-label">密码</label>
 		    <div class="col-sm-7">
-		      	<input type="password" class="form-control" id="passwd"/>
+		      	<input type="password" class="form-control" id="passwd" maxlength="30"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		    </div>
@@ -37,7 +37,7 @@
   		<div class="form-group clearfix">
 		    <label for="passwdConfirm" class="col-sm-2 control-label">确认密码</label>
 		    <div class="col-sm-7">
-		      	<input type="password" class="form-control" id="passwdConfirm"/>
+		      	<input type="password" class="form-control" id="passwdConfirm" maxlength="30"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		    </div>
@@ -45,12 +45,8 @@
   		<div class="form-group clearfix">
 		    <label for="companySel" class="col-sm-2 control-label">公司</label>
 		    <div class="col-sm-7">
-		      <input class="easyui-combobox" style="width:100%"  name="companySel" id="companySel" data-options="
-					url:'js/json/company_data.json',
-					method:'get',
-					valueField:'custId',
-					textField:'custName',
-					panelHeight:'auto'"
+		      <input class="easyui-combotree" style="width:100%"  name="companySel" id="companySel" data-options="
+		      		panelHeight:'auto'"
 			  />
 		    </div>
 		    <div class="col-sm-3 form-desc">
@@ -61,9 +57,7 @@
 		    <label for="companySel" class="col-sm-2 control-label">部门</label>
 		    <div class="col-sm-7">
 		      <input class="easyui-combobox" style="width:100%"  name="deptSel" id="deptSel" data-options="
-					url:'js/json/company_data.json',
-					method:'get',
-					valueField:'custId',
+					valueField:'custId'
 					textField:'custName',
 					panelHeight:'auto'"
 			  />
@@ -75,20 +69,19 @@
   		<div class="form-group clearfix">
 		    <label for="chineseName" class="col-sm-2 control-label">中文姓名</label>
 		    <div class="col-sm-7">
-		      	<input type="text" class="form-control" id="chineseName"/>
+		      	<input type="text" class="form-control" id="chineseName" maxlength="40"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
-		     	请使用公司邮箱
 		    </div>
   		</div>
   		<div class="form-group clearfix">
 		    <label for="givenName" class="col-sm-2 control-label">英文名</label>
 		    <div class="col-sm-3">
-		      <input type="text" class="form-control" id="givenName"/>
+		      <input type="text" class="form-control" id="givenName" maxlength="10"/>
 		    </div>
 		    <label for="familyName" class="col-sm-1 control-label">英文姓</label>
 		    <div class="col-sm-3">
-		      <input type="text" class="form-control" id="familyName"/>
+		      <input type="text" class="form-control" id="familyName" maxlength="10"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		     	
@@ -104,14 +97,12 @@
 				  <input type="radio" name="gender" id="female" value="2"> 女士
 				</span>
 		    </div>
-		    <div class="col-sm-3 form-desc">
-		     	
-		    </div>
+		    <div class="col-sm-3 form-desc"></div>
   		</div>
   		<div class="form-group clearfix">
 		    <label for="mobileNo" class="col-sm-2 control-label">移动电话</label>
 		    <div class="col-sm-7">
-		      	<input type="text" class="form-control" id="mobileNo"/>
+		      	<input type="text" class="form-control" id="mobileNo" maxlength="11"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		     	
@@ -119,14 +110,17 @@
   		</div>
   		<div class="form-group clearfix">
 		    <label for="phoneNo" class="col-sm-2 control-label">固定电话</label>
-		    <div class="col-sm-7">
-		      	<input type="text" class="form-control" id="phoneNo"/>
+		    <div class="col-sm-2">
+		      	<input type="text" class="form-control" id="areaCode" maxlength="4"/>-
+		    </div>
+		    <div class="col-sm-5">
+		      	<input type="text" class="form-control" id="phoneNo" maxlength="8"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		    </div>
   		</div>
   		<div class="form-group clearfix register-form-btns">
-		    <a class="btn btn-warning btn-lg" style="margin-left:40%" href="registerStep2.jsp">提交</a>
+		    <a class="btn btn-warning btn-lg" style="margin-left:40%" href="javascript:registerCommit()">提交</a>
   		</div>
 	</form>
 </div>

@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ailk.dazzle.util.sec.Encrypt;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
+import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcUser;
-import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.register.bean.RegisterInfo;
 import com.ei.itop.register.service.RegisterService;
 

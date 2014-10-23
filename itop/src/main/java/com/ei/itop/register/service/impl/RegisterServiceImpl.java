@@ -65,18 +65,7 @@ public class RegisterServiceImpl implements RegisterService {
 		return userId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ei.itop.register.service.IRegisterService#queryCustListByDomainName
-	 * (java.lang.String)
-	 */
-	public List<CcCust> queryCustListByDomainName(String domainName)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	/**
 	 * 发送账号激活链接邮件

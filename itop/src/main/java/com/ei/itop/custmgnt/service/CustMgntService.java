@@ -82,4 +82,11 @@ public interface CustMgntService {
 	 */
 	public long queryInChargeAdviserCount(Long custId, Long productId,
 			String adviserName,Long currentAdviserId) throws Exception;
+	/**
+	 * 根据域名查询客户公司
+	 * @param domainName
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CcCust> queryCustListByDomainName(String domainName) throws Exception;
 }

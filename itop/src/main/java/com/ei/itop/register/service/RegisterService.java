@@ -26,17 +26,6 @@ public interface RegisterService {
 	public long userRegister(RegisterInfo registerInfo) throws Exception;
 
 	/**
-	 * 根据域名精确查询客户（不区分大小写），返回公司及子公司列表
-	 * 
-	 * @param domainName
-	 *            域名
-	 * @return 客户列表
-	 * @throws Exception
-	 */
-	public List<CcCust> queryCustListByDomainName(String domainName)
-			throws Exception;
-
-	/**
 	 * 账号激活，用户点击账号激活链接后的处理逻辑
 	 * 
 	 * @param userId

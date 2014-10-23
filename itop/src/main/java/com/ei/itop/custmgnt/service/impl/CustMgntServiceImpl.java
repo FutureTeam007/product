@@ -5,6 +5,7 @@ package com.ei.itop.custmgnt.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,7 +16,6 @@ import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
-import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.custmgnt.bean.InChargeAdviser;
 import com.ei.itop.custmgnt.service.CustMgntService;
 
@@ -184,5 +184,12 @@ public class CustMgntServiceImpl implements CustMgntService {
 		long cnt = cms.queryInChargeAdviserCount(new Long(300001),
 				new Long(102), "PM",200001l);
 		log.debug(cnt);
+	}
+
+	public List<CcCust> queryCustListByDomainName(String domainName)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("domainName",domainName);
+		return custDAO.findByParams("CC_CUST.queryCustListByDomainName", params);
 	}
 }
