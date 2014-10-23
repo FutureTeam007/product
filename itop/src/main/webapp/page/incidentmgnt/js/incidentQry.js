@@ -1,7 +1,6 @@
 //全局查询条件
 var qp={};
-//默认查询待提交事件
-qp.stateVal = 1;
+qp.stateVal = (opType=="USER"?1:2);
 qp.incidentCode = null;
 qp.brief = null;
 qp.classVar = null;
@@ -201,6 +200,7 @@ function setQueryConditions(){
 }
 //查询主方法
 function query(flag){
+	selectedDataRow = null;
 	setQueryConditions();
 	//通过点击标签查询
 	if(flag&&flag==1){
@@ -225,16 +225,24 @@ function reRenderStatusNav(status){
 					for(var i=msg.length-1;i>=0;i--){
 						if(status==msg[i].stateCode){
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
-							qp.stateVal = (msg[i].stateCode==-1?null:msg[i].stateCode);
+							if(msg[i].stateCode==-1){
+								if(opType=="OP"){
+									qp.stateVal = "2,3,4,5,8,9";
+								}else{
+									qp.stateVal = "1,2,3,4,5,8,9";
+								}
+							}else{
+								qp.stateVal = msg[i].stateCode;
+							}
 						}else{
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" ><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
 						}
 					}
 				}
-				//否则如果客户点击了查询按钮进行查询，则选中待提交标签
+				//否则如果客户点击了查询按钮进行查询
 				else {
 					for(var i=msg.length-1;i>=0;i--){
-						if(qp.stateVal==msg[i].stateCode){
+						if(qp.stateVal==msg[i].stateCode||((qp.stateVal+"").indexOf(",")!=-1&&msg[i].stateCode==-1)){
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
 						}else{
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" ><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
@@ -258,7 +266,7 @@ function reRenderStatusNav(status){
 					});
 					$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
 				}else{
-					$('#incidentDataTable').datagrid('reload',qp);
+					$('#incidentDataTable').datagrid('load',qp);
 				}
 			}
 		},
@@ -272,6 +280,7 @@ function bindStatusToggle(){
 		$(this).siblings().removeClass("active");
 		qp.stateVal = ($(this).val()=="0"||$(this).val()=="-1")?null: $(this).val();
 		var status = qp.stateVal==null?-1:qp.stateVal;
+		selectedDataRow = null;
 		reRenderStatusNav(status);
 	});
 }

@@ -104,6 +104,14 @@ function renderOpBtns(){
 				$("#blockCommitBtn").hide();
 				$("#finishCommitBtn").hide();
 				break;
+			//已关闭，所有按钮不可见
+			case 9:
+				$("#transCommitBtn").hide();
+				$("#openConsultantSelBtn").hide();
+				$("#deliverCustCommitBtn").hide();
+				$("#blockCommitBtn").hide();
+				$("#finishCommitBtn").hide();
+				break;
 			default:
 				break;
 		}
@@ -114,6 +122,9 @@ function renderOpBtns(){
 		$("#deliverCustCommitBtn").hide();
 		$("#blockCommitBtn").hide();
 		$("#finishCommitBtn").hide()();
+		if(parseInt(inciCurStateCode)==9){
+			$("#transCommitBtn").hide();
+		}
 	}
 }
 
@@ -131,7 +142,7 @@ function queryIncidentInfo(flag){
 			$("#incidentCode").html(msg.incidentCode);
 			$("#scLoginName").html(msg.icObjectName);
 			$("#registTime").html(dateFormatter(msg.registeTime));
-			$("#itStateCode").html(msg.itStateVal);
+			$("#itStateCode").html(msg.itStateVal+"("+msg.itPhase+")");
 			//绑定事件详细信息数据
 			$("#custName").html(msg.custName);
 			$("#classCodeOp").html(msg.classVal);

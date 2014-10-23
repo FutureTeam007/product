@@ -116,7 +116,7 @@ public class IncidentController {
 		// 事件状态
 		String stateCode = request.getParameter("stateVal");
 		if (!StringUtils.isEmpty(stateCode)) {
-			qi.setStateCode(stateCode);
+			qi.setStateCode(stateCode.split(","));
 		}
 		// 调用查询获取总数据条数
 		long count = incidentService.MBLQueryIncidentCount(qi, oi);

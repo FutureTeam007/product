@@ -19,6 +19,7 @@ import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ailk.dazzle.util.type.DateUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.bean.OpInfo;
+import com.ei.itop.common.constants.SysConstants;
 import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
@@ -225,6 +226,10 @@ public class IncidentServiceImpl implements IncidentService {
 		for (int i = 0; paramList != null && i < paramList.size(); i++) {
 			ScParam param = paramList.get(i);
 			IncidentCountInfoByState result = new IncidentCountInfoByState();
+			//如果是顾问，待提交状态不应该有数据
+			if("1".equals(param.getParamCode())&&SysConstants.OpAttribute.OP_ROLE_OP.equals(opInfo.getOpType())){
+				continue;
+			}
 			result.setStateCode(param.getParamCode());
 			result.setStateVal(param.getParamValue());
 			result.setRecordCount(new Long(0));

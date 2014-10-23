@@ -42,7 +42,7 @@
   			</div>
   			<div class="form-group clearfix">
 	  			<div class="col-sm-12 form-btns">
-			      <input type="button" class="btn btn-warning" onclick="transCommit()" value="提交" />
+			      <input type="button" class="btn btn-warning" id="transCommitBtn" onclick="transCommit()" value="提交" />
 			      <input type="button" class="btn btn-warning undis" id="openConsultantSelBtn" onclick="openConsultantSelWin()" value="转顾问处理" />
 			      <input type="button" class="btn btn-warning undis" id="deliverCustCommitBtn" onclick="deliverCustCommit()" value="转客户补充资料" />
 			      <input type="button" class="btn btn-warning undis" id="blockCommitBtn" onclick="blockCommit()" value="挂起" />

@@ -28,7 +28,7 @@ public class QCIncident {
 	// 事件复杂度
 	private String[] complexCode;
 	// 事件状态
-	private String stateCode;
+	private String[] stateCode;
 	// 事件提出时间开始范围
 	private Date registerTimeBegin;
 	// 事件提出时间开始范围
@@ -41,7 +41,7 @@ public class QCIncident {
 	/**
 	 * @return the stateCode
 	 */
-	public String getStateCode() {
+	public String[] getStateCode() {
 		return stateCode;
 	}
 
@@ -49,7 +49,7 @@ public class QCIncident {
 	 * @param stateCode
 	 *            the stateCode to set
 	 */
-	public void setStateCode(String stateCode) {
+	public void setStateCode(String[] stateCode) {
 		this.stateCode = stateCode;
 	}
 

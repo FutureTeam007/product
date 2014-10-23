@@ -254,7 +254,10 @@
       	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="stateCode" >
-    	and it_state_code = #stateCode:VARCHAR#
+      	and it_state_code in
+      	<iterate property="stateCode" open="(" close=")" conjunction=",">
+    		#stateCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="registerTimeBegin" >
     	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#
@@ -312,7 +315,10 @@
       	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="stateCode" >
-    	and it_state_code = #stateCode:VARCHAR#
+      	and it_state_code in
+      	<iterate property="stateCode" open="(" close=")" conjunction=",">
+    		#stateCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="registerTimeBegin" >
     	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#
@@ -357,9 +363,6 @@
       	<iterate property="complexCode" open="(" close=")" conjunction=",">
     		#complexCode[]#
       	</iterate>
-      </isNotNull>
-      <isNotNull prepend="" property="stateCode" >
-    	and it_state_code = #stateCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="" property="registerTimeBegin" >
     	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#

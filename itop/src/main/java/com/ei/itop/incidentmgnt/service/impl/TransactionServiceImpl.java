@@ -271,11 +271,11 @@ public class TransactionServiceImpl implements TransactionService {
 			// 需要修改部分事件信息
 			IncidentInfo ii = new IncidentInfo();
 
-			// 需调整事件干系人为事件所属人
-			ii.setIcObjectType(incident.getIcOwnerType());
-			ii.setIcObjectId(incident.getIcOwnerId());
-			ii.setIcLoginCode(incident.getIcOwnerCode());
-			ii.setIcObjectName(incident.getIcOwnerName());
+			// 需调整事件干系人为事件所属人（此处不调整，干系人只指顾问，但Owner有可能是客户,修改人：vintin）
+//			ii.setIcObjectType(incident.getIcOwnerType());
+//			ii.setIcObjectId(incident.getIcOwnerId());
+//			ii.setIcLoginCode(incident.getIcOwnerCode());
+//			ii.setIcObjectName(incident.getIcOwnerName());
 
 			// 不需调整事件所处阶段
 

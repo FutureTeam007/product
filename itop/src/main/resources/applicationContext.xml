@@ -21,12 +21,15 @@
 		  http://www.springframework.org/schema/mvc
 		  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
 		default-autowire="byName">
-		
+	
+	<context:property-placeholder location="classpath:database.properties" ignore-resource-not-found="false" />
+	<context:property-placeholder location="classpath:email.properties" ignore-resource-not-found="false"/>
+	<context:annotation-config/>	
+	
 	<!-- 对包中的所有controller类进行扫描，以完成Bean创建和自动依赖注入的功能 -->  
 	<context:component-scan base-package="com.ei.itop.**" />
 	<context:component-scan base-package="com.ailk.dazzle.util.**" />
-	<context:property-placeholder location="classpath:database.properties" />
-	<context:property-placeholder location="classpath:email.properties" />
+	
 	<!-- 注册MVC的注解驱动，否则Controller的RequestMapping不生效导致404错误 -->  
 	<mvc:annotation-driven />
 	
