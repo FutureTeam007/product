@@ -19,4 +19,11 @@ public interface OpService {
 	 * @throws Exception
 	 */
 	public ScOp queryScOp(long opId) throws Exception;
+	/**
+	 * 修改用户登录密码
+	 * 
+	 * @param passwd
+	 * @throws Exception
+	 */
+	public void changeLoginPasswd(long opId, String passwd) throws Exception;
 }

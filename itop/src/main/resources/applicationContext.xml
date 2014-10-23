@@ -26,6 +26,7 @@
 	<context:component-scan base-package="com.ei.itop.**" />
 	<context:component-scan base-package="com.ailk.dazzle.util.**" />
 	<context:property-placeholder location="classpath:database.properties" />
+	<context:property-placeholder location="classpath:email.properties" />
 	<!-- 注册MVC的注解驱动，否则Controller的RequestMapping不生效导致404错误 -->  
 	<mvc:annotation-driven />
 	
@@ -99,6 +100,17 @@
 		<aop:advisor pointcut-ref="sysService" advice-ref="txAdvice" />
 	</aop:config>
 	
+	<!-- velocity模板引擎注册  -->
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+	          resource.loader=class
+	          class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+          </value>
+      </property>
+    </bean>
+    
+	<!-- CommonDAO注册  -->
 	<bean id="app.siCommonDAO" class="com.ailk.dazzle.util.ibatis.GenericDAOImpl4Spring">
 	</bean>
 	

@@ -6,6 +6,7 @@ package com.ei.itop.register.service;
 import java.util.List;
 
 import com.ei.itop.common.dbentity.CcCust;
+import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.register.bean.RegisterInfo;
 
 /**
@@ -52,6 +53,14 @@ public interface RegisterService {
 	 * @throws Exception
 	 */
 	public boolean checkLoginCodeIsExist(String loginCode) throws Exception;
+	/**
+	 * 通过loginCode取得Ccuser
+	 * 
+	 * @param loginCode
+	 * @return
+	 * @throws Exception
+	 */
+	public CcUser getCcUserByLoginCode(String loginCode) throws Exception;
 
 	/**
 	 * 用户点击修改密码链接后打开修改密码窗口，填入信息，调用该逻辑修改密码

@@ -59,4 +59,11 @@ public class UserServiceImpl implements UserService {
 		userDAO.update("CC_USER.updateByPrimaryKeySelective", user);
 	}
 
+	public void activeUser(long userId) throws Exception {
+		CcUser user = new CcUser();
+		user.setCcUserId(userId);
+		user.setState(1L);
+		userDAO.update("CC_USER.updateByPrimaryKeySelective", user);
+	}
+
 }

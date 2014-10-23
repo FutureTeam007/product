@@ -33,7 +33,7 @@
 					  <li role="presentation"><a href="#">客户管理</a></li>
 					</ul>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i>修改密码</a>
+                        <li><a href="${pageContext.request.contextPath}/page/register/changePwd.jsp"><i class="fa fa-gear fa-fw"></i>修改密码</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="${pageContext.request.contextPath}/doLogout"><i class="fa fa-sign-out fa-fw"></i>注销</a>

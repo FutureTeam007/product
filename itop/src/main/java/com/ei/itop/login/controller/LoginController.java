@@ -59,7 +59,7 @@ public class LoginController {
 			}
 			// 封装登录Bean
 			LoginInfo li = new LoginInfo();
-			li.setLoginCode(accountNo);
+			li.setLoginCode(accountNo.toLowerCase());
 			li.setLoginPasswd(accountPwd);
 			li.setIdentifyingCode(verifyCode);
 			// 如果是用户登录

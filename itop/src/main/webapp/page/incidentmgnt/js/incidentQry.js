@@ -204,6 +204,7 @@ function query(flag){
 	setQueryConditions();
 	//通过点击标签查询
 	if(flag&&flag==1){
+		qp.r = new Date();
 		$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
 	}else{
 		reRenderStatusNav();
@@ -246,6 +247,7 @@ function reRenderStatusNav(status){
 				if(rows&&rows.length!=0){
 					selectedDataRow = rows[0].icIncidentId;
 				}
+				qp.r = new Date();
 				//如果没设置状态，则说明是普通查询，需重新从第一页加载表格；如果设置了状态，说明只是刷新nav状态导航并刷新当前页
 				if(!status){
 					var pagger = $('#incidentDataTable').datagrid('getPager');

@@ -99,7 +99,7 @@ public class RegisterServiceImpl implements RegisterService {
 	 */
 	public void activeAccount(long userId) throws Exception {
 		// TODO Auto-generated method stub
-
+		userService.activeUser(userId);
 	}
 
 	/**
@@ -160,4 +160,22 @@ public class RegisterServiceImpl implements RegisterService {
 		return rtnValue;
 	}
 
+	public CcUser getCcUserByLoginCode(String loginCode) throws Exception {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("loginCode", loginCode);
+
+		List<CcUser> userList = userDAO.findByParams(
+				"CC_USER.queryUserByLoginCode", hm);
+
+		// 已存在
+		if (userList != null && userList.size() > 0) {
+			userList.get(0);
+		}
+
+		return null;
+	}
+	
+	
 }

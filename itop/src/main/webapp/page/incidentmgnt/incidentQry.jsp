@@ -101,7 +101,7 @@
 					<th data-options="field:'registeTime',sortable:true,formatter:dateFormatter" width="8%">提交时间</th>
 					<th data-options="field:'icObjectName'" width="9%">处理人</th>
 					<th data-options="field:'modifyDate',sortable:true,formatter:dateFormatter" width="8%">最近更新时间</th>
-					<th data-options="field:'finishTime'" width="6%">完成时间</th>
+					<th data-options="field:'finishTime',formatter:dateFormatter" width="6%">完成时间</th>
 					<th data-options="field:'feedbackVal',formatter:formatFeedback" width="5%">满意度</th>
 				</tr>
 			</thead>
