@@ -11,17 +11,17 @@
 <body>
 <jsp:include page="../common/pageMasterStartNotLogin.jsp"></jsp:include>
 <div class="register-nav">
-	<div class="register-step">1.填写基本信息</div>
-	<div class="register-step">2.注册完成</div>
-	<div class="register-step register-step-active">3.账号激活</div>
+	<div class="register-step">1.邮箱验证</div>
+	<div class="register-step register-step-active">2.修改密码</div>
+	<div class="register-step">3.修改完成</div>
 </div>
 <div class="register-wrapper">
 	<div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title success-title">账号已成功激活！</h3>
+        <h3 class="panel-title success-title">密码修改成功！</h3>
       </div>
       <div class="panel-body success-content middle-content" >
-         	<a href="<%=rootPath%>/page/incidentmgnt/main" class="btn btn-link" >点击此处进入系统或等待3秒……</a>
+         	<a href="../incidentmgnt/incidentQry.jsp" class="btn btn-link" >点击此处回到登录页面或等待3秒自动跳转……</a>
       </div>
     </div>
 </div>

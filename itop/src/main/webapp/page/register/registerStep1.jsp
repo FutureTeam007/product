@@ -60,7 +60,7 @@
   		<div class="form-group clearfix">
 		    <label for="companySel" class="col-sm-2 control-label">部门</label>
 		    <div class="col-sm-7">
-		      <input class="easyui-combobox" style="width:100%"  name="companySel" id="companySel" data-options="
+		      <input class="easyui-combobox" style="width:100%"  name="deptSel" id="deptSel" data-options="
 					url:'js/json/company_data.json',
 					method:'get',
 					valueField:'custId',
