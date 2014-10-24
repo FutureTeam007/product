@@ -455,7 +455,7 @@ public class IncidentServiceImpl implements IncidentService {
 	 */
 	protected synchronized String generateIncidentCode(long custId)
 			throws Exception {
-		// 客户编码（大写）_YYYYMM_000001
+		// 客户编码（大写）_YYMM_000001
 
 		String incidentCode = "";
 
@@ -467,6 +467,7 @@ public class IncidentServiceImpl implements IncidentService {
 		String ym = DateUtils.date2String(commonDAO.getSysDate(),
 				DateUtils.FORMATTYPE_yyyyMMdd);
 		ym = ym.substring(0, ym.length() - 2);
+		ym = ym.substring(2);
 
 		incidentCode += ym + "-";
 
@@ -474,10 +475,10 @@ public class IncidentServiceImpl implements IncidentService {
 		IcIncident incident = getLastIncidentByCustId(custId);
 
 		// 取得当前顺序号
-		String strCurrentSerial = "000000";
+		String strCurrentSerial = "0000";
 		if (incident != null) {
 			strCurrentSerial = incident.getIncidentCode().substring(
-					incident.getIncidentCode().length() - 6);
+					incident.getIncidentCode().length() - 4);
 		}
 		log.debug("strCurrentSerial is " + strCurrentSerial);
 		log.debug("VarTypeConvertUtils.string2Long(strCurrentSerial) is "
@@ -491,7 +492,7 @@ public class IncidentServiceImpl implements IncidentService {
 		String strNewSerial = VarTypeConvertUtils.long2String(lNewSerial);
 		log.debug("strNewSerial1 is " + strNewSerial);
 		int j = strNewSerial.length();
-		for (int i = 0; i < 6 - j; i++) {
+		for (int i = 0; i < 4 - j; i++) {
 			strNewSerial = "0" + strNewSerial;
 		}
 		log.debug("strNewSerial2 is " + strNewSerial);
