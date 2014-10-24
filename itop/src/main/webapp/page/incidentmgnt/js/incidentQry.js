@@ -12,14 +12,14 @@ qp.registerTimeBegin = null;
 qp.registerTimeEnd = null;
 //默认选中的数据行
 var selectedDataRow = null;
+//Grid对象
+var inciGrid = null;
 
 $(function(){
 	//判断是否可以显示新建按钮，如果是用户才显示，顾问不显示
 	if(opType=='USER'){
 		$("#addBtn").show();
 	}
-	//初始化分页条
-	initDataPager();
 	//初始化子页滑动
 	initSubPage();
 	//默认执行一次查询
@@ -251,21 +251,48 @@ function reRenderStatusNav(status){
 					}
 				}
 				bindStatusToggle();
-				//取得当前选中数据行的主键ID
-				var rows = $("#incidentDataTable").datagrid('getSelections');
-				if(rows&&rows.length!=0){
-					selectedDataRow = rows[0].icIncidentId;
+				if(inciGrid!=null){
+					//取得当前选中数据行的主键ID
+					var rows = $("#incidentDataTable").datagrid('getSelections');
+					if(rows&&rows.length!=0){
+						selectedDataRow = rows[0].icIncidentId;
+					}
 				}
 				qp.r = new Date();
 				//如果没设置状态，则说明是普通查询，需重新从第一页加载表格；如果设置了状态，说明只是刷新nav状态导航并刷新当前页
-				if(!status){
-					var pagger = $('#incidentDataTable').datagrid('getPager');
-					$(pagger).pagination('refresh',{
+				if(inciGrid==null){
+					inciGrid = $('#incidentDataTable').datagrid({
+						idField:'icIncidentId',
+					    url:rootPath+'/incident/list',
+					    queryParams:qp,
+					    method:'get',
+						loadMsg:'数据加载中，请稍后……',
+						singleSelect:true,
+						fitColumns:true,
+						remoteSort:true,
+						multiSort:true,
+						pagination:true,
 						pageNumber:1,
 						pageSize:10,
-						showPageList:false
+						showPageList:false,
+					    columns:[[
+					        {field:'icIncidentId',width:fixWidth(0.09),title:'',formatter:formatOperations,align:'center'},
+					        {field:'incidentCode',width:fixWidth(0.1),title:'事件序列号'},
+					        {field:'brief',width:fixWidth(0.11),title:'事件简述'},
+					        {field:'prodName',width:fixWidth(0.08),title:'产品线'},
+					        {field:'classValOp',width:fixWidth(0.05),title:'类别'},
+					        {field:'affectValOp',width:fixWidth(0.04),title:'影响度'},
+					        {field:'priorityVal',width:fixWidth(0.04),title:'优先级'},
+					        {field:'itStateVal',width:fixWidth(0.05),title:'状态'},
+					        {field:'plObjectName',width:fixWidth(0.09),title:'登记人'},
+					        {field:'registeTime',width:fixWidth(0.08),title:'登记时间',sortable:true,formatter:dateFormatter},
+					        {field:'scLoginName',width:fixWidth(0.09),title:'责任顾问'},
+					        {field:'modifyDate',width:fixWidth(0.08),title:'最近更新时间',sortable:true,formatter:dateFormatter},
+					        {field:'finishTime',width:fixWidth(0.06),title:'完成时间',formatter:dateFormatter},
+					        {field:'feedbackVal',width:fixWidth(0.05),title:'满意度',formatter:formatFeedback}
+					    ]]
 					});
-					$('#incidentDataTable').datagrid({url:rootPath+'/incident/list',queryParams:qp});
+					initDataPager();
 				}else{
 					$('#incidentDataTable').datagrid('load',qp);
 				}
@@ -273,6 +300,10 @@ function reRenderStatusNav(status){
 		},
 		error : function() {}
 	});
+}
+//调整表格列宽
+function fixWidth(percent){
+	return document.body.clientWidth * percent;
 }
 //绑定状态标签事件
 function bindStatusToggle(){

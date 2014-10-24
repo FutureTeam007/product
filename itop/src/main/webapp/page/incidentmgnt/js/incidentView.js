@@ -119,14 +119,12 @@ function renderOpBtns(){
 		$("#openConsultantSelBtn").hide();
 		$("#deliverCustCommitBtn").hide();
 		$("#blockCommitBtn").hide();
-		$("#finishCommitBtn").hide()();
+		$("#finishCommitBtn").hide();
 		if(parseInt(inciCurStateCode)==9){
 			$("#transCommitBtn").hide();
 		}
 	}
 }
-
-
 
 //查询事件信息
 function queryIncidentInfo(flag){

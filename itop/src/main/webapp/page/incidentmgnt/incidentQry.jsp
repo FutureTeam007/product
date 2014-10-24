@@ -78,34 +78,7 @@
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
 			</ul>
 		</div>
-		<table class="easyui-datagrid" style="width:99%;height:390px" id="incidentDataTable"
-			data-options="singleSelect:true,collapsible:false,
-				method:'get',
-				loadMsg:'数据加载中，请稍后……',
-				remoteSort:true,
-				multiSort:true,
-				pagination:true,
-				showPageList:false
-			">
-			<thead>
-				<tr>
-					<th data-options="field:'icIncidentId',formatter:formatOperations,align:'center'" width="9%"></th>
-					<th data-options="field:'incidentCode'" width="10%">事件序列号</th>
-					<th data-options="field:'brief'" width="11%">事件简述</th>
-					<th data-options="field:'prodName'" width="8%">产品线</th>
-					<th data-options="field:'classValOp'" width="5%">类别</th>
-					<th data-options="field:'affectValOp'" width="4%">影响度</th>
-					<th data-options="field:'priorityVal'" width="4%">优先级</th>
-					<th data-options="field:'itStateVal'" width="5%">当前状态</th>
-					<th data-options="field:'plObjectName'" width="9%">登记人</th>
-					<th data-options="field:'registeTime',sortable:true,formatter:dateFormatter" width="8%">提交时间</th>
-					<th data-options="field:'scLoginName'" width="9%">责任顾问</th>
-					<th data-options="field:'modifyDate',sortable:true,formatter:dateFormatter" width="8%">最近更新时间</th>
-					<th data-options="field:'finishTime',formatter:dateFormatter" width="6%">完成时间</th>
-					<th data-options="field:'feedbackVal',formatter:formatFeedback" width="5%">满意度</th>
-				</tr>
-			</thead>
-		</table>
+		<table  style="width:99%;height:390px" id="incidentDataTable"></table>
 	</div>
 </div>
 <div id="feedbackWin" title="评价事件" style="width:300px;height:120px;">
