@@ -23,7 +23,7 @@
 		<button type='button' class='btn btn-link top-close-link' onclick='parent.reloadData();parent.hideSubPage()'>&lt;&lt;关闭</button>
   </div>
   <div class="inci-dtl-title">
-		<h5 style="font-weight:bold">[<span id="incidentCode"></span>]&nbsp;提出时间：<span id="registTime"></span>，处理人：<span id="scLoginName"></span>，状态：<span id="itStateCode"></span></h5>
+		<h5 style="font-weight:bold">[<span id="incidentCode"></span>]&nbsp;提出时间：<span id="registTime"></span>，当前处理人：<span id="icObjectName"></span>，责任顾问：<span id="scLoginName"></span>，状态：<span id="itStateCode"></span></h5>
   </div>
   <div class="inci-trans-commit-form" style="width:99%">
 		<form class="form-horizonta inci-info-form" role="form">

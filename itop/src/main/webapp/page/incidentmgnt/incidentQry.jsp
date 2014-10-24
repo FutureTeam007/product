@@ -97,9 +97,9 @@
 					<th data-options="field:'affectValOp'" width="4%">影响度</th>
 					<th data-options="field:'priorityVal'" width="4%">优先级</th>
 					<th data-options="field:'itStateVal'" width="5%">当前状态</th>
-					<th data-options="field:'plObjectName'" width="9%">提交人</th>
+					<th data-options="field:'plObjectName'" width="9%">登记人</th>
 					<th data-options="field:'registeTime',sortable:true,formatter:dateFormatter" width="8%">提交时间</th>
-					<th data-options="field:'icObjectName'" width="9%">处理人</th>
+					<th data-options="field:'scLoginName'" width="9%">责任顾问</th>
 					<th data-options="field:'modifyDate',sortable:true,formatter:dateFormatter" width="8%">最近更新时间</th>
 					<th data-options="field:'finishTime',formatter:dateFormatter" width="6%">完成时间</th>
 					<th data-options="field:'feedbackVal',formatter:formatFeedback" width="5%">满意度</th>

@@ -1,9 +1,7 @@
 //事务提交封装参数的对象
 var r = null;
-//事件提出人类别,判断是否为顾问提交的问题
-var incidentPlObjectType = null;
-//事件处理人ID，判断是否为当前处理人，产生流程事务还是非流程事务
-var icObjectId = null;
+//事件当前处理顾问
+var scOpId = null;
 //顾问选择表格
 var consultantGrid = null;
 //CustId
@@ -52,7 +50,7 @@ function renderOpBtns(){
 	//如果当前用户是顾问
 	if(opType=="OP"){
 		//如果当前顾问不是干系顾问，则提交按钮变为搭把手
-		if(icObjectId!=opId){
+		if(scOpId!=opId){
 			$(".form-btns input:first").val("搭把手");
 		}
 		//依据事件状态，显示不同按钮
@@ -63,7 +61,7 @@ function renderOpBtns(){
 			//待响应,除完成按钮外，干系顾问全部按钮可见
 			case 2:
 				//干系顾问是当前顾问
-				if(icObjectId==opId){
+				if(scOpId==opId){
 					$("#openConsultantSelBtn").show();
 					$("#deliverCustCommitBtn").show();
 					$("#blockCommitBtn").show();
@@ -78,7 +76,7 @@ function renderOpBtns(){
 			//顾问处理中、挂起中，干系顾问全部按钮均可见
 			case 3:case 5:
 				//干系顾问是当前顾问
-				if(icObjectId==opId){
+				if(scOpId==opId){
 					$("#openConsultantSelBtn").show();
 					$("#deliverCustCommitBtn").show();
 					$("#blockCommitBtn").show();
@@ -141,7 +139,8 @@ function queryIncidentInfo(flag){
 		success : function(msg) {
 			//绑定标题数据
 			$("#incidentCode").html(msg.incidentCode);
-			$("#scLoginName").html(msg.icObjectName);
+			$("#scLoginName").html(msg.scLoginName);
+			$("#icObjectName").html(msg.icObjectName);
 			$("#registTime").html(dateFormatter(msg.registeTime));
 			$("#itStateCode").html(msg.itStateVal+"("+msg.itPhase+")");
 			//绑定事件详细信息数据
@@ -171,8 +170,7 @@ function queryIncidentInfo(flag){
 					$("#attachments").prepend(attachInfo);
 				}
 			}
-			incidentPlObjectId = msg.plObjectId;
-			icObjectId = msg.icObjectId;
+			scOpId = msg.scOpId;
 			gCustId = msg.ccCustId;
 			gProdId = msg.scProductId;
 			inciCurStateCode = msg.itStateCode;
@@ -264,7 +262,7 @@ function validateFormAndWrapVar(func){
 		return false;
 	}
 	//顾问如果没有填写复杂度字段说明没有审核更正过事件信息，弹出窗口，由顾问审核更新事件信息
-	if(opId==icObjectId&&!isCompleted){
+	if(opId==scOpId&&!isCompleted){
 		$('#completeWin').dialog('open');
 		callBackFunc = func;
 		return false;
@@ -665,6 +663,3 @@ function attachRemove(obj,id){
 		}
 	});
 }
-
-
-
