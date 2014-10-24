@@ -25,6 +25,7 @@ a:active {star:expression(this.onFocus=this.blur());}
 .undis{display:none}
 .attachList .fa-times{color:red;cursor:pointer;margin-left:5px;}
 .attachList div{margin-top:5px;margin-bottom:5px}
+.form-error-alert{color:red}
 /*login*/
 .login-header-fix{height:60px;padding-top:3px;}
 .login-header-fix .site-logo{margin-left:10px;margin-right:10px}
@@ -40,12 +41,14 @@ a:active {star:expression(this.onFocus=this.blur());}
 .register-form-btns .btn-warning{padding-left:40px;padding-right:40px}
 .register-wrapper .form-desc{font-size:12px;color:#999;}
 .register-nav{width:60%;margin:auto;height:40px;font-size:24px;color:#ccc;font-weight:bold;}
-.register-step{border-bottom:solid 3px #ccc;width:33%;float:left;display:inline}
+.register-step{border-bottom:solid 3px #ccc;width:48%;float:left;display:inline}
 .register-step-active{border-bottom:solid 3px #428bca;color:#428bca}
 .register-wrapper .success-title{font-size:18px;color:#ec971f}
 .register-wrapper .success-content{padding:20px;font-size:14px;border:solid 1px #faebcc;border-top:none;color:#666;}
 .register-wrapper .success-content a{color:#666;text-decoration: underline;}
 .register-wrapper .middle-content{text-align:center}
+.register-wrapper .small-control{float:left;display:inline;height:25px;font-size:12px;padding:1px;width:99%}
+.register-wrapper .control-label{height:25px;line-height:25px}
 /*incident-list*/
 .inci-search{margin:10px}
 .inci-search span label{width:80px;display:inline;float:left;line-height:22px;font-weight:bold;color:#555;}

@@ -25,6 +25,7 @@ function queryIncident(){
 	$.ajax({
 		type : 'get',
 		url : rootPath + "/incident/query",
+		cache: false,
 		data : {
 			incidentId :incidentId
 		},

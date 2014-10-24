@@ -215,6 +215,7 @@ function reRenderStatusNav(status){
 	$.ajax({
 		type : 'get',
 		url : rootPath + "/incident/statusCount",
+		cache: false,  
 		data : qp,
 		dataType : 'json',
 		success : function(msg) {

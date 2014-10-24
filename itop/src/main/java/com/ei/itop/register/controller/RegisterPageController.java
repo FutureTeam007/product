@@ -31,8 +31,11 @@ public class RegisterPageController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/register")
-	public String registerPage(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		return "/page/register/registerStep1";
+	public ModelAndView registerPage(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("accountMsg","请使用公司邮箱");
+		mav.setViewName("/page/register/registerStep1");
+		return mav;
 	}
 	
 	/**
@@ -42,51 +45,67 @@ public class RegisterPageController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/doRegister")
-	public String userRegister(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public ModelAndView userRegister(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		ModelAndView mav = new ModelAndView();
 		//取得注册参数
 		String acountNo = request.getParameter("acountNo");
 		String passwd = request.getParameter("passwd");
 		String companyId = request.getParameter("companyId");
 		String companyName = request.getParameter("companyName");
-		String orgId = request.getParameter("orgId");
-		String orgName = request.getParameter("orgName");
-		String deptId = request.getParameter("deptId");
+		//String deptId = request.getParameter("deptId");
 		String chineseName = request.getParameter("chineseName");
 		String givenName = request.getParameter("givenName");
 		String familyName = request.getParameter("familyName");
 		String gender = request.getParameter("gender");
 		String mobileNo = request.getParameter("mobileNo");
+		String areaCode = request.getParameter("areaCode");
 		String phoneNo = request.getParameter("phoneNo");
-		//封装注册实体
-		RegisterInfo ri = new RegisterInfo();
-		ri.setCcCustId(VarTypeConvertUtils.string2Long(companyId));
-		ri.setCustName(companyName);
-		ri.setFirstName(givenName);
-		ri.setLastName(familyName);
-		ri.setOpName(chineseName);
-		ri.setDefCcCustId(VarTypeConvertUtils.string2Long(deptId));
-		ri.setGender(VarTypeConvertUtils.string2Short(gender));
-		ri.setLoginCode(acountNo);
-		ri.setLoginPasswd(passwd);
-		ri.setMobileNo(mobileNo);
-		ri.setOfficeTel(phoneNo);
-		ri.setScOrgId(VarTypeConvertUtils.string2Long(orgId));
-		ri.setScOrgName(orgName);
-		ri.setState(-1L);//未激活
-		//注册
-		registerService.userRegister(ri);
-		//生成激活链接
-		String activeCode = Encrypt.encrypt(acountNo);
-		StringBuffer activeURL = new StringBuffer();
-		activeURL.append(request.getScheme()+"://");
-		activeURL.append(request.getServerName());
-		activeURL.append("80".equals(request.getServerPort())?"/":(":"+request.getServerPort()+"/"));
-		activeURL.append(request.getContextPath());
-		activeURL.append("/doActive?key="+activeCode);
-		//发送邮件
+		//检查是否已存在该账号
+		boolean exist = registerService.checkLoginCodeIsExist(acountNo);
+		if(!exist){
+			//封装注册实体
+			RegisterInfo ri = new RegisterInfo();
+			ri.setOpCode(acountNo);
+			ri.setCcCustId(VarTypeConvertUtils.string2Long(companyId));
+			ri.setCustName(companyName);
+			ri.setFirstName(givenName);
+			ri.setLastName(familyName);
+			ri.setOpName(chineseName);
+			ri.setDefCcCustId(VarTypeConvertUtils.string2Long(companyId));
+			ri.setGender(VarTypeConvertUtils.string2Short(gender));
+			ri.setLoginCode(acountNo);
+			ri.setLoginPasswd(passwd);
+			ri.setMobileNo(mobileNo);
+			ri.setOfficeTel(areaCode+"-"+phoneNo);
+			ri.setState(-1L);//未激活
+			//注册
+			registerService.userRegister(ri);
+//			//生成激活链接
+//			String activeCode = Encrypt.encrypt(acountNo);
+//			StringBuffer activeURL = new StringBuffer();
+//			activeURL.append(request.getScheme()+"://");
+//			activeURL.append(request.getServerName());
+//			activeURL.append("80".equals(request.getServerPort())?"/":(":"+request.getServerPort()+"/"));
+//			activeURL.append(request.getContextPath());
+//			activeURL.append("/doActive?key="+activeCode);
+//			//发送邮件
+			//TODO
+			mav.setViewName("/page/register/registerStep2");
+			return mav;
+		}else{
+			mav.addObject("acountNo",acountNo);
+			mav.addObject("chineseName",chineseName);
+			mav.addObject("givenName",givenName);
+			mav.addObject("familyName",familyName);
+			mav.addObject("mobileNo",mobileNo);
+			mav.addObject("areaCode",areaCode);
+			mav.addObject("phoneNo",phoneNo);
+			mav.addObject("accountMsg","<span class='form-error-alert'>邮箱被注册，请选用其他邮箱</span>");
+			mav.setViewName("/page/register/registerStep1");
+			return mav;
+		}
 		
 		
-		return "/page/register/registerStep2";
 	}
 	
 	/**

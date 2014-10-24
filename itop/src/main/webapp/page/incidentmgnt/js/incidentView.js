@@ -135,6 +135,7 @@ function queryIncidentInfo(flag){
 	$.ajax({
 		type : 'get',
 		url : rootPath + "/incident/query",
+		cache: false,
 		data : {incidentId:incidentId},
 		dataType : 'json',
 		success : function(msg) {
@@ -215,6 +216,7 @@ function queryTransList(){
 	$.ajax({
 		type : 'get',
 		url : rootPath + "/trans/list",
+		cache: false,
 		data : {incidentId:incidentId},
 		dataType : 'json',
 		success : function(msg) {
@@ -239,6 +241,7 @@ function queryContactorInfo(id){
 		$.ajax({
 			type : 'get',
 			url : rootPath + "/custmgnt/user/get",
+			cache: false,
 			data : {userId:id},
 			dataType : 'json',
 			success : function(msg) {

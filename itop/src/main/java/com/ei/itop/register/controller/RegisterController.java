@@ -22,8 +22,6 @@ import com.ei.itop.register.service.RegisterService;
 public class RegisterController {
 	
 	@Autowired
-	private RegisterService registerService;
-	@Autowired
 	private CustMgntService custMgntService;
 	
 	/**

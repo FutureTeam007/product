@@ -21,12 +21,22 @@ public class LoginFilter implements Filter{
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest hrs = (HttpServletRequest)request;
 		HttpServletResponse hrq = (HttpServletResponse)response;
-		if(hrs.getSession().getAttribute(SysConstants.SessionAttribute.OP_SESSION)==null){
+		if(hrs.getSession().getAttribute(SysConstants.SessionAttribute.OP_SESSION)==null&&!isStaticResource(hrs.getRequestURL().toString())){
 			hrq.sendRedirect(hrs.getContextPath()+"/sys/sessionTimeout.jsp");
 		}else{
 			chain.doFilter(request, response);
 		}
 	}
+	
+	
+	public boolean isStaticResource(String url){
+		String suffix = url.substring(url.lastIndexOf(".")+1,url.length());
+		if("js".equals(suffix)){
+			return true;
+		}
+		return false;
+	}
+	
 
 	public void destroy() {
 		

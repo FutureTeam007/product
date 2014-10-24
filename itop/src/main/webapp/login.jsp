@@ -138,8 +138,8 @@
 		                                <input type="submit" class="btn btn-primary btn-lg pull-right" value="登录"/>
                                     </div>
                                     <div class="col-sm-6">
-                                    	<a href="${pageContext.request.contextPath}/page/register/registerStep1.jsp" class="btn btn-warning btn-lg pull-left list-inline">注册</a>
-                                    	<a href="${pageContext.request.contextPath}/page/login/findPwdStep1.jsp" class="btn btn-link login-findpwd-link pull-left list-inline" >忘记密码</a>
+                                    	<a href="${pageContext.request.contextPath}/register" class="btn btn-warning btn-lg pull-left list-inline">注册</a>
+                                    	<!-- <a href="${pageContext.request.contextPath}/page/login/findPwdStep1.jsp" class="btn btn-link login-findpwd-link pull-left list-inline" >忘记密码</a> -->
                                     </div>
                                 </div>
                         </form>

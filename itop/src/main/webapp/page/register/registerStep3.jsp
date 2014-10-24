@@ -13,7 +13,7 @@
 <div class="register-nav">
 	<div class="register-step">1.填写基本信息</div>
 	<div class="register-step">2.注册完成</div>
-	<div class="register-step register-step-active">3.账号激活</div>
+	<!-- <div class="register-step">3.账号激活</div>  -->
 </div>
 <div class="register-wrapper">
 	<div class="panel panel-warning">

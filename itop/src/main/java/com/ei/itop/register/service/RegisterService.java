@@ -3,9 +3,6 @@
  */
 package com.ei.itop.register.service;
 
-import java.util.List;
-
-import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.register.bean.RegisterInfo;
 

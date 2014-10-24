@@ -1,7 +1,9 @@
+
 //邮箱检查正则表达式
 var regExp = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 //查询公司列表，绑定下拉框
 function queryCompanyList(){
+	$("#companySel").combotree('setValue','');
 	var acountNo = $.trim($("#acountNo").val());
 	//如果满足邮箱格式,开始加载列表
 	if(regExp.test(acountNo)){
@@ -10,14 +12,16 @@ function queryCompanyList(){
 	}
 }
 
-//获取Form表单项各值
-function getRegisterFormVars(){
+//检查Form表单项各值
+function validateRegisterFormVars(){
 	//取得form表单项
 	var account = $.trim($("#acountNo").val());
 	var passwd = $.trim($("#passwd").val());
 	var passwdConfirm = $.trim($("#passwdConfirm").val());
 	var companyId = $("#companySel").combotree('getValue');
+	$("#companyId").val(companyId);
 	var companyName = $("#companySel").combotree('getText');
+	$("#companyName").val(companyName);
 	var chineseName = $.trim($("#chineseName").val());
 	var givenName = $.trim($("#givenName").val());
 	var familyName = $.trim($("#familyName").val());
@@ -54,44 +58,17 @@ function getRegisterFormVars(){
 		$.messager.alert('提示','请选择性别');
 		return false;
 	}
-	if(!mobileNo||mobileNo.length<11){
+	if(!mobileNo||!/^[0-9]{11}$/.test(mobileNo)){
 		$.messager.alert('提示','请输入11位的手机号码');
 		return false;
 	}
-	if(!areaCode||areaCode.length<2){
+	if(!areaCode||!/^[0-9]{3,4}$/.test(areaCode)){
 		$.messager.alert('提示','请输入正确的区号');
 		return false;
 	}
-	if(!phoneNo||phoneNo.length<7){
+	if(!phoneNo||!/^[0-9]{7,8}$/.test(phoneNo)){
 		$.messager.alert('提示','请输入正确的办公电话');
 		return false;
 	}
-	var fv = {};
-	//取得form表单项
-	fv.account = account;
-	fv.passwd = passwd;
-	fv.passwdConfirm = passwdConfirm;
-	fv.companyId = companyId;
-	fv.companyName = companyName;
-	fv.chineseName = chineseName;
-	fv.givenName = givenName;
-	fv.familyName = familyName;
-	fv.gender = gender;
-	fv.mobileNo = mobileNo;
-	fv.areaCode = areaCode;
-	fv.phoneNo = phoneNo;
-	return fv;
-}
-
-//注册提交
-function registerCommit(){
-	var fv = getRegisterFormVars();
-	if(!fv){
-		return;
-	}
-	//注册提交
-	
-	
-	
-	
+	return true;
 }
