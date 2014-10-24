@@ -867,6 +867,10 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentInfo.setIcObjectId(inChargeAdviser.getScOpId());
 		incidentInfo.setIcLoginCode(inChargeAdviser.getLoginCode());
 		incidentInfo.setIcObjectName(inChargeAdviser.getOpName());
+		// 设置干系人为当前处理顾问
+		incidentInfo.setScOpId(incidentInfo.getIcObjectId());
+		incidentInfo.setScLoginCode(incidentInfo.getIcLoginCode());
+		incidentInfo.setScLoginName(incidentInfo.getIcObjectName());
 
 		// 填入事件所处阶段
 		incidentInfo.setItPhase(getItPhase(user.getScOrgId(),
