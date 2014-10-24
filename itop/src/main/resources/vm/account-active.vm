@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<link href="${website}/res/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="${website}/theme/default/default.css" rel="stylesheet">
+		<script src="${website}/res/bootstrap/js/jquery-1.11.0.js"></script>
+		<script src="${website}/res/bootstrap/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="panel panel-default">
+		  <div class="panel-body">
+		    <p>${userName}，您好！</p>
+		    <p>欢迎您使用ITOP，请点击下面的链接激活您的帐户：</p>
+		    <p><a href="${activeURL}" target="_blank">${activeURL}</a></p>
+		    <p>如果无法打开链接，请复制上面的链接粘贴到浏览器的地址栏</p>
+		  </div>
+		  <div class="panel-footer"><span class="pull-left">ITOP让工作变得更简单！</span><span class="pull-right">来自：eiconsulting.cn</span></div>
+		</div>
+	</body>
+</html>

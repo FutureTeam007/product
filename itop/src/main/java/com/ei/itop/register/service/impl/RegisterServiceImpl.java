@@ -58,9 +58,7 @@ public class RegisterServiceImpl implements RegisterService {
 		registerInfo.setOpKind(new Long(2));
 
 		// 设置账户状态，2-锁定
-		//registerInfo.setState(new Long(2));
-		//临时调整为1-正常状态，待加入激活功能后再恢复
-		registerInfo.setState(new Long(1));
+		registerInfo.setState(new Long(2));
 
 		long userId = userDAO.save("CC_USER.insert", registerInfo);
 
@@ -162,7 +160,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 		// 已存在
 		if (userList != null && userList.size() > 0) {
-			userList.get(0);
+			return userList.get(0);
 		}
 
 		return null;

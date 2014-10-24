@@ -16,6 +16,10 @@ public class SessionUtil implements ServletRequestListener{
 		return value.get().getSession();
 	}
 	
+	public static HttpServletRequest getRequest(){
+		return value.get();
+	}
+	
 	public static OpInfo getOpInfo(){
 		return (OpInfo)value.get().getSession().getAttribute(SysConstants.SessionAttribute.OP_SESSION);
 	}

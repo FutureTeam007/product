@@ -23,8 +23,6 @@
 		default-autowire="byName">
 	
 	<context:property-placeholder location="classpath:database.properties" ignore-resource-not-found="false" />
-	<context:property-placeholder location="classpath:email.properties" ignore-resource-not-found="false"/>
-	<context:annotation-config/>	
 	
 	<!-- 对包中的所有controller类进行扫描，以完成Bean创建和自动依赖注入的功能 -->  
 	<context:component-scan base-package="com.ei.itop.**" />
@@ -116,5 +114,15 @@
 	<!-- CommonDAO注册  -->
 	<bean id="app.siCommonDAO" class="com.ailk.dazzle.util.ibatis.GenericDAOImpl4Spring">
 	</bean>
+	
+	<!-- 邮件发送配置 -->
+	<util:map id="mailSendConfig" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="mail.host" value="smtp.exmail.qq.com"/>
+		<entry key="mail.port" value="25"/>
+		<entry key="mail.username" value="vintin.liu@eiconsulting.cn"/>
+		<entry key="mail.password" value="4764656C3A393C3C3A"/>
+		<entry key="mail.smtp.auth" value="true"/>
+		<entry key="mail.from" value="vintin.liu@eiconsulting.cn"/>
+	</util:map>	
 	
 </beans>

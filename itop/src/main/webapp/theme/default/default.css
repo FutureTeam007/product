@@ -41,7 +41,7 @@ a:active {star:expression(this.onFocus=this.blur());}
 .register-form-btns .btn-warning{padding-left:40px;padding-right:40px}
 .register-wrapper .form-desc{font-size:12px;color:#999;}
 .register-nav{width:60%;margin:auto;height:40px;font-size:24px;color:#ccc;font-weight:bold;}
-.register-step{border-bottom:solid 3px #ccc;width:48%;float:left;display:inline}
+.register-step{border-bottom:solid 3px #ccc;width:33%;float:left;display:inline}
 .register-step-active{border-bottom:solid 3px #428bca;color:#428bca}
 .register-wrapper .success-title{font-size:18px;color:#ec971f}
 .register-wrapper .success-content{padding:20px;font-size:14px;border:solid 1px #faebcc;border-top:none;color:#666;}

@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<link href="${website}/res/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="${website}/theme/default/default.css" rel="stylesheet">
+		<script src="${website}/res/bootstrap/js/jquery-1.11.0.js"></script>
+		<script src="${website}/res/bootstrap/js/bootstrap.min.js"></script>
+	</head>
+<body>
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <p>${opName}，您好！</p>
+	    <p>{userName}于{date}提交了一个请求事件，内容如下：</p>
+	    <p>${content}</p>
+	    <p>请您尽快<a href="${website}" target="_blank">登录ITOP系统</a>进行事件处理</p>
+	  </div>
+	  <div class="panel-footer"><span class="pull-left">ITOP让工作变得更简单！</span><span class="pull-right">来自：eiconsulting.cn</span></div>
+	</div>
+</body>
+</html>

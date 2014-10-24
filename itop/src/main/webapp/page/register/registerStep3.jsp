@@ -13,15 +13,19 @@
 <div class="register-nav">
 	<div class="register-step">1.填写基本信息</div>
 	<div class="register-step">2.注册完成</div>
-	<!-- <div class="register-step">3.账号激活</div>  -->
+	<div class="register-step">3.账号激活</div>
 </div>
 <div class="register-wrapper">
 	<div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title success-title">账号已成功激活！</h3>
+        <h3 class="panel-title success-title">${msg}</h3>
       </div>
       <div class="panel-body success-content middle-content" >
-         	<a href="<%=rootPath%>/page/incidentmgnt/main" class="btn btn-link" >点击此处进入系统或等待3秒……</a>
+      		<% if("0".equals(request.getAttribute("success"))){%>
+         		<a href="<%=rootPath%>/register" class="btn btn-link" >点击进入注册页面</a>
+         	<% }else{%>
+         		<a href="<%=rootPath%>" class="btn btn-link" >点击进入登录页面</a>
+         	<% }%>
       </div>
     </div>
 </div>

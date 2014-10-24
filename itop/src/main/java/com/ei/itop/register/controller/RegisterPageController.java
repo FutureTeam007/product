@@ -1,7 +1,5 @@
 package com.ei.itop.register.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ailk.dazzle.util.sec.Encrypt;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
-import com.ei.itop.common.dbentity.CcCust;
+import com.ei.itop.common.Service.MailSendService;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.register.bean.RegisterInfo;
 import com.ei.itop.register.service.RegisterService;
@@ -22,7 +20,9 @@ import com.ei.itop.register.service.RegisterService;
 public class RegisterPageController {
 	
 	@Autowired
-	private RegisterService registerService;
+	RegisterService registerService;
+	@Autowired
+	MailSendService mailSendService;
 	
 	/**
 	 * 进入管理页面
@@ -80,16 +80,16 @@ public class RegisterPageController {
 			ri.setState(-1L);//未激活
 			//注册
 			registerService.userRegister(ri);
-//			//生成激活链接
-//			String activeCode = Encrypt.encrypt(acountNo);
-//			StringBuffer activeURL = new StringBuffer();
-//			activeURL.append(request.getScheme()+"://");
-//			activeURL.append(request.getServerName());
-//			activeURL.append("80".equals(request.getServerPort())?"/":(":"+request.getServerPort()+"/"));
-//			activeURL.append(request.getContextPath());
-//			activeURL.append("/doActive?key="+activeCode);
-//			//发送邮件
-			//TODO
+			//生成激活链接并发送邮件
+			String activeCode = Encrypt.encrypt(acountNo);
+			StringBuffer activeURL = new StringBuffer();
+			activeURL.append(request.getScheme()+"://");
+			activeURL.append(request.getServerName());
+			activeURL.append("80".equals(request.getServerPort())?"/":(":"+request.getServerPort()+"/"));
+			activeURL.append(request.getContextPath());
+			activeURL.append("/doActive?key="+activeCode);
+			mailSendService.sendUserActiveMail(givenName+"."+familyName+"/"+chineseName, activeURL.toString(), acountNo);
+			//设置返回第二步
 			mav.setViewName("/page/register/registerStep2");
 			return mav;
 		}else{
@@ -124,10 +124,12 @@ public class RegisterPageController {
 		//用户不存在
 		if(user==null){
 			mav.addObject("msg", "账号不存在，请您先注册");
+			mav.addObject("success", "0");
 		}
 		//用户存在
 		else{
 			registerService.activeAccount(user.getCcUserId());
+			mav.addObject("success", "1");
 			mav.addObject("msg", "账号已成功激活！");
 		}
 		mav.setViewName("/page/register/registerStep3");
