@@ -226,8 +226,10 @@ public class IncidentServiceImpl implements IncidentService {
 		for (int i = 0; paramList != null && i < paramList.size(); i++) {
 			ScParam param = paramList.get(i);
 			IncidentCountInfoByState result = new IncidentCountInfoByState();
-			//如果是顾问，待提交状态不应该有数据
-			if("1".equals(param.getParamCode())&&SysConstants.OpAttribute.OP_ROLE_OP.equals(opInfo.getOpType())){
+			// 如果是顾问，待提交状态不应该有数据
+			if ("1".equals(param.getParamCode())
+					&& SysConstants.OpAttribute.OP_ROLE_OP.equals(opInfo
+							.getOpType())) {
 				continue;
 			}
 			result.setStateCode(param.getParamCode());
@@ -557,11 +559,12 @@ public class IncidentServiceImpl implements IncidentService {
 	 * @throws Exception
 	 */
 	protected List<AdviserTaskQuantity> queryAdviserTaskQuantity(long orgId,
-			long custId) throws Exception {
+			long custId, long productId) throws Exception {
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("orgId", orgId);
 		hm.put("custId", custId);
+		hm.put("productId", productId);
 
 		List<AdviserTaskQuantity> list = queryAdviserTaskQuantityDAO
 				.findByParams("IC_INCIDENT.queryAdviserTaskQuantity", hm);
@@ -594,7 +597,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 查询商户、客户下当前负责顾问的工作量
 		List<AdviserTaskQuantity> adviserTaskQuantityList = queryAdviserTaskQuantity(
-				orgId, custId);
+				orgId, custId, productId);
 		if (adviserTaskQuantityList == null) {
 			log.debug("adviserTaskQuantityList is null");
 
@@ -651,9 +654,17 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			for (int i = 0; i < custProdOpList.size(); i++) {
 				CcCustProdOp cpo = custProdOpList.get(i);
-				if (cpo.getScOpId() == adviserTaskQuantityList.get(minIndex)
-						.getAdviserId()) {
+				log.debug("cpo.getScOpId().longValue() is "
+						+ cpo.getScOpId().longValue()
+						+ ", adviserTaskQuantityList.get(minIndex).getAdviserId().longValue() is "
+						+ adviserTaskQuantityList.get(minIndex).getAdviserId()
+								.longValue());
+				if (cpo.getScOpId().longValue() == adviserTaskQuantityList
+						.get(minIndex).getAdviserId().longValue()) {
+					log.debug("找到工作量最小的顾问" + cpo.getScOrgId() + ""
+							+ cpo.getLoginCode());
 					result = cpo;
+					break;
 				}
 			}
 		}

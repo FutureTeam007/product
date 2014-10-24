@@ -107,7 +107,8 @@
       PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
       JOB_LEVEL
     from CC_CUST_PROD_OP
-    where SC_ORG_ID = #orgId:DECIMAL#
+    where JOB_LEVEL = 1 and JOB_CLASS = 1
+    and SC_ORG_ID = #orgId:DECIMAL#
     and CC_CUST_ID = #custId:DECIMAL#
     and SC_PRODUCT_ID = #productId:DECIMAL#
   </select>

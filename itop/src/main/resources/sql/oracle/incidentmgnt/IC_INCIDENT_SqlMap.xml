@@ -147,6 +147,7 @@
 	where sc_op_id is not null and data_state = 1 and it_state_code not in (8,9)
 	and sc_org_id = #orgId:DECIMAL#
 	and cc_cust_id = #custId:DECIMAL#
+	and SC_PRODUCT_ID = #productId:DECIMAL#
 	group by sc_op_id
   </select>
   <select id="queryIncident" resultMap="icIncidentResult" parameterClass="java.util.Map" >
