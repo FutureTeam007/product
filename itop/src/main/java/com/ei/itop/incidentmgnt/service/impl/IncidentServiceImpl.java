@@ -18,6 +18,7 @@ import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ailk.dazzle.util.type.DateUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
+import com.ei.itop.common.Service.MailSendService;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.constants.SysConstants;
 import com.ei.itop.common.dao.CommonDAO;
@@ -86,6 +87,11 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "opService")
 	private OpService opService;
+
+	@Resource(name = "mailSendService")
+	private MailSendService mailSendService;
+
+	private boolean allowSendMail = false;
 
 	/*
 	 * (non-Javadoc)
@@ -762,6 +768,22 @@ public class IncidentServiceImpl implements IncidentService {
 		// 即将附件表的事务ID由null改为第一条事务的ID
 		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
 
+		// 发送邮件
+		if (allowSendMail) {
+			log.debug("传入参数：" + incidentInfo.getIcOwnerName() + ","
+					+ incidentInfo.getScLoginName() + ","
+					+ incidentInfo.getIcOwnerCode() + ","
+					+ incidentInfo.getScLoginCode() + ","
+					+ incidentInfo.getCcList() + ","
+					+ incidentInfo.getIncidentCode() + ","
+					+ incidentInfo.getDetail());
+			mailSendService.sendIncidentMail(incidentInfo.getIcOwnerName(),
+					incidentInfo.getScLoginName(), incidentInfo
+							.getIcOwnerCode(), incidentInfo.getScLoginCode(),
+					incidentInfo.getCcList() == null ? null : incidentInfo
+							.getCcList().split(","), incidentInfo);
+		}
+
 		// 记录系统操作日志
 
 		return incidentId;
@@ -826,6 +848,22 @@ public class IncidentServiceImpl implements IncidentService {
 		// 将事件的附件转为第一条事务的附件
 		// 即将附件表的事务ID由null改为第一条事务的ID
 		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
+
+		// 发送邮件
+		if (allowSendMail) {
+			IcIncident incident = queryIncident(incidentId);
+			log.debug("传入参数：" + incident.getIcOwnerName() + ","
+					+ incident.getScLoginName() + ","
+					+ incident.getIcOwnerCode() + ","
+					+ incident.getScLoginCode() + "," + incident.getCcList()
+					+ "," + incident.getIncidentCode() + ","
+					+ incident.getDetail());
+			mailSendService.sendIncidentMail(incident.getIcOwnerName(),
+					incident.getScLoginName(), incident.getIcOwnerCode(),
+					incident.getScLoginCode(),
+					incident.getCcList() == null ? null : incident.getCcList()
+							.split(","), incident);
+		}
 
 		// 记录系统操作日志
 
@@ -895,6 +933,21 @@ public class IncidentServiceImpl implements IncidentService {
 		// 将事件的附件转为第一条事务的附件
 		// 即将附件表的事务ID由null改为第一条事务的ID
 		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
+
+		// 发送邮件
+		if (allowSendMail) {
+			log.debug("传入参数：" + incident.getIcOwnerName() + ","
+					+ incidentInfo.getScLoginName() + ","
+					+ incident.getIcOwnerCode() + ","
+					+ incidentInfo.getScLoginCode() + ","
+					+ incident.getCcList() + "," + incident.getIncidentCode()
+					+ "," + incident.getDetail());
+			mailSendService.sendIncidentMail(incident.getIcOwnerName(),
+					incidentInfo.getScLoginName(), incident.getIcOwnerCode(),
+					incidentInfo.getScLoginCode(),
+					incident.getCcList() == null ? null : incident.getCcList()
+							.split(","), incident);
+		}
 
 		// 记录系统操作日志
 
@@ -1055,6 +1108,18 @@ public class IncidentServiceImpl implements IncidentService {
 		transactionInfo.setTransType("流程事务-关闭");
 		transactionInfo.setContents("顾问关闭事务");
 		transactionService.addTransaction(incidentId, transactionInfo, opInfo);
+
+		// 发送邮件
+		if (allowSendMail) {
+			log.debug("传入参数：" + opInfo.getOpFullName() + ","
+					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
+					+ incident.getIncidentCode() + ","
+					+ transactionInfo.getContents());
+			mailSendService.sendTransactionFinishMail(opInfo.getOpFullName(),
+					opInfo.getOpCode(), incident.getCcList() == null ? null
+							: incident.getCcList().split(","), incident,
+					transactionInfo);
+		}
 
 		// 记录系统操作日志
 	}

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ei.itop.common.Service.MailSendService;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.IcAttach;
@@ -50,6 +51,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Resource(name = "attachService")
 	private AttachService attachService;
+
+	@Resource(name = "mailSendService")
+	private MailSendService mailSendService;
+
+	private boolean allowSendMail = false;
 
 	/*
 	 * (non-Javadoc)
@@ -192,6 +198,22 @@ public class TransactionServiceImpl implements TransactionService {
 		// 新增事务信息
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
+		// 发送邮件
+		if (allowSendMail) {
+			// 流程事务才发送邮件
+			if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
+				log.debug("传入参数：" + opInfo.getOpFullName() + ","
+						+ incident.getScLoginCode() + ","
+						+ incident.getCcList() + ","
+						+ incident.getIncidentCode() + ","
+						+ transactionInfo.getContents());
+				mailSendService.sendTransactionCommitMail(opInfo
+						.getOpFullName(), incident.getScLoginCode(), incident
+						.getCcList() == null ? null : incident.getCcList()
+						.split(","), incident, transactionInfo);
+			}
+		}
+
 		// 记录操作日志
 
 		return transactionId;
@@ -247,6 +269,22 @@ public class TransactionServiceImpl implements TransactionService {
 		// 新增事务信息
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
+		// 发送邮件
+		if (allowSendMail) {
+			// 流程事务才发送邮件
+			if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
+				log.debug("传入参数：" + opInfo.getOpFullName() + ","
+						+ incident.getIcLoginCode() + ","
+						+ incident.getCcList() + ","
+						+ incident.getIncidentCode() + ","
+						+ transactionInfo.getContents());
+				mailSendService.sendTransactionCommitMail(opInfo
+						.getOpFullName(), incident.getIcLoginCode(), incident
+						.getCcList() == null ? null : incident.getCcList()
+						.split(","), incident, transactionInfo);
+			}
+		}
+
 		// 记录操作日志
 
 		return transactionId;
@@ -299,6 +337,20 @@ public class TransactionServiceImpl implements TransactionService {
 
 		// 新增事务信息
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
+
+		// 发送邮件
+		if (allowSendMail) {
+			log.debug("传入参数：" + incident.getIcOwnerName() + ","
+					+ opInfo.getOpFullName() + "," + opInfo.getOpCode() + ","
+					+ incident.getIcOwnerCode() + "," + incident.getCcList()
+					+ "," + incident.getIncidentCode() + ","
+					+ transactionInfo.getContents());
+			mailSendService.sendTransactionNeedMoreInfoMail(incident
+					.getIcOwnerName(), opInfo.getOpFullName(), opInfo
+					.getOpCode(), incident.getIcOwnerCode(),
+					incident.getCcList() == null ? null : incident.getCcList()
+							.split(","), incident, transactionInfo);
+		}
 
 		// 记录操作日志
 
@@ -362,6 +414,20 @@ public class TransactionServiceImpl implements TransactionService {
 		// 新增事务信息
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
+		// 发送邮件
+		if (allowSendMail) {
+			log.debug("传入参数：" + nextOpInfo.getOpName() + ","
+					+ opInfo.getOpFullName() + "," + opInfo.getOpCode() + ","
+					+ nextOpInfo.getOpCode() + "," + incident.getCcList() + ","
+					+ incident.getIncidentCode() + ","
+					+ transactionInfo.getContents());
+			mailSendService.sendTransactionTransferMail(nextOpInfo.getOpName(),
+					opInfo.getOpFullName(), opInfo.getOpCode(), nextOpInfo
+							.getOpCode(), incident.getCcList() == null ? null
+							: incident.getCcList().split(","), incident,
+					transactionInfo);
+		}
+
 		// 记录操作日志
 
 		return transactionId;
@@ -418,6 +484,18 @@ public class TransactionServiceImpl implements TransactionService {
 
 		// 新增事务信息
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
+
+		// 发送邮件
+		if (allowSendMail) {
+			log.debug("传入参数：" + opInfo.getOpFullName() + ","
+					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
+					+ incident.getIncidentCode() + ","
+					+ transactionInfo.getContents());
+			mailSendService.sendTransactionBlockMail(opInfo.getOpFullName(),
+					opInfo.getOpCode(), incident.getCcList() == null ? null
+							: incident.getCcList().split(","), incident,
+					transactionInfo);
+		}
 
 		// 记录操作日志
 
@@ -494,6 +572,18 @@ public class TransactionServiceImpl implements TransactionService {
 
 		// 新增事务信息
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
+
+		// 发送邮件
+		if (allowSendMail) {
+			log.debug("传入参数：" + opInfo.getOpFullName() + ","
+					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
+					+ incident.getIncidentCode() + ","
+					+ transactionInfo.getContents());
+			mailSendService.sendTransactionFinishMail(opInfo.getOpFullName(),
+					opInfo.getOpCode(), incident.getCcList() == null ? null
+							: incident.getCcList().split(","), incident,
+					transactionInfo);
+		}
 
 		// 记录操作日志
 
