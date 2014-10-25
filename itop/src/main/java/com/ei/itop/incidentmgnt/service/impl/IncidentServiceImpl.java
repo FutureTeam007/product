@@ -924,7 +924,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
-		transactionInfo.setItPhase(incident.getItPhase());
+		transactionInfo.setItPhase(incidentInfo.getItPhase());
 		transactionInfo.setTransType("流程事务-待响应");
 		transactionInfo.setContents(incident.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
