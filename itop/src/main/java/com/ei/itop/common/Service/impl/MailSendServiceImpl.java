@@ -1,5 +1,6 @@
 package com.ei.itop.common.Service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.ailk.dazzle.exception.BizException;
-import com.ailk.dazzle.util.sec.Encrypt;
+import com.ailk.dazzle.util.type.DateUtils;
 import com.ei.itop.common.Service.MailSendService;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.IcTransaction;
@@ -51,8 +52,9 @@ public class MailSendServiceImpl implements MailSendService {
 				params.put("website", getWebsite());
 				params.put("userName", userName);
 				params.put("activeURL", activeURL);
-				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/account-active.vm", "UTF-8", params);
+				String text = VelocityEngineUtils
+						.mergeTemplateIntoString(velocityEngine,
+								"vm/account-active.vm", "UTF-8", params);
 				message.setText(text, true);
 			}
 		};
@@ -75,14 +77,18 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setSubject("[ITOP]成功提交事件通知，事件编号["
 						+ incident.getIncidentCode() + "]");// 设置邮件主题
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-				message.setCc(ccAddr);
+				if(ccAddr!=null){
+					message.setCc(ccAddr);
+				}
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
 				params.put("userName", userName);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("opName", opName);
 				params.put("content", incident.getDetail());
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/incident-commit-user.vm", "UTF-8", params);
+						velocityEngine, "vm/incident-commit-user.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -105,10 +111,12 @@ public class MailSendServiceImpl implements MailSendService {
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
 				params.put("userName", userName);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("opName", opName);
 				params.put("content", incident.getDetail());
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/incident-commit-op.vm", "UTF-8", params);
+						velocityEngine, "vm/incident-commit-op.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -121,7 +129,7 @@ public class MailSendServiceImpl implements MailSendService {
 
 	}
 
-	public void sendTransactionCommitMail(final String name,
+	public void sendTransactionCommitMail(final String opName,
 			final String receiveAddr, final String[] ccAddr,
 			final IcIncident incident, final IcTransaction transaction)
 			throws Exception {
@@ -133,14 +141,18 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 						+ incident.getIncidentCode() + "]");// 设置邮件主题
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-				message.setCc(ccAddr);
+				if(ccAddr!=null){
+					message.setCc(ccAddr);
+				}
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", name);
+				params.put("opName", opName);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("content", transaction.getContents());
 				params.put("op", "普通提交");
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-commit.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-commit.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -165,14 +177,18 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 						+ incident.getIncidentCode() + "]");// 设置邮件主题
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-				message.setCc(ccAddr);
+				if(ccAddr!=null){
+					message.setCc(ccAddr);
+				}
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", fromName);
+				params.put("opName", fromName);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("content", transaction.getContents());
 				params.put("op", "事务转派");
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-commit.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-commit.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -193,10 +209,13 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", toName);
+				params.put("toName", toName);
+				params.put("fromName", fromName);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("content", transaction.getContents());
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-transfer.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-transfer.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -222,14 +241,18 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 						+ incident.getIncidentCode() + "]");// 设置邮件主题
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-				message.setCc(ccAddr);
+				if(ccAddr!=null){
+					message.setCc(ccAddr);
+				}
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", fromName);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				params.put("opName", fromName);
 				params.put("content", transaction.getContents());
 				params.put("op", "需客户补充资料");
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-commit.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-commit.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -250,10 +273,13 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", toName);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				params.put("toName", toName);
+				params.put("fromName", fromName);
 				params.put("content", transaction.getContents());
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-needmoreinfo.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-needmoreinfo.vm",
+						"UTF-8", params);
 				message.setText(text, true);
 			}
 		};
@@ -277,14 +303,18 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 						+ incident.getIncidentCode() + "]");// 设置邮件主题
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-				message.setCc(ccAddr);
+				if(ccAddr!=null){
+					message.setCc(ccAddr);
+				}
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", name);
+				params.put("opName", name);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("content", transaction.getContents());
 				params.put("op", "挂起");
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-commit.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-commit.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -308,14 +338,18 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 						+ incident.getIncidentCode() + "]");// 设置邮件主题
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-				message.setCc(ccAddr);
+				if(ccAddr!=null){
+					message.setCc(ccAddr);
+				}
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", name);
+				params.put("opName", name);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("content", transaction.getContents());
 				params.put("op", "完成");
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-commit.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-commit.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};
@@ -339,14 +373,18 @@ public class MailSendServiceImpl implements MailSendService {
 				message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 						+ incident.getIncidentCode() + "]");// 设置邮件主题
 				message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-				message.setCc(ccAddr);
+				if(ccAddr!=null){
+					message.setCc(ccAddr);
+				}
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("website", getWebsite());
-				params.put("name", name);
+				params.put("opName", name);
+				params.put("date", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				params.put("content", transaction.getContents());
 				params.put("op", "关闭");
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "vm/transaction-commit.vm", "UTF-8", params);
+						velocityEngine, "vm/transaction-commit.vm", "UTF-8",
+						params);
 				message.setText(text, true);
 			}
 		};

@@ -10,7 +10,7 @@
 <body>
 	<div class="panel panel-default">
 	  <div class="panel-body">
-	    <p>${name}，您好！</p>
+	    <p>${opName}，您好！</p>
 	    <p>您于{date}提交了一次处理事务，做了${op}操作，事务内容如下：</p>
 	    <p>${content}</p>
 	    <p>关于更多事务内容，<a href="${website}" target="_blank">请登录ITOP系统</a></p>

@@ -85,7 +85,7 @@ public class LoginController {
 					return "/login";
 				} else {
 					putLoginInfo2Session(request, response,accountNo,user.getCcUserId(),
-							user.getOpCode(), user.getOpName(),
+							user.getLoginCode(), user.getOpName(),
 							user.getLastName() + "." + user.getFirstName(),
 							opType, user.getScOrgId(), user.getScOrgName());
 					return "redirect:/page/incidentmgnt/main";
@@ -114,7 +114,7 @@ public class LoginController {
 					return "login";
 				} else {
 					putLoginInfo2Session(request, response, accountNo,op.getScOpId(),
-							op.getOpCode(), op.getOpName(),
+							op.getLoginCode(), op.getOpName(),
 							op.getLastName() + "." + op.getFirstName(),
 							opType, op.getScOrgId(), "待填");
 					return "redirect:/page/incidentmgnt/main";
