@@ -13,6 +13,10 @@ import java.util.Date;
  */
 public class QCIncident {
 
+	// 商户ID
+	private Long orgId;
+	// 客户ID
+	private Long custId;
 	// 事件系列号
 	private String incidentCode;
 	// 事件简述
@@ -37,6 +41,36 @@ public class QCIncident {
 	private String orderByRegisterTime;
 	// 按最新更新时间排序，取值：desc、asc
 	private String orderByLastModifyTime;
+
+	/**
+	 * @return the orgId
+	 */
+	public Long getOrgId() {
+		return orgId;
+	}
+
+	/**
+	 * @param orgId
+	 *            the orgId to set
+	 */
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
+	}
+
+	/**
+	 * @return the custId
+	 */
+	public Long getCustId() {
+		return custId;
+	}
+
+	/**
+	 * @param custId
+	 *            the custId to set
+	 */
+	public void setCustId(Long custId) {
+		this.custId = custId;
+	}
 
 	/**
 	 * @return the stateCode

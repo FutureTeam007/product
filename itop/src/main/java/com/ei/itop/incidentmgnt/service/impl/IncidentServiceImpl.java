@@ -91,9 +91,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "mailSendService")
 	private MailSendService mailSendService;
-	
+
 	@Resource(name = "mailSendConfig")
-	Map<String,String> mailSendConfig;
+	Map<String, String> mailSendConfig;
 
 	/*
 	 * (non-Javadoc)
@@ -113,6 +113,8 @@ public class IncidentServiceImpl implements IncidentService {
 		String brirf = qcIncident.getBrief() == null ? "" : qcIncident
 				.getBrief();
 		hm.put("brief", "%" + brirf + "%");
+		hm.put("orgId", qcIncident.getOrgId());
+		hm.put("custId", qcIncident.getProductId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -172,6 +174,8 @@ public class IncidentServiceImpl implements IncidentService {
 		String brirf = qcIncident.getBrief() == null ? "" : qcIncident
 				.getBrief();
 		hm.put("brief", "%" + brirf + "%");
+		hm.put("orgId", qcIncident.getOrgId());
+		hm.put("custId", qcIncident.getProductId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -206,6 +210,8 @@ public class IncidentServiceImpl implements IncidentService {
 		String brirf = qcIncident.getBrief() == null ? "" : qcIncident
 				.getBrief();
 		hm.put("brief", "%" + brirf + "%");
+		hm.put("orgId", qcIncident.getOrgId());
+		hm.put("custId", qcIncident.getProductId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -937,7 +943,7 @@ public class IncidentServiceImpl implements IncidentService {
 		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
 
 		// 发送邮件
-		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))){
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			log.debug("传入参数：" + incident.getIcOwnerName() + ","
 					+ incidentInfo.getScLoginName() + ","
 					+ incident.getIcOwnerCode() + ","
@@ -1112,7 +1118,7 @@ public class IncidentServiceImpl implements IncidentService {
 		transactionService.addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))){
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			log.debug("传入参数：" + opInfo.getOpFullName() + ","
 					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
 					+ incident.getIncidentCode() + ","
