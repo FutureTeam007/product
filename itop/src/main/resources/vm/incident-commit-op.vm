@@ -11,7 +11,7 @@
 	<div class="panel panel-default">
 	  <div class="panel-body">
 	    <p>${opName}，您好！</p>
-	    <p>{userName}于{date}提交了一个请求事件，内容如下：</p>
+	    <p>{userName}于{vDate}提交了一个请求事件，内容如下：</p>
 	    <p>${content}</p>
 	    <p>请您尽快<a href="${website}" target="_blank">登录ITOP系统</a>进行事件处理</p>
 	  </div>

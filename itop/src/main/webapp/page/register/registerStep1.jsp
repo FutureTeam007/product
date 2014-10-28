@@ -21,7 +21,7 @@
 		<div class="form-group clearfix">
 		    <label for="acountNo" class="col-sm-2 control-label">账号</label>
 		    <div class="col-sm-7">
-		      	<input type="text" class="form-control small-control" id="acountNo" name="acountNo" value="${acountNo}" onkeyup="queryCompanyList()" maxlength="30"/>
+		      	<input type="text" class="form-control small-control" id="acountNo" name="acountNo" value="${acountNo}" onblur="queryCompanyList()" maxlength="30"/>
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		     	${accountMsg}

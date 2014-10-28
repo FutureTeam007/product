@@ -11,7 +11,7 @@
 	<div class="panel panel-default">
 	  <div class="panel-body">
 	    <p>${toName}，您好！</p>
-	    <p>${fromName}于{date}提交了一次处理事务，要求您补充事件资料，内容如下：</p>
+	    <p>${fromName}于{vDate}提交了一次处理事务，要求您补充事件资料，内容如下：</p>
 	    <p>${content}</p>
 	    <p>关于更多事务内容，<a href="${website}" target="_blank">请登录ITOP系统</a></p>
 	  </div>

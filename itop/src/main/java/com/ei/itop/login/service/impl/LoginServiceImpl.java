@@ -58,7 +58,7 @@ public class LoginServiceImpl implements LoginService {
 			throw new BizException("用户不存在");
 		}
 
-		if (user.getState() == 1||user.getState() == 2) {
+		if (user.getState() == 0||user.getState() == 2) {
 			throw new BizException("用户已被冻结");
 		}
 		
