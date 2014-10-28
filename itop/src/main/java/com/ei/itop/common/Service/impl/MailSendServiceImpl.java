@@ -41,6 +41,7 @@ public class MailSendServiceImpl implements MailSendService {
 
 	public void sendUserActiveMail(final String userName,
 			final String activeURL, final String receiveAddr) throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -51,7 +52,7 @@ public class MailSendServiceImpl implements MailSendService {
 						message.setSubject("[ITOP] 感谢您注册，请激活邮箱完成注册");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("userName", userName);
 						params.put("activeURL", activeURL);
 						String text = VelocityEngineUtils
@@ -73,6 +74,7 @@ public class MailSendServiceImpl implements MailSendService {
 	public void sendIncidentMail(final String userName, final String opName,
 			final String userReceiveAddr, final String opReceiveAddr,
 			final String[] ccAddr, final IcIncident incident) throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -87,7 +89,7 @@ public class MailSendServiceImpl implements MailSendService {
 							message.setCc(ccAddr);
 						}
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("userName", userName);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("opName", opName);
@@ -115,7 +117,7 @@ public class MailSendServiceImpl implements MailSendService {
 								+ "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("userName", userName);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("opName", opName);
@@ -140,6 +142,7 @@ public class MailSendServiceImpl implements MailSendService {
 			final String receiveAddr, final String[] ccAddr,
 			final IcIncident incident, final IcTransaction transaction)
 			throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -154,7 +157,7 @@ public class MailSendServiceImpl implements MailSendService {
 							message.setCc(ccAddr);
 						}
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("opName", opName);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("content", transaction.getContents());
@@ -181,6 +184,7 @@ public class MailSendServiceImpl implements MailSendService {
 			final String transferReceiveAddr, final String[] ccAddr,
 			final IcIncident incident, final IcTransaction transaction)
 			throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 			MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -195,7 +199,7 @@ public class MailSendServiceImpl implements MailSendService {
 						message.setCc(ccAddr);
 					}
 					Map<String, String> params = new HashMap<String, String>();
-					params.put("website", getWebsite());
+					params.put("website", website);
 					params.put("opName", fromName);
 					params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 					params.put("content", transaction.getContents());
@@ -222,7 +226,7 @@ public class MailSendServiceImpl implements MailSendService {
 							+ incident.getIncidentCode() + "]，来自[" + fromName + "]");// 设置邮件主题
 					message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 					Map<String, String> params = new HashMap<String, String>();
-					params.put("website", getWebsite());
+					params.put("website", website);
 					params.put("toName", toName);
 					params.put("fromName", fromName);
 					params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
@@ -249,6 +253,7 @@ public class MailSendServiceImpl implements MailSendService {
 			final String userReceiveAddr, final String[] ccAddr,
 			final IcIncident incident, final IcTransaction transaction)
 			throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -263,7 +268,7 @@ public class MailSendServiceImpl implements MailSendService {
 							message.setCc(ccAddr);
 						}
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("opName", fromName);
 						params.put("content", transaction.getContents());
@@ -290,7 +295,7 @@ public class MailSendServiceImpl implements MailSendService {
 								+ incident.getIncidentCode() + "]，来自[" + fromName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("toName", toName);
 						params.put("fromName", fromName);
@@ -315,6 +320,7 @@ public class MailSendServiceImpl implements MailSendService {
 			final String receiveAddr, final String[] ccAddr,
 			final IcIncident incident, final IcTransaction transaction)
 			throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -329,7 +335,7 @@ public class MailSendServiceImpl implements MailSendService {
 							message.setCc(ccAddr);
 						}
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("opName", name);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("content", transaction.getContents());
@@ -354,6 +360,7 @@ public class MailSendServiceImpl implements MailSendService {
 			final String receiveAddr, final String[] ccAddr,
 			final IcIncident incident, final IcTransaction transaction)
 			throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -368,7 +375,7 @@ public class MailSendServiceImpl implements MailSendService {
 							message.setCc(ccAddr);
 						}
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("opName", name);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("content", transaction.getContents());
@@ -393,6 +400,7 @@ public class MailSendServiceImpl implements MailSendService {
 			final String receiveAddr, final String[] ccAddr,
 			final IcIncident incident, final IcTransaction transaction)
 			throws Exception {
+		final String website = getWebsite();
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -407,7 +415,7 @@ public class MailSendServiceImpl implements MailSendService {
 							message.setCc(ccAddr);
 						}
 						Map<String, String> params = new HashMap<String, String>();
-						params.put("website", getWebsite());
+						params.put("website", website);
 						params.put("opName", name);
 						params.put("vDate", DateUtils.date2String(new Date(),DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 						params.put("content", transaction.getContents());
