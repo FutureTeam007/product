@@ -58,8 +58,12 @@ public class LoginServiceImpl implements LoginService {
 			throw new BizException("用户不存在");
 		}
 
-		if (user.getState() != 1) {
-			throw new BizException("用户状态不正常");
+		if (user.getState() == 1||user.getState() == 2) {
+			throw new BizException("用户已被冻结");
+		}
+		
+		if (user.getState() == -1) {
+			throw new BizException("用户未激活，请登录邮箱激活账号");
 		}
 
 		if (!loginInfo.getLoginPasswd().equals(user.getLoginPasswd())) {

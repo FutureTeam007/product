@@ -85,7 +85,7 @@ public class RegisterPageController {
 			StringBuffer activeURL = new StringBuffer();
 			activeURL.append(request.getScheme()+"://");
 			activeURL.append(request.getServerName());
-			activeURL.append("80".equals(request.getServerPort())?"/":(":"+request.getServerPort()+"/"));
+			activeURL.append(request.getServerPort()==80?"/":(":"+request.getServerPort()+"/"));
 			activeURL.append(request.getContextPath());
 			activeURL.append("/doActive?key="+activeCode);
 			mailSendService.sendUserActiveMail(givenName+"."+familyName+"/"+chineseName, activeURL.toString(), acountNo);

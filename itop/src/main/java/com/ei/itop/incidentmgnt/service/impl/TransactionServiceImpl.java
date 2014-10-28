@@ -6,6 +6,7 @@ package com.ei.itop.incidentmgnt.service.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -55,7 +56,8 @@ public class TransactionServiceImpl implements TransactionService {
 	@Resource(name = "mailSendService")
 	private MailSendService mailSendService;
 
-	private boolean allowSendMail = false;
+	@Resource(name = "mailSendConfig")
+	Map<String,String> mailSendConfig;
 
 	/*
 	 * (non-Javadoc)
@@ -199,7 +201,7 @@ public class TransactionServiceImpl implements TransactionService {
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			// 流程事务才发送邮件
 			if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
 				log.debug("传入参数：" + opInfo.getOpFullName() + ","
@@ -270,7 +272,7 @@ public class TransactionServiceImpl implements TransactionService {
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			// 流程事务才发送邮件
 			if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
 				log.debug("传入参数：" + opInfo.getOpFullName() + ","
@@ -339,7 +341,7 @@ public class TransactionServiceImpl implements TransactionService {
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			log.debug("传入参数：" + incident.getIcOwnerName() + ","
 					+ opInfo.getOpFullName() + "," + opInfo.getOpCode() + ","
 					+ incident.getIcOwnerCode() + "," + incident.getCcList()
@@ -415,7 +417,7 @@ public class TransactionServiceImpl implements TransactionService {
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			log.debug("传入参数：" + nextOpInfo.getOpName() + ","
 					+ opInfo.getOpFullName() + "," + opInfo.getOpCode() + ","
 					+ nextOpInfo.getOpCode() + "," + incident.getCcList() + ","
@@ -486,7 +488,7 @@ public class TransactionServiceImpl implements TransactionService {
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			log.debug("传入参数：" + opInfo.getOpFullName() + ","
 					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
 					+ incident.getIncidentCode() + ","
@@ -574,7 +576,7 @@ public class TransactionServiceImpl implements TransactionService {
 		long transactionId = addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			log.debug("传入参数：" + opInfo.getOpFullName() + ","
 					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
 					+ incident.getIncidentCode() + ","

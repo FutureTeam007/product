@@ -123,6 +123,7 @@
 		<entry key="mail.password" value="4764656C3A393C3C3A"/>
 		<entry key="mail.smtp.auth" value="true"/>
 		<entry key="mail.from" value="vintin.liu@eiconsulting.cn"/>
+		<entry key="mail.allowed" value="true"/>
 	</util:map>	
 	
 </beans>

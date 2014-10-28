@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -90,8 +91,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "mailSendService")
 	private MailSendService mailSendService;
-
-	private boolean allowSendMail = false;
+	
+	@Resource(name = "mailSendConfig")
+	Map<String,String> mailSendConfig;
 
 	/*
 	 * (non-Javadoc)
@@ -769,7 +771,7 @@ public class IncidentServiceImpl implements IncidentService {
 		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			log.debug("传入参数：" + incidentInfo.getIcOwnerName() + ","
 					+ incidentInfo.getScLoginName() + ","
 					+ incidentInfo.getIcOwnerCode() + ","
@@ -850,7 +852,7 @@ public class IncidentServiceImpl implements IncidentService {
 		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
 			IcIncident incident = queryIncident(incidentId);
 			log.debug("传入参数：" + incident.getIcOwnerName() + ","
 					+ incident.getScLoginName() + ","
@@ -935,7 +937,7 @@ public class IncidentServiceImpl implements IncidentService {
 		attachService.changeTransAttach2IncidAttach(incidentId, transactionId);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))){
 			log.debug("传入参数：" + incident.getIcOwnerName() + ","
 					+ incidentInfo.getScLoginName() + ","
 					+ incident.getIcOwnerCode() + ","
@@ -1110,7 +1112,7 @@ public class IncidentServiceImpl implements IncidentService {
 		transactionService.addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
-		if (allowSendMail) {
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))){
 			log.debug("传入参数：" + opInfo.getOpFullName() + ","
 					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
 					+ incident.getIncidentCode() + ","

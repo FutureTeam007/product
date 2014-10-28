@@ -24,7 +24,7 @@
       		<% if("0".equals(request.getAttribute("success"))){%>
          		<a href="<%=rootPath%>/register" class="btn btn-link" >点击进入注册页面</a>
          	<% }else{%>
-         		<a href="<%=rootPath%>" class="btn btn-link" >点击进入登录页面</a>
+         		<a href="<%=rootPath%>/login.jsp" class="btn btn-link" >点击进入登录页面</a>
          	<% }%>
       </div>
     </div>
