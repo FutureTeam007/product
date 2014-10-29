@@ -118,6 +118,14 @@ public class IncidentController {
 		if (!StringUtils.isEmpty(stateCode)) {
 			qi.setStateCode(stateCode.split(","));
 		}
+		// 客户ID
+		String custId = request.getParameter("custId");
+		if (!StringUtils.isEmpty(custId)) {
+			qi.setCustId(VarTypeConvertUtils.string2Long(custId));
+		}
+		// 设置组织ID
+		qi.setOrgId(oi.getOrgId());
+		
 		// 调用查询获取总数据条数
 		long count = incidentService.MBLQueryIncidentCount(qi, oi);
 		// 调用查询获取分页数据
@@ -188,6 +196,13 @@ public class IncidentController {
 			qi.setRegisterTimeEnd(DateUtils.string2Date(registerTimeEnd,
 					DateUtils.FORMATTYPE_yyyy_MM_dd));
 		}
+		// 客户ID
+		String custId = request.getParameter("custId");
+		if (!StringUtils.isEmpty(custId)) {
+			qi.setCustId(VarTypeConvertUtils.string2Long(custId));
+		}
+		// 设置组织ID
+		qi.setOrgId(oi.getOrgId());
 		List<IncidentCountInfoByState> stateCount = incidentService
 				.MBLQueryIncidentCountGroupByState(qi, oi.getOrgId(), oi);
 		String jsonData = JSONUtils.toJSONString(stateCount);
@@ -436,6 +451,23 @@ public class IncidentController {
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
 		incidentService.MBLAdviserCloseIncident(incidentId, oi);
+	}
+	
+	/**
+	 * 归档一条事件
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/stock")
+	public void stockIncident(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		OpInfo oi = SessionUtil.getOpInfo();
+		long incidentId = VarTypeConvertUtils.string2Long(request
+				.getParameter("incidentId"));
+		String[] stockFlags = request.getParameter("stockVar").split(",");
+		incidentService.MBLUserStockIncident(incidentId,stockFlags, oi);
 	}
 
 	/**

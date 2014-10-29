@@ -43,6 +43,8 @@
 		var opName = "<%=opInfo.getOpName()%>";
 		var opCode = "<%=opInfo.getOpCode()%>";
 		var opType = "<%=opInfo.getOpType()%>";
+		var opCustId = "<%=opInfo.getCustId()%>";
+		var opKind = "<%=opInfo.getOpKind()%>";
 	<% }%>
 //-->
 </script>

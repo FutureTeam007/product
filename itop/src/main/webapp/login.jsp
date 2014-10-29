@@ -8,7 +8,6 @@
 	<%@ include file="page/common/commonHead.jsp"%>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/jquery.cookie.js"></script>
 	<script type="text/javascript">
-		<!--
 			//登录模式 1-用户登录 2-服务方登录
 			var loginModel = null;
 		
@@ -93,7 +92,6 @@
 				}
 				return true;
 			}
-		-->
 	</script>
 </head>
 <body>
@@ -110,7 +108,7 @@
 						</ul>
                     </div>
                     <div class="panel-body">
-                        <form role="form" method="post" action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(1)" class="login-form undis" id="userLoginForm">
+                        <form role="form" method="post" action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(1);" class="login-form undis" id="userLoginForm">
                                 <div class="form-group clearfix">
                                 	<label for="accountNo" class="col-sm-3 control-label">邮箱账号</label>
 		    						<div class="col-sm-9">
@@ -143,7 +141,7 @@
                                     </div>
                                 </div>
                         </form>
-                        <form role="form" method="post"  action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(2)" class="login-form undis" id="opLoginForm">
+                        <form role="form" method="post"  action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(2);" class="login-form undis" id="opLoginForm">
                                 <div class="form-group clearfix">
                                 	<label for="accountNo" class="col-sm-3 control-label">邮箱账号</label>
 		    						<div class="col-sm-9">

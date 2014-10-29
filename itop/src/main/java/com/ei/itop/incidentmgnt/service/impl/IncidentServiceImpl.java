@@ -114,7 +114,7 @@ public class IncidentServiceImpl implements IncidentService {
 				.getBrief();
 		hm.put("brief", "%" + brirf + "%");
 		hm.put("orgId", qcIncident.getOrgId());
-		hm.put("custId", qcIncident.getProductId());
+		hm.put("custId", qcIncident.getCustId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -175,7 +175,7 @@ public class IncidentServiceImpl implements IncidentService {
 				.getBrief();
 		hm.put("brief", "%" + brirf + "%");
 		hm.put("orgId", qcIncident.getOrgId());
-		hm.put("custId", qcIncident.getProductId());
+		hm.put("custId", qcIncident.getCustId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -211,7 +211,7 @@ public class IncidentServiceImpl implements IncidentService {
 				.getBrief();
 		hm.put("brief", "%" + brirf + "%");
 		hm.put("orgId", qcIncident.getOrgId());
-		hm.put("custId", qcIncident.getProductId());
+		hm.put("custId", qcIncident.getCustId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -1227,5 +1227,16 @@ public class IncidentServiceImpl implements IncidentService {
 		// }
 
 		// log.debug(is.generateIncidentCode(300001));
+	}
+
+	public void MBLUserStockIncident(long incidentId, String[] stockFlags,
+			OpInfo oi) throws Exception  {
+		IcIncident incident = new IcIncident();
+		incident.setIcIncidentId(incidentId);
+		incident.setItStateCode("10");
+		incident.setItStateVal("已归档");
+		// 保存事件实体信息
+		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective",
+						incident);
 	}
 }

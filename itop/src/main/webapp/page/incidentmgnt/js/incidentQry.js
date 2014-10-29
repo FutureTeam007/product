@@ -10,15 +10,25 @@ qp.priorityVal = null;
 qp.productId = null;
 qp.registerTimeBegin = null;
 qp.registerTimeEnd = null;
+qp.custId = null;
 //默认选中的数据行
 var selectedDataRow = null;
 //Grid对象
 var inciGrid = null;
 
 $(function(){
-	//判断是否可以显示新建按钮，如果是用户才显示，顾问不显示
+	//如果是用户，则显示创建事件按钮、隐藏客户选择列表
 	if(opType=='USER'){
 		$("#addBtn").show();
+		$("#custSel").hide();
+		$("#custSelLabel").hide();
+	}
+	//如果是顾问，则显示客户选择列表
+	else{
+		$('#custSel').combotree({
+			editable:false,
+		    url:rootPath+'/register/custlist/get'
+		});
 	}
 	//初始化子页滑动
 	initSubPage();
@@ -61,6 +71,8 @@ function reset(){
 	$("#qryStartDate").datebox('setValue','');
 	//截止时间
 	$("#qryEndDate").datebox('setValue','');
+	//选择客户
+	$('#custSel').combotree('clear');
 }
 //提交事件
 function commit(id){
@@ -159,6 +171,42 @@ function feedback(){
 	});
 }
 
+//显示归档窗口
+function showStockIncident(id){
+	$("#stockBtn").attr("incidentId",id);
+	$('#stockWin').dialog('open');
+}
+//归档事件
+function stockIncident(){
+	var id = $("#stockBtn").attr("incidentId");
+	var stockFlags = [];
+	$("input[name=stockVar]:checked").each(function(){
+		stockFlags.push($(this).val());
+	});
+	if(stockFlags.length==0){
+		$.messager.alert('提示','请至少为事件打一个标记');
+		return;
+	}
+	$.ajax({
+		type : 'post',
+		url : rootPath + "/incident/stock",
+		data : {
+			incidentId :id,
+			stockVar:stockFlags.join(",")
+		},
+		dataType : 'text',
+		success : function() {
+			$.messager.alert('提示','归档成功！');
+			$('#stockWin').dialog('close');
+			reloadData(10);
+		},
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert('提示','归档错误：'+msg);
+		}
+	});
+}
+
 //设置查询条件
 function setQueryConditions(){
 	qp.incidentCode = null;
@@ -169,6 +217,7 @@ function setQueryConditions(){
 	qp.priorityVal = null;
 	qp.registerTimeBegin = null;
 	qp.registerTimeEnd = null;
+	qp.custId = null;
 	//事件系列号
 	qp.incidentCode = $.trim($("#incidentCode").val());
 	//事件简述
@@ -197,6 +246,12 @@ function setQueryConditions(){
 	qp.registerTimeBegin = $("#qryStartDate").datebox('getValue');
 	//截止时间
 	qp.registerTimeEnd = $("#qryEndDate").datebox('getValue');
+	//设置客户ID
+	if(opType=='USER'){
+		qp.custId = opCustId;
+	}else{
+		qp.custId = $('#custSel').combotree('getValue');
+	}
 }
 //查询主方法
 function query(flag){
@@ -228,9 +283,9 @@ function reRenderStatusNav(status){
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
 							if(msg[i].stateCode==-1){
 								if(opType=="OP"){
-									qp.stateVal = "2,3,4,5,8,9";
+									qp.stateVal = "2,3,4,5,8,9,10";
 								}else{
-									qp.stateVal = "1,2,3,4,5,8,9";
+									qp.stateVal = "1,2,3,4,5,8,9,10";
 								}
 							}else{
 								qp.stateVal = msg[i].stateCode;
@@ -356,6 +411,9 @@ function initSubPage(){
     $('#feedbackWin').dialog({
 		modal:true
 	}).dialog('close');
+    $('#stockWin').dialog({
+		modal:true
+	}).dialog('close');
 }
 //初始化表格分页条
 function initDataPager(){
@@ -406,8 +464,15 @@ function formatOperations(val,row){
 		buttons += "<button type='button' class='btn btn-link' onclick='remove("+val+")'>删除</button>";
 	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==4||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9){
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
-	}if(row.itStateCode==8&&opType=="OP"){
+	}
+	//如果是完成状态且操作员是顾问，显示关闭按钮
+	if(row.itStateCode==8&&opType=="OP"){
 		buttons += "<button type='button' class='btn btn-link' onclick='closeIncident("+val+")'>关闭</button>";
+	}
+	//如果是关闭状态且操作员是客户方的IT人员，则显示归档
+	//if(row.itStateCode==9&&opType=="USER"&&opKind==3){
+	if(row.itStateCode==9){
+		buttons += "<button type='button' class='btn btn-link' onclick='showStockIncident("+val+")'>归档</button>";
 	}
 	return buttons;
 }

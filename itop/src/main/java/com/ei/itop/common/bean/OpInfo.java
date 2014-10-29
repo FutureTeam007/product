@@ -29,7 +29,14 @@ public class OpInfo {
 	
 	// 商户名称
 	private String orgName;
+	
+	// 客户Id(只用用户才有此字段，顾问此字段是空的)
+	private String custId;
 
+	// 用户类别  0-超级管理员 1-管理员 2-普通人员  3-IT人员
+	private long opKind;
+	
+	
 	/**
 	 * @return the opType
 	 */
@@ -112,6 +119,22 @@ public class OpInfo {
 
 	public void setOpFullName(String opFullName) {
 		this.opFullName = opFullName;
+	}
+
+	public String getCustId() {
+		return custId;
+	}
+
+	public void setCustId(String custId) {
+		this.custId = custId;
+	}
+
+	public long getOpKind() {
+		return opKind;
+	}
+
+	public void setOpKind(long opKind) {
+		this.opKind = opKind;
 	}
 	
 }

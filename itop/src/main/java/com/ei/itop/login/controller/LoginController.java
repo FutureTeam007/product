@@ -31,6 +31,9 @@ public class LoginController {
 	@RequestMapping("/doLogin")
 	public String doLogin(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		long start = System.currentTimeMillis();
+		log.debug("controller登录开始");
+		log.debug("controller获取前台传入参数");
 		// 获取登录的操作员类型
 		String opType = request.getParameter("opType");
 		// 用户名
@@ -39,22 +42,29 @@ public class LoginController {
 		String accountPwd = request.getParameter("accountPwd");
 		// 验证码
 		String verifyCode = request.getParameter("verifyCode");
+		log.debug("controller前台传入参数获取完毕");
 		// 校验验证码
 		if (!request.getSession()
 				.getAttribute(SysConstants.SessionAttribute.LOGIN_VERIFY_CODE)
 				.equals(verifyCode)) {
 			request.setAttribute("errorMsg", "验证码不正确，请重新输入");
 			request.setAttribute("accountNo", accountNo);
+			log.debug("验证码不正确");
+			recordLog(start);
 			return "/login";
 		} else {
 			//检查信息完整性
 			if(StringUtils.isEmpty(accountNo)){
 				request.setAttribute("errorMsg", "用户名输入不能为空");
+				log.debug("用户名输入不能为空");
+				recordLog(start);
 				return "/login";
 			}
 			//检查信息完整性
 			if(StringUtils.isEmpty(accountPwd)){
 				request.setAttribute("errorMsg", "密码输入不能为空");
+				log.debug("密码输入不能为空");
+				recordLog(start);
 				return "/login";
 			}
 			// 封装登录Bean
@@ -64,30 +74,42 @@ public class LoginController {
 			li.setIdentifyingCode(verifyCode);
 			// 如果是用户登录
 			if (SysConstants.OpAttribute.OP_ROLE_USER.equals(opType)) {
+				log.debug("监测到时普通用户");
 				CcUser user = null;
 				try {
+					log.debug("开始执行Service登录操作");
 					user = loginService.userLogin(li);
+					log.debug("执行Service登录操作完毕");
 				} catch (BizException e) {
 					log.warn("",e);
 					request.setAttribute("errorMsg", e.getMessage());
 					request.setAttribute("accountNo", accountNo);
+					log.debug("发生业务异常");
+					recordLog(start);
 					return "/login";
 				} catch (Exception e) {
 					log.error("",e);
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", "登录异常：系统临时故障，请稍后再试");
+					log.debug("发生系统异常");
+					recordLog(start);
 					return "/login";
 				}
 				// 账号密码不正确
 				if (user == null) {
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", "账号密码不正确，请重新输入");
+					recordLog(start);
+					log.debug("账号密码不正确，请重新输入");
 					return "/login";
 				} else {
+					log.debug("正常登录，将信息放入Session");
 					putLoginInfo2Session(request, response,accountNo,user.getCcUserId(),
 							user.getLoginCode(), user.getOpName(),
 							user.getLastName() + "." + user.getFirstName(),
-							opType, user.getScOrgId(), user.getScOrgName());
+							opType, user.getScOrgId(), user.getScOrgName(),user.getCcCustId(),user.getOpKind());
+					log.debug("正常登录，将信息放入Session完毕，即将跳转");
+					recordLog(start);
 					return "redirect:/page/incidentmgnt/main";
 				}
 			}
@@ -100,28 +122,37 @@ public class LoginController {
 					log.warn("",e);
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", e.getMessage());
+					recordLog(start);
 					return "/login";
 				} catch (Exception e) {
 					log.error("",e);
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", "登录异常：系统临时故障，请稍后再试");
+					recordLog(start);
 					return "/login";
 				}
 				// 账号密码不正确
 				if (op == null) {
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", "账号密码不正确，请重新输入");
-					return "login";
+					recordLog(start);
+					return "/login";
 				} else {
 					putLoginInfo2Session(request, response, accountNo,op.getScOpId(),
 							op.getLoginCode(), op.getOpName(),
 							op.getLastName() + "." + op.getFirstName(),
-							opType, op.getScOrgId(), "待填");
+							opType, op.getScOrgId(), "待填",null,null);
+					recordLog(start);
 					return "redirect:/page/incidentmgnt/main";
 				}
 			}
 			return "/login";
 		}
+	}
+	
+	private void recordLog(long start){
+		long end = System.currentTimeMillis();
+		log.debug("controller登录结束，耗时（ms）："+(end-start));
 	}
 
 	@RequestMapping("/doLogout")
@@ -145,7 +176,7 @@ public class LoginController {
 	private void putLoginInfo2Session(HttpServletRequest request,
 			HttpServletResponse response,String loginCode, long opId, String opCode,
 			String opName, String opEnName, String opType, long orgId,
-			String orgName) {
+			String orgName,Long custId,Long opKind) {
 		// 封装OP信息放入Session中
 		OpInfo op = new OpInfo();
 		op.setOpCode(opCode);
@@ -155,6 +186,7 @@ public class LoginController {
 		op.setOpType(opType);
 		op.setOrgId(orgId);
 		op.setOrgName(orgName);
+		op.setCustId(custId+"");
 		request.getSession().setAttribute(
 				SysConstants.SessionAttribute.OP_SESSION, op);
 		// 将操作员的登录类型放入Cookie，方便下次登录

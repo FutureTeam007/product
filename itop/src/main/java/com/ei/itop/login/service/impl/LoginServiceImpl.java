@@ -41,7 +41,8 @@ public class LoginServiceImpl implements LoginService {
 	 */
 	public CcUser userLogin(LoginInfo loginInfo) throws Exception {
 		// TODO Auto-generated method stub
-
+		long start = System.currentTimeMillis();
+		log.debug("service登录开始");
 		if (loginInfo.getLoginCode() == null
 				|| "".equals(loginInfo.getLoginCode())
 				|| loginInfo.getLoginPasswd() == null
@@ -53,7 +54,8 @@ public class LoginServiceImpl implements LoginService {
 		hm.put("loginCode", loginInfo.getLoginCode());
 
 		CcUser user = userDAO.find("CC_USER.queryUserByLoginCode", hm);
-
+		long end = System.currentTimeMillis();
+		log.debug("service登录结束,耗时(ms):"+(end-start));
 		if (user == null) {
 			throw new BizException("用户不存在");
 		}
@@ -69,7 +71,7 @@ public class LoginServiceImpl implements LoginService {
 		if (!loginInfo.getLoginPasswd().equals(user.getLoginPasswd())) {
 			throw new BizException("密码错误");
 		}
-
+		
 		return user;
 	}
 

@@ -35,7 +35,7 @@ public class RegisterController {
 		//获取域名
 		String domainName = request.getParameter("domainName");
 		//根据域名查询客户列表
-		List<CcCust> custList = custMgntService.queryCustListByDomainName(domainName.toLowerCase());
+		List<CcCust> custList = custMgntService.queryCustListByDomainName(domainName!=null?domainName.toLowerCase():null);
 		List<CustTreeNode> nodes = new ArrayList<CustTreeNode>();
 		for(CcCust cust:custList){
 			CustTreeNode node = new CustTreeNode();

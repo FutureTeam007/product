@@ -55,7 +55,7 @@ public class RegisterServiceImpl implements RegisterService {
 		registerInfo.setScOrgName(cust.getScOrgName());
 
 		// 设置操作员类别，2-普通用户
-		registerInfo.setOpKind(new Long(2));
+		//registerInfo.setOpKind(new Long(2));
 
 		// 设置账户状态，-1-锁定
 		registerInfo.setState(new Long(-1));

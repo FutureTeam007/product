@@ -26,8 +26,10 @@
    <select id="queryCustListByDomainName" resultMap="ccCustResult" parameterClass="java.util.Map" >
     select CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL, ORG_LVL_PATH,
       CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
-    from CC_CUST
-    where DOMAIN_NAME = #domainName:VARCHAR#
+    from CC_CUST where STATE = 1 
+    <isNotNull prepend="and" property="domainName" >
+       DOMAIN_NAME = #domainName:VARCHAR#
+    </isNotNull>
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.CcCust" >
     delete from CC_CUST

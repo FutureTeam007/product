@@ -221,4 +221,12 @@ public interface IncidentService {
 	 */
 	public long modifyIncidentAndAttach(long incidentId,
 			IncidentInfo incidentInfo, OpInfo opInfo) throws Exception;
+	/**
+	 * 用户归档事件
+	 * @param incidentId
+	 * @param stockFlags
+	 * @param oi
+	 */
+	public void MBLUserStockIncident(long incidentId, String[] stockFlags,
+			OpInfo oi) throws Exception ;
 }
