@@ -470,8 +470,8 @@ function formatOperations(val,row){
 		buttons += "<button type='button' class='btn btn-link' onclick='closeIncident("+val+")'>关闭</button>";
 	}
 	//如果是关闭状态且操作员是客户方的IT人员，则显示归档
-	//if(row.itStateCode==9&&opType=="USER"&&opKind==3){
-	if(row.itStateCode==9){
+	if(row.itStateCode==9&&opType=="USER"&&opKind==3){
+	//if(row.itStateCode==9){
 		buttons += "<button type='button' class='btn btn-link' onclick='showStockIncident("+val+")'>归档</button>";
 	}
 	return buttons;
