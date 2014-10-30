@@ -54,7 +54,7 @@
     <result column="RESPONSE_TIME" property="responseTime" jdbcType="DECIMAL" />
     <result column="DEAL_TIME" property="dealTime" jdbcType="DECIMAL" />
     <result column="REPONSE_DUR2" property="reponseDur2" jdbcType="TIMESTAMP" />
-    <result column="DEAL_DUR2" property="dealDur2" jdbcType="DATE" />
+    <result column="DEAL_DUR2" property="dealDur2" jdbcType="TIMESTAMP" />
     <result column="REPONSE_NUM" property="reponseNum" jdbcType="VARCHAR" />
     <result column="DEAL_NUM" property="dealNum" jdbcType="VARCHAR" />
     <result column="RESTORE_TIME" property="restoreTime" jdbcType="DATE" />
@@ -120,7 +120,7 @@
     <result column="DETAIL" property="detail" jdbcType="VARCHAR" />
     <result column="RESPONSE_TIME" property="responseTime" jdbcType="DECIMAL" />
     <result column="DEAL_TIME" property="dealTime" jdbcType="DECIMAL" />
-    <result column="REPONSE_DUR2" property="reponseDur2" jdbcType="DATE" />
+    <result column="REPONSE_DUR2" property="reponseDur2" jdbcType="TIMESTAMP" />
     <result column="DEAL_DUR2" property="dealDur2" jdbcType="TIMESTAMP" />
     <result column="REPONSE_NUM" property="reponseNum" jdbcType="VARCHAR" />
     <result column="DEAL_NUM" property="dealNum" jdbcType="VARCHAR" />
@@ -464,7 +464,7 @@
       #classVal:VARCHAR#, #affectCode:VARCHAR#, #affectVal:VARCHAR#, #complexCode:VARCHAR#,
       #complexVal:VARCHAR#, #priorityCode:VARCHAR#, #priorityVal:VARCHAR#, #ccList:VARCHAR#,
       #brief:VARCHAR#, #detail:VARCHAR#, #responseTime:DECIMAL#, #dealTime:DECIMAL#,
-      #reponseDur2:DATE#, #dealDur2:DATE#, #reponseNum:VARCHAR#, #dealNum:VARCHAR#,
+      #reponseDur2:TIMESTAMP#, #dealDur2:TIMESTAMP#, #reponseNum:VARCHAR#, #dealNum:VARCHAR#,
       #restoreTime:DATE#, #reponseDur:DECIMAL#, #dealDur:DECIMAL#, #finishTime:DATE#,
       #itSolution:VARCHAR#, #finishCode:VARCHAR#, #finishVal:VARCHAR#, #feedbackCode:VARCHAR#,
       #feedbackVal:VARCHAR#, #feedbackTime:DATE#, #closeTime:DATE#, #itPhase:VARCHAR#,
@@ -514,8 +514,8 @@
       DETAIL = #detail:VARCHAR#,
       RESPONSE_TIME = #responseTime:DECIMAL#,
       DEAL_TIME = #dealTime:DECIMAL#,
-      REPONSE_DUR2 = #reponseDur2:DATE#,
-      DEAL_DUR2 = #dealDur2:DATE#,
+      REPONSE_DUR2 = #reponseDur2:TIMESTAMP#,
+      DEAL_DUR2 = #dealDur2:TIMESTAMP#,
       REPONSE_NUM = #reponseNum:VARCHAR#,
       DEAL_NUM = #dealNum:VARCHAR#,
       RESTORE_TIME = #restoreTime:DATE#,
@@ -664,10 +664,10 @@
         DEAL_TIME = #dealTime:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="reponseDur2" >
-        REPONSE_DUR2 = #reponseDur2:DATE#
+        REPONSE_DUR2 = #reponseDur2:TIMESTAMP#
       </isNotNull>
       <isNotNull prepend="," property="dealDur2" >
-        DEAL_DUR2 = #dealDur2:DATE#
+        DEAL_DUR2 = #dealDur2:TIMESTAMP#
       </isNotNull>
       <isNotNull prepend="," property="reponseNum" >
         REPONSE_NUM = #reponseNum:VARCHAR#

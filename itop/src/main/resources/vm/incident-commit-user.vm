@@ -14,6 +14,42 @@
 	    <p>您于${vDate}提交了一个请求事件，内容如下：</p>
 	    <p>${content}</p>
 	    <p>该事件由顾问${opName}进行处理，请耐心等待顾问处理！关于事件详细内容，<a href="${website}" target="_blank">请登录ITOP系统</a></p>
+	  	<hr/>
+	    <p><strong>事件详细信息:</strong></p>
+	    <p>
+	    	<table width="80%" style="font-size:12px">
+	    		<tr>
+	    			<td width="20%"><strong>事件简述</strong></td><td colspan="3">$!{incident.brief}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>事件详细说明</strong></td><td colspan="3">$!{incident.detail}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>公司</strong></td><td>$!{incident.custName}</td>
+	    			<td width="20%"><strong>类别</strong></td><td>$!{incident.classVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>产品线</strong></td><td>$!{incident.prodName}</td>
+	    			<td width="20%"><strong>服务目录</strong></td><td>$!{incident.moduleName}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>影响度</strong></td><td>$!{incident.affectVal}</td>
+	    			<td width="20%"><strong>复杂度</strong></td><td>$!{incident.complexVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>优先级</strong></td><td>$!{incident.priorityVal}</td>
+	    			<td width="20%"><strong>事件状态</strong></td><td>$!{incident.itStateVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>当前处理人</strong></td><td>$!{incident.icLoginCode}</td>
+	    			<td width="20%"><strong>发生时间</strong></td><td>$!{happenTime}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>响应截止时间</strong></td><td>$!{reponseDur2}</td>
+	    			<td width="20%"><strong>处理截止时间</strong></td><td>$!{dealDur2}</td>
+	    		</tr>
+	    	</table>
+	    </p>
 	  </div>
 	  <div class="panel-footer"><span class="pull-left">ITOP让工作变得更简单！</span><span class="pull-right">来自：eiconsulting.cn</span></div>
 	</div>

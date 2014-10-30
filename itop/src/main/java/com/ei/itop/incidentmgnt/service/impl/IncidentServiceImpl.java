@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -791,7 +792,7 @@ public class IncidentServiceImpl implements IncidentService {
 			mailSendService.sendIncidentMail(incidentInfo.getIcOwnerName(),
 					incidentInfo.getIcOwnerCode(), incidentInfo
 							.getScLoginName(), incidentInfo.getScLoginCode(),
-					incidentInfo.getCcList() == null ? null : incidentInfo
+					StringUtils.isEmpty(incidentInfo.getCcList())? null : incidentInfo
 							.getCcList().split(","), incidentInfo);
 		}
 
@@ -872,7 +873,7 @@ public class IncidentServiceImpl implements IncidentService {
 			mailSendService.sendIncidentMail(incidentInfo.getIcOwnerName(),
 					incidentInfo.getIcOwnerCode(), incidentInfo
 							.getScLoginName(), incidentInfo.getScLoginCode(),
-					incidentInfo.getCcList() == null ? null : incidentInfo
+					StringUtils.isEmpty(incidentInfo.getCcList())? null : incidentInfo
 							.getCcList().split(","), incidentInfo);
 		}
 
@@ -953,11 +954,11 @@ public class IncidentServiceImpl implements IncidentService {
 					+ incidentInfo.getScLoginCode() + ","
 					+ incident.getCcList() + "," + incident.getIncidentCode()
 					+ "," + incident.getDetail());
-			mailSendService.sendIncidentMail(incidentInfo.getIcOwnerName(),
-					incidentInfo.getIcOwnerCode(), incidentInfo
+			mailSendService.sendIncidentMail(incident.getIcOwnerName(),
+					incident.getIcOwnerCode(), incidentInfo
 							.getScLoginName(), incidentInfo.getScLoginCode(),
-					incidentInfo.getCcList() == null ? null : incidentInfo
-							.getCcList().split(","), incidentInfo);
+					StringUtils.isEmpty(incident.getCcList())? null : incident
+							.getCcList().split(","), incident);
 		}
 
 		// 记录系统操作日志
@@ -1033,10 +1034,12 @@ public class IncidentServiceImpl implements IncidentService {
 		List<CcSlo> sloRules= custMgntService.querySloRules(fullInfo.getScOrgId(),
 				fullInfo.getCcCustId(), fullInfo.getScProductId(),
 				incident.getPriorityCode(), incident.getComplexCode());
-		if(sloRules!=null){
+		if(sloRules!=null&&sloRules.size()>0){
 			CcSlo slo = sloRules.get(0);
-			int diffMinutes = slo.getDealTime().intValue();
-			ii.setDealDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),Calendar.MINUTE,diffMinutes));
+			int dealDiffMinutes = slo.getDealTime().intValue();
+			int responseDiffMinutes = slo.getResponseTime().intValue();
+			ii.setDealDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),Calendar.MINUTE,dealDiffMinutes));
+			ii.setReponseDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),Calendar.MINUTE,responseDiffMinutes));
 		}
 		// 业务信息
 		ii.setAffectCodeOp(incident.getAffectCodeOp());
@@ -1151,7 +1154,7 @@ public class IncidentServiceImpl implements IncidentService {
 					+ incident.getIncidentCode() + ","
 					+ transactionInfo.getContents());
 
-			mailSendService.sendTransactionFinishMail(
+			mailSendService.sendTransactionCloseMail(
 					incident.getIcOwnerName(), incident.getIcOwnerCode(),
 					incident.getScLoginName(), incident.getScLoginCode(),
 					incident.getCcList() == null ? null : incident.getCcList()
@@ -1264,20 +1267,19 @@ public class IncidentServiceImpl implements IncidentService {
 		incident.setIcIncidentId(incidentId);
 		incident.setItStateCode("10");
 		incident.setItStateVal("已归档");
+		incident.setModifier(oi.getOpFullName());
 		List<ScParam> params = paramService.getParamList(oi.getOrgId(),
 				"IC_ARCHIVE_FLAG");
-		StringBuffer archiveFlag = new StringBuffer("00000000");
+		char[] archiveFlag = new char[]{'0','0','0','0','0','0','0','0'};
 		for (int k = 0; k < params.size(); k++) {
 			ScParam p = params.get(k);
 			for (int i = 0; i < stockFlags.length; i++) {
 				if (p.getParamCode().equals(stockFlags[i])) {
-					archiveFlag.replace(k, k, "1");
-				} else {
-					archiveFlag.replace(k, k, "0");
+					archiveFlag[k]='1';
 				}
 			}
 		}
-		incident.setArchiveFlag(archiveFlag.toString());
+		incident.setArchiveFlag(new String(archiveFlag));
 		// 保存事件实体信息
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
 	}

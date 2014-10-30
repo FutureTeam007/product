@@ -106,6 +106,8 @@
       		<div class="col-sm-4" id="happenTime"></div>
       	</div>
       	<div class="clearfix">
+      		<div class="col-sm-2"><label>响应截止时间</label></div>
+      		<div class="col-sm-4" id="responseDur2"></div>
       		<div class="col-sm-2"><label>处理截止时间</label></div>
       		<div class="col-sm-4" id="dealDur2"></div>
       	</div>

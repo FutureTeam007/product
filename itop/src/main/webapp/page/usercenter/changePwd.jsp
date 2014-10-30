@@ -7,11 +7,14 @@
 	<%@ include file="../common/commonHead.jsp"%>
 	<%@ include file="../common/easyuiHead.jsp"%>
 	<title>修改密码</title>
-	<script type="text/javascript" src="<%=rootPath%>/page/register/js/changePwd.js"></script>
+	<script type="text/javascript" src="<%=rootPath%>/page/usercenter/js/changePwd.js"></script>
 </head>
 <body>
 <jsp:include page="../common/pageMasterStart.jsp"></jsp:include>
 <div class="register-wrapper">
+	<div>
+		<a class="btn btn-link top-close-link" style="margin-bottom:30px" href="<%=rootPath%>/page/incidentmgnt/main">返回首页</a>
+	</div>
 	<form class="form-horizonta register-form" role="form">
 		<div class="form-group clearfix">
 		    <label for="passwd" class="col-sm-2 control-label">旧密码</label>

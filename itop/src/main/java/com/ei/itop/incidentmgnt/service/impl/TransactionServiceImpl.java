@@ -160,8 +160,8 @@ public class TransactionServiceImpl implements TransactionService {
 		// 取得事件信息
 		IcIncident incident = incidentService.queryIncident(incidentId);
 
-		// 是当前干系人
-		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
+		// 是当前干系人，且不是完成状态
+		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())&&!"8".equals(incident.getItStateCode())) {
 			// 需要修改部分事件信息
 			IncidentInfo ii = new IncidentInfo();
 
@@ -172,7 +172,7 @@ public class TransactionServiceImpl implements TransactionService {
 			ii.setIcObjectName(incident.getScLoginName());
 
 			// 不需调整事件所处阶段
-
+			
 			// 调整事件状态
 			ii.setItStateCode("3");
 			ii.setItStateVal("顾问处理中");
@@ -230,8 +230,8 @@ public class TransactionServiceImpl implements TransactionService {
 		// 取得事件信息
 		IcIncident incident = incidentService.queryIncident(incidentId);
 
-		// 是当前干系人
-		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())) {
+		// 是当前干系人,且不是完成状态
+		if (isCurrentOp(incident, opInfo.getOpType(), opInfo.getOpId())&&!"8".equals(incident.getItStateCode())) {
 			// 需要修改部分事件信息
 			IncidentInfo ii = new IncidentInfo();
 
@@ -273,8 +273,8 @@ public class TransactionServiceImpl implements TransactionService {
 					+ "," + incident.getIncidentCode() + ","
 					+ transactionInfo.getContents());
 
-			mailSendService.sendAdviserTransactionCommitMail(opInfo
-					.getOpFullName(), opInfo.getOpCode(), incident
+			mailSendService.sendAdviserTransactionCommitMail(incident
+					.getIcOwnerName(), incident.getIcOwnerCode(), incident
 					.getScLoginName(), incident.getScLoginCode(),
 					incident.getCcList() == null ? null : incident.getCcList()
 							.split(","), incident, transactionInfo);

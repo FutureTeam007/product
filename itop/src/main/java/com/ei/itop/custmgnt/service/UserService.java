@@ -28,6 +28,14 @@ public interface UserService {
 	 * @throws Exception
 	 */
 	public void changeLoginPasswd(long userId, String passwd) throws Exception;
+	
+	/**
+	 * 修改用户信息
+	 * 
+	 * @param passwd
+	 * @throws Exception
+	 */
+	public void modifyUserInfo(CcUser user) throws Exception;
 	/**
 	 * 激活用户
 	 * @param userId

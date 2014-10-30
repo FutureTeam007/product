@@ -233,6 +233,7 @@ public class LoginController {
 		op.setOrgId(orgId);
 		op.setOrgName(orgName);
 		op.setCustId(custId + "");
+		op.setOpKind(opKind==null?0:opKind);
 		request.getSession().setAttribute(
 				SysConstants.SessionAttribute.OP_SESSION, op);
 		// 将操作员的登录类型放入Cookie，方便下次登录

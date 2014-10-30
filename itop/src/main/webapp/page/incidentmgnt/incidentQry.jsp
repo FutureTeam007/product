@@ -14,7 +14,7 @@
 <jsp:include page="../common/pageMasterStart.jsp"></jsp:include>
 <div>
 	<div class="inci-search  clearfix">
-		<div style="width:89%;" class="pull-left list-inline clearfix">
+		<div style="width:99%;" class="clearfix">
 			<span class="form-item">
 		    	<label for="inciNo">事件序列号</label>
 		    	<input type="text" class="form-control" id="incidentCode"/>
@@ -46,7 +46,7 @@
 			   />
 		  	</span>
 	  	</div>
-	  	<div style="width:89%;" class="pull-left list-inline clearfix">
+	  	<div style="width:99%;" class="clearfix">
 			<span class="form-item" id="affectQry">
 		    	<label>影响度</label>
 		    	<c:forEach var="affect" items="${affectP}" begin="0" step="1">
@@ -61,17 +61,17 @@
 		  	</span>
 		  	<span class="form-item">
 		    	<label>提出时间</label>
-		    	<input class="easyui-datebox" style="width:33%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
-		    	至&nbsp;<input class="easyui-datebox" style="width:33%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
+		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
+		    	至&nbsp;<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
 		  	</span>
 		  	<span class="form-item">
 		  		<label id="custSelLabel">客户</label>
 		  		<input style="width:70%" id="custSel" />
 		  	</span>
 	  	</div>
-	  	<div style="width:10%;" class="pull-right list-inline">
-		    <button type="button" class="btn btn-primary btn-sm mr5"  onclick="query()">&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;</button>
-		    <button type="button" class="btn btn-default btn-sm"  onclick="reset()">&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;</button>
+	  	<div style="width:99%;" class="clearfix">
+		    	<button type="button" class="btn btn-default btn-sm mr15 pull-right"  onclick="reset()">&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;</button>
+		  		<button type="button" class="btn btn-primary btn-sm mr5 pull-right"  onclick="query()">&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;</button>
 	  	</div>
 	</div>
 	<div class="inci-data">

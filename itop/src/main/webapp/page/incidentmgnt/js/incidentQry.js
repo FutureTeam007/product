@@ -20,16 +20,20 @@ $(function(){
 	//如果是用户，则显示创建事件按钮、隐藏客户选择列表
 	if(opType=='USER'){
 		$("#addBtn").show();
-		$("#custSel").hide();
-		$("#custSelLabel").hide();
+		//$("#custSel").hide();
+		//$("#custSelLabel").hide();
 	}
-	//如果是顾问，则显示客户选择列表
-	else{
-		$('#custSel').combotree({
-			editable:false,
-		    url:rootPath+'/register/custlist/get'
-		});
-	}
+	//初始化客户查询条件
+	$('#custSel').combotree({
+		editable:false,
+		disabled:(opType=='USER'?true:false),
+	    url:rootPath+'/register/custlist/get',
+	    onLoadSuccess:function(){
+	    	if(opType=='USER'){
+	    		$('#custSel').combotree('setValue',opCustId);
+	    	}
+	    }
+	});
 	//初始化子页滑动
 	initSubPage();
 	//默认执行一次查询
@@ -353,7 +357,10 @@ function reRenderStatusNav(status){
 				}
 			}
 		},
-		error : function() {}
+		error : function() {
+			$.messager.alert('提示','登录已超时，请重新登录!');
+			location.href=rootPath+'/login.jsp';
+		}
 	});
 }
 //调整表格列宽
@@ -471,7 +478,6 @@ function formatOperations(val,row){
 	}
 	//如果是关闭状态且操作员是客户方的IT人员，则显示归档
 	if(row.itStateCode==9&&opType=="USER"&&opKind==3){
-	//if(row.itStateCode==9){
 		buttons += "<button type='button' class='btn btn-link' onclick='showStockIncident("+val+")'>归档</button>";
 	}
 	return buttons;

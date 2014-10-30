@@ -6,13 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.json.JSONUtils;
+import com.ailk.dazzle.util.sec.Encrypt;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.custmgnt.service.UserService;
+import com.ei.itop.register.bean.RegisterInfo;
 
 @Controller
 @RequestMapping("/custmgnt/user")
@@ -47,5 +50,40 @@ public class UserController {
 		userService.changeLoginPasswd(opId, newPassword);
 	}
 	
-	
+	@RequestMapping("/changebaseinfo")
+	public ModelAndView changeBaseInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		//取得注册参数
+		String companyId = request.getParameter("companyId");
+		String companyName = request.getParameter("companyName");
+		String jobRole = request.getParameter("jobRole");
+		String chineseName = request.getParameter("chineseName");
+		String givenName = request.getParameter("givenName");
+		String familyName = request.getParameter("familyName");
+		String gender = request.getParameter("gender");
+		String mobileNo = request.getParameter("mobileNo");
+		String areaCode = request.getParameter("areaCode");
+		String phoneNo = request.getParameter("phoneNo");
+		//封装CcUser
+		CcUser user = new CcUser();
+		user.setCcUserId(SessionUtil.getOpInfo().getOpId());
+		user.setOpName(chineseName);
+		user.setCustName(companyName);
+		user.setCcCustId(VarTypeConvertUtils.string2Long(companyId));
+		user.setDefCcCustId(VarTypeConvertUtils.string2Long(companyId));
+		user.setOpKind(VarTypeConvertUtils.string2Long(jobRole));
+		user.setFirstName(givenName);
+		user.setLastName(familyName);
+		user.setGender(VarTypeConvertUtils.string2Short(gender));
+		user.setMobileNo(mobileNo);
+		user.setOfficeTel(areaCode+"-"+phoneNo);
+		try {
+			userService.modifyUserInfo(user);
+			mav.addObject("msg","修改成功");
+		} catch (Exception e) {
+			mav.addObject("msg","修改失败,请联系系统管理员");
+		}
+		mav.setViewName("/page/usercenter/changeBaseInfo");
+		return mav;
+	}
 }

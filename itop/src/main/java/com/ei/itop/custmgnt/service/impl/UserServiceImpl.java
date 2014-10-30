@@ -66,4 +66,8 @@ public class UserServiceImpl implements UserService {
 		userDAO.update("CC_USER.updateByPrimaryKeySelective", user);
 	}
 
+	public void modifyUserInfo(CcUser user) throws Exception {
+		userDAO.update("CC_USER.updateByPrimaryKeySelective", user);
+	}
+
 }

@@ -10,8 +10,8 @@
 <body>
 	<div class="panel panel-default">
 	  <div class="panel-body">
-	    <p>${userName}，您好！</p>
-	    <p>${fromName}于${vDate}提交了一次转派事务，将事件处理转交给${toName}，事务内容如下：</p>
+	    <p>${opName}，您好！</p>
+	    <p>您于${vDate}提交了一次$!{op}处理事务，事务内容如下：</p>
 	    <p>${content}</p>
 	    <p>关于更多事务内容，<a href="${website}" target="_blank">请登录ITOP系统</a></p>
 	    <hr/>
