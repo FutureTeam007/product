@@ -119,12 +119,12 @@
 	
 	<!-- 邮件发送配置 -->
 	<util:map id="mailSendConfig" key-type="java.lang.String" value-type="java.lang.String">
-		<entry key="mail.host" value="smtp.exmail.qq.com"/>
+		<entry key="mail.host" value="smtp.163.com"/>
 		<entry key="mail.port" value="25"/>
-		<entry key="mail.username" value="vintin.liu@eiconsulting.cn"/>
-		<entry key="mail.password" value="4764656C3A393C3C3A"/>
+		<entry key="mail.username" value="itop_support"/>
+		<entry key="mail.password" value="786F653A3938"/>
 		<entry key="mail.smtp.auth" value="true"/>
-		<entry key="mail.from" value="vintin.liu@eiconsulting.cn"/>
+		<entry key="mail.from" value="itop_support@163.com"/>
 		<entry key="mail.allowed" value="true"/>
 	</util:map>	
 	
