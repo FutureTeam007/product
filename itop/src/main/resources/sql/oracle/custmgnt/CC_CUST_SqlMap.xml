@@ -23,6 +23,14 @@
     from CC_CUST
     where CC_CUST_ID = #ccCustId:DECIMAL#
   </select>
+   <select id="selectTopCustByCustId" resultMap="ccCustResult" parameterClass="long" >
+	  SELECT CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL, ORG_LVL_PATH,
+      CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
+	  FROM cc_cust cust
+	  where cust.sup_cust_id is null and STATE = 1
+	  start with cust.CC_CUST_ID = #ccCustId:DECIMAL#
+	  connect by prior cust.sup_cust_id = cust.CC_CUST_ID
+   </select>
    <select id="queryCustListByDomainName" resultMap="ccCustResult" parameterClass="java.util.Map" >
     select CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL, ORG_LVL_PATH,
       CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE

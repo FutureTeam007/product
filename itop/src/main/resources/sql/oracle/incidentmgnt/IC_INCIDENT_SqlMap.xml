@@ -227,7 +227,7 @@
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE,,ARCHIVE_FLAG, rownum rn
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE,ARCHIVE_FLAG, rownum rn
     from (select ii.* from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="orgId" >
     	and SC_ORG_ID = #orgId:DECIMAL#
@@ -458,7 +458,7 @@
       #icOwnerType:VARCHAR#, #icOwnerId:DECIMAL#, #icOwnerCode:VARCHARe#, #icOwnerName:VARCHAR#,
       #plObjectType:VARCHAR#, #plObjectId:DECIMAL#, #plLoginCode:VARCHAR#, #plObjectName:VARCHAR#,
       #scOpId:DECIMAL#, #scLoginCode:VARCHAR#, #scLoginName:VARCHAR#, #icObjectType:VARCHAR#, #icObjectId:DECIMAL#,
-      #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:DATE#, #happenTime:DATE#,
+      #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:TIMESTAMP#, #happenTime:DATE#,
       #sourceCode:VARCHAR#, #sourceVal:VARCHAR#,
       #classCode:VARCHAR#,
       #classVal:VARCHAR#, #affectCode:VARCHAR#, #affectVal:VARCHAR#, #complexCode:VARCHAR#,

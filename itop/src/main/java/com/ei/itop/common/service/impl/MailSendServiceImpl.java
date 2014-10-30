@@ -88,9 +88,6 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]成功提交事件通知，事件编号["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("userName", userName);
@@ -122,6 +119,9 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]新事件通知，事件编号["
 								+ incident.getIncidentCode() + "],来自于["
 								+ userName + "]");// 设置邮件主题
+						if (ccAddr != null) {
+							message.setCc(ccAddr);
+						}
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
@@ -165,9 +165,6 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("opName", opName);
@@ -241,9 +238,6 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("opName", opName);
@@ -318,9 +312,6 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("opName", fromName);
@@ -383,6 +374,9 @@ public class MailSendServiceImpl implements
 								+ incident.getIncidentCode() + "]，来自["
 								+ fromName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
+						if (ccAddr != null) {
+							message.setCc(ccAddr);
+						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("toName", toName);
@@ -393,7 +387,7 @@ public class MailSendServiceImpl implements
 						params.put("content", transaction.getContents());
 						String text = VelocityEngineUtils
 								.mergeTemplateIntoString(velocityEngine,
-										"vm/transaction-transfer.vm", "UTF-8",
+										"vm/transaction-transfer-user.vm", "UTF-8",
 										params);
 						message.setText(text, true);
 					}
@@ -461,6 +455,9 @@ public class MailSendServiceImpl implements
 								+ fromName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, String> params = new HashMap<String, String>();
+						if (ccAddr != null) {
+							message.setCc(ccAddr);
+						}
 						params.put("website", website);
 						params.put("vDate", DateUtils.date2String(new Date(),
 								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
@@ -501,9 +498,6 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("opName", opName);
@@ -579,9 +573,6 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("opName", opName);
@@ -657,9 +648,6 @@ public class MailSendServiceImpl implements
 						message.setSubject("[ITOP]事务处理成功提交通知，事件编号["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("website", website);
 						params.put("opName", opName);

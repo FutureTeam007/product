@@ -98,4 +98,12 @@ public interface CustMgntService {
 	 */
 	public List<CcSlo> querySloRules(long orgId,long custId,long productId,String priorityCode,String complexCode) throws Exception;
 	
+	/**
+	 * 根据custId查询顶层的Cust信息
+	 * @param custId
+	 * @return
+	 * @throws Exception
+	 */
+	public CcCust getTopCustInfo(long custId) throws Exception;
+	
 }

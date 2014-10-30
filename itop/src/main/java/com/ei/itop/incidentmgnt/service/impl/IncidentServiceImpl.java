@@ -476,7 +476,7 @@ public class IncidentServiceImpl implements IncidentService {
 		String incidentCode = "";
 
 		// 取得客户信息
-		CcCust cust = custMgntService.getCustInfo(custId);
+		CcCust cust = custMgntService.getTopCustInfo(custId);
 
 		incidentCode = cust.getCustCode().toUpperCase() + "-";
 

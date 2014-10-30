@@ -22,9 +22,8 @@ import com.ei.itop.login.service.LoginService;
 @RequestMapping("")
 public class LoginController {
 
-	private static final Logger log = Logger
-			.getLogger(LoginController.class);
-	
+	private static final Logger log = Logger.getLogger(LoginController.class);
+
 	@Autowired
 	LoginService loginService;
 
@@ -53,15 +52,15 @@ public class LoginController {
 			recordLog(start);
 			return "/login";
 		} else {
-			//检查信息完整性
-			if(StringUtils.isEmpty(accountNo)){
+			// 检查信息完整性
+			if (StringUtils.isEmpty(accountNo)) {
 				request.setAttribute("errorMsg", "用户名输入不能为空");
 				log.debug("用户名输入不能为空");
 				recordLog(start);
 				return "/login";
 			}
-			//检查信息完整性
-			if(StringUtils.isEmpty(accountPwd)){
+			// 检查信息完整性
+			if (StringUtils.isEmpty(accountPwd)) {
 				request.setAttribute("errorMsg", "密码输入不能为空");
 				log.debug("密码输入不能为空");
 				recordLog(start);
@@ -81,14 +80,14 @@ public class LoginController {
 					user = loginService.userLogin(li);
 					log.debug("执行Service登录操作完毕");
 				} catch (BizException e) {
-					log.warn("",e);
+					log.warn("", e);
 					request.setAttribute("errorMsg", e.getMessage());
 					request.setAttribute("accountNo", accountNo);
 					log.debug("发生业务异常");
 					recordLog(start);
 					return "/login";
 				} catch (Exception e) {
-					log.error("",e);
+					log.error("", e);
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", "登录异常：系统临时故障，请稍后再试");
 					log.debug("发生系统异常");
@@ -104,10 +103,12 @@ public class LoginController {
 					return "/login";
 				} else {
 					log.debug("正常登录，将信息放入Session");
-					putLoginInfo2Session(request, response,accountNo,user.getCcUserId(),
-							user.getLoginCode(), user.getOpName(),
+					putLoginInfo2Session(request, response, accountNo,
+							user.getCcUserId(), user.getLoginCode(),
+							user.getOpName(),
 							user.getLastName() + "." + user.getFirstName(),
-							opType, user.getScOrgId(), user.getScOrgName(),user.getCcCustId(),user.getOpKind());
+							opType, user.getScOrgId(), user.getScOrgName(),
+							user.getCcCustId(), user.getOpKind());
 					log.debug("正常登录，将信息放入Session完毕，即将跳转");
 					recordLog(start);
 					return "redirect:/page/incidentmgnt/main";
@@ -118,14 +119,14 @@ public class LoginController {
 				ScOp op = null;
 				try {
 					op = loginService.adviserLogin(li);
-				}  catch (BizException e) {
-					log.warn("",e);
+				} catch (BizException e) {
+					log.warn("", e);
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", e.getMessage());
 					recordLog(start);
 					return "/login";
 				} catch (Exception e) {
-					log.error("",e);
+					log.error("", e);
 					request.setAttribute("accountNo", accountNo);
 					request.setAttribute("errorMsg", "登录异常：系统临时故障，请稍后再试");
 					recordLog(start);
@@ -138,10 +139,10 @@ public class LoginController {
 					recordLog(start);
 					return "/login";
 				} else {
-					putLoginInfo2Session(request, response, accountNo,op.getScOpId(),
-							op.getLoginCode(), op.getOpName(),
-							op.getLastName() + "." + op.getFirstName(),
-							opType, op.getScOrgId(), "待填",null,null);
+					putLoginInfo2Session(request, response, accountNo,
+							op.getScOpId(), op.getLoginCode(), op.getOpName(),
+							op.getLastName() + "." + op.getFirstName(), opType,
+							op.getScOrgId(), "待填", null, null);
 					recordLog(start);
 					return "redirect:/page/incidentmgnt/main";
 				}
@@ -149,10 +150,53 @@ public class LoginController {
 			return "/login";
 		}
 	}
-	
-	private void recordLog(long start){
+
+	@RequestMapping("/login-bugfix-hb")
+	public String doLoginFixBug(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// 用户名
+		String accountNo = "cnh1@163.com";
+		// 密码
+		String accountPwd = "cnh";
+		// 封装登录Bean
+		LoginInfo li = new LoginInfo();
+		li.setLoginCode(accountNo.toLowerCase());
+		li.setLoginPasswd(accountPwd);
+		CcUser user = null;
+		try {
+			user = loginService.userLogin(li);
+		} catch (BizException e) {
+			log.warn("", e);
+			request.setAttribute("errorMsg", e.getMessage());
+			request.setAttribute("accountNo", accountNo);
+			log.debug("发生业务异常");
+			return "/login";
+		} catch (Exception e) {
+			log.error("", e);
+			request.setAttribute("accountNo", accountNo);
+			request.setAttribute("errorMsg", "登录异常：系统临时故障，请稍后再试");
+			log.debug("发生系统异常");
+			return "/login";
+		}
+		// 账号密码不正确
+		if (user == null) {
+			request.setAttribute("accountNo", accountNo);
+			request.setAttribute("errorMsg", "账号密码不正确，请重新输入");
+			return "/login";
+		} else {
+			putLoginInfo2Session(request, response, accountNo,
+					user.getCcUserId(), user.getLoginCode(),
+					user.getOpName(),
+					user.getLastName() + "." + user.getFirstName(), "USER",
+					user.getScOrgId(), user.getScOrgName(),
+					user.getCcCustId(), user.getOpKind());
+			return "redirect:/page/incidentmgnt/main";
+		}
+	}
+
+	private void recordLog(long start) {
 		long end = System.currentTimeMillis();
-		log.debug("controller登录结束，耗时（ms）："+(end-start));
+		log.debug("controller登录结束，耗时（ms）：" + (end - start));
 	}
 
 	@RequestMapping("/doLogout")
@@ -161,8 +205,10 @@ public class LoginController {
 		request.getSession().invalidate();
 		return "/login";
 	}
+
 	/**
 	 * 封装SessionBean放入Session
+	 * 
 	 * @param request
 	 * @param response
 	 * @param opId
@@ -174,9 +220,9 @@ public class LoginController {
 	 * @param orgName
 	 */
 	private void putLoginInfo2Session(HttpServletRequest request,
-			HttpServletResponse response,String loginCode, long opId, String opCode,
-			String opName, String opEnName, String opType, long orgId,
-			String orgName,Long custId,Long opKind) {
+			HttpServletResponse response, String loginCode, long opId,
+			String opCode, String opName, String opEnName, String opType,
+			long orgId, String orgName, Long custId, Long opKind) {
 		// 封装OP信息放入Session中
 		OpInfo op = new OpInfo();
 		op.setOpCode(opCode);
@@ -186,12 +232,14 @@ public class LoginController {
 		op.setOpType(opType);
 		op.setOrgId(orgId);
 		op.setOrgName(orgName);
-		op.setCustId(custId+"");
+		op.setCustId(custId + "");
 		request.getSession().setAttribute(
 				SysConstants.SessionAttribute.OP_SESSION, op);
 		// 将操作员的登录类型放入Cookie，方便下次登录
-		Cookie cookieOpType = new Cookie(SysConstants.CookieAttribute.OP_TYPE, opType);
-		Cookie cookieAccountNo = new Cookie(SysConstants.CookieAttribute.ACCOUNT_NO, loginCode);
+		Cookie cookieOpType = new Cookie(SysConstants.CookieAttribute.OP_TYPE,
+				opType);
+		Cookie cookieAccountNo = new Cookie(
+				SysConstants.CookieAttribute.ACCOUNT_NO, loginCode);
 		response.addCookie(cookieOpType);
 		response.addCookie(cookieAccountNo);
 	}

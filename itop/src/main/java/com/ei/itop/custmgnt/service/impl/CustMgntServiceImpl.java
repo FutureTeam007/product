@@ -100,6 +100,14 @@ public class CustMgntServiceImpl implements CustMgntService {
 
 		return cust;
 	}
+	
+	public CcCust getTopCustInfo(long custId) throws Exception {
+		// TODO Auto-generated method stub
+
+		CcCust cust = custDAO.find("CC_CUST.selectTopCustByCustId", custId);
+
+		return cust;
+	}
 
 	/*
 	 * (non-Javadoc)
