@@ -16,6 +16,7 @@ import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
+import com.ei.itop.common.dbentity.CcSlo;
 import com.ei.itop.custmgnt.bean.InChargeAdviser;
 import com.ei.itop.custmgnt.service.CustMgntService;
 
@@ -37,6 +38,9 @@ public class CustMgntServiceImpl implements CustMgntService {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, InChargeAdviser> inChargeAdviserDAO;
+	
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, CcSlo> ccSloDAO;
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, Long> inChargeAdviserCountDAO;
@@ -191,5 +195,16 @@ public class CustMgntServiceImpl implements CustMgntService {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("domainName",domainName);
 		return custDAO.findByParams("CC_CUST.queryCustListByDomainName", params);
+	}
+
+	public List<CcSlo> querySloRules(long orgId, long custId, long productId,
+			String priorityCode, String complexCode) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("orgId",orgId);
+		params.put("custId",custId);
+		params.put("productId",productId);
+		params.put("priorityCode",priorityCode);
+		params.put("complexCode",complexCode);
+		return ccSloDAO.findByParams("CC_SLO.querySloRules", params);
 	}
 }

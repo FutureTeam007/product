@@ -156,6 +156,7 @@ function queryIncidentInfo(flag){
 			$("#itSolution").html(msg.itSolution);
 			//$("#responseDur2").html(msg.responseDur2+caculateLights(msg.responseNum));
 			//$("#dealDur2").html(msg.dealDur2+caculateLights(msg.dealNum));
+			$("#dealDur2").html(dateTimeFormatter(msg.dealDur2));
 			$("#infoScLoginName").html(msg.icObjectName);
 			$("#brief").html(msg.brief);
 			$("#detail").html(msg.detail);

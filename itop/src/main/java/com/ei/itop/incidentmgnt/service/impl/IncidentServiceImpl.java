@@ -4,6 +4,7 @@
 package com.ei.itop.incidentmgnt.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,17 +20,18 @@ import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ailk.dazzle.util.type.DateUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
-import com.ei.itop.common.Service.MailSendService;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.constants.SysConstants;
 import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
+import com.ei.itop.common.dbentity.CcSlo;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.common.dbentity.ScParam;
+import com.ei.itop.common.service.MailSendService;
 import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.incidentmgnt.bean.AdviserTaskQuantity;
@@ -785,9 +787,10 @@ public class IncidentServiceImpl implements IncidentService {
 					+ incidentInfo.getCcList() + ","
 					+ incidentInfo.getIncidentCode() + ","
 					+ incidentInfo.getDetail());
+
 			mailSendService.sendIncidentMail(incidentInfo.getIcOwnerName(),
-					incidentInfo.getScLoginName(), incidentInfo
-							.getIcOwnerCode(), incidentInfo.getScLoginCode(),
+					incidentInfo.getIcOwnerCode(), incidentInfo
+							.getScLoginName(), incidentInfo.getScLoginCode(),
 					incidentInfo.getCcList() == null ? null : incidentInfo
 							.getCcList().split(","), incidentInfo);
 		}
@@ -866,11 +869,11 @@ public class IncidentServiceImpl implements IncidentService {
 					+ incident.getScLoginCode() + "," + incident.getCcList()
 					+ "," + incident.getIncidentCode() + ","
 					+ incident.getDetail());
-			mailSendService.sendIncidentMail(incident.getIcOwnerName(),
-					incident.getScLoginName(), incident.getIcOwnerCode(),
-					incident.getScLoginCode(),
-					incident.getCcList() == null ? null : incident.getCcList()
-							.split(","), incident);
+			mailSendService.sendIncidentMail(incidentInfo.getIcOwnerName(),
+					incidentInfo.getIcOwnerCode(), incidentInfo
+							.getScLoginName(), incidentInfo.getScLoginCode(),
+					incidentInfo.getCcList() == null ? null : incidentInfo
+							.getCcList().split(","), incidentInfo);
 		}
 
 		// 记录系统操作日志
@@ -950,11 +953,11 @@ public class IncidentServiceImpl implements IncidentService {
 					+ incidentInfo.getScLoginCode() + ","
 					+ incident.getCcList() + "," + incident.getIncidentCode()
 					+ "," + incident.getDetail());
-			mailSendService.sendIncidentMail(incident.getIcOwnerName(),
-					incidentInfo.getScLoginName(), incident.getIcOwnerCode(),
-					incidentInfo.getScLoginCode(),
-					incident.getCcList() == null ? null : incident.getCcList()
-							.split(","), incident);
+			mailSendService.sendIncidentMail(incidentInfo.getIcOwnerName(),
+					incidentInfo.getIcOwnerCode(), incidentInfo
+							.getScLoginName(), incidentInfo.getScLoginCode(),
+					incidentInfo.getCcList() == null ? null : incidentInfo
+							.getCcList().split(","), incidentInfo);
 		}
 
 		// 记录系统操作日志
@@ -1024,7 +1027,17 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 设置主键
 		ii.setIcIncidentId(incidentId);
-
+		
+		// 读取Slo设置，补全截止时间 added by vintin
+		IncidentInfo fullInfo = queryIncident(incidentId);
+		List<CcSlo> sloRules= custMgntService.querySloRules(fullInfo.getScOrgId(),
+				fullInfo.getCcCustId(), fullInfo.getScProductId(),
+				incident.getPriorityCode(), incident.getComplexCode());
+		if(sloRules!=null){
+			CcSlo slo = sloRules.get(0);
+			int diffMinutes = slo.getDealTime().intValue();
+			ii.setDealDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),Calendar.MINUTE,diffMinutes));
+		}
 		// 业务信息
 		ii.setAffectCodeOp(incident.getAffectCodeOp());
 		ii.setAffectValOp(incident.getAffectValOp());
@@ -1075,7 +1088,21 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 保存事件信息
 		modifyIncidentAndAttach(incidentId, ii, opInfo);
+		// 发送邮件
+		if (Boolean.parseBoolean(mailSendConfig.get("mail.allowed"))) {
+			log.debug("传入参数：" + incident.getIcOwnerName() + ","
+					+ icIncident.getScLoginName() + ","
+					+ incident.getIcOwnerCode() + ","
+					+ icIncident.getScLoginCode() + "," + incident.getCcList()
+					+ "," + incident.getIncidentCode() + ","
+					+ incident.getDetail());
 
+			mailSendService.sendIncidentFeedbackMail(
+					icIncident.getIcOwnerName(), icIncident.getScLoginName(),
+					icIncident.getScLoginCode(), incident.getFeedbackVal(),
+					icIncident);
+
+		}
 		// 记录系统操作日志
 	}
 
@@ -1123,10 +1150,12 @@ public class IncidentServiceImpl implements IncidentService {
 					+ opInfo.getOpCode() + "," + incident.getCcList() + ","
 					+ incident.getIncidentCode() + ","
 					+ transactionInfo.getContents());
-			mailSendService.sendTransactionFinishMail(opInfo.getOpFullName(),
-					opInfo.getOpCode(), incident.getCcList() == null ? null
-							: incident.getCcList().split(","), incident,
-					transactionInfo);
+
+			mailSendService.sendTransactionFinishMail(
+					incident.getIcOwnerName(), incident.getIcOwnerCode(),
+					incident.getScLoginName(), incident.getScLoginCode(),
+					incident.getCcList() == null ? null : incident.getCcList()
+							.split(","), incident, transactionInfo);
 		}
 
 		// 记录系统操作日志
@@ -1230,13 +1259,26 @@ public class IncidentServiceImpl implements IncidentService {
 	}
 
 	public void MBLUserStockIncident(long incidentId, String[] stockFlags,
-			OpInfo oi) throws Exception  {
+			OpInfo oi) throws Exception {
 		IcIncident incident = new IcIncident();
 		incident.setIcIncidentId(incidentId);
 		incident.setItStateCode("10");
 		incident.setItStateVal("已归档");
+		List<ScParam> params = paramService.getParamList(oi.getOrgId(),
+				"IC_ARCHIVE_FLAG");
+		StringBuffer archiveFlag = new StringBuffer("00000000");
+		for (int k = 0; k < params.size(); k++) {
+			ScParam p = params.get(k);
+			for (int i = 0; i < stockFlags.length; i++) {
+				if (p.getParamCode().equals(stockFlags[i])) {
+					archiveFlag.replace(k, k, "1");
+				} else {
+					archiveFlag.replace(k, k, "0");
+				}
+			}
+		}
+		incident.setArchiveFlag(archiveFlag.toString());
 		// 保存事件实体信息
-		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective",
-						incident);
+		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
 	}
 }

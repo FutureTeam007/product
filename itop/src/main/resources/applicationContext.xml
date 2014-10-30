@@ -37,7 +37,9 @@
 	   <property name="driverClassName" value="${${dbType}_driver}"/> 
 	   <property name="url" value="${${dbType}_url}" /> 
 	   <property name="maxActive" value="${maxActiveConns}" />
+	   <property name="minIdle" value="${minIdleConns}" />
 	   <property name="maxIdle" value="${maxIdleConns}" />
+	   <property name="maxWait" value="${maxWait}" />
 	   <property name="initialSize" value="${initialConns}" />
 	   <property name="username" value="${${dbType}_username}" /> 
 	   <property name="password" value="${${dbType}_password}" /> 

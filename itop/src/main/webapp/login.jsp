@@ -108,7 +108,7 @@
 						</ul>
                     </div>
                     <div class="panel-body">
-                        <form role="form" method="post" action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(1);" class="login-form undis" id="userLoginForm">
+                        <form role="form" name="userLoginForm" method="post" action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(1);" class="login-form undis" id="userLoginForm">
                                 <div class="form-group clearfix">
                                 	<label for="accountNo" class="col-sm-3 control-label">邮箱账号</label>
 		    						<div class="col-sm-9">
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                         </form>
-                        <form role="form" method="post"  action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(2);" class="login-form undis" id="opLoginForm">
+                        <form role="form" name="opLoginForm" method="post"  action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(2);" class="login-form undis" id="opLoginForm">
                                 <div class="form-group clearfix">
                                 	<label for="accountNo" class="col-sm-3 control-label">邮箱账号</label>
 		    						<div class="col-sm-9">

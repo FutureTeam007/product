@@ -87,6 +87,8 @@ public class IcIncident {
 	private Long icOwnerId;
 	private String icOwnerCode;
 	private String icOwnerName;
+	
+	private String archiveFlag;
 
 	/**
 	 * @return the icOwnerType
@@ -2107,4 +2109,13 @@ public class IcIncident {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
+
+	public String getArchiveFlag() {
+		return archiveFlag;
+	}
+
+	public void setArchiveFlag(String archiveFlag) {
+		this.archiveFlag = archiveFlag;
+	}
+	
 }

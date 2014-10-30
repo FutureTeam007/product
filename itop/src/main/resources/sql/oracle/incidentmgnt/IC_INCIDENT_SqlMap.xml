@@ -36,7 +36,7 @@
     <result column="IC_OBJECT_ID" property="icObjectId" jdbcType="DECIMAL" />
     <result column="IC_OBJECT_NAME" property="icObjectName" jdbcType="VARCHAR" />
     <result column="IC_LOGIN_CODE" property="icLoginCode" jdbcType="VARCHAR" />
-    <result column="REGISTE_TIME" property="registeTime" jdbcType="DATE" />
+    <result column="REGISTE_TIME" property="registeTime" jdbcType="TIMESTAMP" />
     <result column="HAPPEN_TIME" property="happenTime" jdbcType="DATE" />
     <result column="SOURCE_CODE" property="sourceCode" jdbcType="VARCHAR" />
     <result column="SOURCE_VAL" property="sourceVal" jdbcType="VARCHAR" />
@@ -53,7 +53,7 @@
     <result column="DETAIL" property="detail" jdbcType="VARCHAR" />
     <result column="RESPONSE_TIME" property="responseTime" jdbcType="DECIMAL" />
     <result column="DEAL_TIME" property="dealTime" jdbcType="DECIMAL" />
-    <result column="REPONSE_DUR2" property="reponseDur2" jdbcType="DATE" />
+    <result column="REPONSE_DUR2" property="reponseDur2" jdbcType="TIMESTAMP" />
     <result column="DEAL_DUR2" property="dealDur2" jdbcType="DATE" />
     <result column="REPONSE_NUM" property="reponseNum" jdbcType="VARCHAR" />
     <result column="DEAL_NUM" property="dealNum" jdbcType="VARCHAR" />
@@ -75,6 +75,7 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
     <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
     <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+    <result column="ARCHIVE_FLAG" property="archiveFlag" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="icIncidentResult" class="com.ei.itop.common.dbentity.IcIncident" >
     <result column="IC_INCIDENT_ID" property="icIncidentId" jdbcType="DECIMAL" />
@@ -102,7 +103,7 @@
     <result column="IC_OBJECT_ID" property="icObjectId" jdbcType="DECIMAL" />
     <result column="IC_OBJECT_NAME" property="icObjectName" jdbcType="VARCHAR" />
     <result column="IC_LOGIN_CODE" property="icLoginCode" jdbcType="VARCHAR" />
-    <result column="REGISTE_TIME" property="registeTime" jdbcType="DATE" />
+    <result column="REGISTE_TIME" property="registeTime" jdbcType="TIMESTAMP" />
     <result column="HAPPEN_TIME" property="happenTime" jdbcType="DATE" />
     <result column="SOURCE_CODE" property="sourceCode" jdbcType="VARCHAR" />
     <result column="SOURCE_VAL" property="sourceVal" jdbcType="VARCHAR" />
@@ -120,7 +121,7 @@
     <result column="RESPONSE_TIME" property="responseTime" jdbcType="DECIMAL" />
     <result column="DEAL_TIME" property="dealTime" jdbcType="DECIMAL" />
     <result column="REPONSE_DUR2" property="reponseDur2" jdbcType="DATE" />
-    <result column="DEAL_DUR2" property="dealDur2" jdbcType="DATE" />
+    <result column="DEAL_DUR2" property="dealDur2" jdbcType="TIMESTAMP" />
     <result column="REPONSE_NUM" property="reponseNum" jdbcType="VARCHAR" />
     <result column="DEAL_NUM" property="dealNum" jdbcType="VARCHAR" />
     <result column="RESTORE_TIME" property="restoreTime" jdbcType="DATE" />
@@ -141,6 +142,7 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
     <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
     <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+    <result column="ARCHIVE_FLAG" property="archiveFlag" jdbcType="VARCHAR" />
   </resultMap>
   <select id="queryAdviserTaskQuantity" resultMap="adviserTaskQuantityResult" parameterClass="java.util.Map" >
     select sc_op_id adviser_id,count(*) task_quantity from ic_incident
@@ -161,7 +163,7 @@
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE,ARCHIVE_FLAG
     from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="orgId" >
     	and SC_ORG_ID = #orgId:DECIMAL#
@@ -225,7 +227,7 @@
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE, rownum rn
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE,,ARCHIVE_FLAG, rownum rn
     from (select ii.* from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="orgId" >
     	and SC_ORG_ID = #orgId:DECIMAL#
@@ -292,7 +294,7 @@
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE ,ARCHIVE_FLAG
     from IC_INCIDENT ii where data_state=1
       <isNotNull prepend="" property="orgId" >
     	and SC_ORG_ID = #orgId:DECIMAL#
@@ -409,7 +411,7 @@
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE,ARCHIVE_FLAG
     from IC_INCIDENT
     where CC_CUST_ID = #custId:DECIMAL#
     and create_date >= #currentMonthFirstDay:DATE#
@@ -426,7 +428,7 @@
       PRIORITY_CODE, PRIORITY_VAL, CC_LIST, BRIEF, DETAIL, RESPONSE_TIME, DEAL_TIME, REPONSE_DUR2,
       DEAL_DUR2, REPONSE_NUM, DEAL_NUM, RESTORE_TIME, REPONSE_DUR, DEAL_DUR, FINISH_TIME,
       IT_SOLUTION, FINISH_CODE, FINISH_VAL, FEEDBACK_CODE, FEEDBACK_VAL, FEEDBACK_TIME, CLOSE_TIME,
-      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE
+      IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE,ARCHIVE_FLAG
     from IC_INCIDENT
     where IC_INCIDENT_ID = #value:DECIMAL#
   </select>
@@ -720,6 +722,9 @@
       </isNotNull>
       <isNotNull prepend="," property="createDate" >
         CREATE_DATE = #createDate:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="archiveFlag" >
+        ARCHIVE_FLAG = #archiveFlag:VARCHAR#
       </isNotNull>
     where IC_INCIDENT_ID = #icIncidentId:DECIMAL#
   </update>

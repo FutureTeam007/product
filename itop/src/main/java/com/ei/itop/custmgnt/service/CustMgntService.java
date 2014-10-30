@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
+import com.ei.itop.common.dbentity.CcSlo;
 import com.ei.itop.custmgnt.bean.InChargeAdviser;
 
 /**
@@ -89,4 +90,12 @@ public interface CustMgntService {
 	 * @throws Exception
 	 */
 	public List<CcCust> queryCustListByDomainName(String domainName) throws Exception;
+	
+	/**
+	 * 查询Slo规则
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CcSlo> querySloRules(long orgId,long custId,long productId,String priorityCode,String complexCode) throws Exception;
+	
 }

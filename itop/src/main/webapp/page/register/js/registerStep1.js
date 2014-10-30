@@ -26,6 +26,7 @@ function validateRegisterFormVars(){
 	var givenName = $.trim($("#givenName").val());
 	var familyName = $.trim($("#familyName").val());
 	var gender = $("input[name=gender]:checked").val();
+	var jobRole = $("input[name=jobRole]:checked").val();
 	var mobileNo = $.trim($("#mobileNo").val());
 	var areaCode = $.trim($("#areaCode").val());
 	var phoneNo = $.trim($("#phoneNo").val());
@@ -44,6 +45,10 @@ function validateRegisterFormVars(){
 	}
 	if(!companyId){
 		$.messager.alert('提示','请选择您所在的公司');
+		return false;
+	}
+	if(!jobRole){
+		$.messager.alert('提示','请选择工作角色');
 		return false;
 	}
 	if(!chineseName){

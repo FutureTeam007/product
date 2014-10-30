@@ -57,6 +57,18 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
+		    <label for="companySel" class="col-sm-2 control-label">角色</label>
+		    <div class="col-sm-7">
+		     	<span class="radio-inline">
+				  <input type="radio" name="jobRole"  value="2" checked="checked" />业务人员
+				</span>
+				<span class="radio-inline">
+				  <input type="radio" name="jobRole"  value="3"/>IT人员
+				</span>
+		    </div>
+		    <div class="col-sm-3 form-desc"></div>
+  		</div>
+  		<div class="form-group clearfix">
 		    <label for="chineseName" class="col-sm-2 control-label">中文姓名</label>
 		    <div class="col-sm-7">
 		      	<input type="text" class="form-control small-control" id="chineseName" value="${chineseName}" name="chineseName" maxlength="40"/>
@@ -80,7 +92,7 @@
   		<div class="form-group clearfix">
 		    <label for="moduleSel" class="col-sm-2 control-label">性别</label>
 		    <div class="col-sm-7">
-		      <span class="radio-inline">
+		        <span class="radio-inline">
 				  <input type="radio" name="gender" id="male" value="1" /> 先生
 				</span>
 				<span class="radio-inline">

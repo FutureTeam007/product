@@ -47,15 +47,11 @@ public class RegisterServiceImpl implements RegisterService {
 	 * .register.bean.RegisterInfo)
 	 */
 	public long userRegister(RegisterInfo registerInfo) throws Exception {
-		// TODO Auto-generated method stub
 
 		// 填入商户信息
 		CcCust cust = custMgntService.getCustInfo(registerInfo.getCcCustId());
 		registerInfo.setScOrgId(cust.getScOrgId());
 		registerInfo.setScOrgName(cust.getScOrgName());
-
-		// 设置操作员类别，2-普通用户
-		//registerInfo.setOpKind(new Long(2));
 
 		// 设置账户状态，-1-锁定
 		registerInfo.setState(new Long(-1));

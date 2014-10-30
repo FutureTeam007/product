@@ -10,8 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ailk.dazzle.util.sec.Encrypt;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
-import com.ei.itop.common.Service.MailSendService;
 import com.ei.itop.common.dbentity.CcUser;
+import com.ei.itop.common.service.MailSendService;
 import com.ei.itop.register.bean.RegisterInfo;
 import com.ei.itop.register.service.RegisterService;
 
@@ -52,6 +52,7 @@ public class RegisterPageController {
 		String passwd = request.getParameter("passwd");
 		String companyId = request.getParameter("companyId");
 		String companyName = request.getParameter("companyName");
+		String jobRole = request.getParameter("jobRole");
 		//String deptId = request.getParameter("deptId");
 		String chineseName = request.getParameter("chineseName");
 		String givenName = request.getParameter("givenName");
@@ -76,6 +77,7 @@ public class RegisterPageController {
 			ri.setLoginCode(acountNo);
 			ri.setLoginPasswd(passwd);
 			ri.setMobileNo(mobileNo);
+			ri.setOpKind(VarTypeConvertUtils.string2Long(jobRole,2));
 			ri.setOfficeTel(areaCode+"-"+phoneNo);
 			ri.setState(-1L);//未激活
 			//注册
