@@ -139,7 +139,7 @@ function queryIncidentInfo(flag){
 			$("#incidentCode").html(msg.incidentCode);
 			$("#scLoginName").html(msg.scLoginName);
 			$("#icObjectName").html(msg.icObjectName);
-			$("#registTime").html(dateFormatter(msg.registeTime));
+			$("#registTime").html(dateTimeFormatter(msg.registeTime));
 			$("#itStateCode").html(msg.itStateVal+"("+msg.itPhase+")");
 			//绑定事件详细信息数据
 			$("#custName").html(msg.custName);
@@ -148,7 +148,7 @@ function queryIncidentInfo(flag){
 			$("#moduleName").html(msg.moduleName);
 			$("#affectCodeOp").html(msg.affectVal);
 			$("#complexCode").html(msg.complexVal);
-			$("#happenTime").html(dateFormatter(msg.happenTime));
+			$("#happenTime").html(dateTimeFormatter(msg.happenTime));
 			$("#itPhase").html(msg.itPhase);
 			$("#responseTime").html(msg.responseTime);
 			$("#dealTime").html(msg.dealTime);

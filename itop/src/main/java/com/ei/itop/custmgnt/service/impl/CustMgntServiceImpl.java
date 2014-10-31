@@ -215,4 +215,11 @@ public class CustMgntServiceImpl implements CustMgntService {
 		params.put("complexCode",complexCode);
 		return ccSloDAO.findByParams("CC_SLO.querySloRules", params);
 	}
+
+	public List<CcCust> getSubCusts(long custId) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("ccCustId", custId);
+		List<CcCust> custs = custDAO.findByParams("CC_CUST.selectSubCustsByCustId", params);
+		return custs;
+	}
 }

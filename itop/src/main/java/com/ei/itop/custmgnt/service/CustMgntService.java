@@ -106,4 +106,12 @@ public interface CustMgntService {
 	 */
 	public CcCust getTopCustInfo(long custId) throws Exception;
 	
+	/**
+	 * 根据custId查询所有子客户（递归）
+	 * @param custId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CcCust> getSubCusts(long custId) throws Exception;
+	
 }

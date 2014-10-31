@@ -225,7 +225,7 @@ function setQueryConditions(){
 	//事件系列号
 	qp.incidentCode = $.trim($("#incidentCode").val());
 	//事件简述
-	qp.brief = encodeURIComponent(encodeURI($.trim($("#brief").val())));
+	qp.brief = $.trim($("#brief").val());
 	//事件分类
 	qp.classVar = $("#classVar").combobox('getValue');
 	//产品线

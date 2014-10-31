@@ -92,8 +92,8 @@
   		<div class="form-group clearfix">
 		    <label for="happenTime" class="col-sm-2 control-label">发生时间</label>
 		    <div class="col-sm-7">
-		       <input class="easyui-datebox" style="width:100%" id="happenTime" data-options="
-		       		formatter: function(date){ return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();}
+		       <input class="easyui-datetimebox" style="width:100%" id="happenTime" data-options="
+		       		formatter: function(date){ return dateTimeFormatter(date);}
 		       	">
 		    </div>
   		</div>

@@ -45,7 +45,7 @@ function queryIncident(){
 			});
 			$("#inciTypeSel").combobox('setValue',msg.classCode);
 			$("#brief").val(msg.brief);
-			$("#happenTime").datebox('setValue',dateFormatter(msg.happenTime));
+			$("#happenTime").datetimebox('setValue',dateTimeFormatter(msg.happenTime));
 			$("#detail").val(msg.detail);
 			$("#ccList").val(msg.ccList);
 			var attachData = msg.attachList;
@@ -256,6 +256,30 @@ function dateFormatter(val){
 	//日
 	var day = date.getDate();
 	return year+"-"+(month+1)+"-"+day;
+}
+
+//格式化时间列
+function dateTimeFormatter(val){
+	if(!val){
+		return;
+	}
+	var date = new Date(val);
+	//年
+	var year = date.getFullYear();
+	//月
+	var month = date.getMonth();
+	//日
+	var day = date.getDate();
+	//小时
+	var hour = date.getHours();
+	hour = hour<10?"0"+hour:hour;
+	//分钟
+	var minute = date.getMinutes();
+	minute = minute<10?"0"+minute:minute;
+	//秒
+	var second = date.getSeconds();
+	second = second<10?"0"+second:second;
+	return year+"-"+(month+1)+"-"+day+" "+hour+":"+minute+":"+second;
 }
 
 //上传附件

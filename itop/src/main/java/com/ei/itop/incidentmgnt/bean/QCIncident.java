@@ -16,7 +16,7 @@ public class QCIncident {
 	// 商户ID
 	private Long orgId;
 	// 客户ID
-	private Long custId;
+	private Long[] custId;
 	// 事件系列号
 	private String incidentCode;
 	// 事件简述
@@ -60,7 +60,7 @@ public class QCIncident {
 	/**
 	 * @return the custId
 	 */
-	public Long getCustId() {
+	public Long[] getCustId() {
 		return custId;
 	}
 
@@ -68,7 +68,7 @@ public class QCIncident {
 	 * @param custId
 	 *            the custId to set
 	 */
-	public void setCustId(Long custId) {
+	public void setCustId(Long[] custId) {
 		this.custId = custId;
 	}
 

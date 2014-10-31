@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +19,12 @@ import com.ailk.dazzle.util.type.StringUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ailk.dazzle.util.web.ActionUtils;
 import com.ei.itop.common.bean.OpInfo;
+import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.common.util.ExceptionHandleFilter;
 import com.ei.itop.common.util.SessionUtil;
+import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.QCIncident;
@@ -31,11 +35,17 @@ import com.ei.itop.incidentmgnt.service.IncidentService;
 @RequestMapping("/incident")
 public class IncidentController {
 
+	private static final Logger log = Logger
+			.getLogger(IncidentController.class);
+
 	@Autowired
 	private IncidentService incidentService;
 
 	@Autowired
 	private AttachService attachService;
+
+	@Autowired
+	private CustMgntService custMgntService;
 
 	/**
 	 * 查询列表
@@ -65,7 +75,16 @@ public class IncidentController {
 		// 简述
 		String brief = request.getParameter("brief");
 		if (!StringUtils.isEmpty(brief)) {
-			qi.setBrief(ActionUtils.transParamDecode(brief, "UTF-8"));
+			if(log.isDebugEnabled()){
+				log.debug("brief original:"+brief);
+				log.debug("brief decode1:"+ActionUtils.transParamDecode(brief, "UTF-8"));
+				log.debug("brief decode2:"+ActionUtils.transParam(brief, "UTF-8"));
+				log.debug("brief decode3:"+new String(brief.getBytes(), "GBK"));
+				log.debug("brief decode4:"+new String(brief.getBytes("iso-8859-1"), "GBK"));
+				log.debug("brief decode5:"+new String(brief.getBytes(), "UTF-8"));
+				log.debug("brief decode6:"+new String(brief.getBytes("iso-8859-1"), "UTF-8"));
+			}
+			qi.setBrief(ActionUtils.transParam(brief, "UTF-8"));
 		}
 		// 类别
 		String classVal = request.getParameter("classVar");
@@ -121,7 +140,13 @@ public class IncidentController {
 		// 客户ID
 		String custId = request.getParameter("custId");
 		if (!StringUtils.isEmpty(custId)) {
-			qi.setCustId(VarTypeConvertUtils.string2Long(custId));
+			//根据客户ID取得所有子客户(含当前客户)
+			List<CcCust> custs = custMgntService.getSubCusts(VarTypeConvertUtils.string2Long(custId));
+			Long[] custIds = new Long[custs.size()];
+			for(int i=0;i<custs.size();i++){
+				custIds[i]=custs.get(i).getCcCustId();
+			}
+			qi.setCustId(custIds);
 		}
 		// 设置组织ID
 		qi.setOrgId(oi.getOrgId());
@@ -162,7 +187,7 @@ public class IncidentController {
 		// 简述
 		String brief = request.getParameter("brief");
 		if (!StringUtils.isEmpty(brief)) {
-			qi.setBrief(ActionUtils.transParamDecode(brief, "UTF-8"));
+			qi.setBrief(ActionUtils.transParam(brief, "UTF-8"));
 		}
 		// 类别
 		String classVal = request.getParameter("classVar");
@@ -199,7 +224,14 @@ public class IncidentController {
 		// 客户ID
 		String custId = request.getParameter("custId");
 		if (!StringUtils.isEmpty(custId)) {
-			qi.setCustId(VarTypeConvertUtils.string2Long(custId));
+			// 根据客户ID取得所有子客户(含当前客户)
+			List<CcCust> custs = custMgntService
+					.getSubCusts(VarTypeConvertUtils.string2Long(custId));
+			Long[] custIds = new Long[custs.size()];
+			for (int i = 0; i < custs.size(); i++) {
+				custIds[i] = custs.get(i).getCcCustId();
+			}
+			qi.setCustId(custIds);
 		}
 		// 设置组织ID
 		qi.setOrgId(oi.getOrgId());
@@ -263,7 +295,7 @@ public class IncidentController {
 		// 发生时间
 		String happenTime = request.getParameter("happenTime");
 		ii.setHappenTime(DateUtils.string2Date(happenTime,
-				DateUtils.FORMATTYPE_yyyy_MM_dd));
+				DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 		// 详细描述
 		String detail = request.getParameter("detail");
 		ii.setDetail(detail);
@@ -352,7 +384,7 @@ public class IncidentController {
 		// 发生时间
 		String happenTime = request.getParameter("happenTime");
 		ii.setHappenTime(DateUtils.string2Date(happenTime,
-				DateUtils.FORMATTYPE_yyyy_MM_dd));
+				DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 		// 详细描述
 		String detail = request.getParameter("detail");
 		ii.setDetail(detail);
@@ -394,8 +426,8 @@ public class IncidentController {
 				.getParameter("incidentId"));
 		IncidentInfo ii = incidentService.MBLQueryIncident(incidentId, oi);
 		List<IcAttach> attachList = ii.getAttachList();
-		if(attachList!=null&&attachList.size()>0){
-			for(IcAttach attach:attachList){
+		if (attachList != null && attachList.size() > 0) {
+			for (IcAttach attach : attachList) {
 				attach.setAttachPath("");
 			}
 		}
@@ -452,7 +484,7 @@ public class IncidentController {
 				.getParameter("incidentId"));
 		incidentService.MBLAdviserCloseIncident(incidentId, oi);
 	}
-	
+
 	/**
 	 * 归档一条事件
 	 * 
@@ -467,7 +499,7 @@ public class IncidentController {
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
 		String[] stockFlags = request.getParameter("stockVar").split(",");
-		incidentService.MBLUserStockIncident(incidentId,stockFlags, oi);
+		incidentService.MBLUserStockIncident(incidentId, stockFlags, oi);
 	}
 
 	/**

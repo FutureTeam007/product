@@ -31,6 +31,13 @@
 	  start with cust.CC_CUST_ID = #ccCustId:DECIMAL#
 	  connect by prior cust.sup_cust_id = cust.CC_CUST_ID
    </select>
+   <select id="selectSubCustsByCustId" resultMap="ccCustResult" parameterClass="java.util.Map" >
+   	  SELECT CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL, ORG_LVL_PATH,
+      CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
+  	  from cc_cust cust
+ 	  start with cust.cc_cust_id = #ccCustId:DECIMAL# and cust.STATE = 1
+	  connect by prior cust.cc_cust_id = cust.sup_cust_id
+   </select>
    <select id="queryCustListByDomainName" resultMap="ccCustResult" parameterClass="java.util.Map" >
     select CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL, ORG_LVL_PATH,
       CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE

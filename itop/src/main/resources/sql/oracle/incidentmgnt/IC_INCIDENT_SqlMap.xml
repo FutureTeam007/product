@@ -37,7 +37,7 @@
     <result column="IC_OBJECT_NAME" property="icObjectName" jdbcType="VARCHAR" />
     <result column="IC_LOGIN_CODE" property="icLoginCode" jdbcType="VARCHAR" />
     <result column="REGISTE_TIME" property="registeTime" jdbcType="TIMESTAMP" />
-    <result column="HAPPEN_TIME" property="happenTime" jdbcType="DATE" />
+    <result column="HAPPEN_TIME" property="happenTime" jdbcType="TIMESTAMP" />
     <result column="SOURCE_CODE" property="sourceCode" jdbcType="VARCHAR" />
     <result column="SOURCE_VAL" property="sourceVal" jdbcType="VARCHAR" />
     <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
@@ -104,7 +104,7 @@
     <result column="IC_OBJECT_NAME" property="icObjectName" jdbcType="VARCHAR" />
     <result column="IC_LOGIN_CODE" property="icLoginCode" jdbcType="VARCHAR" />
     <result column="REGISTE_TIME" property="registeTime" jdbcType="TIMESTAMP" />
-    <result column="HAPPEN_TIME" property="happenTime" jdbcType="DATE" />
+    <result column="HAPPEN_TIME" property="happenTime" jdbcType="TIMESTAMP" />
     <result column="SOURCE_CODE" property="sourceCode" jdbcType="VARCHAR" />
     <result column="SOURCE_VAL" property="sourceVal" jdbcType="VARCHAR" />
     <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
@@ -233,7 +233,10 @@
     	and SC_ORG_ID = #orgId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="custId" >
-    	and CC_CUST_ID = #custId:DECIMAL#
+      	and CC_CUST_ID in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
@@ -300,7 +303,10 @@
     	and SC_ORG_ID = #orgId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="custId" >
-    	and CC_CUST_ID = #custId:DECIMAL#
+      	and CC_CUST_ID in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
@@ -356,7 +362,10 @@
     	and SC_ORG_ID = #orgId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="custId" >
-    	and CC_CUST_ID = #custId:DECIMAL#
+      	and CC_CUST_ID in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
@@ -458,7 +467,7 @@
       #icOwnerType:VARCHAR#, #icOwnerId:DECIMAL#, #icOwnerCode:VARCHARe#, #icOwnerName:VARCHAR#,
       #plObjectType:VARCHAR#, #plObjectId:DECIMAL#, #plLoginCode:VARCHAR#, #plObjectName:VARCHAR#,
       #scOpId:DECIMAL#, #scLoginCode:VARCHAR#, #scLoginName:VARCHAR#, #icObjectType:VARCHAR#, #icObjectId:DECIMAL#,
-      #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:TIMESTAMP#, #happenTime:DATE#,
+      #icObjectName:VARCHAR#, #icLoginCode:VARCHAR#, #registeTime:TIMESTAMP#, #happenTime:TIMESTAMP#,
       #sourceCode:VARCHAR#, #sourceVal:VARCHAR#,
       #classCode:VARCHAR#,
       #classVal:VARCHAR#, #affectCode:VARCHAR#, #affectVal:VARCHAR#, #complexCode:VARCHAR#,
@@ -498,7 +507,7 @@
       IC_OBJECT_NAME = #icObjectName:VARCHAR#,
       IC_LOGIN_CODE = #icLoginCode:VARCHAR#,
       REGISTE_TIME = #registeTime:DATE#,
-      HAPPEN_TIME = #happenTime:DATE#,
+      HAPPEN_TIME = #happenTime:TIMESTAMP#,
       SOURCE_CODE = #sourceCode:VARCHAR#,
       SOURCE_VAL = #sourceVal:VARCHAR#,
       CLASS_CODE = #classCode:VARCHAR#,
@@ -613,10 +622,10 @@
         IC_LOGIN_CODE = #icLoginCode:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="registeTime" >
-        REGISTE_TIME = #registeTime:DATE#
+        REGISTE_TIME = #registeTime:TIMESTAMP#
       </isNotNull>
       <isNotNull prepend="," property="happenTime" >
-        HAPPEN_TIME = #happenTime:DATE#
+        HAPPEN_TIME = #happenTime:TIMESTAMP#
       </isNotNull>
       <isNotNull prepend="," property="sourceCode" >
         SOURCE_CODE = #sourceCode:VARCHAR#
