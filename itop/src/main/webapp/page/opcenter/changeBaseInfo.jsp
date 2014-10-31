@@ -7,7 +7,7 @@
 	<%@ include file="../common/commonHead.jsp"%>
 	<%@ include file="../common/easyuiHead.jsp"%>
 	<title>用户信息修改</title>
-	<script type="text/javascript" src="<%=rootPath%>/page/usercenter/js/changeBaseInfo.js"></script>
+	<script type="text/javascript" src="<%=rootPath%>/page/opcenter/js/changeBaseInfo.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			if("${msg}"){
@@ -22,7 +22,7 @@
 	<div>
 		<a class="btn btn-link top-close-link" style="margin-bottom:30px" href="<%=rootPath%>/page/incidentmgnt/main">返回首页</a>
 	</div>
-	<form class="form-horizonta register-form" style="width:70%" role="form" action="<%=rootPath%>/custmgnt/user/changebaseinfo" method="post" onsubmit="return validateModifyFormVars()">
+	<form class="form-horizonta register-form" style="width:70%" role="form" action="<%=rootPath%>/op/changebaseinfo" method="post" onsubmit="return validateModifyFormVars()">
 		<div class="form-group clearfix">
 		    <label for="acountNo" class="col-sm-2 control-label">账号</label>
 		    <div class="col-sm-10">
@@ -30,13 +30,9 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="companySel" class="col-sm-2 control-label">公司</label>
+		    <label for="opCode" class="col-sm-2 control-label">工号</label>
 		    <div class="col-sm-10">
-		      <input class="easyui-combotree" style="width:100%"  name="companySel" id="companySel" data-options="
-		      		panelHeight:'auto'"
-			  />
-			  <input type="hidden" name="companyId" id="companyId" />
-			  <input type="hidden" name="companyName" id="companyName" />
+		      	<input type="text" class="form-control small-control" id="opCode"  name="opCode"  maxlength="30"/>
 		    </div>
   		</div>
   		<div class="form-group clearfix">

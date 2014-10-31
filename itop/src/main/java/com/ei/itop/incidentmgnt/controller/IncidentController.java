@@ -527,6 +527,11 @@ public class IncidentController {
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
 		IncidentInfo ii = new IncidentInfo();
+		
+		String productId = request.getParameter("productId");
+		String productName = request.getParameter("productName");
+		String moduleId = request.getParameter("moduleId");
+		String moduleName = request.getParameter("moduleName");
 		String classCodeOp = request.getParameter("classCode");
 		String classValOp = request.getParameter("classVal");
 		String affectValOp = request.getParameter("affectVal");
@@ -535,6 +540,10 @@ public class IncidentController {
 		String priorityVal = request.getParameter("priorityVal");
 		String complexCode = request.getParameter("complexCode");
 		String complexVal = request.getParameter("complexVal");
+		ii.setScProductId(VarTypeConvertUtils.string2Long(productId));
+		ii.setProdName(productName);
+		ii.setScModuleId(VarTypeConvertUtils.string2Long(moduleId));
+		ii.setModuleName(moduleName);
 		ii.setClassCodeOp(classCodeOp);
 		ii.setClassValOp(classValOp);
 		ii.setAffectValOp(affectValOp);

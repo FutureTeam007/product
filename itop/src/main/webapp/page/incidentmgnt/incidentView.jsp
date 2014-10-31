@@ -182,7 +182,19 @@
 		<button id="finishBtn" class="btn btn-warning" type="button" incidentId="" onclick="finishCommit()">提交</button>
   	</div>
 </div>
-<div id="completeWin" title="提交事务前，请审核类别及影响度，并补全优先级和复杂度" style="width:400px;height:320px;">
+<div id="completeWin" title="提交事务前，请审核相关信息，并补全优先级和复杂度" style="width:500px;height:450px">
+	<div class="form-group clearfix p10">
+   	 	<label for="productSel" class="col-sm-3 control-label">产品线</label>
+    	<div class="col-sm-9">
+		      <input style="width:100%"  name="prodSel" id="prodSel" />
+		</div>
+	</div>
+	<div class="form-group clearfix p10">
+   	 	<label for="moduleSel" class="col-sm-3 control-label">服务目录</label>
+    	<div class="col-sm-9">
+		       <input style="width:100%"  name="moduleSel" id="moduleSel" />
+		</div>
+	</div>
 	<div class="form-group clearfix p10">
    	 	<label for="inciTypeSel" class="col-sm-3 control-label">事件类别</label>
     	<div class="col-sm-9">

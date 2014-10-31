@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 	String rootPath = request.getContextPath();
+	String menuOpType = SessionUtil.getOpInfo()==null?null:SessionUtil.getOpInfo().getOpType();
 %>
 <div id="wrapper">
         <!-- Navigation -->
@@ -25,11 +26,9 @@
 					</ul>
 					 -->
                     <ul class="dropdown-menu dropdown-user">
-                    	<% if(SessionUtil.getOpInfo()!=null&&"USER".equals(SessionUtil.getOpInfo().getOpType())) {%>
                     	<li>
-                        	<a href="${pageContext.request.contextPath}/page/usercenter/changeBaseInfo.jsp"><i class="fa fa-user fa-fw"></i>个人信息</a>
+                        	<a href="${pageContext.request.contextPath}/page/<%="USER".equals(menuOpType)?"usercenter":"opcenter"%>/changeBaseInfo.jsp"><i class="fa fa-user fa-fw"></i>个人信息</a>
                         </li>
-                        <% }%>
                         <li>
                         	<a href="${pageContext.request.contextPath}/page/usercenter/changePwd.jsp"><i class="fa fa-gear fa-fw"></i>修改密码</a>
                         </li>

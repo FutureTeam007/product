@@ -1053,6 +1053,10 @@ public class IncidentServiceImpl implements IncidentService {
 		ii.setPriorityVal(incident.getPriorityVal());
 		ii.setComplexCode(incident.getComplexCode());
 		ii.setComplexVal(incident.getComplexVal());
+		ii.setProdName(incident.getProdName());
+		ii.setScProductId(incident.getScProductId());
+		ii.setScModuleId(incident.getScModuleId());
+		ii.setModuleName(incident.getModuleName());
 
 		// 保存事件信息
 		modifyIncidentAndAttach(incidentId, ii, opInfo);

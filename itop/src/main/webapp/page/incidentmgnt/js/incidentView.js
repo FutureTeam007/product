@@ -8,6 +8,8 @@ var consultantGrid = null;
 var gCustId = null;
 //ProductId
 var gProdId = null;
+//ModuleId
+var gModuleId = null;
 //顾问补全信息时，弹出窗口，保存该变量，当提交补全信息成功后，直接执行该函数提交事务
 var callBackFunc = null;
 //是否已经补全
@@ -173,6 +175,7 @@ function queryIncidentInfo(flag){
 			scOpId = msg.scOpId;
 			gCustId = msg.ccCustId;
 			gProdId = msg.scProductId;
+			gModuleId = msg.scModuleId;
 			inciCurStateCode = msg.itStateCode;
 			isCompleted = msg.complexVal?true:false;
 			//显示操作按钮
@@ -254,6 +257,7 @@ function queryContactorInfo(id){
 		});
 	},500);
 }
+var moduleTreeReload = false;
 //检查表单项，并封装表单内容
 function validateFormAndWrapVar(func){
 	var transDesc = $.trim($("#transDesc").val());
@@ -263,6 +267,32 @@ function validateFormAndWrapVar(func){
 	}
 	//顾问如果没有填写复杂度字段说明没有审核更正过事件信息，弹出窗口，由顾问审核更新事件信息
 	if(opId==scOpId&&!isCompleted){
+		//初始化产品线、服务目录选择框
+		$("#prodSel").combobox({
+			url:rootPath+'/product/productList',
+			method:'get',
+			valueField:'scProductId',
+			textField:'prodName',
+			editable:false,
+			onSelect:function(data){
+				$("#moduleSel").combotree('setValue','');
+				moduleTreeReload = true;
+				$("#moduleSel").combotree('reload',rootPath+'/product/moduleTree?productId='+data.scProductId);
+			},
+			panelHeight:'auto',
+			onLoadSuccess:function(){
+				$("#prodSel").combobox('setValue',gProdId);
+			}
+		});
+		$("#moduleSel").combotree({
+			url:rootPath+'/product/moduleTree?productId='+gProdId,
+			panelHeight:'auto',
+			onLoadSuccess:function(){
+				if(!moduleTreeReload){
+					$("#moduleSel").combotree('setValue',gModuleId);
+				}
+			}
+		});
 		$('#completeWin').dialog('open');
 		callBackFunc = func;
 		return false;
@@ -507,6 +537,20 @@ function finishCommit(){
 function completeIncident(){
 	var fv = {};
 	fv.incidentId = incidentId;
+	//产品线
+	fv.productId = $("#prodSel").combobox('getValue');
+	fv.productName = $("#prodSel").combobox('getText');
+	if(!fv.productId){
+		$.messager.alert('提示','请选择产品线');
+		return;
+	}
+	//服务目录
+	fv.moduleId = $("#moduleSel").combobox('getValue');
+	fv.moduleName = $("#moduleSel").combobox('getText');
+	if(!fv.moduleId){
+		$.messager.alert('提示','请选择服务目录');
+		return;
+	}
 	//事件类别
 	fv.classCode = $("#inciTypeSel").combobox('getValue');
 	fv.classVal =  $("#inciTypeSel").combobox('getText');

@@ -13,7 +13,7 @@
 <body>
 <jsp:include page="../common/pageMasterStart.jsp"></jsp:include>
 <div>
-	<div class="inci-search  clearfix">
+	<div class="inci-search  clearfix mb5">
 		<div style="width:99%;" class="clearfix">
 			<span class="form-item">
 		    	<label for="inciNo">事件序列号</label>
@@ -68,15 +68,16 @@
 		  	</span>
 	  	</div>
 	  	<div style="width:99%;" class="clearfix">
-	  		<span class="form-item" id="affectQry">
+	  		<span class="form-item" id="affectQry" class="mb5" style="margin-bottom:5px">
 		    	<label>影响度</label>
 		    	<c:forEach var="affect" items="${affectP}" begin="0" step="1">
 		    		<span class="checkbox-inline"><input type="checkbox" name="affectVar" value="${affect.paramCode}">${affect.paramValue}</span>
 		    	</c:forEach>
 		  	</span>
-		  	<span class="form-item pull-right">
+		  	<span class="form-item pull-right mb5" style="width:50%;margin-bottom:5px">
 		    	<button type="button" class="btn btn-default btn-sm mr20 pull-right"  onclick="reset()">&nbsp;重置并刷新&nbsp;</button>
-		  		<button type="button" class="btn btn-primary btn-sm mr15 pull-right"  onclick="query()">&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;</button>
+		    	<button type="button" id="qryMineBtn" class="btn btn-default btn-sm mr20 pull-right"  onclick="queryMine()">&nbsp;仅查询我负责的&nbsp;</button>
+		  		<button type="button" class="btn btn-primary btn-sm mr15 pull-right"  onclick="query()">&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;</button>
 	  		</span>
 	  	</div>
 	</div>

@@ -22,6 +22,13 @@ public interface OpService {
 	 */
 	public ScOp queryScOp(long opId) throws Exception;
 	/**
+	 * 修改顾问信息
+	 * @param op
+	 * @return
+	 * @throws Exception
+	 */
+	public void modifyScOp(ScOp op) throws Exception;
+	/**
 	 * 修改用户登录密码
 	 * 
 	 * @param passwd

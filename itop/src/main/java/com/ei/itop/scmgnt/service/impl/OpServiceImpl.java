@@ -62,4 +62,8 @@ public class OpServiceImpl implements OpService {
 		return opDAO.findByParams("SC_OP.queryAllOpByOrgId", params);
 	}
 
+	public void modifyScOp(ScOp op) throws Exception {
+		opDAO.update("SC_OP.updateByPrimaryKeySelective", op);
+	}
+
 }

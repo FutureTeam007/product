@@ -21,6 +21,7 @@ $(function(){
 	//如果是用户，则显示创建事件按钮、隐藏客户选择列表
 	if(opType=='USER'){
 		$("#addBtn").show();
+		$("#qryMineBtn").hide();
 		//$("#custSel").hide();
 		//$("#custSelLabel").hide();
 	}
@@ -82,6 +83,8 @@ function reset(){
 	$("#classVar").combobox('setValue',"");
 	//产品线
 	$("#prodSel").combobox('setValue',"");
+	//责任顾问
+	$('#adviserSel').combobox('setValue',"");
 	//影响度
 	$("input[name=affectVar]").each(function(){
 		$(this).removeAttr("checked");
@@ -292,6 +295,11 @@ function query(flag){
 	}else{
 		reRenderStatusNav();
 	}
+}
+//查询我负责的
+function queryMine(){
+	$('#adviserSel').combobox('setValue',opId);
+	query();
 }
 //重新渲染状态标签
 function reRenderStatusNav(status){
