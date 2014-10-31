@@ -23,6 +23,12 @@
     from SC_OP
     where LOGIN_CODE = #loginCode:VARCHAR#
   </select>
+  <select id="queryAllOpByOrgId" resultMap="scOpResult" parameterClass="java.util.Map" >
+    select SC_OP_ID, SC_ORG_ID, OP_CODE, LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME,
+      GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES, STATE
+    from SC_OP
+    where SC_ORG_ID = #orgId:DECIMAL# and STATE = 1
+  </select>
   <select id="selectByPrimaryKey" resultMap="scOpResult" parameterClass="long" >
     select SC_OP_ID, SC_ORG_ID, OP_CODE, LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME,
       GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES, STATE

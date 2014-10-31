@@ -33,6 +33,8 @@ public class QCIncident {
 	private String[] complexCode;
 	// 事件状态
 	private String[] stateCode;
+	// 顾问ID
+	private String[] adviserId;
 	// 事件提出时间开始范围
 	private Date registerTimeBegin;
 	// 事件提出时间开始范围
@@ -252,4 +254,11 @@ public class QCIncident {
 		this.registerTimeEnd = registerTimeEnd;
 	}
 
+	public String[] getAdviserId() {
+		return adviserId;
+	}
+
+	public void setAdviserId(String[] adviserId) {
+		this.adviserId = adviserId;
+	}
 }

@@ -17,11 +17,11 @@
 		<div style="width:99%;" class="clearfix">
 			<span class="form-item">
 		    	<label for="inciNo">事件序列号</label>
-		    	<input type="text" class="form-control" id="incidentCode"/>
+		    	<input type="text" class="form-control" style="width:70%" id="incidentCode"/>
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="inciShortDesc">事件简述</label>
-		    	<input type="text" class="form-control" id="brief"/>
+		    	<input type="text" class="form-control" style="width:70%"  id="brief"/>
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="inciTypeSel">事件类别</label>
@@ -47,11 +47,18 @@
 		  	</span>
 	  	</div>
 	  	<div style="width:99%;" class="clearfix">
-			<span class="form-item" id="affectQry">
-		    	<label>影响度</label>
-		    	<c:forEach var="affect" items="${affectP}" begin="0" step="1">
-		    		<span class="checkbox-inline"><input type="checkbox" name="affectVar" value="${affect.paramCode}">${affect.paramValue}</span>
-		    	</c:forEach>
+	  		<span class="form-item">
+		  		<label id="custSelLabel">客户</label>
+		  		<input style="width:70%" id="custSel" />
+		  	</span>
+	  		<span class="form-item" id="affectQry">
+		    	<label id="custSelLabel">责任顾问</label>
+		  		<input style="width:70%" id="adviserSel" />
+		  	</span>
+		  	<span class="form-item">
+		    	<label>提出时间</label>
+		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
+		    	至&nbsp;<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
 		  	</span>
 		  	<span class="form-item" id="priorityQry">
 		    	<label>优先级</label>
@@ -59,19 +66,18 @@
 		    		<span class="checkbox-inline"><input type="checkbox" name="priorityVar" value="${priority.paramCode}">${priority.paramValue}</span>
 		    	</c:forEach>
 		  	</span>
-		  	<span class="form-item">
-		    	<label>提出时间</label>
-		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
-		    	至&nbsp;<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
-		  	</span>
-		  	<span class="form-item">
-		  		<label id="custSelLabel">客户</label>
-		  		<input style="width:70%" id="custSel" />
-		  	</span>
 	  	</div>
 	  	<div style="width:99%;" class="clearfix">
-		    	<button type="button" class="btn btn-default btn-sm mr15 pull-right"  onclick="reset()">&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;</button>
-		  		<button type="button" class="btn btn-primary btn-sm mr5 pull-right"  onclick="query()">&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;</button>
+	  		<span class="form-item" id="affectQry">
+		    	<label>影响度</label>
+		    	<c:forEach var="affect" items="${affectP}" begin="0" step="1">
+		    		<span class="checkbox-inline"><input type="checkbox" name="affectVar" value="${affect.paramCode}">${affect.paramValue}</span>
+		    	</c:forEach>
+		  	</span>
+		  	<span class="form-item pull-right">
+		    	<button type="button" class="btn btn-default btn-sm mr20 pull-right"  onclick="reset()">&nbsp;重置并刷新&nbsp;</button>
+		  		<button type="button" class="btn btn-primary btn-sm mr15 pull-right"  onclick="query()">&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;</button>
+	  		</span>
 	  	</div>
 	</div>
 	<div class="inci-data">

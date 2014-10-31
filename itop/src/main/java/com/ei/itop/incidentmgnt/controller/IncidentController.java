@@ -1,5 +1,6 @@
 package com.ei.itop.incidentmgnt.controller;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,8 +130,8 @@ public class IncidentController {
 		// 登记时间截止
 		String registerTimeEnd = request.getParameter("registerTimeEnd");
 		if (!StringUtils.isEmpty(registerTimeEnd)) {
-			qi.setRegisterTimeEnd(DateUtils.string2Date(registerTimeEnd,
-					DateUtils.FORMATTYPE_yyyy_MM_dd));
+			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(registerTimeEnd,
+					DateUtils.FORMATTYPE_yyyy_MM_dd),Calendar.DAY_OF_YEAR,1));
 		}
 		// 事件状态
 		String stateCode = request.getParameter("stateVal");
@@ -147,6 +148,11 @@ public class IncidentController {
 				custIds[i]=custs.get(i).getCcCustId();
 			}
 			qi.setCustId(custIds);
+		}
+		// 责任顾问ID
+		String adviserId = request.getParameter("adviserId");
+		if (!StringUtils.isEmpty(adviserId)) {
+			qi.setAdviserId(adviserId.split(","));
 		}
 		// 设置组织ID
 		qi.setOrgId(oi.getOrgId());
@@ -218,8 +224,8 @@ public class IncidentController {
 		// 登记时间截止
 		String registerTimeEnd = request.getParameter("registerTimeEnd");
 		if (!StringUtils.isEmpty(registerTimeEnd)) {
-			qi.setRegisterTimeEnd(DateUtils.string2Date(registerTimeEnd,
-					DateUtils.FORMATTYPE_yyyy_MM_dd));
+			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(registerTimeEnd,
+					DateUtils.FORMATTYPE_yyyy_MM_dd),Calendar.DAY_OF_YEAR,1));
 		}
 		// 客户ID
 		String custId = request.getParameter("custId");
@@ -232,6 +238,11 @@ public class IncidentController {
 				custIds[i] = custs.get(i).getCcCustId();
 			}
 			qi.setCustId(custIds);
+		}
+		// 责任顾问ID
+		String adviserId = request.getParameter("adviserId");
+		if (!StringUtils.isEmpty(adviserId)) {
+			qi.setAdviserId(adviserId.split(","));
 		}
 		// 设置组织ID
 		qi.setOrgId(oi.getOrgId());

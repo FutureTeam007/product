@@ -118,6 +118,7 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("brief", "%" + brirf + "%");
 		hm.put("orgId", qcIncident.getOrgId());
 		hm.put("custId", qcIncident.getCustId());
+		hm.put("adviserId", qcIncident.getAdviserId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -179,6 +180,7 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("brief", "%" + brirf + "%");
 		hm.put("orgId", qcIncident.getOrgId());
 		hm.put("custId", qcIncident.getCustId());
+		hm.put("adviserId", qcIncident.getAdviserId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());
@@ -215,6 +217,7 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("brief", "%" + brirf + "%");
 		hm.put("orgId", qcIncident.getOrgId());
 		hm.put("custId", qcIncident.getCustId());
+		hm.put("adviserId", qcIncident.getAdviserId());
 		hm.put("productId", qcIncident.getProductId());
 		hm.put("affectCode", qcIncident.getAffectCode());
 		hm.put("classCode", qcIncident.getClassCode());

@@ -238,6 +238,12 @@
     		#custId[]#
       	</iterate>
       </isNotNull>
+      <isNotNull prepend="" property="adviserId" >
+      	and SC_OP_ID in
+      	<iterate property="adviserId" open="(" close=")" conjunction=",">
+    		#adviserId[]#
+      	</iterate>
+      </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
@@ -308,6 +314,12 @@
     		#custId[]#
       	</iterate>
       </isNotNull>
+      <isNotNull prepend="" property="adviserId" >
+      	and SC_OP_ID in
+      	<iterate property="adviserId" open="(" close=")" conjunction=",">
+    		#adviserId[]#
+      	</iterate>
+      </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
@@ -365,6 +377,12 @@
       	and CC_CUST_ID in
       	<iterate property="custId" open="(" close=")" conjunction=",">
     		#custId[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="adviserId" >
+      	and SC_OP_ID in
+      	<iterate property="adviserId" open="(" close=")" conjunction=",">
+    		#adviserId[]#
       	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="incidentCode" >

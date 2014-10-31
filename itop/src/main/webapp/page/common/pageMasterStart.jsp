@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu dropdown-user">
                     	<% if(SessionUtil.getOpInfo()!=null&&"USER".equals(SessionUtil.getOpInfo().getOpType())) {%>
                     	<li>
-                        	<a href="${pageContext.request.contextPath}/page/usercenter/changeBaseInfo.jsp"><i class="fa fa-gear fa-fw"></i>个人信息</a>
+                        	<a href="${pageContext.request.contextPath}/page/usercenter/changeBaseInfo.jsp"><i class="fa fa-user fa-fw"></i>个人信息</a>
                         </li>
                         <% }%>
                         <li>

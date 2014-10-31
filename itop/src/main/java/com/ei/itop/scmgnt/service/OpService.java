@@ -3,6 +3,8 @@
  */
 package com.ei.itop.scmgnt.service;
 
+import java.util.List;
+
 import com.ei.itop.common.dbentity.ScOp;
 
 /**
@@ -26,4 +28,12 @@ public interface OpService {
 	 * @throws Exception
 	 */
 	public void changeLoginPasswd(long opId, String passwd) throws Exception;
+	
+	/**
+	 * 查询商户下所有的顾问
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ScOp> queryAllOp(long orgId) throws Exception;
 }

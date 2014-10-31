@@ -3,6 +3,10 @@
  */
 package com.ei.itop.scmgnt.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -50,6 +54,12 @@ public class OpServiceImpl implements OpService {
 
 		opDAO.update("SC_OP.updateByPrimaryKeySelective", so);
 		
+	}
+
+	public List<ScOp> queryAllOp(long orgId) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("orgId", orgId);
+		return opDAO.findByParams("SC_OP.queryAllOpByOrgId", params);
 	}
 
 }

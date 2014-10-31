@@ -11,6 +11,7 @@ qp.productId = null;
 qp.registerTimeBegin = null;
 qp.registerTimeEnd = null;
 qp.custId = null;
+qp.adviserId = null;
 //默认选中的数据行
 var selectedDataRow = null;
 //Grid对象
@@ -23,6 +24,16 @@ $(function(){
 		//$("#custSel").hide();
 		//$("#custSelLabel").hide();
 	}
+	//初始化下拉列表
+	initDropdownLists();
+	//初始化子页滑动
+	initSubPage();
+	//默认执行一次查询
+	query();
+});
+
+//初始化查询下拉列表
+function initDropdownLists(){
 	//初始化客户查询条件
 	$('#custSel').combotree({
 		editable:false,
@@ -34,11 +45,19 @@ $(function(){
 	    	}
 	    }
 	});
-	//初始化子页滑动
-	initSubPage();
-	//默认执行一次查询
-	query();
-});
+	//初始化顾问查询条件
+	$('#adviserSel').combobox({
+		multiple:true,
+		separator:',',
+		editable:false,
+	    url:rootPath+'/op/list',
+	    valueField:'scOpId',
+	    textField:'opName',
+	    formatter:function(row){
+	    	return "["+row.opCode+"] "+row.lastName+"."+row.firstName+"/"+row.opName;
+	    }
+	});
+}
 
 //查看事件
 function view(id){
@@ -77,6 +96,8 @@ function reset(){
 	$("#qryEndDate").datebox('setValue','');
 	//选择客户
 	$('#custSel').combotree('clear');
+	//执行一次查询
+	query();
 }
 //提交事件
 function commit(id){
@@ -222,6 +243,7 @@ function setQueryConditions(){
 	qp.registerTimeBegin = null;
 	qp.registerTimeEnd = null;
 	qp.custId = null;
+	qp.adviserId = null;
 	//事件系列号
 	qp.incidentCode = $.trim($("#incidentCode").val());
 	//事件简述
@@ -230,6 +252,8 @@ function setQueryConditions(){
 	qp.classVar = $("#classVar").combobox('getValue');
 	//产品线
 	qp.productId = $("#prodSel").combobox('getValue');
+	//责任顾问
+	qp.adviserId = $("#adviserSel").combobox('getValues').join(",");
 	//影响度
 	var affectVarArr = [];
 	$("input[name=affectVar]:checked").each(function(){
