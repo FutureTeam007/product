@@ -35,6 +35,8 @@ public class QCIncident {
 	private String[] stateCode;
 	// 顾问ID
 	private String[] adviserId;
+	// 登记人ID
+	private String[] registeManId;
 	// 事件提出时间开始范围
 	private Date registerTimeBegin;
 	// 事件提出时间开始范围
@@ -261,4 +263,13 @@ public class QCIncident {
 	public void setAdviserId(String[] adviserId) {
 		this.adviserId = adviserId;
 	}
+
+	public String[] getRegisteManId() {
+		return registeManId;
+	}
+
+	public void setRegisteManId(String[] registeManId) {
+		this.registeManId = registeManId;
+	}
+	
 }

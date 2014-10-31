@@ -1,5 +1,7 @@
 package com.ei.itop.custmgnt.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,12 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.json.JSONUtils;
-import com.ailk.dazzle.util.sec.Encrypt;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.custmgnt.service.UserService;
-import com.ei.itop.register.bean.RegisterInfo;
 
 @Controller
 @RequestMapping("/custmgnt/user")
@@ -29,6 +29,17 @@ public class UserController {
 		long userId = VarTypeConvertUtils.string2Long(request.getParameter("userId"));
 		CcUser user = userService.queryUser(userId);
 		String jsonData = JSONUtils.toJSONString(user);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(jsonData);
+	}
+	
+	@RequestMapping("/list")
+	public void queryUserList(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		long orgId = SessionUtil.getOpInfo().getOrgId();
+		long custId = VarTypeConvertUtils.string2Long(request.getParameter("custId"));
+		List<CcUser> users = userService.queryUserList(orgId,custId);
+		String jsonData = JSONUtils.toJSONString(users);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);

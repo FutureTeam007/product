@@ -51,6 +51,10 @@
 		  		<label id="custSelLabel">客户</label>
 		  		<input style="width:70%" id="custSel" />
 		  	</span>
+		  	<span class="form-item">
+		    	<label id="registeManLabel">登记人</label>
+		  		<input style="width:70%" id="registeMan" />
+		  	</span>
 	  		<span class="form-item" id="affectQry">
 		    	<label id="custSelLabel">责任顾问</label>
 		  		<input style="width:70%" id="adviserSel" />
@@ -60,23 +64,24 @@
 		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
 		    	至&nbsp;<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
 		  	</span>
-		  	<span class="form-item" id="priorityQry">
+	  	</div>
+	  	<div style="width:99%;" class="clearfix">
+	  		<span class="form-item" id="priorityQry">
 		    	<label>优先级</label>
 		    	<c:forEach var="priority" items="${priorityP}" begin="0" step="1">
 		    		<span class="checkbox-inline"><input type="checkbox" name="priorityVar" value="${priority.paramCode}">${priority.paramValue}</span>
 		    	</c:forEach>
 		  	</span>
-	  	</div>
-	  	<div style="width:99%;" class="clearfix">
 	  		<span class="form-item" id="affectQry" class="mb5" style="margin-bottom:5px">
 		    	<label>影响度</label>
 		    	<c:forEach var="affect" items="${affectP}" begin="0" step="1">
 		    		<span class="checkbox-inline"><input type="checkbox" name="affectVar" value="${affect.paramCode}">${affect.paramValue}</span>
 		    	</c:forEach>
 		  	</span>
-		  	<span class="form-item pull-right mb5" style="width:50%;margin-bottom:5px">
+		  	<span class="form-item pull-right mb5" style="width:30%;margin-bottom:5px">
 		    	<button type="button" class="btn btn-default btn-sm mr20 pull-right"  onclick="reset()">&nbsp;重置并刷新&nbsp;</button>
-		    	<button type="button" id="qryMineBtn" class="btn btn-default btn-sm mr20 pull-right"  onclick="queryMine()">&nbsp;仅查询我负责的&nbsp;</button>
+		    	<button type="button" id="qryOpMineBtn" class="btn btn-primary btn-outline btn-sm mr20 pull-right"  onclick="queryOpMine()">&nbsp;查询我负责的&nbsp;</button>
+		    	<button type="button" id="qryUserMineBtn" class="btn btn-primary btn-outline btn-sm mr20 pull-right"  onclick="queryUserMine()">&nbsp;查询我登记的&nbsp;</button>
 		  		<button type="button" class="btn btn-primary btn-sm mr15 pull-right"  onclick="query()">&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;</button>
 	  		</span>
 	  	</div>

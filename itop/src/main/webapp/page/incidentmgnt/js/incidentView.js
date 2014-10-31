@@ -270,6 +270,7 @@ function validateFormAndWrapVar(func){
 		//初始化产品线、服务目录选择框
 		$("#prodSel").combobox({
 			url:rootPath+'/product/productList',
+			editable:false,
 			method:'get',
 			valueField:'scProductId',
 			textField:'prodName',
@@ -285,6 +286,7 @@ function validateFormAndWrapVar(func){
 			}
 		});
 		$("#moduleSel").combotree({
+			editable:false,
 			url:rootPath+'/product/moduleTree?productId='+gProdId,
 			panelHeight:'auto',
 			onLoadSuccess:function(){

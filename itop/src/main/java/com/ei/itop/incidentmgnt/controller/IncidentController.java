@@ -154,6 +154,11 @@ public class IncidentController {
 		if (!StringUtils.isEmpty(adviserId)) {
 			qi.setAdviserId(adviserId.split(","));
 		}
+		// 登记人ID
+		String registeMan = request.getParameter("registeMan");
+		if (!StringUtils.isEmpty(registeMan)) {
+			qi.setRegisteManId(registeMan.split(","));
+		}
 		// 设置组织ID
 		qi.setOrgId(oi.getOrgId());
 		
@@ -243,6 +248,11 @@ public class IncidentController {
 		String adviserId = request.getParameter("adviserId");
 		if (!StringUtils.isEmpty(adviserId)) {
 			qi.setAdviserId(adviserId.split(","));
+		}
+		// 登记人ID
+		String registeMan = request.getParameter("registeMan");
+		if (!StringUtils.isEmpty(registeMan)) {
+			qi.setRegisteManId(registeMan.split(","));
 		}
 		// 设置组织ID
 		qi.setOrgId(oi.getOrgId());

@@ -12,6 +12,7 @@ qp.registerTimeBegin = null;
 qp.registerTimeEnd = null;
 qp.custId = null;
 qp.adviserId = null;
+qp.registeMan = null;
 //默认选中的数据行
 var selectedDataRow = null;
 //Grid对象
@@ -21,9 +22,11 @@ $(function(){
 	//如果是用户，则显示创建事件按钮、隐藏客户选择列表
 	if(opType=='USER'){
 		$("#addBtn").show();
-		$("#qryMineBtn").hide();
-		//$("#custSel").hide();
-		//$("#custSelLabel").hide();
+		$("#qryUserMineBtn").show();
+		$("#qryOpMineBtn").hide();
+	}else{
+		$("#qryOpMineBtn").show();
+		$("#qryUserMineBtn").hide();
 	}
 	//初始化下拉列表
 	initDropdownLists();
@@ -44,6 +47,9 @@ function initDropdownLists(){
 	    	if(opType=='USER'){
 	    		$('#custSel').combotree('setValue',opCustId);
 	    	}
+	    },
+	    onSelect:function(data){
+	    	$('#registeMan').combobox('reload',rootPath+'/custmgnt/user/list?custId='+data.attributes.ccCustId);
 	    }
 	});
 	//初始化顾问查询条件
@@ -51,11 +57,30 @@ function initDropdownLists(){
 		multiple:true,
 		separator:',',
 		editable:false,
-	    url:rootPath+'/op/list',
+		url:rootPath+'/op/list',
 	    valueField:'scOpId',
 	    textField:'opName',
 	    formatter:function(row){
 	    	return "["+row.opCode+"] "+row.lastName+"."+row.firstName+"/"+row.opName;
+	    }
+	});
+	//初始化登记人查询条件
+	$('#registeMan').combobox({
+		multiple:true,
+		separator:',',
+		editable:false,
+	    url:(opType=='USER'?(rootPath+'/custmgnt/user/list?custId='+opCustId):null),
+	    valueField:'ccUserId',
+	    textField:'opName',
+	    panelHeight:'auto',
+	    onShowPanel:function(){
+	    	if(!$('#custSel').combotree('getValue')){
+	    		$.messager.alert('提示','请先选择客户！');
+	    		return false;
+	    	}
+	    },
+	    formatter:function(row){
+	    	return row.lastName+"."+row.firstName+"/"+row.opName;
 	    }
 	});
 }
@@ -83,6 +108,10 @@ function reset(){
 	$("#classVar").combobox('setValue',"");
 	//产品线
 	$("#prodSel").combobox('setValue',"");
+	//选择客户
+	$('#custSel').combotree('clear');
+	//登记人
+	$("#registeMan").combobox('setValue',"");
 	//责任顾问
 	$('#adviserSel').combobox('setValue',"");
 	//影响度
@@ -97,8 +126,7 @@ function reset(){
 	$("#qryStartDate").datebox('setValue','');
 	//截止时间
 	$("#qryEndDate").datebox('setValue','');
-	//选择客户
-	$('#custSel').combotree('clear');
+	
 	//执行一次查询
 	query();
 }
@@ -247,6 +275,7 @@ function setQueryConditions(){
 	qp.registerTimeEnd = null;
 	qp.custId = null;
 	qp.adviserId = null;
+	qp.registeMan = null;
 	//事件系列号
 	qp.incidentCode = $.trim($("#incidentCode").val());
 	//事件简述
@@ -257,6 +286,8 @@ function setQueryConditions(){
 	qp.productId = $("#prodSel").combobox('getValue');
 	//责任顾问
 	qp.adviserId = $("#adviserSel").combobox('getValues').join(",");
+	//责任顾问
+	qp.registeMan = $("#registeMan").combobox('getValues').join(",");
 	//影响度
 	var affectVarArr = [];
 	$("input[name=affectVar]:checked").each(function(){
@@ -297,8 +328,13 @@ function query(flag){
 	}
 }
 //查询我负责的
-function queryMine(){
+function queryOpMine(){
 	$('#adviserSel').combobox('setValue',opId);
+	query();
+}
+//查询我登记的
+function queryUserMine(){
+	$('#registeMan').combobox('setValue',opId);
 	query();
 }
 //重新渲染状态标签

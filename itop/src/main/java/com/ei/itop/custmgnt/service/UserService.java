@@ -3,6 +3,8 @@
  */
 package com.ei.itop.custmgnt.service;
 
+import java.util.List;
+
 import com.ei.itop.common.dbentity.CcUser;
 
 /**
@@ -42,4 +44,12 @@ public interface UserService {
 	 * @throws Exception
 	 */
 	public void activeUser(long userId) throws Exception;
+	/**
+	 * 查询用户
+	 * @param orgId
+	 * @param custId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CcUser> queryUserList(long orgId, long custId) throws Exception;
 }

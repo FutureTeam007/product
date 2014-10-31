@@ -3,6 +3,10 @@
  */
 package com.ei.itop.custmgnt.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -68,6 +72,13 @@ public class UserServiceImpl implements UserService {
 
 	public void modifyUserInfo(CcUser user) throws Exception {
 		userDAO.update("CC_USER.updateByPrimaryKeySelective", user);
+	}
+
+	public List<CcUser> queryUserList(long orgId, long custId) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("orgId", orgId);
+		params.put("custId", custId);
+		return userDAO.findByParams("CC_USER.queryUsersByOrgIdAndCustId", params);
 	}
 
 }

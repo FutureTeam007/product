@@ -244,6 +244,12 @@
     		#adviserId[]#
       	</iterate>
       </isNotNull>
+      <isNotNull prepend="" property="registeManId" >
+      	and PL_OBJECT_ID in
+      	<iterate property="registeManId" open="(" close=")" conjunction=",">
+    		#registeManId[]#
+      	</iterate>
+      </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
@@ -320,6 +326,12 @@
     		#adviserId[]#
       	</iterate>
       </isNotNull>
+      <isNotNull prepend="" property="registeManId" >
+      	and PL_OBJECT_ID in
+      	<iterate property="registeManId" open="(" close=")" conjunction=",">
+    		#registeManId[]#
+      	</iterate>
+      </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
       </isNotNull>
@@ -383,6 +395,12 @@
       	and SC_OP_ID in
       	<iterate property="adviserId" open="(" close=")" conjunction=",">
     		#adviserId[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="registeManId" >
+      	and PL_OBJECT_ID in
+      	<iterate property="registeManId" open="(" close=")" conjunction=",">
+    		#registeManId[]#
       	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
