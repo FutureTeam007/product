@@ -14,6 +14,7 @@ import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.ScOp;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.login.bean.LoginInfo;
 import com.ei.itop.login.service.LoginService;
 
@@ -55,23 +56,27 @@ public class LoginServiceImpl implements LoginService {
 
 		CcUser user = userDAO.find("CC_USER.queryUserByLoginCode", hm);
 		long end = System.currentTimeMillis();
-		log.debug("service登录结束,耗时(ms):"+(end-start));
+		log.debug("service登录结束,耗时(ms):" + (end - start));
 		if (user == null) {
-			throw new BizException("用户不存在");
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.login.UserNotExist"));
 		}
 
-		if (user.getState() == 0||user.getState() == 2) {
-			throw new BizException("用户已被冻结");
+		if (user.getState() == 0 || user.getState() == 2) {
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.login.UserFrozen"));
 		}
-		
+
 		if (user.getState() == -1) {
-			throw new BizException("用户未激活，请登录邮箱激活账号");
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.login.UserNotActive"));
 		}
 
 		if (!loginInfo.getLoginPasswd().equals(user.getLoginPasswd())) {
-			throw new BizException("密码错误");
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.login.PasswordNotCorrect"));
 		}
-		
+
 		return user;
 	}
 
@@ -98,15 +103,18 @@ public class LoginServiceImpl implements LoginService {
 		ScOp op = adviserDAO.find("SC_OP.queryOpByLoginCode", hm);
 
 		if (op == null) {
-			throw new BizException("用户不存在");
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.login.UserNotExist"));
 		}
 
-		if (op.getState() != 1) {
-			throw new BizException("用户状态不正常");
+		if (op.getState() == 0||op.getState() == 2) {
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.login.UserFrozen"));
 		}
-
+		
 		if (!loginInfo.getLoginPasswd().equals(op.getLoginPasswd())) {
-			throw new BizException("密码错误");
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.login.PasswordNotCorrect"));
 		}
 
 		return op;

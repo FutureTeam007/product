@@ -1,6 +1,7 @@
 <%@ page import="com.ei.itop.common.util.SessionUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="i18n" uri="../../WEB-INF/i18n.tld"%>
 <%
 	String rootPath = request.getContextPath();
 	String menuOpType = SessionUtil.getOpInfo()==null?null:SessionUtil.getOpInfo().getOpType();
@@ -27,13 +28,13 @@
 					 -->
                     <ul class="dropdown-menu dropdown-user">
                     	<li>
-                        	<a href="${pageContext.request.contextPath}/page/<%="USER".equals(menuOpType)?"usercenter":"opcenter"%>/changeBaseInfo.jsp"><i class="fa fa-user fa-fw"></i>个人信息</a>
+                        	<a href="${pageContext.request.contextPath}/page/<%="USER".equals(menuOpType)?"usercenter":"opcenter"%>/changeBaseInfo.jsp"><i class="fa fa-user fa-fw"></i><i18n:message code="i18n.nav.Profile" /></a>
                         </li>
                         <li>
-                        	<a href="${pageContext.request.contextPath}/page/usercenter/changePwd.jsp"><i class="fa fa-gear fa-fw"></i>修改密码</a>
+                        	<a href="${pageContext.request.contextPath}/page/usercenter/changePwd.jsp"><i class="fa fa-gear fa-fw"></i><i18n:message code="i18n.nav.ChangePassword" /></a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="${pageContext.request.contextPath}/doLogout"><i class="fa fa-sign-out fa-fw"></i>注销</a>
+                        <li><a href="${pageContext.request.contextPath}/doLogout"><i class="fa fa-sign-out fa-fw"></i><i18n:message code="i18n.nav.Logout" /></a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

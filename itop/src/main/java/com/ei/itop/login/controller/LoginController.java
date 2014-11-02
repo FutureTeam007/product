@@ -19,6 +19,7 @@ import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.constants.SysConstants;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.ScOp;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.login.bean.LoginInfo;
 import com.ei.itop.login.service.LoginService;
 
@@ -67,7 +68,8 @@ public class LoginController {
 		if (!request.getSession()
 				.getAttribute(SysConstants.SessionAttribute.LOGIN_VERIFY_CODE)
 				.equals(verifyCode)) {
-			request.setAttribute("errorMsg", "验证码不正确，请重新输入");
+			request.setAttribute("errorMsg", SessionUtil.getRequestContext()
+					.getMessage("i18n.login.VerifyCodeError"));
 			request.setAttribute("accountNo", accountNo);
 			log.debug("验证码不正确");
 			recordLog(start);
@@ -75,14 +77,16 @@ public class LoginController {
 		} else {
 			// 检查信息完整性
 			if (StringUtils.isEmpty(accountNo)) {
-				request.setAttribute("errorMsg", "用户名输入不能为空");
+				request.setAttribute("errorMsg", SessionUtil.getRequestContext()
+						.getMessage("i18n.login.AccountEmpty"));
 				log.debug("用户名输入不能为空");
 				recordLog(start);
 				return "/login";
 			}
 			// 检查信息完整性
 			if (StringUtils.isEmpty(accountPwd)) {
-				request.setAttribute("errorMsg", "密码输入不能为空");
+				request.setAttribute("errorMsg", SessionUtil.getRequestContext()
+						.getMessage("i18n.login.PasswordEmpty"));
 				log.debug("密码输入不能为空");
 				recordLog(start);
 				return "/login";
@@ -110,7 +114,8 @@ public class LoginController {
 				} catch (Exception e) {
 					log.error("", e);
 					request.setAttribute("accountNo", accountNo);
-					request.setAttribute("errorMsg", "登录异常：系统临时故障，请稍后再试");
+					request.setAttribute("errorMsg", SessionUtil.getRequestContext()
+							.getMessage("i18n.login.SystemError"));
 					log.debug("发生系统异常");
 					recordLog(start);
 					return "/login";
@@ -118,7 +123,8 @@ public class LoginController {
 				// 账号密码不正确
 				if (user == null) {
 					request.setAttribute("accountNo", accountNo);
-					request.setAttribute("errorMsg", "账号密码不正确，请重新输入");
+					request.setAttribute("errorMsg", SessionUtil.getRequestContext()
+							.getMessage("i18n.login.AccountPasswordNotCorrect"));
 					recordLog(start);
 					log.debug("账号密码不正确，请重新输入");
 					return "/login";
@@ -149,14 +155,16 @@ public class LoginController {
 				} catch (Exception e) {
 					log.error("", e);
 					request.setAttribute("accountNo", accountNo);
-					request.setAttribute("errorMsg", "登录异常：系统临时故障，请稍后再试");
+					request.setAttribute("errorMsg", SessionUtil.getRequestContext()
+							.getMessage("i18n.login.SystemError"));
 					recordLog(start);
 					return "/login";
 				}
 				// 账号密码不正确
 				if (op == null) {
 					request.setAttribute("accountNo", accountNo);
-					request.setAttribute("errorMsg", "账号密码不正确，请重新输入");
+					request.setAttribute("errorMsg", SessionUtil.getRequestContext()
+							.getMessage("i18n.login.AccountPasswordNotCorrect"));
 					recordLog(start);
 					return "/login";
 				} else {

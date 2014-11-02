@@ -104,7 +104,7 @@ public interface CustMgntService {
 	 * @return
 	 * @throws Exception
 	 */
-	public CcCust getTopCustInfo(long custId) throws Exception;
+	public CcCust getTopCustInfo(long custId,String domainName) throws Exception;
 	
 	/**
 	 * 根据custId查询所有子客户（递归）

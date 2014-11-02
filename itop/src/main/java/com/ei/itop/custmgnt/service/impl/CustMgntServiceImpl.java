@@ -101,11 +101,12 @@ public class CustMgntServiceImpl implements CustMgntService {
 		return cust;
 	}
 	
-	public CcCust getTopCustInfo(long custId) throws Exception {
+	public CcCust getTopCustInfo(long custId,String domainName) throws Exception {
 		// TODO Auto-generated method stub
-
-		CcCust cust = custDAO.find("CC_CUST.selectTopCustByCustId", custId);
-
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("custId",custId);
+		hm.put("domainName",domainName);
+		CcCust cust = custDAO.find("CC_CUST.selectTopCustByCustId", hm);
 		return cust;
 	}
 

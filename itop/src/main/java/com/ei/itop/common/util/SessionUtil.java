@@ -5,6 +5,8 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.servlet.support.RequestContext;
+
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.constants.SysConstants;
 
@@ -18,6 +20,9 @@ public class SessionUtil implements ServletRequestListener{
 	
 	public static HttpServletRequest getRequest(){
 		return value.get();
+	}
+	public static RequestContext getRequestContext(){
+		return new RequestContext(value.get());
 	}
 	
 	public static OpInfo getOpInfo(){

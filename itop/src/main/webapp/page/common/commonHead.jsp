@@ -1,12 +1,16 @@
+<%@page import="org.springframework.web.util.WebUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.ei.itop.common.util.SessionUtil" %>
 <%@ page import="com.ei.itop.common.bean.OpInfo" %>
 <%
 	String baseURL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
-	String siteDomain = request.getScheme()+"://"+request.getServerName()+(request.getServerPort()==80?"/":(":"+request.getServerPort()+"/"));
 	String rootPath = request.getContextPath();
 	OpInfo opInfo = SessionUtil.getOpInfo();
+	//设置国际化
+	Cookie cookie = WebUtils.getCookie(request, "locale");
+	String i18nLocale = cookie==null?"zh_CN":cookie.getValue();
+	request.setAttribute("i18nLocale", i18nLocale);
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -36,6 +40,8 @@
 <script src="<%=rootPath%>/res/bootstrap/js/plugins/metisMenu/metisMenu.min.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="<%=rootPath%>/res/bootstrap/js/sb-admin-2.js"></script>
+<!-- i18nMessage -->
+<script src="<%=rootPath%>/res/i18n/message-<%=i18nLocale%>.js"></script>
 <script type="text/javascript">
 <!--
 	var rootPath = "<%=rootPath%>";

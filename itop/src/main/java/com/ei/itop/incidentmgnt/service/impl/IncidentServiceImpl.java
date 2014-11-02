@@ -481,11 +481,12 @@ public class IncidentServiceImpl implements IncidentService {
 		// 客户编码（大写）_YYMM_000001
 
 		String incidentCode = "";
-
+		
 		// 取得客户信息
-		CcCust cust = custMgntService.getTopCustInfo(custId);
+		CcCust cust = custMgntService.getCustInfo(custId);
+		CcCust topCust = custMgntService.getTopCustInfo(custId,cust.getDomainName());
 
-		incidentCode = cust.getCustCode().toUpperCase() + "-";
+		incidentCode = topCust.getCustCode().toUpperCase() + "-";
 
 		String ym = DateUtils.date2String(commonDAO.getSysDate(),
 				DateUtils.FORMATTYPE_yyyyMMdd);

@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>ITOP登录</title>
+	<title>ITOP<i18n:message code="i18n.login.PageTitle"/></title>
 	<%@ include file="page/common/commonHead.jsp"%>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/easyui/jquery.cookie.js"></script>
 	<script type="text/javascript">
@@ -83,15 +83,15 @@
 				var accountPwd = $.trim($("#accountPwd"+id).val());
 				var verifyCode = $.trim($("#verifyCode"+id).val());
 				if(!accountNo){
-					alert("请填写登录账号");
+					alert(i18n.login.AccountNoBlank);
 					return false;
 				}
 				if(!accountPwd){
-					alert("请填写登录密码");
+					alert(i18n.login.PasswordBlank);
 					return false;
 				}
 				if(!verifyCode){
-					alert("请填写验证码");
+					alert(i18n.login.VerifyCodeBlank);
 					return false;
 				}
 				return true;
@@ -124,35 +124,35 @@
 			<button name="localeBtn" locale="zh_CN" type="button" class="btn btn-link" onclick="setLocale('zh_CN')">ZH</button>
 		</div>
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 col-md-offset-4" style="width:38%;margin-left:30%">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading login-header-fix">
                     	<span class="site-logo">&nbsp;</span>
                         <h3 class="panel-title">ITOP</h3>
                         <ul class="nav nav-tabs login-nav clearfix" role="tablist">
-						  <li role="presentation" id="opLoginNav"><a href="javascript:void(0)">服务方登录</a></li>
-						  <li role="presentation" id="userLoginNav"><a href="javascript:void(0)">用户登录</a></li>
+						  <li role="presentation" id="opLoginNav"><a href="javascript:void(0)"><i18n:message code="i18n.login.OpType" /></a></li>
+						  <li role="presentation" id="userLoginNav"><a href="javascript:void(0)"><i18n:message code="i18n.login.UserType" /></a></li>
 						</ul>
                     </div>
                     <div class="panel-body">
                         <form role="form" name="userLoginForm" method="post" action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(1);" class="login-form undis" id="userLoginForm">
                                 <div class="form-group clearfix">
-                                	<label for="accountNo" class="col-sm-3 control-label">邮箱账号<i18n:message code="test.m1" /></label>
+                                	<label for="accountNo" class="col-sm-3 control-label"><i18n:message code="i18n.login.AccountNoLabel"/></label>
 		    						<div class="col-sm-9">
-                                    	<input class="form-control" placeholder="公司邮箱" name="accountNo" id="accountNo1" type="text" value="${accountNo}" autofocus maxlength="30"/>
+                                    	<input class="form-control"  name="accountNo" id="accountNo1" type="text" value="${accountNo}" autofocus maxlength="30"/>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
-                                	<label for="accountPwd" class="col-sm-3 control-label">密码</label>
+                                	<label for="accountPwd" class="col-sm-3 control-label"><i18n:message code="i18n.login.PasswordLabel"/></label>
                                 	<div class="col-sm-9">
-                                    	<input class="form-control" placeholder="登录密码" name="accountPwd" id="accountPwd1" type="password" value="" maxlength="30"/>
+                                    	<input class="form-control"  name="accountPwd" id="accountPwd1" type="password" value="" maxlength="30"/>
                                     	<input type="hidden" name="opType" value="USER"/>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
-                                	<label for="verifyCode" class="col-sm-3 control-label">验证码</label>
+                                	<label for="verifyCode" class="col-sm-3 control-label"><i18n:message code="i18n.login.VerifyCodeLabel"/></label>
                                 	<div class="col-sm-6">
-                                    	<input class="form-control" placeholder="验证码" name="verifyCode" id="verifyCode1" type="text" value="" maxlength="4"/>
+                                    	<input class="form-control"  name="verifyCode" id="verifyCode1" type="text" value="" maxlength="4"/>
                                     </div>
                                     <div class="col-sm-3" style="padding-left:0px">
                                     	<img id="imgObj1" class="verify-code" width="68" height="33" onclick="verifyCodeChange(1)" src="<%=rootPath%>/verifycode/get" />
@@ -160,38 +160,38 @@
                                 </div>
                                 <div class="form-group clearfix">
                                 	<div class="col-sm-6">
-		                                <input type="submit" class="btn btn-primary btn-lg pull-right" value="登录"/>
+		                                <input type="submit" class="btn btn-primary btn-lg pull-right" value="<i18n:message code="i18n.login.LoginBtn"/>"/>
                                     </div>
                                     <div class="col-sm-6">
-                                    	<a href="${pageContext.request.contextPath}/register" class="btn btn-warning btn-lg pull-left list-inline">注册</a>
+                                    	<a href="${pageContext.request.contextPath}/register" class="btn btn-warning btn-lg pull-left list-inline"><i18n:message code="i18n.login.RegisterBtn"/></a>
                                     	<!-- <a href="${pageContext.request.contextPath}/page/login/findPwdStep1.jsp" class="btn btn-link login-findpwd-link pull-left list-inline" >忘记密码</a> -->
                                     </div>
                                 </div>
                         </form>
                         <form role="form" name="opLoginForm" method="post"  action="${pageContext.request.contextPath}/doLogin" onsubmit="return checkFormInfo(2);" class="login-form undis" id="opLoginForm">
                                 <div class="form-group clearfix">
-                                	<label for="accountNo" class="col-sm-3 control-label">邮箱账号</label>
+                                	<label for="accountNo" class="col-sm-3 control-label"><i18n:message code="i18n.login.AccountNoLabel"/></label>
 		    						<div class="col-sm-9">
-                                    	<input class="form-control" placeholder="公司邮箱" name="accountNo" id="accountNo2" type="text" value="${accountNo}" autofocus maxlength="30"/>
+                                    	<input class="form-control" placeholder="" name="accountNo" id="accountNo2" type="text" value="${accountNo}" autofocus maxlength="30"/>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
-                                	<label for="accountPwd" class="col-sm-3 control-label">密码</label>
+                                	<label for="accountPwd" class="col-sm-3 control-label"><i18n:message code="i18n.login.PasswordLabel"/></label>
                                 	<div class="col-sm-9">
-                                    	<input class="form-control" placeholder="登录密码" name="accountPwd" id="accountPwd2" type="password" value="" maxlength="30"/>
+                                    	<input class="form-control" placeholder="" name="accountPwd" id="accountPwd2" type="password" value="" maxlength="30"/>
                                     	<input type="hidden" name="opType" value="OP"/>
                                     </div>
                                 </div>
                                  <div class="form-group clearfix">
-                                	<label for="verifyCode" class="col-sm-3 control-label">验证码</label>
+                                	<label for="verifyCode" class="col-sm-3 control-label"><i18n:message code="i18n.login.VerifyCodeLabel"/></label>
                                 	<div class="col-sm-6">
-                                    	<input class="form-control" placeholder="验证码" name="verifyCode" id="verifyCode2" type="text" value="" maxlength="4"/>
+                                    	<input class="form-control" placeholder="" name="verifyCode" id="verifyCode2" type="text" value="" maxlength="4"/>
                                     </div>
                                     <div class="col-sm-3" style="padding-left:0px">
                                     	<img id="imgObj2" class="verify-code" width="68" height="33" onclick="verifyCodeChange(2)" src="<%=rootPath%>/verifycode/get" />
                                     </div>
                                 </div>
-                                <input type="submit" class="btn btn-lg btn-primary btn-block" value="登录"/>
+                                <input type="submit" class="btn btn-lg btn-primary btn-block" value="<i18n:message code="i18n.login.LoginBtn"/>"/>
                         </form>
                     </div>
                 </div>
