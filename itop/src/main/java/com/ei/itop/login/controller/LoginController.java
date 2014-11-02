@@ -1,5 +1,7 @@
 package com.ei.itop.login.controller;
 
+import java.util.Locale;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +10,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.support.RequestContext;
 
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.type.StringUtils;
@@ -26,6 +30,23 @@ public class LoginController {
 
 	@Autowired
 	LoginService loginService;
+
+	@Autowired
+	CookieLocaleResolver localeResolver;
+
+	@RequestMapping("/i18n")
+	public String changeLocale(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String locale = request.getParameter("locale");
+		if (locale == null || locale.equals("")) {
+			return "redirect:/login.jsp";
+		} else {
+			Locale newLocale = org.springframework.util.StringUtils
+					.parseLocaleString(locale);
+			localeResolver.setLocale(request, response, newLocale);
+			return "redirect:/login.jsp";
+		}
+	}
 
 	@RequestMapping("/doLogin")
 	public String doLogin(HttpServletRequest request,
@@ -185,11 +206,10 @@ public class LoginController {
 			return "/login";
 		} else {
 			putLoginInfo2Session(request, response, accountNo,
-					user.getCcUserId(), user.getLoginCode(),
-					user.getOpName(),
+					user.getCcUserId(), user.getLoginCode(), user.getOpName(),
 					user.getLastName() + "." + user.getFirstName(), "USER",
-					user.getScOrgId(), user.getScOrgName(),
-					user.getCcCustId(), user.getOpKind());
+					user.getScOrgId(), user.getScOrgName(), user.getCcCustId(),
+					user.getOpKind());
 			return "redirect:/page/incidentmgnt/main";
 		}
 	}
@@ -233,7 +253,7 @@ public class LoginController {
 		op.setOrgId(orgId);
 		op.setOrgName(orgName);
 		op.setCustId(custId + "");
-		op.setOpKind(opKind==null?0:opKind);
+		op.setOpKind(opKind == null ? 0 : opKind);
 		request.getSession().setAttribute(
 				SysConstants.SessionAttribute.OP_SESSION, op);
 		// 将操作员的登录类型放入Cookie，方便下次登录

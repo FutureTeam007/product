@@ -4,6 +4,7 @@
 <%@ page import="com.ei.itop.common.bean.OpInfo" %>
 <%
 	String baseURL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+	String siteDomain = request.getScheme()+"://"+request.getServerName()+(request.getServerPort()==80?"/":(":"+request.getServerPort()+"/"));
 	String rootPath = request.getContextPath();
 	OpInfo opInfo = SessionUtil.getOpInfo();
 %>

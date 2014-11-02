@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:tx="http://www.springframework.org/schema/tx"
-	    xmlns:aop="http://www.springframework.org/schema/aop"
-		xmlns:p="http://www.springframework.org/schema/p"
-		xmlns:context="http://www.springframework.org/schema/context"
-		xmlns:mvc="http://www.springframework.org/schema/mvc"
-		xmlns:util="http://www.springframework.org/schema/util"
-		xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
 		  http://www.springframework.org/schema/beans  
 		  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		  http://www.springframework.org/schema/context  
@@ -20,38 +17,39 @@
 		  http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		  http://www.springframework.org/schema/mvc
 		  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
-		default-autowire="byName">
-	
-	<context:property-placeholder location="classpath:database.properties" ignore-resource-not-found="false" />
-	
-	<!-- 对包中的所有controller类进行扫描，以完成Bean创建和自动依赖注入的功能 -->  
+	default-autowire="byName">
+
+	<context:property-placeholder location="classpath:database.properties"
+		ignore-resource-not-found="false" />
+
+	<!-- 对包中的所有controller类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
 	<context:component-scan base-package="com.ei.itop.**" />
 	<context:component-scan base-package="com.ailk.dazzle.util.**" />
-	
-	<!-- 注册MVC的注解驱动，否则Controller的RequestMapping不生效导致404错误 -->  
+
+	<!-- 注册MVC的注解驱动，否则Controller的RequestMapping不生效导致404错误 -->
 	<mvc:annotation-driven />
-	
+
 	<!-- 引入数据库配置 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
-		destroy-method="close" lazy-init="true"> 
-	   <property name="driverClassName" value="${${dbType}_driver}"/> 
-	   <property name="url" value="${${dbType}_url}" /> 
-	   <property name="maxActive" value="${maxActiveConns}" />
-	   <property name="minIdle" value="${minIdleConns}" />
-	   <property name="maxIdle" value="${maxIdleConns}" />
-	   <property name="maxWait" value="${maxWait}" />
-	   <property name="initialSize" value="${initialConns}" />
-	   <property name="username" value="${${dbType}_username}" /> 
-	   <property name="password" value="${${dbType}_password}" /> 
-	   <property name="validationQuery" value="${${dbType}_validationQuery}"/>  
-	   <property name="logAbandoned" value="false"/>  
-	   <property name="removeAbandoned" value="${removeAbandoned}"/>
-	   <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}"/>
-	   <property name="testOnBorrow" value="${testOnBorrow}"/> 
-	   <property name="testWhileIdle" value="${testWhileIdle}"/> 
-	   <property name="testOnReturn" value="${testOnReturn}"/>   
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" lazy-init="true">
+		<property name="driverClassName" value="${${dbType}_driver}" />
+		<property name="url" value="${${dbType}_url}" />
+		<property name="maxActive" value="${maxActiveConns}" />
+		<property name="minIdle" value="${minIdleConns}" />
+		<property name="maxIdle" value="${maxIdleConns}" />
+		<property name="maxWait" value="${maxWait}" />
+		<property name="initialSize" value="${initialConns}" />
+		<property name="username" value="${${dbType}_username}" />
+		<property name="password" value="${${dbType}_password}" />
+		<property name="validationQuery" value="${${dbType}_validationQuery}" />
+		<property name="logAbandoned" value="false" />
+		<property name="removeAbandoned" value="${removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+		<property name="testOnBorrow" value="${testOnBorrow}" />
+		<property name="testWhileIdle" value="${testWhileIdle}" />
+		<property name="testOnReturn" value="${testOnReturn}" />
 	</bean>
-	
+
 	<!-- 整合ibatis -->
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocations">
@@ -70,62 +68,84 @@
 			<ref bean="dataSource" />
 		</property>
 	</bean>
-	
-	<bean id="sqlMapClientTemplate" class="com.ailk.dazzle.util.ibatis.ExtSqlMapClientTemplate" primary="true">
-		<property name="sqlMapClient" ref="sqlMapClient"/>
+
+	<bean id="sqlMapClientTemplate" class="com.ailk.dazzle.util.ibatis.ExtSqlMapClientTemplate"
+		primary="true">
+		<property name="sqlMapClient" ref="sqlMapClient" />
 		<property name="sqlExecutor">
 			<bean class="com.ailk.dazzle.util.ibatis.ExtSqlExecutor">
 				<property name="sqlHandlers">
 					<list>
-						<bean class="com.ailk.dazzle.util.ibatis.PagingSqlHandler"/>
+						<bean class="com.ailk.dazzle.util.ibatis.PagingSqlHandler" />
 					</list>
 				</property>
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="transactionManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource">
-			<ref bean="dataSource"/>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
 		</property>
-    </bean>
+	</bean>
 
-    <!-- 事务配置 AOP声明方式-->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<!-- 事务配置 AOP声明方式 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="MBL*" propagation="REQUIRED" rollback-for="Throwable" /> 
-			<tx:method name="*" read-only="true" /> 
+			<tx:method name="MBL*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="*" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
 
 	<aop:config>
-		<aop:pointcut id="sysService" expression="execution(* com.ei.*..service.*.*(..))"/>
+		<aop:pointcut id="sysService" expression="execution(* com.ei.*..service.*.*(..))" />
 		<aop:advisor pointcut-ref="sysService" advice-ref="txAdvice" />
 	</aop:config>
-	
-	<!-- velocity模板引擎注册  -->
-	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-      <property name="velocityProperties">
-         <value>
-	          resource.loader=class
-	          class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-          </value>
-      </property>
-    </bean>
-    
-	<!-- CommonDAO注册  -->
+
+	<!-- velocity模板引擎注册 -->
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+
+	<!-- CommonDAO注册 -->
 	<bean id="app.siCommonDAO" class="com.ailk.dazzle.util.ibatis.GenericDAOImpl4Spring">
 	</bean>
-	
+
 	<!-- 邮件发送配置 -->
-	<util:map id="mailSendConfig" key-type="java.lang.String" value-type="java.lang.String">
-		<entry key="mail.host" value="smtp.163.com"/>
-		<entry key="mail.port" value="25"/>
-		<entry key="mail.username" value="itop_support"/>
-		<entry key="mail.password" value="786F653A3938"/>
-		<entry key="mail.smtp.auth" value="true"/>
-		<entry key="mail.from" value="itop_support@163.com"/>
-		<entry key="mail.allowed" value="true"/>
-	</util:map>	
-	
+	<util:map id="mailSendConfig" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="mail.host" value="smtp.163.com" />
+		<entry key="mail.port" value="25" />
+		<entry key="mail.username" value="itop_support" />
+		<entry key="mail.password" value="786F653A3938" />
+		<entry key="mail.smtp.auth" value="true" />
+		<entry key="mail.from" value="itop_support@163.com" />
+		<entry key="mail.allowed" value="true" />
+	</util:map>
+
+	<!-- 国际化配置 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>i18n/message</value>
+			</list>
+		</property>
+		<property name="cacheSeconds">  
+            <value>0</value>
+        </property>
+	</bean>
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieMaxAge" value="999999"/>
+       	<property name="defaultLocale" value="en_US"/>
+       	<property name="cookieName" value="locale"></property>
+	</bean>
+
 </beans>
