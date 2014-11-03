@@ -18,6 +18,7 @@ import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
 import com.ei.itop.common.dbentity.CcSlo;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.custmgnt.bean.InChargeAdviser;
 import com.ei.itop.custmgnt.service.CustMgntService;
 
@@ -256,7 +257,9 @@ public class CustMgntServiceImpl implements CustMgntService {
 		result = ccSloDAO.findByParams("CC_SLO.querySloRules", params);
 		// 系统默认SLO不允许为空
 		if (result == null) {
-			throw new BizException("系统默认SLO未设置");
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.custmgnt.query.DefaultSloRulesNotExist"));
+			// "系统默认SLO未设置");
 		}
 
 		return result;
