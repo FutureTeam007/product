@@ -1,6 +1,7 @@
 var i18n={};
 i18n.loading={};
 i18n.dialog={};
+i18n.upload={};
 i18n.login={};
 i18n.register={};
 i18n.usercenter={};
@@ -12,6 +13,8 @@ i18n.loading.GridLoading="Searching...,please wait a moment";
 i18n.loading.GirdDataEmpty="No data record";
 //dialog
 i18n.dialog.AlertTitle="Info";
+//upload
+i18n.upload.UploadFailure="Upload failure,please try again later!";
 //login
 i18n.login.AccountNoBlank="Email Account can't be empty!";
 i18n.login.PasswordBlank="Password can't be empty!";
@@ -31,7 +34,9 @@ i18n.register.AreaCodeFormatError="Area Code must be at least 3 or 4 numbers!";
 i18n.register.OfficeTelFormatError="Area Code must be at least 7 or 8 numbers!";
 
 //usercenter
+i18n.usercenter.profile={};
 i18n.usercenter.profile.QueryInfoError="Query Information Error,please try again later!";
+i18n.usercenter.pwdchange={};
 i18n.usercenter.pwdchange.OldPasswordEmpty="Please input old password!";
 i18n.usercenter.pwdchange.NewPasswordEmpty="Please input new password!";
 i18n.usercenter.pwdchange.NewPasswordFormatError="Your password must be at least 4 characters!";
@@ -40,11 +45,13 @@ i18n.usercenter.pwdchange.PasswordNotSame="New and confirmed passwords are not t
 i18n.usercenter.pwdchange.ChangeSuccess="Your password has been updated!";
 
 //opcenter
+i18n.opcenter.profile={};
 i18n.opcenter.profile.QueryInfoError="Query Information Error,please try again later!";
 i18n.opcenter.profile.OpCodeFormatError="Your OpCode must be at least 4 characters,only letters or numbers are allowed!";
 
 //incident
-i18n.opcenter.query.QryConditionCustEmpty="Please choose custumer first!";
+i18n.incident.query={};
+i18n.incident.query.QryConditionCustEmpty="Please choose custumer first!";
 i18n.incident.query.DataTitleIncidentCode="Sequence no";
 i18n.incident.query.DataTitleBrief="Description";
 i18n.incident.query.DataTitleProdName="Product line";
@@ -58,6 +65,7 @@ i18n.incident.query.DataTitleScLoginName="Consultant";
 i18n.incident.query.DataTitleModifyDate="Last updated";
 i18n.incident.query.DataTitleFinishTime="Finished time";
 i18n.incident.query.DataTitleFeedbackVal="Satisfaction";
+i18n.incident.mgnt={};
 i18n.incident.mgnt.CommitFailure="Operation Failure";
 i18n.incident.mgnt.CommitIncidentSuccess="Ticket commit successfully!";
 i18n.incident.mgnt.RemoveIncidentConfirm="Are you sure to delete this ticket?";
@@ -74,5 +82,15 @@ i18n.incident.mgnt.CloseBtn="close";
 i18n.incident.mgnt.ViewBtn="detail";
 i18n.incident.mgnt.MarkBtn="mark";
 i18n.incident.mgnt.EvaluateBtn="evaluate";
+i18n.incident.edit={};
+i18n.incident.edit.QueryTicketInfoError="Query ticket information error!";
+i18n.incident.edit.ProductEmpty="Please choose product line!";
+i18n.incident.edit.ModuleEmpty="Please choose service module!";
+i18n.incident.edit.AffectEmpty="Please choose affective degree!";
+i18n.incident.edit.ClassEmpty="Please choose category!";
+i18n.incident.edit.BriefEmpty="Please input brief!";
+i18n.incident.edit.HappenTimeEmpty="Please input happen time!";
+i18n.incident.edit.DetailEmpty="Please input detail information of ticket";
+i18n.incident.edit.CcFormatError="Please input correct email address,separate multiple emails with a comma";
 
 //transation

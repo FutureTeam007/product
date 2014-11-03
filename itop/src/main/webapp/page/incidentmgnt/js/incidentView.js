@@ -53,7 +53,7 @@ function renderOpBtns(){
 	if(opType=="OP"){
 		//如果当前顾问不是干系顾问，则提交按钮变为搭把手
 		if(scOpId!=opId){
-			$(".form-btns input:first").val("搭把手");
+			$(".form-btns input:first").val(i18n.incident.view.LendHandBtn);
 		}
 		//依据事件状态，显示不同按钮
 		switch(parseInt(inciCurStateCode)){
@@ -197,7 +197,7 @@ function queryIncidentInfo(flag){
 			}
 		},
 		error : function() {
-			$.messager.alert('提示','查询事件信息错误！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.QueryTicketInfoError);
 		}
 	});
 }

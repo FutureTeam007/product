@@ -41,7 +41,7 @@ function initDropdownLists(){
 	//初始化客户查询条件
 	$('#custSel').combotree({
 		editable:false,
-		disabled:(opType=='USER'?true:false),
+		disabled:false,
 	    url:rootPath+'/register/custlist/get',
 	    onLoadSuccess:function(){
 	    	if(opType=='USER'){

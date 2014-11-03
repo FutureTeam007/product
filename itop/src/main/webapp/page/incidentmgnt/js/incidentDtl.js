@@ -1,4 +1,3 @@
-
 //form表单值
 var fv = {};
 
@@ -57,7 +56,7 @@ function queryIncident(){
 			}
 		},
 		error : function() {
-			$.messager.alert('提示','查询事件信息失败！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.QueryTicketInfoError);
 		}
 	});
 	
@@ -101,31 +100,31 @@ function getFromVars(){
 //检查form表单数据正确性
 function validateForm(){
 	if(fv.productId==-1||fv.productId==""){
-		$.messager.alert('提示','请选择产品线！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.ProductEmpty);
 		return false;
 	}
 	if(fv.moduleId==-1||fv.moduleId==""){
-		$.messager.alert('提示','请选择服务目录！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.ModuleEmpty);
 		return false;
 	}
 	if(fv.affectVar==null){
-		$.messager.alert('提示','请选择影响度！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.AffectEmpty);
 		return false;
 	}
 	if(fv.classVar==-1||fv.classVar==""){
-		$.messager.alert('提示','请选择事件分类！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.ClassEmpty);
 		return false;
 	}
 	if(fv.brief==""){
-		$.messager.alert('提示','请填写事件简述！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.BriefEmpty);
 		return false;
 	}
 	if(fv.happenTime==""){
-		$.messager.alert('提示','请填写事件发生时间！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.HappenTimeEmpty);
 		return false;
 	}
 	if(fv.detail==""){
-		$.messager.alert('提示','请填写事件详细说明！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.DetailEmpty);
 		return false;
 	}
 	if(fv.ccList!=""){
@@ -133,7 +132,7 @@ function validateForm(){
 		var mails = fv.ccList.split(",");
 		for(var i=0;i<mails.length;i++){
 			if(!regExp.test(mails[i])){
-				$.messager.alert('提示','请填写正确的邮箱地址，多个用逗号分隔！');
+				$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.CcFormatError);
 				return false;
 			}
 		}
@@ -174,7 +173,7 @@ function addIncident(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','保存错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -195,7 +194,7 @@ function addIncidentAutoCommit(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','提交错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -217,7 +216,7 @@ function modifyIncident(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','修改错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -239,7 +238,7 @@ function modifyIncidentAutoCommit(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','提交错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -301,7 +300,7 @@ function attachUpload(){
 			},
 			error: function (data, status, e){
 				$('#uploadProgress').dialog('close');
-				$.messager.alert('提示','上传失败了，可能是网络原因或系统故障，请稍后再试');
+				$.messager.alert(i18n.dialog.AlertTitle,i18n.upload.UploadFailure);
 			}
 	  });
 }
@@ -322,7 +321,7 @@ function attachRemove(obj,id){
 		success : function() {},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','删除错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }

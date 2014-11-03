@@ -1,6 +1,7 @@
 var i18n={};
 i18n.loading={};
 i18n.dialog={};
+i18n.upload={};
 i18n.login={};
 i18n.register={};
 i18n.usercenter={};
@@ -12,7 +13,8 @@ i18n.loading.GridLoading="数据加载中，请稍后……";
 i18n.loading.GirdDataEmpty="暂无数据记录";
 //dialog
 i18n.dialog.AlertTitle="提示";
-
+//upload
+i18n.upload.UploadFailure="上传失败了，可能是网络原因或系统故障，请稍后再试";
 //login
 i18n.login.AccountNoBlank="请填写登录账号";
 i18n.login.PasswordBlank="请填写登录密码";
@@ -32,7 +34,9 @@ i18n.register.AreaCodeFormatError="请输入正确的区号";
 i18n.register.OfficeTelFormatError="请输入正确的办公电话";
 
 //usercenter
+i18n.usercenter.profile={};
 i18n.usercenter.profile.QueryInfoError="查询信息错误,可能无法修改！";
+i18n.usercenter.pwdchange={};
 i18n.usercenter.pwdchange.OldPasswordEmpty="请输入旧密码";
 i18n.usercenter.pwdchange.NewPasswordEmpty="请输入新密码";
 i18n.usercenter.pwdchange.NewPasswordFormatError="密码位数不能小于4位";
@@ -41,10 +45,12 @@ i18n.usercenter.pwdchange.PasswordNotSame="新密码和确认密码不一致";
 i18n.usercenter.pwdchange.ChangeSuccess="修改成功,新密码下次登录生效";
 
 //opcenter
+i18n.opcenter.profile={};
 i18n.opcenter.profile.QueryInfoError="查询信息错误,可能无法修改！";
 i18n.opcenter.profile.OpCodeFormatError="工号必须是不小于4位的字母或数字";
 
 //incident
+i18n.incident.query={};
 i18n.incident.query.QryConditionCustEmpty="请先选择客户！";
 i18n.incident.query.DataTitleIncidentCode="事件系列号";
 i18n.incident.query.DataTitleBrief="事件简述";
@@ -59,6 +65,7 @@ i18n.incident.query.DataTitleScLoginName="责任顾问";
 i18n.incident.query.DataTitleModifyDate="最近更新时间";
 i18n.incident.query.DataTitleFinishTime="完成时间";
 i18n.incident.query.DataTitleFeedbackVal="满意度";
+i18n.incident.mgnt={};
 i18n.incident.mgnt.CommitFailure="操作失败";
 i18n.incident.mgnt.CommitIncidentSuccess="提交事件成功！";
 i18n.incident.mgnt.RemoveIncidentConfirm="您确认要删除该事件？";
@@ -75,5 +82,19 @@ i18n.incident.mgnt.CloseBtn="关闭";
 i18n.incident.mgnt.ViewBtn="查看";
 i18n.incident.mgnt.MarkBtn="归档";
 i18n.incident.mgnt.EvaluateBtn="评价";
+i18n.incident.edit={};
+i18n.incident.edit.QueryTicketInfoError="查询事件信息失败！";
+i18n.incident.edit.ProductEmpty="请选择产品线！";
+i18n.incident.edit.ModuleEmpty="请选择服务目录！";
+i18n.incident.edit.AffectEmpty="请选择影响度！";
+i18n.incident.edit.ClassEmpty="请选择事件分类！";
+i18n.incident.edit.BriefEmpty="请填写事件简述！";
+i18n.incident.edit.HappenTimeEmpty="请填写事件发生时间！";
+i18n.incident.edit.DetailEmpty="请填写事件详细说明！";
+i18n.incident.edit.CcFormatError="请填写正确的邮箱地址，多个用逗号分隔！";
+i18n.incident.view={};
+i18n.incident.view.LendHandBtn="搭把手";
+
+
 
 //transation
