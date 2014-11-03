@@ -23,48 +23,55 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@RequestMapping("/get")
-	public void queryUserInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		long userId = VarTypeConvertUtils.string2Long(request.getParameter("userId"));
+	public void queryUserInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		long userId = VarTypeConvertUtils.string2Long(request
+				.getParameter("userId"));
 		CcUser user = userService.queryUser(userId);
 		String jsonData = JSONUtils.toJSONString(user);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
-	
+
 	@RequestMapping("/list")
-	public void queryUserList(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public void queryUserList(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		long orgId = SessionUtil.getOpInfo().getOrgId();
-		long custId = VarTypeConvertUtils.string2Long(request.getParameter("custId"));
-		List<CcUser> users = userService.queryUserList(orgId,custId);
+		long custId = VarTypeConvertUtils.string2Long(request
+				.getParameter("custId"));
+		List<CcUser> users = userService.queryUserList(orgId, custId);
 		String jsonData = JSONUtils.toJSONString(users);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
-	
+
 	@RequestMapping("/changepwd")
-	public void changePasswd(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		//取得用户ID
+	public void changePasswd(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// 取得用户ID
 		long opId = SessionUtil.getOpInfo().getOpId();
-		//旧密码
+		// 旧密码
 		String oldPassword = request.getParameter("oldPassword");
-		//新密码
+		// 新密码
 		String newPassword = request.getParameter("newPassword");
-		//查出旧密码
+		// 查出旧密码
 		String oldPasswordStored = userService.queryUser(opId).getLoginPasswd();
-		if(!oldPasswordStored.equals(oldPassword)){
-			throw new BizException("旧密码不正确，请重新输入");
+		if (!oldPasswordStored.equals(oldPassword)) {
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.usercenter.profile.OldPasswordIncorrect"));
 		}
 		userService.changeLoginPasswd(opId, newPassword);
 	}
-	
+
 	@RequestMapping("/changebaseinfo")
-	public ModelAndView changeBaseInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public ModelAndView changeBaseInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		//取得注册参数
+		// 取得注册参数
 		String companyId = request.getParameter("companyId");
 		String companyName = request.getParameter("companyName");
 		String jobRole = request.getParameter("jobRole");
@@ -75,7 +82,7 @@ public class UserController {
 		String mobileNo = request.getParameter("mobileNo");
 		String areaCode = request.getParameter("areaCode");
 		String phoneNo = request.getParameter("phoneNo");
-		//封装CcUser
+		// 封装CcUser
 		CcUser user = new CcUser();
 		user.setCcUserId(SessionUtil.getOpInfo().getOpId());
 		user.setOpName(chineseName);
@@ -87,12 +94,18 @@ public class UserController {
 		user.setLastName(familyName);
 		user.setGender(VarTypeConvertUtils.string2Short(gender));
 		user.setMobileNo(mobileNo);
-		user.setOfficeTel(areaCode+"-"+phoneNo);
+		user.setOfficeTel(areaCode + "-" + phoneNo);
 		try {
 			userService.modifyUserInfo(user);
-			mav.addObject("msg","修改成功");
+			mav.addObject(
+					"msg",
+					SessionUtil.getRequestContext().getMessage(
+							"i18n.usercenter.profile.ChangeSuccess"));
 		} catch (Exception e) {
-			mav.addObject("msg","修改失败,请联系系统管理员");
+			mav.addObject(
+					"msg",
+					SessionUtil.getRequestContext().getMessage(
+							"i18n.usercenter.profile.ChangeFailure"));
 		}
 		mav.setViewName("/page/usercenter/changeBaseInfo");
 		return mav;

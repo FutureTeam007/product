@@ -1,4 +1,5 @@
 var i18n={};
+i18n.loading={};
 i18n.dialog={};
 i18n.login={};
 i18n.register={};
@@ -6,6 +7,9 @@ i18n.usercenter={};
 i18n.opcenter={};
 i18n.incident={};
 i18n.transaction={};
+//loading
+i18n.loading.GridLoading="数据加载中，请稍后……";
+i18n.loading.GirdDataEmpty="暂无数据记录";
 //dialog
 i18n.dialog.AlertTitle="提示";
 
@@ -13,6 +17,7 @@ i18n.dialog.AlertTitle="提示";
 i18n.login.AccountNoBlank="请填写登录账号";
 i18n.login.PasswordBlank="请填写登录密码";
 i18n.login.VerifyCodeBlank="请填写验证码";
+i18n.login.SessionTimeout="登录已超时，请重新登录!";
 //register
 i18n.register.AccountFormatError="请输入邮箱格式的登录账号";
 i18n.register.PasswordFormatError="请输入至少4位的登录密码";
@@ -27,11 +32,48 @@ i18n.register.AreaCodeFormatError="请输入正确的区号";
 i18n.register.OfficeTelFormatError="请输入正确的办公电话";
 
 //usercenter
-
+i18n.usercenter.profile.QueryInfoError="查询信息错误,可能无法修改！";
+i18n.usercenter.pwdchange.OldPasswordEmpty="请输入旧密码";
+i18n.usercenter.pwdchange.NewPasswordEmpty="请输入新密码";
+i18n.usercenter.pwdchange.NewPasswordFormatError="密码位数不能小于4位";
+i18n.usercenter.pwdchange.ConfirmPasswordEmpty="请输入确认密码";
+i18n.usercenter.pwdchange.PasswordNotSame="新密码和确认密码不一致";
+i18n.usercenter.pwdchange.ChangeSuccess="修改成功,新密码下次登录生效";
 
 //opcenter
-
+i18n.opcenter.profile.QueryInfoError="查询信息错误,可能无法修改！";
+i18n.opcenter.profile.OpCodeFormatError="工号必须是不小于4位的字母或数字";
 
 //incident
+i18n.incident.query.QryConditionCustEmpty="请先选择客户！";
+i18n.incident.query.DataTitleIncidentCode="事件系列号";
+i18n.incident.query.DataTitleBrief="事件简述";
+i18n.incident.query.DataTitleProdName="产品线";
+i18n.incident.query.DataTitleClassValOp="类别";
+i18n.incident.query.DataTitlePriorityVal="优先级";
+i18n.incident.query.DataTitleAffectValOp="影响度";
+i18n.incident.query.DataTitleItStateVal="状态";
+i18n.incident.query.DataTitlePlObjectName="登记人";
+i18n.incident.query.DataTitleRegisteTime="登记时间";
+i18n.incident.query.DataTitleScLoginName="责任顾问";
+i18n.incident.query.DataTitleModifyDate="最近更新时间";
+i18n.incident.query.DataTitleFinishTime="完成时间";
+i18n.incident.query.DataTitleFeedbackVal="满意度";
+i18n.incident.mgnt.CommitFailure="操作失败";
+i18n.incident.mgnt.CommitIncidentSuccess="提交事件成功！";
+i18n.incident.mgnt.RemoveIncidentConfirm="您确认要删除该事件？";
+i18n.incident.mgnt.RemoveIncidentSuccess="删除事件成功！";
+i18n.incident.mgnt.CloseIncidentSuccess="关闭事件成功！";
+i18n.incident.mgnt.FeedbackIncidentSuccess="评价成功！";
+i18n.incident.mgnt.FeedbackOptionEmpty="请选择一个评价值！";
+i18n.incident.mgnt.MarkIncidentSuccess="归档成功！";
+i18n.incident.mgnt.MarkOptionEmpty="请至少为事件打一个标记！";
+i18n.incident.mgnt.CommitBtn="提交";
+i18n.incident.mgnt.EditBtn="编辑";
+i18n.incident.mgnt.DeleteBtn="删除";
+i18n.incident.mgnt.CloseBtn="关闭";
+i18n.incident.mgnt.ViewBtn="查看";
+i18n.incident.mgnt.MarkBtn="归档";
+i18n.incident.mgnt.EvaluateBtn="评价";
 
 //transation

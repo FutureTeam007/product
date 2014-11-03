@@ -1,27 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="i18n" uri="../../WEB-INF/i18n.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<%@ include file="../common/commonHead.jsp"%>
-	<title>用户注册</title>
-	<script type="text/javascript" src="<%=rootPath%>/page/register/js/registerStep1.js"></script>
+	<title><i18n:message code="i18n.register.PageTitle"/></title>
 </head>
 <body>
 <jsp:include page="../common/pageMasterStartNotLogin.jsp"></jsp:include>
 <div class="register-nav">
-	<div class="register-step">1.填写基本信息</div>
-	<div class="register-step register-step-active">2.注册完成</div>
-	<div class="register-step">3.账号激活</div>
+	<div class="register-step"><i18n:message code="i18n.register.TitleStep1"/></div>
+	<div class="register-step register-step-active"><i18n:message code="i18n.register.TitleStep2"/></div>
+	<div class="register-step"><i18n:message code="i18n.register.TitleStep3"/></div>
 </div>
 <div class="register-wrapper">
 	<div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title success-title">恭喜您，注册成功！</h3>
+        <h3 class="panel-title success-title"><i18n:message code="i18n.register.RegisterSuccess"/></h3>
       </div>
       <div class="panel-body success-content" >
-         	账号激活邮件已发至您的邮箱，请登录邮箱使用激活链接进行账号激活！
+         	<i18n:message code="i18n.register.ActivateLinkHasBeenSent"/>
       </div>
     </div>
 </div>

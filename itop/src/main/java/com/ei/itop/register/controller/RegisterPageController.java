@@ -12,48 +12,56 @@ import com.ailk.dazzle.util.sec.Encrypt;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.service.MailSendService;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.register.bean.RegisterInfo;
 import com.ei.itop.register.service.RegisterService;
 
 @Controller
 @RequestMapping("")
 public class RegisterPageController {
-	
+
 	@Autowired
 	RegisterService registerService;
 	@Autowired
 	MailSendService mailSendService;
-	
+
 	/**
 	 * 进入管理页面
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
 	 */
 	@RequestMapping("/register")
-	public ModelAndView registerPage(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public ModelAndView registerPage(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("accountMsg","请使用公司邮箱");
+		mav.addObject(
+				"accountMsg",
+				SessionUtil.getRequestContext().getMessage(
+						"i18n.register.AccountNoLabelTip"));
 		mav.setViewName("/page/register/registerStep1");
 		return mav;
 	}
-	
+
 	/**
 	 * 进入新增或编辑页面
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
 	 */
 	@RequestMapping("/doRegister")
-	public ModelAndView userRegister(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public ModelAndView userRegister(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		//取得注册参数
+		// 取得注册参数
 		String acountNo = request.getParameter("acountNo");
 		String passwd = request.getParameter("passwd");
 		String companyId = request.getParameter("companyId");
 		String companyName = request.getParameter("companyName");
 		String jobRole = request.getParameter("jobRole");
-		//String deptId = request.getParameter("deptId");
+		// String deptId = request.getParameter("deptId");
 		String chineseName = request.getParameter("chineseName");
 		String givenName = request.getParameter("givenName");
 		String familyName = request.getParameter("familyName");
@@ -61,10 +69,10 @@ public class RegisterPageController {
 		String mobileNo = request.getParameter("mobileNo");
 		String areaCode = request.getParameter("areaCode");
 		String phoneNo = request.getParameter("phoneNo");
-		//检查是否已存在该账号
+		// 检查是否已存在该账号
 		boolean exist = registerService.checkLoginCodeIsExist(acountNo);
-		if(!exist){
-			//封装注册实体
+		if (!exist) {
+			// 封装注册实体
 			RegisterInfo ri = new RegisterInfo();
 			ri.setOpCode(acountNo);
 			ri.setCcCustId(VarTypeConvertUtils.string2Long(companyId));
@@ -77,65 +85,79 @@ public class RegisterPageController {
 			ri.setLoginCode(acountNo);
 			ri.setLoginPasswd(passwd);
 			ri.setMobileNo(mobileNo);
-			ri.setOpKind(VarTypeConvertUtils.string2Long(jobRole,2));
-			ri.setOfficeTel(areaCode+"-"+phoneNo);
-			ri.setState(-1L);//未激活
-			//注册
+			ri.setOpKind(VarTypeConvertUtils.string2Long(jobRole, 2));
+			ri.setOfficeTel(areaCode + "-" + phoneNo);
+			ri.setState(-1L);// 未激活
+			// 注册
 			registerService.userRegister(ri);
-			//生成激活链接并发送邮件
+			// 生成激活链接并发送邮件
 			String activeCode = Encrypt.encrypt(acountNo);
 			StringBuffer activeURL = new StringBuffer();
-			activeURL.append(request.getScheme()+"://");
+			activeURL.append(request.getScheme() + "://");
 			activeURL.append(request.getServerName());
-			activeURL.append(request.getServerPort()==80?"/":(":"+request.getServerPort()+"/"));
+			activeURL.append(request.getServerPort() == 80 ? "/" : (":"
+					+ request.getServerPort() + "/"));
 			activeURL.append(request.getContextPath());
-			activeURL.append("/doActive?key="+activeCode);
-			mailSendService.sendUserActiveMail(givenName+"."+familyName+"/"+chineseName, activeURL.toString(), acountNo);
-			//设置返回第二步
+			activeURL.append("/doActive?key=" + activeCode);
+			mailSendService.sendUserActiveMail(givenName + "." + familyName
+					+ "/" + chineseName, activeURL.toString(), acountNo);
+			// 设置返回第二步
 			mav.setViewName("/page/register/registerStep2");
 			return mav;
-		}else{
-			mav.addObject("acountNo",acountNo);
-			mav.addObject("chineseName",chineseName);
-			mav.addObject("givenName",givenName);
-			mav.addObject("familyName",familyName);
-			mav.addObject("mobileNo",mobileNo);
-			mav.addObject("areaCode",areaCode);
-			mav.addObject("phoneNo",phoneNo);
-			mav.addObject("accountMsg","<span class='form-error-alert'>邮箱被注册，请选用其他邮箱</span>");
+		} else {
+			mav.addObject("acountNo", acountNo);
+			mav.addObject("chineseName", chineseName);
+			mav.addObject("givenName", givenName);
+			mav.addObject("familyName", familyName);
+			mav.addObject("mobileNo", mobileNo);
+			mav.addObject("areaCode", areaCode);
+			mav.addObject("phoneNo", phoneNo);
+			mav.addObject(
+					"accountMsg",
+					"<span class='form-error-alert'>"
+							+ SessionUtil.getRequestContext().getMessage(
+									"i18n.register.EmailExistsError")
+							+ "</span>");
 			mav.setViewName("/page/register/registerStep1");
 			return mav;
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * 进入新增或编辑页面
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
 	 */
 	@RequestMapping("/doActive")
-	public ModelAndView userAccountActive(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public ModelAndView userAccountActive(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		String activeCode = request.getParameter("key");
 		String loginCode = Encrypt.decrypt(activeCode);
-		//账号是否存在
+		// 账号是否存在
 		CcUser user = registerService.getCcUserByLoginCode(loginCode);
-		//用户不存在
-		if(user==null){
-			mav.addObject("msg", "账号不存在，请您先注册");
+		// 用户不存在
+		if (user == null) {
+			mav.addObject(
+					"msg",
+					SessionUtil.getRequestContext().getMessage(
+							"i18n.register.AccountNotExistsWhenActivate"));
 			mav.addObject("success", "0");
 		}
-		//用户存在
-		else{
+		// 用户存在
+		else {
 			registerService.activeAccount(user.getCcUserId());
 			mav.addObject("success", "1");
-			mav.addObject("msg", "账号已成功激活！");
+			mav.addObject(
+					"msg",
+					SessionUtil.getRequestContext().getMessage(
+							"i18n.register.AccountActivateSuccess"));
 		}
 		mav.setViewName("/page/register/registerStep3");
 		return mav;
 	}
-	
+
 }

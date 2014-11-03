@@ -75,7 +75,7 @@ function initDropdownLists(){
 	    panelHeight:'auto',
 	    onShowPanel:function(){
 	    	if(!$('#custSel').combotree('getValue')){
-	    		$.messager.alert('提示','请先选择客户！');
+	    		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.query.QryConditionCustEmpty);
 	    		return false;
 	    	}
 	    },
@@ -140,18 +140,18 @@ function commit(id){
 		},
 		dataType : 'text',
 		success : function() {
-			$.messager.alert('提示','提交事件成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitIncidentSuccess);
 			reloadData(2);
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','提交错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
 //删除事件
 function remove(id){
-	$.messager.confirm('Confirm','您确认要删除该事件？',function(r){
+	$.messager.confirm('Confirm',i18n.incident.mgnt.RemoveIncidentConfirm,function(r){
 	    if (r){
 	    	$.ajax({
 	    		type : 'post',
@@ -161,12 +161,12 @@ function remove(id){
 	    		},
 	    		dataType : 'text',
 	    		success : function() {
-	    			$.messager.alert('提示','删除事件成功！');
+	    			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.RemoveIncidentSuccess);
 	    			reloadData(1);
 	    		},
 	    		error : function(request) {
 	    			var msg = eval("("+request.responseText+")").errorMsg;
-	    			$.messager.alert('提示','删除错误：'+msg);
+	    			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 	    		}
 	    	});
 	    }
@@ -182,12 +182,12 @@ function closeIncident(id){
 		},
 		dataType : 'text',
 		success : function() {
-			$.messager.alert('提示','关闭事件成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CloseIncidentSuccess);
 			reloadData(8);
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','关闭错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -203,7 +203,7 @@ function feedback(){
 	var feedbackVal = el.attr("text");
 	var feedbackCode =el.val();
 	if(!feedbackVal){
-		$.messager.alert('提示','请选择一个评价值！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.FeedbackOptionEmpty);
 		return;
 	}
 	$.ajax({
@@ -216,13 +216,13 @@ function feedback(){
 		},
 		dataType : 'text',
 		success : function() {
-			$.messager.alert('提示','评价成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.FeedbackIncidentSuccess);
 			$('#feedbackWin').dialog('close');
 			reloadData();
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','评价错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -240,7 +240,7 @@ function stockIncident(){
 		stockFlags.push($(this).val());
 	});
 	if(stockFlags.length==0){
-		$.messager.alert('提示','请至少为事件打一个标记');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.MarkOptionEmpty);
 		return;
 	}
 	$.ajax({
@@ -252,13 +252,13 @@ function stockIncident(){
 		},
 		dataType : 'text',
 		success : function() {
-			$.messager.alert('提示','归档成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.MarkIncidentSuccess);
 			$('#stockWin').dialog('close');
 			reloadData(10);
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','归档错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -393,7 +393,7 @@ function reRenderStatusNav(status){
 					    url:rootPath+'/incident/list',
 					    queryParams:qp,
 					    method:'get',
-						loadMsg:'数据加载中，请稍后……',
+						loadMsg:i18n.loading.GridLoading,
 						singleSelect:true,
 						fitColumns:true,
 						remoteSort:true,
@@ -404,19 +404,19 @@ function reRenderStatusNav(status){
 						showPageList:false,
 					    columns:[[
 					        {field:'icIncidentId',width:fixWidth(0.09),title:'',formatter:formatOperations,align:'center'},
-					        {field:'incidentCode',width:fixWidth(0.1),title:'事件序列号'},
-					        {field:'brief',width:fixWidth(0.11),title:'事件简述'},
-					        {field:'prodName',width:fixWidth(0.08),title:'产品线'},
-					        {field:'classValOp',width:fixWidth(0.05),title:'类别'},
-					        {field:'affectValOp',width:fixWidth(0.04),title:'影响度'},
-					        {field:'priorityVal',width:fixWidth(0.04),title:'优先级'},
-					        {field:'itStateVal',width:fixWidth(0.05),title:'状态'},
-					        {field:'plObjectName',width:fixWidth(0.09),title:'登记人'},
-					        {field:'registeTime',width:fixWidth(0.08),title:'登记时间',sortable:true,formatter:dateFormatter},
-					        {field:'scLoginName',width:fixWidth(0.09),title:'责任顾问'},
-					        {field:'modifyDate',width:fixWidth(0.08),title:'最近更新时间',sortable:true,formatter:dateFormatter},
-					        {field:'finishTime',width:fixWidth(0.06),title:'完成时间',formatter:dateFormatter},
-					        {field:'feedbackVal',width:fixWidth(0.05),title:'满意度',formatter:formatFeedback}
+					        {field:'incidentCode',width:fixWidth(0.1),title:i18n.incident.query.DataTitleIncidentCode},
+					        {field:'brief',width:fixWidth(0.11),title:i18n.incident.query.DataTitleBrief},
+					        {field:'prodName',width:fixWidth(0.08),title:i18n.incident.query.DataTitleProdName},
+					        {field:'classValOp',width:fixWidth(0.05),title:i18n.incident.query.DataTitleClassValOp},
+					        {field:'affectValOp',width:fixWidth(0.04),title:i18n.incident.query.DataTitleAffectValOp},
+					        {field:'priorityVal',width:fixWidth(0.04),title:i18n.incident.query.DataTitlePriorityVal},
+					        {field:'itStateVal',width:fixWidth(0.05),title:i18n.incident.query.DataTitleItStateVal},
+					        {field:'plObjectName',width:fixWidth(0.09),title: i18n.incident.query.DataTitlePlObjectName},
+					        {field:'registeTime',width:fixWidth(0.08),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateFormatter},
+					        {field:'scLoginName',width:fixWidth(0.09),title:i18n.incident.query.DataTitleScLoginName},
+					        {field:'modifyDate',width:fixWidth(0.08),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
+					        {field:'finishTime',width:fixWidth(0.06),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
+					        {field:'feedbackVal',width:fixWidth(0.05),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
 					    ]]
 					});
 					initDataPager();
@@ -426,7 +426,7 @@ function reRenderStatusNav(status){
 			}
 		},
 		error : function() {
-			$.messager.alert('提示','登录已超时，请重新登录!');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.login.SessionTimeout);
 			location.href=rootPath+'/login.jsp';
 		}
 	});
@@ -504,7 +504,7 @@ function initDataPager(){
 		onLoadSuccess:function(){
 			var data = $(this).datagrid("getData");
 			if(data.rows.length==0){
-				 $(this).parent().find("div").filter(".datagrid-body").html("<div class='none-data-info'>暂无数据记录</div>");
+				 $(this).parent().find("div").filter(".datagrid-body").html("<div class='none-data-info'>"+i18n.loading.GirdDataEmpty+"</div>");
 			}else{
 				//增加逻辑，默认选中之前选中的行或者选中第一行
 				if(selectedDataRow){
@@ -534,19 +534,19 @@ function reloadData(status){
 function formatOperations(val,row){
 	var buttons = "";
 	if(row.itStateCode==1&&row.plObjectId==opId){
-		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>提交</button>";
-		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>编辑</button>";
-		buttons += "<button type='button' class='btn btn-link' onclick='remove("+val+")'>删除</button>";
-	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==4||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9){
-		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>查看</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>"+i18n.incident.mgnt.CommitBtn+"</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>"+i18n.incident.mgnt.EditBtn+"</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='remove("+val+")'>"+i18n.incident.mgnt.DeleteBtn+"</button>";
+	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==4||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9||row.itStateCode==10){
+		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>"+i18n.incident.mgnt.ViewBtn+"</button>";
 	}
 	//如果是完成状态且操作员是顾问，显示关闭按钮
 	if(row.itStateCode==8&&opType=="OP"){
-		buttons += "<button type='button' class='btn btn-link' onclick='closeIncident("+val+")'>关闭</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='closeIncident("+val+")'>"+i18n.incident.mgnt.CloseBtn+"</button>";
 	}
 	//如果是关闭状态且操作员是客户方的IT人员，则显示归档
 	if(row.itStateCode==9&&opType=="USER"&&opKind==3){
-		buttons += "<button type='button' class='btn btn-link' onclick='showStockIncident("+val+")'>归档</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='showStockIncident("+val+")'>"+i18n.incident.mgnt.MarkBtn+"</button>";
 	}
 	return buttons;
 }
@@ -575,6 +575,6 @@ function formatFeedback(val,row){
 	if(row.feedbackVal!=null){
 		return row.feedbackVal;
 	}else if(row.itStateCode=="8"&&opType=="USER"){
-		 return "<button type='button' class='btn btn-link' onclick='showFeedback("+row.icIncidentId+")'>待评价</button>";
+		 return "<button type='button' class='btn btn-link' onclick='showFeedback("+row.icIncidentId+")'>"+i18n.incident.mgnt.EvaluateBtn+"</button>";
 	}
 }

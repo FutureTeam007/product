@@ -40,7 +40,7 @@ function baseInfoDataBind(){
 			$("#phoneNo").val(segs[1]);
 		},
 		error : function() {
-			$.messager.alert('提示','查询信息错误,可能无法修改！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.usercenter.profile.QueryInfoError);
 		}
 	});
 }
@@ -62,35 +62,35 @@ function validateModifyFormVars(){
 	var phoneNo = $.trim($("#phoneNo").val());
 	//校验form表单项
 	if(!companyId){
-		$.messager.alert('提示','请选择您所在的公司');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.CompanyEmpty);
 		return false;
 	}
 	if(!jobRole){
-		$.messager.alert('提示','请选择工作角色');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.RoleEmpty);
 		return false;
 	}
 	if(!chineseName){
-		$.messager.alert('提示','请输入中文姓名');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.ChineseNameEmpty);
 		return false;
 	}
 	if(!givenName||!familyName){
-		$.messager.alert('提示','请输入英文姓名');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.EnglishNameEmpty);
 		return false;
 	}
 	if(!gender){
-		$.messager.alert('提示','请选择性别');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.GenderEmpty);
 		return false;
 	}
 	if(!mobileNo||!/^[0-9]{11}$/.test(mobileNo)){
-		$.messager.alert('提示','请输入11位的手机号码');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.MobileNoFormatError);
 		return false;
 	}
 	if(!areaCode||!/^[0-9]{3,4}$/.test(areaCode)){
-		$.messager.alert('提示','请输入正确的区号');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.AreaCodeFormatError);
 		return false;
 	}
 	if(!phoneNo||!/^[0-9]{7,8}$/.test(phoneNo)){
-		$.messager.alert('提示','请输入正确的办公电话');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.register.OfficeTelFormatError);
 		return false;
 	}
 	return true;

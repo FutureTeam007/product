@@ -1,4 +1,5 @@
 var i18n={};
+i18n.loading={};
 i18n.dialog={};
 i18n.login={};
 i18n.register={};
@@ -6,13 +7,16 @@ i18n.usercenter={};
 i18n.opcenter={};
 i18n.incident={};
 i18n.transaction={};
+//loading
+i18n.loading.GridLoading="Searching...,please wait a moment";
+i18n.loading.GirdDataEmpty="No data record";
 //dialog
 i18n.dialog.AlertTitle="Info";
 //login
 i18n.login.AccountNoBlank="Email Account can't be empty!";
 i18n.login.PasswordBlank="Password can't be empty!";
 i18n.login.VerifyCodeBlank="Verification Code can't be empty!";
-
+i18n.login.SessionTimeout="Session is timeout,please login again!";
 //register
 i18n.register.AccountFormatError="Please input an email account!";
 i18n.register.PasswordFormatError="Your password must be at least 4 characters!";
@@ -27,11 +31,48 @@ i18n.register.AreaCodeFormatError="Area Code must be at least 3 or 4 numbers!";
 i18n.register.OfficeTelFormatError="Area Code must be at least 7 or 8 numbers!";
 
 //usercenter
-
+i18n.usercenter.profile.QueryInfoError="Query Information Error,please try again later!";
+i18n.usercenter.pwdchange.OldPasswordEmpty="Please input old password!";
+i18n.usercenter.pwdchange.NewPasswordEmpty="Please input new password!";
+i18n.usercenter.pwdchange.NewPasswordFormatError="Your password must be at least 4 characters!";
+i18n.usercenter.pwdchange.ConfirmPasswordEmpty="Please input confirm password!";
+i18n.usercenter.pwdchange.PasswordNotSame="New and confirmed passwords are not the same!";
+i18n.usercenter.pwdchange.ChangeSuccess="Your password has been updated!";
 
 //opcenter
-
+i18n.opcenter.profile.QueryInfoError="Query Information Error,please try again later!";
+i18n.opcenter.profile.OpCodeFormatError="Your OpCode must be at least 4 characters,only letters or numbers are allowed!";
 
 //incident
+i18n.opcenter.query.QryConditionCustEmpty="Please choose custumer first!";
+i18n.incident.query.DataTitleIncidentCode="Sequence no";
+i18n.incident.query.DataTitleBrief="Description";
+i18n.incident.query.DataTitleProdName="Product line";
+i18n.incident.query.DataTitleClassValOp="Category";
+i18n.incident.query.DataTitlePriorityVal="Priority";
+i18n.incident.query.DataTitleAffectValOp="Degree";
+i18n.incident.query.DataTitleItStateVal="Status";
+i18n.incident.query.DataTitlePlObjectName="Registrant";
+i18n.incident.query.DataTitleRegisteTime="Registration time";
+i18n.incident.query.DataTitleScLoginName="Consultant";
+i18n.incident.query.DataTitleModifyDate="Last updated";
+i18n.incident.query.DataTitleFinishTime="Finished time";
+i18n.incident.query.DataTitleFeedbackVal="Satisfaction";
+i18n.incident.mgnt.CommitFailure="Operation Failure";
+i18n.incident.mgnt.CommitIncidentSuccess="Ticket commit successfully!";
+i18n.incident.mgnt.RemoveIncidentConfirm="Are you sure to delete this ticket?";
+i18n.incident.mgnt.RemoveIncidentSuccess="Delete success!";
+i18n.incident.mgnt.CloseIncidentSuccess="Close success!";
+i18n.incident.mgnt.FeedbackIncidentSuccess="Evaluate success!";
+i18n.incident.mgnt.FeedbackOptionEmpty="Please choose an evaluate option!";
+i18n.incident.mgnt.MarkIncidentSuccess="Mark success!";
+i18n.incident.mgnt.MarkOptionEmpty="At least one mark option!";
+i18n.incident.mgnt.CommitBtn="commit";
+i18n.incident.mgnt.EditBtn="edit";
+i18n.incident.mgnt.DeleteBtn="delete";
+i18n.incident.mgnt.CloseBtn="close";
+i18n.incident.mgnt.ViewBtn="detail";
+i18n.incident.mgnt.MarkBtn="mark";
+i18n.incident.mgnt.EvaluateBtn="evaluate";
 
 //transation
