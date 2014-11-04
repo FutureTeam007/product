@@ -62,8 +62,13 @@
 		  	</span>
 		  	<span class="form-item">
 		    	<label><i18n:message code="i18n.incident.query.QryConditionRegiserTime"/></label>
-		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
-		    	<span style="color:#999">—</span>&nbsp;<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
+		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="
+		       		formatter: function(date){ return dateFormatter2(date);}
+		       	">
+		    	<span style="color:#999">—</span>&nbsp;
+		    	<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="
+		       		formatter: function(date){ return dateFormatter2(date);}
+		       	">
 		  	</span>
 	  	</div>
 	  	<div style="width:99%;" class="clearfix">
@@ -119,7 +124,6 @@
   	</div>
 </div>
 <div id="subPage" class="subPage"><iframe id="subPageIframe" frameborder="0" scrolling="auto" style="overflow-x:hidden" width="100%" height="100%" src=""></iframe></div>
-<div id="cc" class="easyui-calendar"></div>
 <jsp:include page="../common/pageMasterEnd.jsp"></jsp:include>
 <div id="pageMask" class="pageMask"></div>
 </body>

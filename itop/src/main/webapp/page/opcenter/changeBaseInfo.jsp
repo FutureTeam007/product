@@ -54,7 +54,7 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="givenName" class="col-sm-3 control-label"><i18n:message code="ii18n.opcenter.profile.EnginshFirstNameLabel"/></label>
+		    <label for="givenName" class="col-sm-3 control-label"><i18n:message code="i18n.opcenter.profile.EnginshFirstNameLabel"/></label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control small-control" id="givenName"  name="givenName" maxlength="10"/>
 		    </div>

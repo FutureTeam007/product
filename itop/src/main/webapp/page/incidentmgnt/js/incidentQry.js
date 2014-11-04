@@ -572,6 +572,26 @@ function dateFormatter(val,row){
 	var second = date.getSeconds();
 	return year+"/"+(month+1)+"/"+day;
 }
+//格式化时间
+function dateFormatter2(val){
+	if(!val){
+		return;
+	}
+	var date = new Date(val);
+	//年
+	var year = date.getFullYear();
+	//月
+	var month = date.getMonth();
+	//日
+	var day = date.getDate();
+	//小时
+	var hour = date.getHours();
+	//分钟
+	var minute = date.getMinutes();
+	//秒
+	var second = date.getSeconds();
+	return year+"-"+(month+1)+"-"+day;
+}
 //格式化评价列
 function formatFeedback(val,row){
 	if(row.feedbackVal!=null){
