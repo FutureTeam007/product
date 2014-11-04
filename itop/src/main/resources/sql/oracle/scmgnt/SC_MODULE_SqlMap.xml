@@ -21,7 +21,7 @@
     select SC_MODULE_ID, SUP_MODULE_ID, SC_PRODUCT_ID, SC_ORG_ID, MODULE_CODE, MODULE_NAME,
       MODULE_DESC, STATE
     from SC_MODULE
-    where SC_PRODUCT_ID = #productId:DECIMAL# and SC_ORG_ID = #orgId:DECIMAL# and STATE=1
+    where SC_PRODUCT_ID = #productId:DECIMAL# and SC_ORG_ID = #orgId:DECIMAL# and STATE=1 and LANG_FLAG=#locale:VARCHAR#
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScModule" >
     delete from SC_MODULE

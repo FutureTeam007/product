@@ -43,7 +43,7 @@
 					editable:false,
 					valueField:'scProductId',
 					textField:'prodName',
-					panelHeight:'auto'"
+					panelHeight:300"
 			   />
 		  	</span>
 	  	</div>

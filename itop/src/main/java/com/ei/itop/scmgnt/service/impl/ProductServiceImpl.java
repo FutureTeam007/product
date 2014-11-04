@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.ScModule;
 import com.ei.itop.common.dbentity.ScProduct;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.scmgnt.service.ProductService;
 
 @Service("productService")
@@ -25,6 +26,7 @@ public class ProductServiceImpl implements ProductService{
 	public List<ScProduct> queryProductList(long orgId) throws Exception {
 		Map params = new HashMap();
 		params.put("orgId", orgId);
+		params.put("locale", SessionUtil.getLocale().toString());
 		return productDAO.findByParams("SC_PRODUCT.selectByOrgId", params);
 	}
 
@@ -33,6 +35,7 @@ public class ProductServiceImpl implements ProductService{
 		Map params = new HashMap();
 		params.put("orgId", orgId);
 		params.put("productId", prodcutId);
+		params.put("locale", SessionUtil.getLocale().toString());
 		return moduleDAO.findByParams("SC_MODULE.selectByOrgIdAndProductId", params);
 	}
 	

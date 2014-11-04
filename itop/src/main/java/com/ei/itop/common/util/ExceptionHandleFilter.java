@@ -42,7 +42,7 @@ public class ExceptionHandleFilter implements Filter{
 				json.put("errorMsg", excp.getMessage());
 			}else{
 				log.error(e.getMessage(),e);
-				json.put("errorMsg", "对不起，系统临时故障，请稍后再试!");
+				json.put("errorMsg", SessionUtil.getRequestContext().getMessage("i18n.system.500err"));
 			}
 		}finally{
 			if (json.get("errorMsg")!=null&&HttpUtil.isAjaxRequest(hrt)) {

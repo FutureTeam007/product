@@ -10,10 +10,29 @@
 	<body>
 		<div class="panel panel-default">
 		  <div class="panel-body">
+		    <p>Hi,${userName} !</p>
+		    <p>Welcome to use ITOP system,please click the link below to activate your account:</p>
+		    <p><a href="${activeURL}" target="_blank">${activeURL}</a></p>
+		    <p>If this link can't be clicked,please copy it into a browser!</p>
+		  </div>
+		  <div>
+		  	<p>
+		  		The message has been sent by E&I Support website, please do not reply to this email, if you have any questions, please contact the relevant consultant.
+		  	</p>
+		  </div>
+		  <div class="panel-footer"><span class="pull-left">ITOP make your work more simple and efficient! </span><span class="pull-right">From:support.eiconsulting.cn</span></div>
+		  <br/>
+	 	  <hr>
+		  <div class="panel-body">
 		    <p>${userName}，您好！</p>
 		    <p>欢迎您使用ITOP，请点击下面的链接激活您的帐户：</p>
 		    <p><a href="${activeURL}" target="_blank">${activeURL}</a></p>
 		    <p>如果无法打开链接，请复制上面的链接粘贴到浏览器的地址栏</p>
+		  </div>
+		  <div>
+		  	<p>
+		  		该邮件已由拓创Support网站发送，请不要回复该邮件，如有您有任何疑问，请联系相关顾问
+		  	</p>
 		  </div>
 		  <div class="panel-footer"><span class="pull-left">ITOP让工作变得更简单！</span><span class="pull-right">来自：eiconsulting.cn</span></div>
 		</div>

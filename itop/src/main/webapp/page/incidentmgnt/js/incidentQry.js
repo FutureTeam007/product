@@ -39,10 +39,12 @@ $(function(){
 //初始化查询下拉列表
 function initDropdownLists(){
 	//初始化客户查询条件
+	var custSelURL = rootPath+'/register/custlist/get';
+	custSelURL += opType=="USER"?(custSelURL+"?domainName="+opCode.split("@")[1]):"";
 	$('#custSel').combotree({
 		editable:false,
 		disabled:false,
-	    url:rootPath+'/register/custlist/get',
+	    url:custSelURL,
 	    onLoadSuccess:function(){
 	    	if(opType=='USER'){
 	    		$('#custSel').combotree('setValue',opCustId);
@@ -427,7 +429,7 @@ function reRenderStatusNav(status){
 		},
 		error : function() {
 			$.messager.alert(i18n.dialog.AlertTitle,i18n.login.SessionTimeout);
-			location.href=rootPath+'/login.jsp';
+			//location.href=rootPath+'/login.jsp';
 		}
 	});
 }

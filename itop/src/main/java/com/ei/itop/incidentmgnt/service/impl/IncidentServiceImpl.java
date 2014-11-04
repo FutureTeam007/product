@@ -33,6 +33,7 @@ import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.service.MailSendService;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.custmgnt.service.UserService;
 import com.ei.itop.incidentmgnt.bean.AdviserTaskQuantity;
@@ -45,6 +46,7 @@ import com.ei.itop.incidentmgnt.service.IncidentService;
 import com.ei.itop.incidentmgnt.service.TransactionService;
 import com.ei.itop.scmgnt.service.OpService;
 import com.ei.itop.scmgnt.service.ParamService;
+import com.jcraft.jsch.Session;
 
 /**
  * @author Jack.Qi
@@ -234,7 +236,7 @@ public class IncidentServiceImpl implements IncidentService {
 		List<ScParam> paramList = paramService.getParamList(orgId, "IC_STATE");
 
 		if (paramList == null || paramList.size() == 0) {
-			throw new BizException("参数表尚未定义该商户的事件状态");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.scmgnt.param.ParamNotDefined"));
 		}
 
 		// 查询事件表所有状态分组数量信息
@@ -275,7 +277,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 生成全部状态的数量记录
 		IncidentCountInfoByState all = new IncidentCountInfoByState();
 		all.setStateCode("-1");
-		all.setStateVal("全部");
+		all.setStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.query.AllDataNavLabel"));
 		all.setRecordCount(recordCount);
 
 		// 把全部信息加入result
@@ -339,7 +341,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 设置事件状态
 		incidentInfo.setItStateCode("1");
-		incidentInfo.setItStateVal("待提交");
+		incidentInfo.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.Ready2Commit"));
 
 		// // 自动填入商户信息、客户信息
 		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
@@ -617,7 +619,7 @@ public class IncidentServiceImpl implements IncidentService {
 		}
 
 		if (custProdOpList == null || custProdOpList.size() == 0) {
-			throw new BizException("系统尚未配置负责该产品线的顾问");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.custmgnt.query.ProductConsultantNotExist"));
 		}
 
 		// 查询商户、客户下当前负责顾问的工作量
@@ -738,7 +740,8 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		// 提交时需调整事件状态为待响应
-		incidentInfo.setItStateVal("待响应");
+		incidentInfo.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.Ready2Resp"));
+		
 		incidentInfo.setItStateCode("2");
 
 		// 提交时自动填入登记时间
@@ -777,7 +780,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incidentInfo.getItPhase());
-		transactionInfo.setTransType("流程事务-待响应");
+		transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransType2Resp"));
 		transactionInfo.setContents(incidentInfo.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
@@ -820,7 +823,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// TODO Auto-generated method stub
 
 		// 提交时需调整事件状态为待响应
-		incidentInfo.setItStateVal("待响应");
+		incidentInfo.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.Ready2Resp"));
 		incidentInfo.setItStateCode("2");
 
 		// 提交时自动填入登记时间
@@ -859,7 +862,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incidentInfo.getItPhase());
-		transactionInfo.setTransType("流程事务-待响应");
+		transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransType2Resp"));
 		transactionInfo.setContents(incidentInfo.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
@@ -905,7 +908,7 @@ public class IncidentServiceImpl implements IncidentService {
 		IcIncident incident = queryIncident(incidentId);
 
 		// 提交时需调整事件状态为待响应
-		incidentInfo.setItStateVal("待响应");
+		incidentInfo.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.Ready2Resp"));
 		incidentInfo.setItStateCode("2");
 
 		// 提交时自动填入登记时间
@@ -944,7 +947,7 @@ public class IncidentServiceImpl implements IncidentService {
 		// 系统自动生成第一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
 		transactionInfo.setItPhase(incidentInfo.getItPhase());
-		transactionInfo.setTransType("流程事务-待响应");
+		transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransType2Resp"));
 		transactionInfo.setContents(incident.getDetail());
 		long transactionId = transactionService.addTransaction(incidentId,
 				transactionInfo, opInfo);
@@ -1144,7 +1147,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 设置事件状态
 		ii.setItStateCode("9");
-		ii.setItStateVal("已关闭");
+		ii.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.ClosedStatus"));
 
 		// 业务信息
 		ii.setCloseTime(commonDAO.getSysDate());
@@ -1154,8 +1157,8 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 系统自动生成最后一条事务
 		TransactionInfo transactionInfo = new TransactionInfo();
-		transactionInfo.setTransType("流程事务-关闭");
-		transactionInfo.setContents("顾问关闭事务");
+		transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeClose"));
+		transactionInfo.setContents(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeCloseContent"));
 		transactionService.addTransaction(incidentId, transactionInfo, opInfo);
 
 		// 发送邮件
@@ -1277,7 +1280,7 @@ public class IncidentServiceImpl implements IncidentService {
 		IcIncident incident = new IcIncident();
 		incident.setIcIncidentId(incidentId);
 		incident.setItStateCode("10");
-		incident.setItStateVal("已归档");
+		incident.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.MarkStatus"));
 		incident.setModifier(oi.getOpFullName());
 		List<ScParam> params = paramService.getParamList(oi.getOrgId(),
 				"IC_ARCHIVE_FLAG");

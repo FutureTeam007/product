@@ -5,6 +5,7 @@ package com.ei.itop.scmgnt.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.ScParam;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.scmgnt.service.ParamService;
 
 /**
@@ -41,6 +43,7 @@ public class ParamServiceImpl implements ParamService {
 		hm.put("orgId", orgId);
 		hm.put("paramKindCode", paramKindCode);
 		hm.put("paramCode", paramCode);
+		hm.put("locale", SessionUtil.getLocale().toString());
 
 		ScParam param = paramDAO.find("SC_PARAM.queryParam", hm);
 
@@ -60,6 +63,7 @@ public class ParamServiceImpl implements ParamService {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("orgId", orgId);
 		hm.put("paramKindCode", paramKindCode);
+		hm.put("locale", SessionUtil.getLocale().toString());
 
 		List<ScParam> paramList = paramDAO.findByParams(
 				"SC_PARAM.queryParamList", hm);

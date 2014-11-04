@@ -36,5 +36,9 @@ public class MailConfigurator {
        ms.setJavaMailProperties(pp);
        return ms;
     }  
+    
+    public static void main(String[] args) {
+    	System.out.println(Encrypt.encrypt("ei2014"));
+	}
 	
 }

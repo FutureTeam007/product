@@ -19,7 +19,7 @@ i18n.upload.UploadFailure="Upload failure,please try again later!";
 i18n.login.AccountNoBlank="Email Account can't be empty!";
 i18n.login.PasswordBlank="Password can't be empty!";
 i18n.login.VerifyCodeBlank="Verification Code can't be empty!";
-i18n.login.SessionTimeout="Session is timeout,please login again!";
+i18n.login.SessionTimeout="System error,please login again!";
 //register
 i18n.register.AccountFormatError="Please input an email account!";
 i18n.register.PasswordFormatError="Your password must be at least 4 characters!";
@@ -92,5 +92,26 @@ i18n.incident.edit.BriefEmpty="Please input brief!";
 i18n.incident.edit.HappenTimeEmpty="Please input happen time!";
 i18n.incident.edit.DetailEmpty="Please input detail information of ticket";
 i18n.incident.edit.CcFormatError="Please input correct email address,separate multiple emails with a comma";
-
+i18n.incident.view={};
+i18n.incident.view.LendHandBtn="Lend a hand";
+i18n.incident.view.TransTplStartMan="Handler";
+i18n.incident.view.TransTplDealtime="Dealtime";
+i18n.incident.view.TransTplType="Type";
+i18n.incident.view.TransTplContent="Content";
+i18n.incident.view.TransOrderPrefix="No.";
+i18n.incident.view.QryTransListError="Query transactions data error!";
+i18n.incident.view.QryContactInfoError="Query contact information data error!";
+i18n.incident.view.TransContentEmpty="Please input transaction content!";
+i18n.incident.view.TransCommitSuccess="Commit success!";
+i18n.incident.view.TransferNameTitle="Name";
+i18n.incident.view.TransferAccountTitle="Account";
+i18n.incident.view.TransferMobileTitle="Mobile";
+i18n.incident.view.TransferPhoneTitle="Telephone";
+i18n.incident.view.TransferSelectEmpty="Please choose a consultant to handover!";
+i18n.incident.view.TransferSuccess="handover success";
+i18n.incident.view.FinishCodeEmpty="Please choose a finish code!";
+i18n.incident.view.TransCompleteProductEmpty="Please select product line!";
+i18n.incident.view.TransCompleteModuleEmpty="Please select service module!";
+i18n.incident.view.TransCompletePriorityEmpty="Please select priority!";
+i18n.incident.view.TransCompleteComplexEmpty="Please select complex code!";
 //transation

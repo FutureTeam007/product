@@ -22,6 +22,7 @@ import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.IcTransaction;
 import com.ei.itop.common.service.MailSendService;
+import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.TransactionInfo;
 import com.ei.itop.incidentmgnt.service.AttachService;
@@ -175,7 +176,7 @@ public class TransactionServiceImpl implements TransactionService {
 			
 			// 调整事件状态
 			ii.setItStateCode("3");
-			ii.setItStateVal("顾问处理中");
+			ii.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.ConsultantHandleStatus"));
 
 			// 修改事件
 			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
@@ -184,7 +185,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(incident.getItPhase());
 
 			// 设置事务分类
-			transactionInfo.setTransType("流程事务-补充资料");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeNeedMore"));
 		}
 		// 非当前干系人
 		else {
@@ -194,7 +195,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(incident.getItPhase());
 
 			// 设置事务分类
-			transactionInfo.setTransType("其他事务");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.NotFlowTransType"));
 		}
 
 		// 新增事务信息
@@ -241,7 +242,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			// 调整事件状态
 			ii.setItStateCode("3");
-			ii.setItStateVal("顾问处理中");
+			ii.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.ConsultantHandleStatus"));
 
 			// 修改事件
 			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
@@ -250,7 +251,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(incident.getItPhase());
 
 			// 设置事务分类
-			transactionInfo.setTransType("流程事务-顾问处理中");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeConsultantHandle"));
 		}
 		// 非当前干系人
 		else {
@@ -260,7 +261,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(incident.getItPhase());
 
 			// 设置事务分类
-			transactionInfo.setTransType("其他事务");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.NotFlowTransType"));
 		}
 
 		// 新增事务信息
@@ -312,7 +313,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			// 需调整事件状态为客户处理中
 			ii.setItStateCode("4");
-			ii.setItStateVal("客户处理中");
+			ii.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.UserHandleStatus"));
 
 			// 修改事件
 			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
@@ -321,7 +322,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(incident.getItPhase());
 
 			// 设置事务分类
-			transactionInfo.setTransType("流程事务-补充资料");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeNeedMore"));
 		}
 		// 非当前干系人
 		else {
@@ -388,7 +389,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			// 需调整事件状态为处理中
 			ii.setItStateCode("3");
-			ii.setItStateVal("顾问处理中");
+			ii.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.ConsultantHandleStatus"));
 
 			// 修改事件
 			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
@@ -397,7 +398,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(itPhase);
 
 			// 设置事务分类
-			transactionInfo.setTransType("流程事务-转派");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeHandover"));
 		}
 		// 非当前干系人
 		else {
@@ -460,7 +461,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			// 需调整事件状态为已挂起
 			ii.setItStateCode("5");
-			ii.setItStateVal("已挂起");
+			ii.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.BlockStatus"));
 
 			// 修改事件
 			incidentService.modifyIncidentAndAttach(incidentId, ii, opInfo);
@@ -469,7 +470,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(incident.getItPhase());
 
 			// 设置事务分类
-			transactionInfo.setTransType("流程事务-挂起");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeBlock"));
 		}
 		// 非当前干系人
 		else {
@@ -540,7 +541,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			// 需调整事件状态为已挂起
 			ii.setItStateCode("8");
-			ii.setItStateVal("已完成");
+			ii.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FinishStatus"));
 
 			// 需补全完成操作的业务信息
 			ii.setFinishTime(commonDAO.getSysDate());
@@ -559,7 +560,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionInfo.setItPhase(incident.getItPhase());
 
 			// 设置事务分类
-			transactionInfo.setTransType("流程事务-完成");
+			transactionInfo.setTransType(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.FlowTransTypeFinish"));
 		}
 		// 非当前干系人
 		else {

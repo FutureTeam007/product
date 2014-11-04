@@ -16,12 +16,14 @@
     where SC_ORG_ID = #orgId:DECIMAL#
     and PARAM_KIND_CODE = #paramKindCode:VARCHAR#
     and PARAM_CODE = #paramCode:VARCHAR#
+    and LANG_FLAG=#locale:VARCHAR#
   </select>
   <select id="queryParamList" resultMap="scParamResult" parameterClass="java.util.Map" >
     select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC
     from SC_PARAM
     where SC_ORG_ID = #orgId:DECIMAL#
     and PARAM_KIND_CODE = #paramKindCode:VARCHAR#
+    and LANG_FLAG=#locale:VARCHAR#
     order by to_number(PARAM_CODE)
   </select>
   <select id="selectByPrimaryKey" resultMap="scParamResult" parameterClass="com.ei.itop.common.dbentity.ScParam" >

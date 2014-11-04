@@ -201,13 +201,13 @@ function queryIncidentInfo(flag){
 		}
 	});
 }
-//事务列表html模板
+//事务列表html模板  
 var transListTpl = "<div class='trans-item'><div class='col-sm-1'><label>${order}</label></div><div class='col-sm-11'>";
 transListTpl+="<div class='trans-item-header clearfix'>";
-transListTpl+="<div><label>发起人：</label><span>${objectName}</span></div>";
-transListTpl+="<div><label>处理时间：</label><span>${createTime}</span></div>";
-transListTpl+="<div><label>类型：</label><span>${transType}</span></div></div>";
-transListTpl+="<div><div><label>事务说明：</label><br/><span class='trans-content'>${contents}</span></div></div>";
+transListTpl+="<div><label>"+i18n.incident.view.TransTplStartMan+"：</label><span>${objectName}</span></div>";
+transListTpl+="<div><label>"+i18n.incident.view.TransTplDealtime+"：</label><span>${createTime}</span></div>";
+transListTpl+="<div><label>"+i18n.incident.view.TransTplType+"：</label><span>${transType}</span></div></div>";
+transListTpl+="<div><div><label>"+i18n.incident.view.TransTplContent+"：</label><br/><span class='trans-content'>${contents}</span></div></div>";
 transListTpl+="<div><div><label></label><br/><span>";
 transListTpl+="{{each(i,attach) attachList}}<div><a href=\"javascript:attachDownLoad({{= attach.icAttachId}})\">{{= attach.attachName}}</a></div>";
 transListTpl+="{{/each}}</span></div></div></div></div>";
@@ -224,14 +224,14 @@ function queryTransList(){
 			$("#transList").empty();
 			if(msg!=null){
 				for(var i=0;i<msg.length;i++){
-					msg[i].order = "事务"+(msg.length-i);
+					msg[i].order = i18n.incident.view.TransOrderPrefix+(msg.length-i);
 					msg[i].createTime = dateTimeFormatter(msg[i].createTime);
 				}
 				$.tmpl('transListTpl', msg).appendTo('#transList'); 
 			}
 		},
 		error : function() {
-			$.messager.alert('提示','查询事务信息错误！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.QryTransListError);
 		}
 	});
 }
@@ -252,7 +252,7 @@ function queryContactorInfo(id){
 				$("#officeTel").html(msg.officeTel);
 			},
 			error : function() {
-				$.messager.alert('提示','查询联系人信息错误！');
+				$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.QryContactInfoError);
 			}
 		});
 	},500);
@@ -262,7 +262,7 @@ var moduleTreeReload = false;
 function validateFormAndWrapVar(func){
 	var transDesc = $.trim($("#transDesc").val());
 	if(transDesc==""){
-		$.messager.alert('提示','请填写事务内容！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransContentEmpty);
 		return false;
 	}
 	//顾问如果没有填写复杂度字段说明没有审核更正过事件信息，弹出窗口，由顾问审核更新事件信息
@@ -332,7 +332,7 @@ function transCommit(){
 		data : r,
 		dataType : 'text',
 		success : function(msg) {
-			$.messager.alert('提示','提交成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCommitSuccess);
 			resetCommitForm();
 			queryIncidentInfo();
 			//提交成功，再刷新一遍事务列表
@@ -340,7 +340,7 @@ function transCommit(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','提交错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -363,17 +363,17 @@ function openConsultantSelWin(){
 			idField: 'scOpId',
 			height:240,
 			remoteSort:false,
-			loadMsg:"数据加载中，请稍侯……",
+			loadMsg:i18n.loading.GridLoading,
 			singleSelect:true,
 			nowrap:true,
 			fitColumns:true,
 			url: rootPath + '/custmgnt/op/list',
 			columns:[[
 			    {field:'ck',checkbox: true},
-			    {field:'opName',title:'姓名',formatter:nameFormatter,width:110},
-				{field:'loginCode',title:'账号',width:90},
-				{field:'mobileNo',title:'手机号码',width:60},
-				{field:'officeTel',title:'办公电话',width:50},
+			    {field:'opName',title:i18n.incident.view.TransferNameTitle,formatter:nameFormatter,width:110},
+				{field:'loginCode',title:i18n.incident.view.TransferAccountTitle,width:90},
+				{field:'mobileNo',title:i18n.incident.view.TransferMobileTitle,width:60},
+				{field:'officeTel',title:i18n.incident.view.TransferPhoneTitle,width:50},
 				{field:'firstName',hidden:true},
 				{field:'lastName',hidden:true}
 			]],
@@ -384,7 +384,7 @@ function openConsultantSelWin(){
 			onLoadSuccess:function(){
 				var data = $(this).datagrid("getData");
 				if(data.rows.length==0){
-					 $(this).parent().find("div").filter(".datagrid-body").html("<div class='ml10 mt10'>暂无数据记录</div>");
+					 $(this).parent().find("div").filter(".datagrid-body").html("<div class='ml10 mt10'>"+i18n.loading.GirdDataEmpty+"</div>");
 				}
 			},
 			pagination:true,
@@ -407,7 +407,7 @@ function deliverConstCommit(){
 	//从表格上得到选中行的顾问ID
 	var rows = $("#consultantSelTable").datagrid('getSelections');
 	if(!rows||rows.length<1){
-		$.messager.alert('提示','请选择一个转派的顾问！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransferSelectEmpty);
 		return;
 	}
 	//设置转派的顾问参数
@@ -417,7 +417,7 @@ function deliverConstCommit(){
 	r.opName = opInfo.opName;
 	//判断是否转派给自己
 	if(opId==opInfo.scOpId){
-		$.messager.alert('提示','请注意：事件转派不能转派给自己！');
+		$.messager.alert(i18n.dialog.AlertTitle,'请注意：事件转派不能转派给自己！');
 		return;
 	}
 	//转顾问操作
@@ -429,14 +429,14 @@ function deliverConstCommit(){
 		dataType : 'text',
 		success : function(msg) {
 			$('#consultantSelWin').dialog('close');
-			$.messager.alert('提示','转派成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransferSuccess);
 			resetCommitForm();
 			queryIncidentInfo();
 			queryTransList();
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','转派出现错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -455,7 +455,7 @@ function deliverCustCommit(){
 		data : r,
 		dataType : 'text',
 		success : function(msg) {
-			$.messager.alert('提示','提交成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCommitSuccess);
 			resetCommitForm();
 			queryIncidentInfo();
 			//提交成功，再刷新一遍事务列表
@@ -463,7 +463,7 @@ function deliverCustCommit(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','提交错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -482,14 +482,14 @@ function blockCommit(){
 		data : r,
 		dataType : 'text',
 		success : function() {
-			$.messager.alert('提示','提交成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCommitSuccess);
 			resetCommitForm();
 			queryIncidentInfo();
 			queryTransList();
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','挂起错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -511,7 +511,7 @@ function finishCommit(){
 	r.finishCode = finishEl.val();
 	r.finishVal = finishEl.attr("text");
 	if(!r.finishCode){
-		$.messager.alert('提示','请选择一个事件完成结果！');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.FinishCodeEmpty);
 		return;
 	}
 	//完成操作
@@ -522,7 +522,7 @@ function finishCommit(){
 		data : r,
 		dataType : 'text',
 		success : function() {
-			$.messager.alert('提示','提交成功！');
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCommitSuccess);
 			resetCommitForm();
 			$('#finishWin').dialog('close');
 			queryIncidentInfo();
@@ -530,7 +530,7 @@ function finishCommit(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','提交错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -543,14 +543,14 @@ function completeIncident(){
 	fv.productId = $("#prodSel").combobox('getValue');
 	fv.productName = $("#prodSel").combobox('getText');
 	if(!fv.productId){
-		$.messager.alert('提示','请选择产品线');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCompleteProductEmpty);
 		return;
 	}
 	//服务目录
 	fv.moduleId = $("#moduleSel").combobox('getValue');
 	fv.moduleName = $("#moduleSel").combobox('getText');
 	if(!fv.moduleId){
-		$.messager.alert('提示','请选择服务目录');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCompleteModuleEmpty);
 		return;
 	}
 	//事件类别
@@ -565,7 +565,7 @@ function completeIncident(){
 	fv.priorityCode = priorityEl.val();
 	fv.priorityVal = priorityEl.attr("text");
 	if(!fv.priorityCode){
-		$.messager.alert('提示','请选择事件优先级');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCompletePriorityEmpty);
 		return;
 	}
 	//复杂度
@@ -573,7 +573,7 @@ function completeIncident(){
 	fv.complexCode = complexEl.val();
 	fv.complexVal = complexEl.attr("text");
 	if(!fv.complexCode){
-		$.messager.alert('提示','请选择事件复杂度');
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.view.TransCompleteComplexEmpty);
 		return;
 	}
 	$.ajax({
@@ -593,7 +593,7 @@ function completeIncident(){
 		},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','提交错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }
@@ -684,7 +684,7 @@ function attachUpload(){
 			},
 			error: function (data, status, e){
 				$('#uploadProgress').dialog('close');
-				$.messager.alert('提示','上传失败了，可能是网络原因或系统故障，请稍后再试');
+				$.messager.alert(i18n.dialog.AlertTitle,i18n.upload.UploadFailure);
 			}
 	  });
 }
@@ -705,7 +705,7 @@ function attachRemove(obj,id){
 		success : function() {},
 		error : function(request) {
 			var msg = eval("("+request.responseText+")").errorMsg;
-			$.messager.alert('提示','删除错误：'+msg);
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
 }

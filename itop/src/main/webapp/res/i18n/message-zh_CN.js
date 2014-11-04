@@ -19,7 +19,7 @@ i18n.upload.UploadFailure="上传失败了，可能是网络原因或系统故�
 i18n.login.AccountNoBlank="请填写登录账号";
 i18n.login.PasswordBlank="请填写登录密码";
 i18n.login.VerifyCodeBlank="请填写验证码";
-i18n.login.SessionTimeout="登录已超时，请重新登录!";
+i18n.login.SessionTimeout="出错了，可能是登录超时，请重新登录再试";
 //register
 i18n.register.AccountFormatError="请输入邮箱格式的登录账号";
 i18n.register.PasswordFormatError="请输入至少4位的登录密码";
@@ -94,7 +94,24 @@ i18n.incident.edit.DetailEmpty="请填写事件详细说明！";
 i18n.incident.edit.CcFormatError="请填写正确的邮箱地址，多个用逗号分隔！";
 i18n.incident.view={};
 i18n.incident.view.LendHandBtn="搭把手";
-
-
-
+i18n.incident.view.TransTplStartMan="发起人";
+i18n.incident.view.TransTplDealtime="处理时间";
+i18n.incident.view.TransTplType="类型";
+i18n.incident.view.TransTplContent="事务说明";
+i18n.incident.view.TransOrderPrefix="事务";
+i18n.incident.view.QryTransListError="查询事务信息错误！";
+i18n.incident.view.QryContactInfoError="查询联系人信息错误！";
+i18n.incident.view.TransContentEmpty="请填写事务内容！";
+i18n.incident.view.TransCommitSuccess="提交成功";
+i18n.incident.view.TransferNameTitle="姓名";
+i18n.incident.view.TransferAccountTitle="账号";
+i18n.incident.view.TransferMobileTitle="手机";
+i18n.incident.view.TransferPhoneTitle="固定电话";
+i18n.incident.view.TransferSelectEmpty="请选择一个转派的顾问！";
+i18n.incident.view.TransferSuccess="转派成功";
+i18n.incident.view.FinishCodeEmpty="请选择一个事件完成结果！";
+i18n.incident.view.TransCompleteProductEmpty="请选择产品线";
+i18n.incident.view.TransCompleteModuleEmpty="请选择服务目录";
+i18n.incident.view.TransCompletePriorityEmpty="请选择优先级";
+i18n.incident.view.TransCompleteComplexEmpty="请选择复杂度";
 //transation

@@ -10,6 +10,57 @@
 <body>
 	<div class="panel panel-default">
 	  <div class="panel-body">
+	    <p>Hi,${opName} !</p>
+	    <p>${userName} add a feedback information to ticket[${incidentId}] at ${vDate},details as follows：</p>
+	    <p>${content}</p>
+	    <p>Please <a href="${website}" target="_blank">login ITOP system</a> to close this ticket as soon as possilble!</p>
+	  	<hr/>
+	    <p><strong>Ticket Information:</strong></p>
+	    <p>
+	    	<table width="80%" style="font-size:12px">
+	    		<tr>
+	    			<td width="20%"><strong>Description</strong></td><td colspan="3">$!{incident.brief}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Detail</strong></td><td colspan="3">$!{incident.detail}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Company</strong></td><td>$!{incident.custName}</td>
+	    			<td width="20%"><strong>Category</strong></td><td>$!{incident.classVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Product</strong></td><td>$!{incident.prodName}</td>
+	    			<td width="20%"><strong>Module</strong></td><td>$!{incident.moduleName}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Infuence</strong></td><td>$!{incident.affectVal}</td>
+	    			<td width="20%"><strong>Complex</strong></td><td>$!{incident.complexVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Priority</strong></td><td>$!{incident.priorityVal}</td>
+	    			<td width="20%"><strong>Status</strong></td><td>$!{incident.itStateVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Deal User</strong></td><td>$!{incident.icLoginCode}</td>
+	    			<td width="20%"><strong>Happen Time</strong></td><td>$!{happenTime}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Response Endtime</strong></td><td>$!{reponseDur2}</td>
+	    			<td width="20%"><strong>Handle Endtime</strong></td><td>$!{dealDur2}</td>
+	    		</tr>
+	    	</table>
+	    </p>
+	  </div>
+	  </div>
+	  <div>
+	  	<p>
+	  		The message has been sent by E&I Support website, please do not reply to this email, if you have any questions, please contact the relevant consultant.
+	  	</p>
+	  </div>
+	  <div class="panel-footer"><span class="pull-left">ITOP make your work more simple and efficient! </span><span class="pull-right">From:support.eiconsulting.cn</span></div>
+	  </br>
+	  <hr>
+	  <div class="panel-body">
 	    <p>${opName}，您好！</p>
 	    <p>${userName}于${vDate}对事件${incidentId}进行了评价，评价结果如下：</p>
 	    <p>${content}</p>
@@ -50,6 +101,11 @@
 	    		</tr>
 	    	</table>
 	    </p>
+	  </div>
+	  <div>
+	  	<p>
+	  		该邮件已由拓创Support网站发送，请不要回复该邮件，如有您有任何疑问，请联系相关顾问
+	  	</p>
 	  </div>
 	  <div class="panel-footer"><span class="pull-left">ITOP让工作变得更简单！</span><span class="pull-right">来自：eiconsulting.cn</span></div>
 	</div>

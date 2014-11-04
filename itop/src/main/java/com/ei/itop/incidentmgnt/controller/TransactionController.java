@@ -16,7 +16,6 @@ import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ailk.dazzle.util.web.ActionUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.IcAttach;
-import com.ei.itop.common.dbentity.IcTransaction;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.incidentmgnt.bean.IncidentInfo;
 import com.ei.itop.incidentmgnt.bean.TransactionInfo;
