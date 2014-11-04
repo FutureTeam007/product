@@ -1,0 +1,93 @@
+body{background-color: #f8f8f8;font-family:"microsoft yahei", Arial, Tahoma, Geneva, sans-serif;}
+a {outline: none;}
+a:active {star:expression(this.onFocus=this.blur());}
+.ml5{margin-left:5px;}.mr5{margin-right:5px;}.mt5{margin-top:5px;}.mb5{margin-bottom:5px;}
+.ml10{margin-left:10px;}.mr10{margin-right:10px;}.mt10{margin-top:10px;}.mb10{margin-bottom:10px;}
+.ml15{margin-left:15px;}.mr15{margin-right:15px;}.mt15{margin-top:15px;}.mb15{margin-bottom:15px;}
+.ml20{margin-left:20px;}.mr20{margin-right:20px;}.mt20{margin-top:20px;}.mb20{margin-bottom:20px;}
+.pl5{padding-left:5px;}.pr5{padding-right:5px;}.pt5{padding-top:5px;}.pb5{padding-bottom:5px;}
+.p10{padding:10px}
+.pl10{padding-left:10px;}.pr10{padding-right:10px;}.pt10{padding-top:10px;}.pb10{padding-bottom:10px;}
+.pl15{padding-left:15px;}.pr15{padding-right:15px;}.pt15{padding-top:15px;}.pb15{padding-bottom:15px;}
+.pl20{padding-left:20px;}.pr20{padding-right:20px;}.pt20{padding-top:20px;}.pb20{padding-bottom:20px;}
+.pl25{padding-left:25px;}.pr25{padding-right:25px;}.pt25{padding-top:25px;}.pb25{padding-bottom:25px;}
+.pl30{padding-left:30px;}.pr30{padding-right:30px;}.pt30{padding-top:30px;}.pb30{padding-bottom:30px;}
+.header-fix{height:60px;line-height:60px;padding-left:10px;padding-top:5px;}
+.brand-fix{font-family:"microsoft yahei";font-size:38px;color:#333;margin-left:0px;padding-left:8px;padding-top:18px}
+.navbar-brand-small{font-family:"microsoft yahei";font-size:12px;color:#333;font-style:italic;margin-top:40px}
+.navbar-fix{border-bottom-color:#ccc;background:#f3f3f3;}
+.site-logo{width:50px;height:50px;background:url(image/logo.png) top left no-repeat;float:left;margin:5px auto auto 10px}
+.textbox-icon .combo-arrow{float:right}
+.nav-tabs li{height:30px;font-size:12px;}
+.nav-tabs li a{padding:5px;}
+.none-data-info{width:100%;padding:10px;text-align:center}
+.pagination-page-list,.pagination-btn-separator{display:none}
+.undis{display:none}
+.attachList .fa-times{color:red;cursor:pointer;margin-left:5px;}
+.attachList div{margin-top:5px;margin-bottom:5px}
+.form-error-alert{color:red}
+.language-choose{text-align:right;color:#666666;margin-top:30px;margin-right:100px}
+.language-choose .btn-link{padding:0px;margin-right:3px;text-decoration: underline;}
+.language-choose .active{color:#666666;text-decoration: none;}
+
+/*login*/
+.login-header-fix{height:60px;padding-top:3px;}
+.login-header-fix .site-logo{margin-left:10px;margin-right:10px}
+.login-header-fix .panel-title{font-size:38px;padding-top:5px;color:#666;}
+.login-header-fix h3{width:90px;float:left}
+.login-nav{width:220px;float:right;border:none;margin-top:25px;}
+.login-nav li{float:right;font-size:14px;padding:1px}
+.login-form label{font-weight:normal;padding:0px 0px 0px 20px;height:34px;line-height:34px}
+.login-findpwd-link{font-size:12px;padding-left:10px;paddding-right:0px;line-height:30px}
+/*register*/
+.register-wrapper{width:56%;margin:30px auto auto auto;}
+.register-wrapper label{padding-right:0px;font-weight:normal;line-height:32px}
+.register-form-btns .btn-warning{padding-left:40px;padding-right:40px}
+.register-wrapper .form-desc{font-size:12px;color:#999;}
+.register-nav{width:60%;margin:auto;height:40px;font-size:24px;color:#ccc;font-weight:bold;}
+.register-step{border-bottom:solid 3px #ccc;width:33%;float:left;display:inline}
+.register-step-active{border-bottom:solid 3px #428bca;color:#428bca}
+.register-wrapper .success-title{font-size:18px;color:#ec971f}
+.register-wrapper .success-content{padding:20px;font-size:14px;border:solid 1px #faebcc;border-top:none;color:#666;}
+.register-wrapper .success-content a{color:#666;text-decoration: underline;}
+.register-wrapper .middle-content{text-align:center}
+.register-wrapper .small-control{float:left;display:inline;height:25px;font-size:12px;padding:1px;width:99%}
+.register-wrapper .control-label{height:25px;line-height:25px}
+/*incident-list*/
+.inci-search{margin:10px}
+.inci-search span label{width:80px;display:inline;float:left;line-height:22px;font-size:12px;color:#555;font-weight:bold}
+.inci-search span.form-item{width:25%;float:left;display:inline;margin-bottom:20px}
+.form-item .checkbox-inline{margin-left:3px}
+.inci-search .form-control{float:left;display:inline;width:60%;height:24px;font-size:10px;padding-top:3px}
+.inci-search .btn-sm{height:24px;line-height:22px;padding-top:0px}
+.inci-data .datagrid-header-row .datagrid-cell{font-weight:bold;}
+.inci-data .btn-danger{height:30px;font-size:14px;padding-top:3px}
+.inci-data .nav-tabs {border-bottom:none;width:90%;float:right;padding-right:15px;padding-top:5px}
+.inci-data .nav-tabs > li{float:right}
+.inci-data .btn-link{padding:4px 2px 4px 2px}
+#feedbackBtn{margin-left:40%}
+.feedback-options{padding:10px 10px 10px 40px}
+.feedback-options .radio-inline {line-height:20px;vertical-align: middle;}
+.subPage{display:none;float:right;position:absolute;top:0px;right:-1000px;z-index:9999;overflow-y:auto;border-left:solid 5px #eee;width:1000px;background:#fff;}
+.pageMask{display:none;position:absolute;top:0px;z-index:1001;left:0px;background-color:#111;filter:alpha(opacity=40); -moz-opacity:0.4; opacity:0.4;}
+/*incident-dtl*/
+.inci-info-form{width:900px;padding:10px}
+.inci-dtl-title{padding:5px;border-bottom:solid 1px #bbb;width:98%}
+.inci-info-form .col-sm-2{padding-right:0px}
+.inci-info-form .small-control{float:left;display:inline;height:25px;font-size:12px;padding:1px;}
+.inci-info-form .small-control-large{float:left;display:inline;font-size:12px;padding:2px;}
+.inci-info-form .form-desc{font-size:12px;color:#999;}
+.inci-form-btns{margin-top:30px;}
+.inci-dtl-title h4{margin-top:3px;margin-bottom:8px;font-weight:bold;margin-left:5px}
+.top-close-link{padding:3px;}
+/*incident-view*/
+.inci-trans-commit-form .btn-warning{margin-right:15px;}
+.inci-trans-commit-form .form-btns{text-align: center}
+.inci-trans-data .datagrid-header {display:none}
+.inci-trans-data .datagrid-cell{min-height:30px;}
+.trans-item-header div{width:33%;float:left;display:inline;}
+.trans-content{text-indent:24px;}
+.trans-item{min-height:120px;margin-bottom:10px;border-bottom:dashed 1px #ddd;}
+.inci-base-info .clearfix{margin-top:5px;margin-bottom:5px;}
+.inci-base-info .btn-circle{width:15px;height:15px;padding:3px 0px 3px 0px}
+#completeWin .radio-inline{width:50px}

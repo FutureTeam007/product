@@ -22,7 +22,7 @@
 <link href="<%=rootPath%>/res/bootstrap/css/plugins/timeline.css" rel="stylesheet"/>
 <link href="<%=rootPath%>/res/bootstrap/css/sb-admin-2.css" rel="stylesheet"/>
 <!-- Website Default CSS -->
-<link href="<%=rootPath%>/theme/default/default.css" rel="stylesheet">
+<link href="<%=rootPath%>/theme/default/default-<%=i18nLocale%>.css" rel="stylesheet">
 <!-- Custom Fonts -->
 <link href="<%=rootPath%>/res/bootstrap/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

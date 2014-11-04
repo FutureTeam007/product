@@ -9,10 +9,11 @@ public interface ProductService {
 	/**
 	 * 查询商户下的所有产品
 	 * @param orgId
+	 * @param custId
 	 * @return
 	 * @throws Exception
 	 */
-	List<ScProduct> queryProductList(long orgId) throws Exception;
+	List<ScProduct> queryProductList(Long orgId,Long custId) throws Exception;
 	/**
 	 * 查询某产品下的服务目录
 	 * @param orgId

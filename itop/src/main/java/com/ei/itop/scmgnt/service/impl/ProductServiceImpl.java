@@ -23,11 +23,12 @@ public class ProductServiceImpl implements ProductService{
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, ScModule> moduleDAO;
 	
-	public List<ScProduct> queryProductList(long orgId) throws Exception {
+	public List<ScProduct> queryProductList(Long orgId,Long custId) throws Exception {
 		Map params = new HashMap();
 		params.put("orgId", orgId);
+		params.put("custId", custId);
 		params.put("locale", SessionUtil.getLocale().toString());
-		return productDAO.findByParams("SC_PRODUCT.selectByOrgId", params);
+		return productDAO.findByParams("SC_PRODUCT.selectByOrgIdAndCustId", params);
 	}
 
 	public List<ScModule> queryModuleList(long orgId, long prodcutId)

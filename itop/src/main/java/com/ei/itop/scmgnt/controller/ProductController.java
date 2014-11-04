@@ -14,6 +14,7 @@ import com.ailk.dazzle.util.json.JSONUtils;
 import com.ailk.dazzle.util.tree.TreeUtil;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.bean.OpInfo;
+import com.ei.itop.common.constants.SysConstants;
 import com.ei.itop.common.dbentity.ScModule;
 import com.ei.itop.common.dbentity.ScProduct;
 import com.ei.itop.common.util.SessionUtil;
@@ -26,43 +27,57 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+
 	/**
 	 * 查询产品列表
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
 	 */
 	@RequestMapping("/productList")
-	public void queryProductList(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public void queryProductList(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		OpInfo oi = SessionUtil.getOpInfo();
-		List<ScProduct> products = productService.queryProductList(oi.getOrgId());
+		List<ScProduct> products = null;
+		if (SysConstants.OpAttribute.OP_ROLE_OP.equals(oi.getOpType())) {
+			products = productService.queryProductList(oi.getOrgId(), null);
+		} else {
+			products = productService.queryProductList(oi.getOrgId(),
+					VarTypeConvertUtils.string2Long(oi.getCustId()));
+		}
+
 		String jsonData = null;
-		if(products!=null){
+		if (products != null) {
 			jsonData = JSONUtils.toJSONString(products);
-		}else{
+		} else {
 			jsonData = "[]";
 		}
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
-	
+
 	/**
 	 * 查询服务目录
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
 	 */
 	@RequestMapping("/moduleTree")
-	public void queryModuleTree(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		long productId = VarTypeConvertUtils.string2Long(request.getParameter("productId"));
+	public void queryModuleTree(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		long productId = VarTypeConvertUtils.string2Long(request
+				.getParameter("productId"));
 		OpInfo oi = SessionUtil.getOpInfo();
-		List<ScModule> modules = productService.queryModuleList(oi.getOrgId(),productId);
+		List<ScModule> modules = productService.queryModuleList(oi.getOrgId(),
+				productId);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		if(modules!=null&&modules.size()!=0){
+		if (modules != null && modules.size() != 0) {
 			List<ModuleTreeNode> nodes = new ArrayList<ModuleTreeNode>();
-			for(ScModule sm:modules){
+			for (ScModule sm : modules) {
 				ModuleTreeNode node = new ModuleTreeNode();
 				node.setData(sm);
 				nodes.add(node);
@@ -70,7 +85,7 @@ public class ProductController {
 			List<ModuleTreeNode> treeNodes = TreeUtil.buildAndSort(nodes);
 			String treeJson = JSONUtils.toJSONString(treeNodes);
 			response.getWriter().print(treeJson);
-		}else{
+		} else {
 			response.getWriter().print("[]");
 		}
 	}

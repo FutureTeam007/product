@@ -25,14 +25,14 @@
 	</div>
 	<form class="form-horizonta register-form" style="width:70%" role="form" action="<%=rootPath%>/custmgnt/user/changebaseinfo" method="post" onsubmit="return validateModifyFormVars()" >
 		<div class="form-group clearfix">
-		    <label for="acountNo" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.AccountNoLabel"/></label>
-		    <div class="col-sm-10">
+		    <label for="acountNo" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.AccountNoLabel"/></label>
+		    <div class="col-sm-9">
 		      	<input type="text" class="form-control small-control" id="acountNo" disabled="disabled" name="acountNo"  maxlength="30"/>
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="companySel" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.CompanyLabel"/></label>
-		    <div class="col-sm-10">
+		    <label for="companySel" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.CompanyLabel"/></label>
+		    <div class="col-sm-9">
 		      <input class="easyui-combotree" style="width:100%"  name="companySel" id="companySel" data-options="
 		      		panelHeight:'auto'"
 			  />
@@ -41,8 +41,8 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="companySel" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.RoleLabel"/></label>
-		    <div class="col-sm-10">
+		    <label for="companySel" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.RoleLabel"/></label>
+		    <div class="col-sm-9">
 		     	<span class="radio-inline">
 				  <input type="radio" name="jobRole"  value="2"/><i18n:message code="i18n.usercenter.profile.RoleBusiness"/>
 				</span>
@@ -52,24 +52,24 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="chineseName" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.ChineseNameLabel"/></label>
-		    <div class="col-sm-10">
+		    <label for="chineseName" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.ChineseNameLabel"/></label>
+		    <div class="col-sm-9">
 		      	<input type="text" class="form-control small-control" id="chineseName"  name="chineseName" maxlength="40"/>
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="givenName" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.EnginshFirstNameLabel"/></label>
+		    <label for="givenName" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.EnginshFirstNameLabel"/></label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control small-control" id="givenName"  name="givenName" maxlength="10"/>
 		    </div>
 		    <label for="familyName" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.EnginshLastNameLabel"/></label>
-		    <div class="col-sm-4">
+		    <div class="col-sm-3">
 		      <input type="text" class="form-control small-control" id="familyName"  name="familyName" maxlength="10"/>
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="moduleSel" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.GenderLabel"/></label>
-		    <div class="col-sm-10">
+		    <label for="moduleSel" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.GenderLabel"/></label>
+		    <div class="col-sm-9">
 		        <span class="radio-inline">
 				  <input type="radio" name="gender" id="male" value="1" /> <i18n:message code="i18n.usercenter.profile.GenderMr"/>
 				</span>
@@ -79,17 +79,17 @@
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="mobileNo" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.MobileLabel"/></label>
-		    <div class="col-sm-10">
+		    <label for="mobileNo" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.MobileLabel"/></label>
+		    <div class="col-sm-9">
 		      	<input type="text" class="form-control small-control" id="mobileNo"  name="mobileNo" maxlength="11"/>
 		    </div>
   		</div>
   		<div class="form-group clearfix">
-		    <label for="phoneNo" class="col-sm-2 control-label"><i18n:message code="i18n.usercenter.profile.PhoneLabel"/></label>
+		    <label for="phoneNo" class="col-sm-3 control-label"><i18n:message code="i18n.usercenter.profile.PhoneLabel"/></label>
 		    <div class="col-sm-2">
 		      	<input type="text" class="form-control small-control" id="areaCode"  name="areaCode" maxlength="4"/>
 		    </div>
-		    <div class="col-sm-8">
+		    <div class="col-sm-7">
 		      	<input type="text" class="form-control small-control" id="phoneNo"  name="phoneNo"  maxlength="8"/>
 		    </div>
   		</div>
