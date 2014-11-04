@@ -63,7 +63,7 @@
 		  	<span class="form-item">
 		    	<label><i18n:message code="i18n.incident.query.QryConditionRegiserTime"/></label>
 		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="sharedCalendar:'#cc'">
-		    	至&nbsp;<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
+		    	<span style="color:#999">—</span>&nbsp;<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="sharedCalendar:'#cc'">
 		  	</span>
 	  	</div>
 	  	<div style="width:99%;" class="clearfix">
@@ -98,7 +98,7 @@
 		<table  style="width:99%;height:390px" id="incidentDataTable"></table>
 	</div>
 </div>
-<div id="feedbackWin" title="<i18n:message code="i18n.incident.mgnt.FeedbackWinTitle"/>" style="width:300px;height:120px;">
+<div id="feedbackWin" title="<i18n:message code="i18n.incident.mgnt.FeedbackWinTitle"/>">
 	<div class="col-sm-12 feedback-options">
 		<c:forEach var="feedback" items="${feedbackP}" begin="0" step="1">
 		    <span class="radio-inline"><input type="radio" name="feedbackVar" value="${feedback.paramCode}" text="${feedback.paramValue}">${feedback.paramValue}</span>

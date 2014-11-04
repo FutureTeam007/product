@@ -1010,13 +1010,13 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 如果不是待提交状态，则不允许删除事件
 		if (!"1".equals(incident.getItStateCode())) {
-			throw new BizException("只有待提交状态的事件才可以删除");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyNotCommitedCanbeDelete"));
 		}
 
 		// 如果不是事件提出人，则不允许删除事件
 		if (!opInfo.getOpType().equals(incident.getPlObjectType())
 				&& opInfo.getOpId() != incident.getPlObjectId()) {
-			throw new BizException("只有事件提出人才可以删除事件");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRaiseManCanDelete"));
 		}
 
 		// 修改事件数据状态为已失效
@@ -1158,15 +1158,15 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 仅当事件状态为8-已完成，且用户已经评价完毕时才可以进行用户反馈满意度操作
 		if (!"8".equals(incident.getItStateCode())) {
-			throw new BizException("仅当事件状态为已完成且用户已经评价完毕时才可以关闭");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.CloseTicketConditionError"));
 		} else if (incident.getFeedbackCode() == null) {
-			throw new BizException("仅当事件状态为已完成且用户已经评价完毕时才可以关闭");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.CloseTicketConditionError"));
 		}
 
 		// 只有责任顾问才有权关闭事件
 		if (!"OP".equals(opInfo.getOpType())
 				|| opInfo.getOpId() != incident.getScOpId()) {
-			throw new BizException("只有责任顾问才有权关闭事件");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRespConsultantCanClose"));
 		}
 
 		IncidentInfo ii = new IncidentInfo();

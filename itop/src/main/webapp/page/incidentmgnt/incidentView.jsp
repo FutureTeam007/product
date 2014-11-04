@@ -171,7 +171,7 @@
     </div>
   </div>
 </div>
-<div id="finishWin" title="<i18n:message code="i18n.incident.view.FinishTransWinTitle" />" style="width:530px;height:150px;">
+<div id="finishWin" title="<i18n:message code="i18n.incident.view.FinishTransWinTitle" />" style="width:540px;height:170px;">
 	<div class="form-group clearfix  p10">
 	    <div class="col-sm-12">
 	      	<c:forEach var="finishVal" items="${finishValP}" begin="0" step="1">

@@ -55,9 +55,9 @@ a:active {star:expression(this.onFocus=this.blur());}
 .register-wrapper .control-label{height:25px;line-height:25px}
 /*incident-list*/
 .inci-search{margin:10px}
-.inci-search span label{width:80px;display:inline;float:left;line-height:22px;font-size:12px;color:#555;font-weight:bold}
+.inci-search span label{width:80px;display:inline;float:left;line-height:22px;font-size:12px;color:#555;font-weight:500}
 .inci-search span.form-item{width:25%;float:left;display:inline;margin-bottom:20px}
-.form-item .checkbox-inline{margin-left:3px}
+.form-item .checkbox-inline{margin-left:3px;font-size:11px;line-height:20px}
 .inci-search .form-control{float:left;display:inline;width:60%;height:24px;font-size:10px;padding-top:3px}
 .inci-search .btn-sm{height:24px;line-height:22px;padding-top:0px}
 .inci-data .datagrid-header-row .datagrid-cell{font-weight:bold;}
@@ -90,4 +90,6 @@ a:active {star:expression(this.onFocus=this.blur());}
 .trans-item{min-height:120px;margin-bottom:10px;border-bottom:dashed 1px #ddd;}
 .inci-base-info .clearfix{margin-top:5px;margin-bottom:5px;}
 .inci-base-info .btn-circle{width:15px;height:15px;padding:3px 0px 3px 0px}
-#completeWin .radio-inline{width:50px}
+#completeWin .radio-inline{width:65px}
+#finishWin .radio-inline{width:150px;margin-left:0px;}
+#feedbackWin{width:410px;height:100px;}

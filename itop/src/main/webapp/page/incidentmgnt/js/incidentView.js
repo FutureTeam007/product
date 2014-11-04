@@ -370,10 +370,10 @@ function openConsultantSelWin(){
 			url: rootPath + '/custmgnt/op/list',
 			columns:[[
 			    {field:'ck',checkbox: true},
-			    {field:'opName',title:i18n.incident.view.TransferNameTitle,formatter:nameFormatter,width:110},
-				{field:'loginCode',title:i18n.incident.view.TransferAccountTitle,width:90},
+			    {field:'opName',title:i18n.incident.view.TransferNameTitle,formatter:nameFormatter,width:80},
+				{field:'loginCode',title:i18n.incident.view.TransferAccountTitle,width:100},
 				{field:'mobileNo',title:i18n.incident.view.TransferMobileTitle,width:60},
-				{field:'officeTel',title:i18n.incident.view.TransferPhoneTitle,width:50},
+				{field:'officeTel',title:i18n.incident.view.TransferPhoneTitle,width:70},
 				{field:'firstName',hidden:true},
 				{field:'lastName',hidden:true}
 			]],

@@ -40,7 +40,7 @@ $(function(){
 function initDropdownLists(){
 	//初始化客户查询条件
 	var custSelURL = rootPath+'/register/custlist/get';
-	custSelURL += opType=="USER"?(custSelURL+"?domainName="+opCode.split("@")[1]):"";
+	custSelURL += (opType=="USER"?("?domainName="+opCode.split("@")[1]):"");
 	$('#custSel').combotree({
 		editable:false,
 		disabled:false,
@@ -406,19 +406,19 @@ function reRenderStatusNav(status){
 						showPageList:false,
 					    columns:[[
 					        {field:'icIncidentId',width:fixWidth(0.09),title:'',formatter:formatOperations,align:'center'},
-					        {field:'incidentCode',width:fixWidth(0.1),title:i18n.incident.query.DataTitleIncidentCode},
+					        {field:'incidentCode',width:fixWidth(0.08),title:i18n.incident.query.DataTitleIncidentCode},
 					        {field:'brief',width:fixWidth(0.11),title:i18n.incident.query.DataTitleBrief},
 					        {field:'prodName',width:fixWidth(0.08),title:i18n.incident.query.DataTitleProdName},
 					        {field:'classValOp',width:fixWidth(0.05),title:i18n.incident.query.DataTitleClassValOp},
-					        {field:'affectValOp',width:fixWidth(0.04),title:i18n.incident.query.DataTitleAffectValOp},
+					        {field:'affectValOp',width:fixWidth(0.05),title:i18n.incident.query.DataTitleAffectValOp},
 					        {field:'priorityVal',width:fixWidth(0.04),title:i18n.incident.query.DataTitlePriorityVal},
-					        {field:'itStateVal',width:fixWidth(0.05),title:i18n.incident.query.DataTitleItStateVal},
-					        {field:'plObjectName',width:fixWidth(0.09),title: i18n.incident.query.DataTitlePlObjectName},
-					        {field:'registeTime',width:fixWidth(0.08),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateFormatter},
-					        {field:'scLoginName',width:fixWidth(0.09),title:i18n.incident.query.DataTitleScLoginName},
-					        {field:'modifyDate',width:fixWidth(0.08),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
-					        {field:'finishTime',width:fixWidth(0.06),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
-					        {field:'feedbackVal',width:fixWidth(0.05),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
+					        {field:'itStateVal',width:fixWidth(0.09),title:i18n.incident.query.DataTitleItStateVal},
+					        {field:'plObjectName',width:fixWidth(0.06),title: i18n.incident.query.DataTitlePlObjectName},
+					        {field:'registeTime',width:fixWidth(0.07),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateFormatter},
+					        {field:'scLoginName',width:fixWidth(0.06),title:i18n.incident.query.DataTitleScLoginName},
+					        {field:'modifyDate',width:fixWidth(0.07),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
+					        {field:'finishTime',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
+					        {field:'feedbackVal',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
 					    ]]
 					});
 					initDataPager();
@@ -428,7 +428,7 @@ function reRenderStatusNav(status){
 			}
 		},
 		error : function() {
-			$.messager.alert(i18n.dialog.AlertTitle,i18n.login.SessionTimeout);
+			//$.messager.alert(i18n.dialog.AlertTitle,i18n.login.SessionTimeout);
 			//location.href=rootPath+'/login.jsp';
 		}
 	});

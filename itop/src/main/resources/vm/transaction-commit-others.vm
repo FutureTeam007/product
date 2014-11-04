@@ -11,7 +11,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 	    <p>Hi,${userName} !</p>
-	    <p>${opName} has commited a transaction[$!{op}] at ${vDate},the content as follows：</p>
+	    <p>${opName} has commited a $!{op} transaction at ${vDate},the content as follows：</p>
 	    <p>${content}</p>
 	    <p>About more,please <a href="${website}" target="_blank">login ITOP system</a></p>
 	  	<hr/>
@@ -54,7 +54,7 @@
 	  </div>
 	  <div>
 	  	<p>
-	  		The message has been sent by E&I Support website, please do not reply to this email, if you have any questions, please contact the relevant consultant.
+	  		The message has been sent by E&I Support website, please do not reply to this email, if you have any questions, please contact the relevant consultant.
 	  	</p>
 	  </div>
 	  <div class="panel-footer"><span class="pull-left">ITOP make your work more simple and efficient! </span><span class="pull-right">From:support.eiconsulting.cn</span></div>

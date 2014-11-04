@@ -91,3 +91,4 @@ a:active {star:expression(this.onFocus=this.blur());}
 .inci-base-info .clearfix{margin-top:5px;margin-bottom:5px;}
 .inci-base-info .btn-circle{width:15px;height:15px;padding:3px 0px 3px 0px}
 #completeWin .radio-inline{width:50px}
+#feedbackWin{width:300px;height:120px;}

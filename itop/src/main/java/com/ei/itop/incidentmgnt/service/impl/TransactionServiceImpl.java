@@ -326,7 +326,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		// 非当前干系人
 		else {
-			throw new BizException("只有事件当前干系顾问才能进行需用户补充资料操作");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRespConsultantAskNeedMore"));
 		}
 
 		// 新增事务信息
@@ -402,7 +402,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		// 非当前干系人
 		else {
-			throw new BizException("只有事件当前干系顾问才能进行转派操作");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRespConsultantCanHandover"));
 		}
 
 		// 新增事务信息
@@ -445,7 +445,7 @@ public class TransactionServiceImpl implements TransactionService {
 		// 只有2-待响应、3-顾问处理中的事件才能挂起
 		if (!("2".equals(incident.getItStateCode()) || "3".equals(incident
 				.getItStateCode()))) {
-			throw new BizException("只有状态为待响应及顾问处理中的事件才能挂起");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.BlockTicketConditionError"));
 		}
 
 		// 是当前干系人
@@ -474,7 +474,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		// 非当前干系人
 		else {
-			throw new BizException("只有事件当前干系顾问才能进行挂起操作");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRespConsultantCanBlock"));
 		}
 
 		// 新增事务信息
@@ -517,7 +517,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 		// 只有3-顾问处理中的事件才能设置事件完成
 		if (!"3".equals(incident.getItStateCode())) {
-			throw new BizException("只有状态为顾问处理中的事件才能进行完成操作");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyDealingTicketCanFinish"));
 		}
 
 		// 判断时间结束代码是否填写
@@ -564,7 +564,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		// 非当前干系人
 		else {
-			throw new BizException("只有事件当前干系顾问才能进行事件完成操作");
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRespConsultantCanFinish"));
 		}
 
 		// 新增事务信息
