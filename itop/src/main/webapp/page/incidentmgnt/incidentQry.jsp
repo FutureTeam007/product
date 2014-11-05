@@ -18,15 +18,15 @@
 		<div style="width:99%;" class="clearfix">
 			<span class="form-item">
 		    	<label for="inciNo"><i18n:message code="i18n.incident.query.QryConditionIncidentCode"/></label>
-		    	<input type="text" class="form-control" style="width:70%" id="incidentCode"/>
+		    	<input type="text" class="form-control" style="width:63%" id="incidentCode"/>
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="inciShortDesc"><i18n:message code="i18n.incident.query.QryConditionBrief"/></label>
-		    	<input type="text" class="form-control" style="width:70%"  id="brief"/>
+		    	<input type="text" class="form-control" style="width:63%"  id="brief"/>
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="inciTypeSel"><i18n:message code="i18n.incident.query.QryConditionClass"/></label>
-		    	<input class="easyui-combobox" style="width:70%"  name="classVar" id="classVar" data-options="
+		    	<input class="easyui-combobox" style="width:63%"  name="classVar" id="classVar" data-options="
 					url:rootPath+'/param/list?kindCode=IC_CLASS',
 					method:'get',
 					valueField:'paramCode',
@@ -37,7 +37,7 @@
 		  	</span>
 		  	<span class="form-item">
 		    	<label for="prodSel"><i18n:message code="i18n.incident.query.QryConditionProduct"/></label>
-		    	<input class="easyui-combobox" style="width:70%"  name="prodSel" id="prodSel" data-options="
+		    	<input class="easyui-combobox" style="width:63%"  name="prodSel" id="prodSel" data-options="
 					url:rootPath+'/product/productList',
 					method:'get',
 					editable:false,
@@ -50,23 +50,23 @@
 	  	<div style="width:99%;" class="clearfix">
 	  		<span class="form-item">
 		  		<label id="custSelLabel"><i18n:message code="i18n.incident.query.QryConditionCust"/></label>
-		  		<input style="width:70%" id="custSel" />
+		  		<input style="width:63%" id="custSel" />
 		  	</span>
 		  	<span class="form-item">
 		    	<label id="registeManLabel"><i18n:message code="i18n.incident.query.QryConditionRegistrant"/></label>
-		  		<input style="width:70%" id="registeMan" />
+		  		<input style="width:63%" id="registeMan" />
 		  	</span>
 	  		<span class="form-item" id="affectQry">
 		    	<label id="custSelLabel"><i18n:message code="i18n.incident.query.QryConditionAdviser"/></label>
-		  		<input style="width:70%" id="adviserSel" />
+		  		<input style="width:63%" id="adviserSel" />
 		  	</span>
 		  	<span class="form-item">
 		    	<label><i18n:message code="i18n.incident.query.QryConditionRegiserTime"/></label>
-		    	<input class="easyui-datebox" style="width:32%" id="qryStartDate" data-options="
+		    	<input class="easyui-datebox" style="width:28%" id="qryStartDate" data-options="
 		       		formatter: function(date){ return dateFormatter2(date);}
 		       	">
 		    	<span style="color:#999">—</span>&nbsp;
-		    	<input class="easyui-datebox" style="width:32%" id="qryEndDate" data-options="
+		    	<input class="easyui-datebox" style="width:28%" id="qryEndDate" data-options="
 		       		formatter: function(date){ return dateFormatter2(date);}
 		       	">
 		  	</span>

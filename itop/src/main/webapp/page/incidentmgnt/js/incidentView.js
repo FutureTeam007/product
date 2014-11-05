@@ -679,7 +679,7 @@ function attachUpload(){
 					var attachInfo = '<div attachId='+data.attachId+'><a href="javascript:attachDownLoad('+data.attachId+')">'+data.filename+'</a><i class="fa fa-times" onclick="attachRemove(this,'+data.attachId+')"></i></div>';
 					$("#commitAttach").prepend(attachInfo);
 				}else{
-					alert(data.message);
+					$.messager.alert(i18n.dialog.AlertTitle,data.message);
 				}
 			},
 			error: function (data, status, e){

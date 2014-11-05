@@ -15,7 +15,7 @@
     where SC_PRODUCT_ID = #scProductId:DECIMAL#
   </select>
   <select id="selectByOrgIdAndCustId" resultMap="scProductResult" parameterClass="java.util.Map" >
-    select sp.*
+    select distinct sp.*
     from SC_PRODUCT sp,CC_CUST_PROD ccp
     where sp.sc_product_id=ccp.sc_product_id
     and sp.SC_ORG_ID = #orgId:DECIMAL# and sp.STATE=1 and sp.LANG_FLAG=#locale:VARCHAR# 

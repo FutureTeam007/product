@@ -243,7 +243,7 @@ public class MessageTag extends HtmlEscapingAwareTag {
 		if(cookie!=null){
 			return StringUtils.parseLocaleString(cookie.getValue());
 		}else{
-			return Locale.CHINA;
+			return Locale.ENGLISH;
 		}
 	}
 

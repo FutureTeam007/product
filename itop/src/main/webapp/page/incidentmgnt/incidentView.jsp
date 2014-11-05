@@ -38,7 +38,8 @@
 			    <label for="attachments" class="col-sm-2 control-label"><i18n:message code="i18n.incident.view.AttachmentLabel" /></label>
 			    <div class="col-sm-10 attachList">
 			       <div id="commitAttach" class="ml5"></div>
-			       <input type="file" id="uploadFile1" name="uploadFile" value="<i18n:message code="i18n.incident.view.SelectFileLabel" />" onchange="attachUpload()"/>
+			       <button type="button" class="btn btn-primary btn-outline btn-sm"><i18n:message code="i18n.incident.view.SelectFileLabel" /></button>
+			       <input type="file" id="uploadFile1" class="upload_control" name="uploadFile" title="<i18n:message code="i18n.incident.view.SelectFileLabel" />"  onchange="attachUpload()"/>
 			    </div>
   			</div>
   			<div class="form-group clearfix">

@@ -407,7 +407,7 @@ function reRenderStatusNav(status){
 					    columns:[[
 					        {field:'icIncidentId',width:fixWidth(0.09),title:'',formatter:formatOperations,align:'center'},
 					        {field:'incidentCode',width:fixWidth(0.08),title:i18n.incident.query.DataTitleIncidentCode},
-					        {field:'brief',width:fixWidth(0.11),title:i18n.incident.query.DataTitleBrief},
+					        {field:'brief',width:fixWidth(0.08),title:i18n.incident.query.DataTitleBrief},
 					        {field:'prodName',width:fixWidth(0.08),title:i18n.incident.query.DataTitleProdName},
 					        {field:'classValOp',width:fixWidth(0.05),title:i18n.incident.query.DataTitleClassValOp},
 					        {field:'affectValOp',width:fixWidth(0.05),title:i18n.incident.query.DataTitleAffectValOp},
@@ -417,7 +417,7 @@ function reRenderStatusNav(status){
 					        {field:'registeTime',width:fixWidth(0.07),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateFormatter},
 					        {field:'scLoginName',width:fixWidth(0.06),title:i18n.incident.query.DataTitleScLoginName},
 					        {field:'modifyDate',width:fixWidth(0.07),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
-					        {field:'finishTime',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
+					        {field:'finishTime',width:fixWidth(0.10),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
 					        {field:'feedbackVal',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
 					    ]]
 					});
