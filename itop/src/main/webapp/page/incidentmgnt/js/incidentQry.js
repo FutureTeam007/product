@@ -311,10 +311,11 @@ function setQueryConditions(){
 	//截止时间
 	qp.registerTimeEnd = $("#qryEndDate").datebox('getValue');
 	//设置客户ID
-	if(opType=='USER'){
+	var getCustId = $('#custSel').combotree('getValue');
+	if(getCustId){
+		qp.custId = getCustId;
+	}else if(opType=='USER'){
 		qp.custId = opCustId;
-	}else{
-		qp.custId = $('#custSel').combotree('getValue');
 	}
 }
 //查询主方法
@@ -397,27 +398,32 @@ function reRenderStatusNav(status){
 					    method:'get',
 						loadMsg:i18n.loading.GridLoading,
 						singleSelect:true,
-						fitColumns:true,
+						//fitColumns:true,
 						remoteSort:true,
 						multiSort:true,
 						pagination:true,
 						pageNumber:1,
-						pageSize:10,
+						pageList:[8],
+						pageSize:8,
 						showPageList:false,
-					    columns:[[
-					        {field:'icIncidentId',width:fixWidth(0.09),title:'',formatter:formatOperations,align:'center'},
+						frozenColumns:[[ 
+			                {field:'icIncidentId',width:fixWidth(0.12),title:'',formatter:formatOperations,align:'center'},
 					        {field:'incidentCode',width:fixWidth(0.08),title:i18n.incident.query.DataTitleIncidentCode},
-					        {field:'brief',width:fixWidth(0.08),title:i18n.incident.query.DataTitleBrief},
-					        {field:'prodName',width:fixWidth(0.08),title:i18n.incident.query.DataTitleProdName},
-					        {field:'classValOp',width:fixWidth(0.05),title:i18n.incident.query.DataTitleClassValOp},
-					        {field:'affectValOp',width:fixWidth(0.05),title:i18n.incident.query.DataTitleAffectValOp},
+					        {field:'brief',width:fixWidth(0.12),title:i18n.incident.query.DataTitleBrief},
+					        {field:'prodName',width:fixWidth(0.12),title:i18n.incident.query.DataTitleProdName},
 					        {field:'priorityVal',width:fixWidth(0.04),title:i18n.incident.query.DataTitlePriorityVal},
-					        {field:'itStateVal',width:fixWidth(0.09),title:i18n.incident.query.DataTitleItStateVal},
+					        {field:'itStateVal',width:fixWidth(0.11),title:i18n.incident.query.DataTitleItStateVal}
+						]],
+					    columns:[[
+					        {field:'custName',width:fixWidth(0.12),title:i18n.incident.query.DataTitleCustName},
+			                {field:'classValOp',width:fixWidth(0.08),title:i18n.incident.query.DataTitleClassValOp},
+					        {field:'affectValOp',width:fixWidth(0.08),title:i18n.incident.query.DataTitleAffectValOp},
 					        {field:'plObjectName',width:fixWidth(0.06),title: i18n.incident.query.DataTitlePlObjectName},
 					        {field:'registeTime',width:fixWidth(0.07),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateFormatter},
 					        {field:'scLoginName',width:fixWidth(0.06),title:i18n.incident.query.DataTitleScLoginName},
-					        {field:'modifyDate',width:fixWidth(0.07),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
+					        {field:'dealDur2',width:fixWidth(0.10),title:i18n.incident.query.DataTitlePlanFinishTime,sortable:true,formatter:dateFormatter},
 					        {field:'finishTime',width:fixWidth(0.10),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
+					        {field:'modifyDate',width:fixWidth(0.07),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
 					        {field:'feedbackVal',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
 					    ]]
 					});
@@ -444,7 +450,8 @@ function bindStatusToggle(){
 		$(this).siblings().removeClass("active");
 		qp.stateVal = ($(this).val()=="0"||$(this).val()=="-1")?null: $(this).val();
 		var status = qp.stateVal==null?-1:qp.stateVal;
-		selectedDataRow = null;
+		window.selectedDataRow = null;
+		$('#incidentDataTable').datagrid('clearSelections');
 		reRenderStatusNav(status);
 	});
 }
@@ -496,7 +503,8 @@ function initSubPage(){
 function initDataPager(){
 	var pager = $('#incidentDataTable').datagrid('getPager');
 	$(pager).pagination({
-		pageSize: 10,
+		pageList:[8],
+		pageSize: 8,
 		showPageList:false,
 		beforePageText: '第',
 		afterPageText: '页共 {pages} 页',
@@ -506,7 +514,7 @@ function initDataPager(){
 		onLoadSuccess:function(){
 			var data = $(this).datagrid("getData");
 			if(data.rows.length==0){
-				 $(this).parent().find("div").filter(".datagrid-body").html("<div class='none-data-info'>"+i18n.loading.GirdDataEmpty+"</div>");
+				 //$(this).parent().find("div").filter(".datagrid-body").html("<div class='none-data-info'>"+i18n.loading.GirdDataEmpty+"</div>");
 			}else{
 				//增加逻辑，默认选中之前选中的行或者选中第一行
 				if(selectedDataRow){
@@ -549,6 +557,10 @@ function formatOperations(val,row){
 	//如果是关闭状态且操作员是客户方的IT人员，则显示归档
 	if(row.itStateCode==9&&opType=="USER"&&opKind==3){
 		buttons += "<button type='button' class='btn btn-link' onclick='showStockIncident("+val+")'>"+i18n.incident.mgnt.MarkBtn+"</button>";
+	}
+	//如果状态为完成，且当前操作员是客户方的用户，则显示评价按钮
+	if(row.itStateCode==8&&opType=="USER"){
+		buttons += "<button type='button' class='btn btn-link' onclick='showFeedback("+val+")'>"+i18n.incident.mgnt.EvaluateBtn+"</button>";
 	}
 	return buttons;
 }
@@ -596,7 +608,7 @@ function dateFormatter2(val){
 function formatFeedback(val,row){
 	if(row.feedbackVal!=null){
 		return row.feedbackVal;
-	}else if(row.itStateCode=="8"&&opType=="USER"){
-		 return "<button type='button' class='btn btn-link' onclick='showFeedback("+row.icIncidentId+")'>"+i18n.incident.mgnt.EvaluateBtn+"</button>";
+	}else{
+		return "";
 	}
 }

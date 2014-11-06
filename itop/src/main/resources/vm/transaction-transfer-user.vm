@@ -11,7 +11,7 @@
 	<div class="panel panel-default">
 	  <div class="panel-body">
 	    <p>Hi,${userName} !</p>
-	    <p>${fromName} has commited a transaction at ${vDate} , handover this ticket to ${toName}，the content as follows：</p>
+	    <p>${fromName} has submited a transaction at ${vDate} , handover this ticket to ${toName}，the content as follows：</p>
 	    <p>${content}</p>
 	    <p>About more,please <a href="${website}" target="_blank">login to ITOP system</a></p>
 	    <hr/>
@@ -26,11 +26,11 @@
 	    		</tr>
 	    		<tr>
 	    			<td width="20%"><strong>Company</strong></td><td>$!{incident.custName}</td>
-	    			<td width="20%"><strong>Category</strong></td><td>$!{incident.classVal}</td>
+	    			<td width="20%"><strong>Type</strong></td><td>$!{incident.classVal}</td>
 	    		</tr>
 	    		<tr>
-	    			<td width="20%"><strong>Product</strong></td><td>$!{incident.prodName}</td>
-	    			<td width="20%"><strong>Module</strong></td><td>$!{incident.moduleName}</td>
+	    			<td width="20%"><strong>Product line</strong></td><td>$!{incident.prodName}</td>
+	    			<td width="20%"><strong>Service Module</strong></td><td>$!{incident.moduleName}</td>
 	    		</tr>
 	    		<tr>
 	    			<td width="20%"><strong>Infuence</strong></td><td>$!{incident.affectVal}</td>
@@ -41,8 +41,8 @@
 	    			<td width="20%"><strong>Status</strong></td><td>$!{incident.itStateVal}</td>
 	    		</tr>
 	    		<tr>
-	    			<td width="20%"><strong>Deal User</strong></td><td>$!{incident.icLoginCode}</td>
-	    			<td width="20%"><strong>Happen Time</strong></td><td>$!{happenTime}</td>
+	    			<td width="20%"><strong>Owner</strong></td><td>$!{incident.icLoginCode}</td>
+	    			<td width="20%"><strong>Happen time</strong></td><td>$!{happenTime}</td>
 	    		</tr>
 	    		<tr>
 	    			<td width="20%"><strong>Response Endtime</strong></td><td>$!{reponseDur2}</td>

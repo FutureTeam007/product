@@ -35,17 +35,17 @@
 	</div>
 	<form class="form-horizonta inci-info-form" role="form">
 		<div class="form-group clearfix">
+		    <label for="companySel" class="col-sm-2 control-label"><i18n:message code="i18n.incident.edit.CompanyLabel" /></label>
+		    <div class="col-sm-7">
+		      <input style="width:100%"  name="companySel" id="companySel" />
+		    </div>
+		    <div class="col-sm-3 form-desc">
+		    </div>
+  		</div>
+		<div class="form-group clearfix">
 		    <label for="prodSel" class="col-sm-2 control-label"><i18n:message code="i18n.incident.edit.ProductLabel" /></label>
 		    <div class="col-sm-7">
-		      <input class="easyui-combobox" style="width:100%"  name="prodSel" id="prodSel" data-options="
-					url:rootPath+'/product/productList',
-					method:'get',
-					valueField:'scProductId',
-					textField:'prodName',
-					editable:false,
-					onSelect:prodSelChange,
-					panelHeight:'auto'"
-			  />
+		      <input style="width:100%"  name="prodSel" id="prodSel" />
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		     	<i18n:message code="i18n.incident.edit.ProductLabelTip" />
@@ -54,8 +54,7 @@
   		<div class="form-group clearfix">
 		    <label for="moduleSel" class="col-sm-2 control-label"><i18n:message code="i18n.incident.edit.ModuleLabel" /></label>
 		    <div class="col-sm-7">
-		      <input class="easyui-combotree" style="width:100%"  name="moduleSel" id="moduleSel" data-options="panelHeight:'auto'"
-			  />
+		      <input style="width:100%"  name="moduleSel" id="moduleSel" />
 		    </div>
 		    <div class="col-sm-3 form-desc">
 		     	<i18n:message code="i18n.incident.edit.ModuleLabelTip" />
@@ -99,7 +98,7 @@
   		<div class="form-group clearfix">
 		    <label for="happenTime" class="col-sm-2 control-label"><i18n:message code="i18n.incident.edit.HappenTimeLabel" /></label>
 		    <div class="col-sm-7">
-		       <input class="easyui-datetimebox" style="width:100%" id="happenTime" data-options="
+		       <input class="easyui-datetimebox" style="width:100%" id="happenTime" data-options="editable:false,
 		       		formatter: function(date){ return dateTimeFormatter(date);}
 		       	">
 		    </div>

@@ -66,6 +66,8 @@ a:active {star:expression(this.onFocus=this.blur());}
 .inci-data .nav-tabs {border-bottom:none;width:90%;float:right;padding-right:15px;padding-top:5px}
 .inci-data .nav-tabs > li{float:right}
 .inci-data .btn-link{padding:4px 2px 4px 2px}
+.inci-data .datagrid-row td{padding-top:5px;padding-bottom:5px;}
+.inci-data .datagrid-row .btn-link{padding-top:0px;padding-bottom:0px;font-size:12px}
 #feedbackBtn{margin-left:40%}
 .feedback-options{padding:10px 10px 10px 40px}
 .feedback-options .radio-inline {line-height:20px;vertical-align: middle;}

@@ -6,6 +6,9 @@ $(function(){
 	if(openFlag=='m'){
 		//查询事件信息绑定表单
 		queryIncident();
+	}else if(openFlag=='a'){
+		//初始化下拉组件
+		initDropDownlist();
 	}
 	//上传进度条窗口初始化
 	$('#uploadProgress').dialog({
@@ -13,14 +16,64 @@ $(function(){
 	}).dialog('close');
 });
 
-//当产品列表选中时，触发服务目录重新加载
-function prodSelChange(data){
-	$("#moduleSel").combotree('setValue','');
-	$("#moduleSel").combotree('reload',rootPath+'/product/moduleTree?productId='+data.scProductId);
+//初始化 公司、产品、服务目录三级下拉框
+var firstLoadFlag1=true;
+var firstLoadFlag2=true;
+var firstLoadFlag3=true;
+function initDropDownlist(dataCustId,dataProductId,dataModuleId){
+	$("#companySel").combotree({
+		editable:false,
+		panelHeight:'200',
+	    url:rootPath+'/register/custlist/get?domainName='+opCode.split("@")[1],
+	    onLoadSuccess:function(){
+	    	if(dataCustId&&firstLoadFlag1){
+	    		firstLoadFlag1 = false;
+	    		$('#companySel').combotree('setValue',dataCustId);
+	    	}else if(firstLoadFlag1){
+	    		firstLoadFlag1 = false;
+	    		$('#companySel').combotree('setValue',opCustId);
+	    	}
+	    },
+	    onSelect:function(data){
+	    	$("#prodSel").combobox('setValue','');
+	    	$("#prodSel").combobox('reload',rootPath+'/product/productList?custId='+data.attributes.ccCustId);
+	    }
+	});
+	$("#prodSel").combobox({
+		url:dataCustId?(rootPath+'/product/productList?custId='+dataCustId):(rootPath+'/product/productList?custId='+opCustId),
+		method:'get',
+		valueField:'scProductId',
+		textField:'prodName',
+		editable:false,
+		panelHeight:'200',
+		onLoadSuccess:function(){
+	    	if(dataProductId&&firstLoadFlag2){
+	    		firstLoadFlag2 = false;
+	    		$('#prodSel').combobox('setValue',dataProductId);
+	    	}
+	    },
+	    onSelect:function(data){
+	    	$("#moduleSel").combotree('setValue','');
+	    	$("#moduleSel").combotree('reload',rootPath+'/product/moduleTree?productId='+data.scProductId);
+	    }
+	});
+	$("#moduleSel").combotree({
+		editable:false,
+		panelHeight:'auto',
+		panelHeight:'200',
+		url:dataProductId?(rootPath+'/product/moduleTree?productId='+dataProductId):null,
+		onLoadSuccess:function(){
+	    	if(dataModuleId&&firstLoadFlag3){
+	    		firstLoadFlag3 = false;
+	    		$('#moduleSel').combotree('setValue',dataModuleId);
+	    	}
+	    }
+	});
 }
 
 //查看事件
 function queryIncident(){
+	firstLoad = true;
 	$.ajax({
 		type : 'get',
 		url : rootPath + "/incident/query",
@@ -31,11 +84,15 @@ function queryIncident(){
 		dataType : 'json',
 		success : function(msg) {
 			//绑定表单
+			/*
 			$("#prodSel").combobox('setValue',msg.scProductId);
 			$("#moduleSel").combotree('reload',rootPath+'/product/moduleTree?productId='+msg.scProductId);
 			setTimeout(function(){
 				$("#moduleSel").combotree('setValue',msg.scModuleId);
 			},200);
+			*/
+			//初始化下拉组件
+			initDropDownlist(msg.ccCustId,msg.scProductId,msg.scModuleId);
 			//影响度
 			$("input[name=affectVar]").each(function(){
 				if($(this).val()==msg.affectCode){
@@ -63,10 +120,12 @@ function queryIncident(){
 }
 //整理表单项
 function getFromVars(){
+	fv.companyId = $("#companySel").combotree('getValue');
+	fv.companyName = $("#companySel").combotree('getText');
 	fv.productId = $("#prodSel").combobox('getValue');
 	fv.productName = $("#prodSel").combobox('getText');
-	fv.moduleId = $("#moduleSel").combobox('getValue');
-	fv.moduleName = $("#moduleSel").combobox('getText');
+	fv.moduleId = $("#moduleSel").combotree('getValue');
+	fv.moduleName = $("#moduleSel").combotree('getText');
 	//影响度
 	$("input[name=affectVar]").each(function(){
 		if($(this).get(0).checked){
@@ -99,6 +158,10 @@ function getFromVars(){
 
 //检查form表单数据正确性
 function validateForm(){
+	if(fv.companyId==-1||fv.companyId==""){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.CompanyEmpty);
+		return false;
+	}
 	if(fv.productId==-1||fv.productId==""){
 		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.edit.ProductEmpty);
 		return false;

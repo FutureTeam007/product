@@ -85,7 +85,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket commit success,No."
+						message.setSubject("[ITOP]ticket submit successfully,No."
 								+ incident.getIncidentCode());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -135,7 +135,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket has been commited,No."
+						message.setSubject("[ITOP]New ticket has been submited,No."
 								+ incident.getIncidentCode() + ",from ["
 								+ userName + "]");// 设置邮件主题
 						if (ccAddr != null) {
@@ -201,7 +201,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);
-						message.setSubject("[ITOP]ticket transaction commit success,No.["
+						message.setSubject("[ITOP]ticket transaction submit successfully,No.["
 								+ incident.getIncidentCode() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -248,7 +248,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userRceiveAddr);
-						message.setSubject("[ITOP]New ticket transaction has commited,No."
+						message.setSubject("[ITOP]New ticket transaction has submited,No."
 								+ incident.getIncidentCode() + ",from ["
 								+ opName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
@@ -312,7 +312,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userRceiveAddr);
-						message.setSubject("[ITOP]ticket transaction commit success,No."
+						message.setSubject("[ITOP]ticket transaction submit successfully,No."
 								+ incident.getIncidentCode());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -359,7 +359,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);
-						message.setSubject("[ITOP]New ticket transaction has been commited,No."
+						message.setSubject("[ITOP]New ticket transaction has been submited,No."
 								+ incident.getIncidentCode() + ",from ["
 								+ userName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
@@ -424,7 +424,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(receiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction commit success,No."
+						message.setSubject("[ITOP]ticket transaction submit successfully,No."
 								+ incident.getIncidentCode());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -588,7 +588,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(receiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction commit success,No."
+						message.setSubject("[ITOP]ticket transaction submit successfully,No."
 								+ incident.getIncidentCode());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						if (ccAddr != null) {
@@ -705,7 +705,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction commit success,No."
+						message.setSubject("[ITOP]ticket transaction submit successfully,No."
 								+ incident.getIncidentCode());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -753,7 +753,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket transaction has been commited,No."
+						message.setSubject("[ITOP]New ticket transaction has been submited,No."
 								+ incident.getIncidentCode() + ", from [" + opName
 								+ "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
@@ -789,7 +789,7 @@ public class MailSendServiceImpl implements
 						params.put("op", "block");
 						String text = VelocityEngineUtils
 								.mergeTemplateIntoString(velocityEngine,
-										"vm/transaction-commit-others.vm",
+										"vm/transaction-success-others.vm",
 										"UTF-8", params);
 						message.setText(text, true);
 					}
@@ -818,7 +818,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction commit success,No."
+						message.setSubject("[ITOP]ticket transaction submit successfully,No."
 								+ incident.getIncidentCode());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -866,7 +866,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket transaction has been commited,No."
+						message.setSubject("[ITOP]New ticket transaction has been submited,No."
 								+ incident.getIncidentCode() + ", from ["
 								+ opName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
@@ -931,7 +931,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction commit success,No."
+						message.setSubject("[ITOP]ticket transaction submit successfully,No."
 								+ incident.getIncidentCode());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -979,7 +979,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket transaction has been commited,No."
+						message.setSubject("[ITOP]New ticket transaction has been submited,No."
 								+ incident.getIncidentCode() + ", from ["
 								+ opName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址

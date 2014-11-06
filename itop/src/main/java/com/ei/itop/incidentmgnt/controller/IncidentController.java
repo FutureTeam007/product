@@ -290,6 +290,11 @@ public class IncidentController {
 			HttpServletResponse response) throws Exception {
 		OpInfo oi = SessionUtil.getOpInfo();
 		IncidentInfo ii = new IncidentInfo();
+		// 客户ID
+		String companyId = request.getParameter("companyId");
+		ii.setCcCustId(VarTypeConvertUtils.string2Long(companyId));
+		String companyName = request.getParameter("companyName");
+		ii.setCustName(companyName);
 		// 产品线
 		String scProductId = request.getParameter("productId");
 		ii.setScProductId(VarTypeConvertUtils.string2Long(scProductId));
@@ -379,6 +384,11 @@ public class IncidentController {
 		// 事件ID
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
+		// 客户ID
+		String companyId = request.getParameter("companyId");
+		ii.setCcCustId(VarTypeConvertUtils.string2Long(companyId));
+		String companyName = request.getParameter("companyName");
+		ii.setCustName(companyName);
 		// 产品线
 		String scProductId = request.getParameter("productId");
 		ii.setScProductId(VarTypeConvertUtils.string2Long(scProductId));

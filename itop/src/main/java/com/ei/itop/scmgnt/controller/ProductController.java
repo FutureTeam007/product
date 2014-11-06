@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ailk.dazzle.util.json.JSONUtils;
 import com.ailk.dazzle.util.tree.TreeUtil;
+import com.ailk.dazzle.util.type.StringUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.constants.SysConstants;
@@ -43,10 +44,16 @@ public class ProductController {
 		if (SysConstants.OpAttribute.OP_ROLE_OP.equals(oi.getOpType())) {
 			products = productService.queryProductList(oi.getOrgId(), null);
 		} else {
-			products = productService.queryProductList(oi.getOrgId(),
-					VarTypeConvertUtils.string2Long(oi.getCustId()));
+			String custId = request.getParameter("custId");
+			//如果传入custId为空，则取用户当前的custId
+			if(StringUtils.isEmpty(custId)){
+				products = productService.queryProductList(oi.getOrgId(),
+						VarTypeConvertUtils.string2Long(oi.getCustId()));
+			}else{
+				products = productService.queryProductList(oi.getOrgId(),
+						VarTypeConvertUtils.string2Long(custId));
+			}
 		}
-
 		String jsonData = null;
 		if (products != null) {
 			jsonData = JSONUtils.toJSONString(products);

@@ -62,11 +62,11 @@
 		  	</span>
 		  	<span class="form-item">
 		    	<label><i18n:message code="i18n.incident.query.QryConditionRegiserTime"/></label>
-		    	<input class="easyui-datebox" style="width:28%" id="qryStartDate" data-options="
+		    	<input class="easyui-datebox" style="width:28%" id="qryStartDate" data-options="editable:false,
 		       		formatter: function(date){ return dateFormatter2(date);}
 		       	">
 		    	<span style="color:#999">—</span>&nbsp;
-		    	<input class="easyui-datebox" style="width:28%" id="qryEndDate" data-options="
+		    	<input class="easyui-datebox" style="width:28%" id="qryEndDate" data-options="editable:false,
 		       		formatter: function(date){ return dateFormatter2(date);}
 		       	">
 		  	</span>
@@ -100,7 +100,7 @@
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
 			</ul>
 		</div>
-		<table  style="width:99%;height:390px" id="incidentDataTable"></table>
+		<table  style="width:99%;height:340px" id="incidentDataTable"></table>
 	</div>
 </div>
 <div id="feedbackWin" title="<i18n:message code="i18n.incident.mgnt.FeedbackWinTitle"/>">

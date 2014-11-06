@@ -20,8 +20,12 @@
     where sp.sc_product_id=ccp.sc_product_id
     and sp.SC_ORG_ID = #orgId:DECIMAL# and sp.STATE=1 and sp.LANG_FLAG=#locale:VARCHAR# 
     <isNotNull prepend="and" property="custId" >
-        ccp.CC_CUST_ID = #custId:DECIMAL# 
+      	ccp.CC_CUST_ID in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
     </isNotNull>
+    order by sp.sc_product_id asc
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
     delete from SC_PRODUCT
