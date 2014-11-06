@@ -184,9 +184,9 @@ public class LoginController {
 	public String doLoginFixBug(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// 用户名
-		String accountNo = "cnh1@163.com";
+		String accountNo = "abcuser1@163.com";
 		// 密码
-		String accountPwd = "cnh";
+		String accountPwd = "sdn";
 		// 封装登录Bean
 		LoginInfo li = new LoginInfo();
 		li.setLoginCode(accountNo.toLowerCase());
