@@ -104,8 +104,9 @@ function renderOpBtns(){
 				$("#blockCommitBtn").hide();
 				$("#finishCommitBtn").hide();
 				break;
-			//已关闭，所有按钮不可见
+			//已关闭，所有按钮不可见和提交框均不可见
 			case 9:
+				$(".inci-trans-commit-form").hide();
 				$("#transCommitBtn").hide();
 				$("#openConsultantSelBtn").hide();
 				$("#deliverCustCommitBtn").hide();
@@ -123,6 +124,7 @@ function renderOpBtns(){
 		$("#blockCommitBtn").hide();
 		$("#finishCommitBtn").hide();
 		if(parseInt(inciCurStateCode)==9){
+			$(".inci-trans-commit-form").hide();
 			$("#transCommitBtn").hide();
 		}
 	}

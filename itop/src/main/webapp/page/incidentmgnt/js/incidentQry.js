@@ -416,7 +416,7 @@ function reRenderStatusNav(status){
 						]],
 					    columns:[[
 					        {field:'custName',width:fixWidth(0.12),title:i18n.incident.query.DataTitleCustName},
-			                {field:'classValOp',width:fixWidth(0.08),title:i18n.incident.query.DataTitleClassValOp},
+			                {field:'classValOp',width:fixWidth(0.10),title:i18n.incident.query.DataTitleClassValOp},
 					        {field:'affectValOp',width:fixWidth(0.08),title:i18n.incident.query.DataTitleAffectValOp},
 					        {field:'plObjectName',width:fixWidth(0.06),title: i18n.incident.query.DataTitlePlObjectName},
 					        {field:'registeTime',width:fixWidth(0.07),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateFormatter},

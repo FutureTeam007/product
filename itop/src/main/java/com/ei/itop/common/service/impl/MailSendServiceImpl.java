@@ -733,7 +733,7 @@ public class MailSendServiceImpl implements
 										: DateUtils.date2String(
 												incident.getDealDur2(),
 												DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
-						params.put("op", "block");
+						params.put("op", "pending");
 						String text = VelocityEngineUtils
 								.mergeTemplateIntoString(velocityEngine,
 										"vm/transaction-commit-self.vm",
@@ -786,7 +786,7 @@ public class MailSendServiceImpl implements
 										: DateUtils.date2String(
 												incident.getDealDur2(),
 												DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
-						params.put("op", "block");
+						params.put("op", "pending");
 						String text = VelocityEngineUtils
 								.mergeTemplateIntoString(velocityEngine,
 										"vm/transaction-success-others.vm",
@@ -846,7 +846,7 @@ public class MailSendServiceImpl implements
 										: DateUtils.date2String(
 												incident.getDealDur2(),
 												DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
-						params.put("op", "finish");
+						params.put("op", "complete");
 						String text = VelocityEngineUtils
 								.mergeTemplateIntoString(velocityEngine,
 										"vm/transaction-commit-self.vm",
@@ -899,7 +899,7 @@ public class MailSendServiceImpl implements
 										: DateUtils.date2String(
 												incident.getDealDur2(),
 												DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
-						params.put("op", "finish");
+						params.put("op", "complete");
 						String text = VelocityEngineUtils
 								.mergeTemplateIntoString(velocityEngine,
 										"vm/transaction-commit-others.vm",

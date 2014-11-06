@@ -56,7 +56,7 @@
   <select id="queryInChargeAdviserPaging" resultMap="inChargeAdviserResult" parameterClass="java.util.Map" >
     select * from (
     select t.*,rownum rn from (
-      select so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
+      select distinct so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
       from CC_CUST_PROD_OP ccpo left join sc_op so on ccpo.sc_op_id = so.sc_op_id
 	  where so.state = 1
 	<isNotNull prepend="" property="custId" >
@@ -75,7 +75,7 @@
   </select>
   <select id="queryInChargeAdviserCount" resultClass="long" parameterClass="java.util.Map" >
 	select count(*) from (
-      select so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
+      select distinct so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
       from CC_CUST_PROD_OP ccpo left join sc_op so on ccpo.sc_op_id = so.sc_op_id
 	  where so.state = 1
 	  <isNotNull prepend="" property="custId" >
