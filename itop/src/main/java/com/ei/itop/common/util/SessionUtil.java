@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.util.WebUtils;
@@ -36,7 +37,7 @@ public class SessionUtil implements ServletRequestListener{
 		if(cookie!=null){
 			return StringUtils.parseLocaleString(cookie.getValue());
 		}else{
-			return Locale.ENGLISH;
+			return Locale.US;
 		}
 	}
 	
