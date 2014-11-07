@@ -350,7 +350,7 @@ public class IncidentServiceImpl implements IncidentService {
 		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
 		incidentInfo.setScOrgId(user.getScOrgId());
 		incidentInfo.setScOrgName(user.getScOrgName());
-		if(incidentInfo.getCcCustId()==null){
+		if (incidentInfo.getCcCustId() == null) {
 			incidentInfo.setCcCustId(user.getCcCustId());
 			incidentInfo.setCustName(user.getCustName());
 		}
@@ -442,11 +442,13 @@ public class IncidentServiceImpl implements IncidentService {
 	/**
 	 * 查询某个客户当月的最新事件记录，注意是当月
 	 * 
-	 * @param custId
+	 * @param topCustId
+	 *            顶层客户ID
 	 * @return
 	 * @throws Exception
 	 */
-	protected IcIncident getLastIncidentByCustId(long custId) throws Exception {
+	protected IcIncident getLastIncidentByCustId(long topCustId)
+			throws Exception {
 		// TODO Auto-generated method stub
 
 		IcIncident rtnValue = null;
@@ -463,11 +465,12 @@ public class IncidentServiceImpl implements IncidentService {
 				DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss);
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("custId", custId);
+		hm.put("topCustId", "" + topCustId);
+		hm.put("topCustIdAndSepChar", "" + topCustId + "#%");
 		hm.put("currentMonthFirstDay", currentMonthFirstDay);
 
 		List<IcIncident> list = incidentDAO.findByParams(
-				"IC_INCIDENT.queryIncidentByCustId", hm);
+				"IC_INCIDENT.queryIncidentByTopCustId", hm);
 
 		if (list != null && list.size() > 0) {
 			rtnValue = list.get(0);
@@ -503,7 +506,7 @@ public class IncidentServiceImpl implements IncidentService {
 		incidentCode += ym + "-";
 
 		// 取得当前客户的最新一条事件记录
-		IcIncident incident = getLastIncidentByCustId(custId);
+		IcIncident incident = getLastIncidentByCustId(topCust.getCcCustId());
 
 		// 取得当前顺序号
 		String strCurrentSerial = "0000";
@@ -587,15 +590,20 @@ public class IncidentServiceImpl implements IncidentService {
 	/**
 	 * 根据商户、客户查询顾问工作量
 	 * 
+	 * @param orgId
+	 * @param topCustId
+	 *            顶层客户ID
+	 * @param productId
 	 * @return
 	 * @throws Exception
 	 */
 	protected List<AdviserTaskQuantity> queryAdviserTaskQuantity(long orgId,
-			long custId, long productId) throws Exception {
+			long topCustId, long productId) throws Exception {
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("orgId", orgId);
-		hm.put("custId", custId);
+		hm.put("topCustId", "" + topCustId);
+		hm.put("topCustIdAndSepChar", "" + topCustId + "#%");
 		hm.put("productId", productId);
 
 		List<AdviserTaskQuantity> list = queryAdviserTaskQuantityDAO
@@ -613,12 +621,16 @@ public class IncidentServiceImpl implements IncidentService {
 	protected ScOp getInChargeAdviser(long orgId, long custId, long productId)
 			throws Exception {
 
+		// 取得顶层客户信息
+		CcCust cust = custMgntService.getCustInfo(custId);
+		CcCust topCust = custMgntService.getTopCustInfo(custId,
+				cust.getDomainName());
+
 		// 取得商户、客户、产品的负责顾问列表
 		List<CcCustProdOp> custProdOpList = custMgntService.getCustProdOpList(
-				orgId, custId, productId);
+				orgId, topCust.getCcCustId(), productId);
 		if (custProdOpList == null) {
 			log.debug("custProdOpList is null");
-
 		} else {
 			log.debug("custProdOpList.size() is " + custProdOpList.size());
 		}
@@ -630,7 +642,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 查询商户、客户下当前负责顾问的工作量
 		List<AdviserTaskQuantity> adviserTaskQuantityList = queryAdviserTaskQuantity(
-				orgId, custId, productId);
+				orgId, topCust.getCcCustId(), productId);
 		if (adviserTaskQuantityList == null) {
 			log.debug("adviserTaskQuantityList is null");
 
@@ -708,6 +720,9 @@ public class IncidentServiceImpl implements IncidentService {
 		// scOp.setOpCode("SP200005");
 		// scOp.setOpName("EI-PM");
 
+		log.debug("**********************getInChargeAdviser：" + op.getScOpId()
+				+ "," + op.getOpName());
+
 		return op;
 	}
 
@@ -722,11 +737,18 @@ public class IncidentServiceImpl implements IncidentService {
 
 		String itPhase = "";
 
-		CcCustProdOp custProdOp = custMgntService.getCustProdOpInfo(orgId,
-				custId, productId, opId);
+		// 取得顶层客户信息
+		CcCust cust = custMgntService.getCustInfo(custId);
+		CcCust topCust = custMgntService.getTopCustInfo(custId,
+				cust.getDomainName());
 
-		itPhase = paramService.getParam(orgId, "JOB_LEVEL",
-				custProdOp.getJobLevel()).getParamValue();
+		CcCustProdOp custProdOp = custMgntService.getCustProdOpInfo(orgId,
+				topCust.getCcCustId(), productId, opId);
+
+		ScParam param = paramService.getParam(orgId, "JOB_LEVEL",
+				custProdOp.getJobLevel());
+
+		itPhase = param.getParamValue();
 		itPhase += "-"
 				+ paramService.getParam(orgId, "JOB_CLASS",
 						custProdOp.getJobClass()).getParamValue();
@@ -758,7 +780,7 @@ public class IncidentServiceImpl implements IncidentService {
 		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
 		incidentInfo.setScOrgId(user.getScOrgId());
 		incidentInfo.setScOrgName(user.getScOrgName());
-		if(incidentInfo.getCcCustId()==null){
+		if (incidentInfo.getCcCustId() == null) {
 			incidentInfo.setCcCustId(user.getCcCustId());
 			incidentInfo.setCustName(user.getCustName());
 		}
@@ -846,7 +868,7 @@ public class IncidentServiceImpl implements IncidentService {
 		CcUser user = userService.queryUser(incidentInfo.getIcOwnerId());
 		incidentInfo.setScOrgId(user.getScOrgId());
 		incidentInfo.setScOrgName(user.getScOrgName());
-		if(incidentInfo.getCcCustId()==null){
+		if (incidentInfo.getCcCustId() == null) {
 			incidentInfo.setCcCustId(user.getCcCustId());
 			incidentInfo.setCustName(user.getCustName());
 		}
@@ -1013,13 +1035,15 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 如果不是待提交状态，则不允许删除事件
 		if (!"1".equals(incident.getItStateCode())) {
-			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyNotCommitedCanbeDelete"));
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.incident.mgnt.OnlyNotCommitedCanbeDelete"));
 		}
 
 		// 如果不是事件提出人，则不允许删除事件
 		if (!opInfo.getOpType().equals(incident.getPlObjectType())
 				&& opInfo.getOpId() != incident.getPlObjectId()) {
-			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRaiseManCanDelete"));
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.incident.mgnt.OnlyRaiseManCanDelete"));
 		}
 
 		// 修改事件数据状态为已失效
@@ -1161,15 +1185,18 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 仅当事件状态为8-已完成，且用户已经评价完毕时才可以进行用户反馈满意度操作
 		if (!"8".equals(incident.getItStateCode())) {
-			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.CloseTicketConditionError"));
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.incident.mgnt.CloseTicketConditionError"));
 		} else if (incident.getFeedbackCode() == null) {
-			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.CloseTicketConditionError"));
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.incident.mgnt.CloseTicketConditionError"));
 		}
 
 		// 只有责任顾问才有权关闭事件
 		if (!"OP".equals(opInfo.getOpType())
 				|| opInfo.getOpId() != incident.getScOpId()) {
-			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.OnlyRespConsultantCanClose"));
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.incident.mgnt.OnlyRespConsultantCanClose"));
 		}
 
 		IncidentInfo ii = new IncidentInfo();

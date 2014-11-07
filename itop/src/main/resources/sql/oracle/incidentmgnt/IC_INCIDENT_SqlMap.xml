@@ -145,11 +145,14 @@
     <result column="ARCHIVE_FLAG" property="archiveFlag" jdbcType="VARCHAR" />
   </resultMap>
   <select id="queryAdviserTaskQuantity" resultMap="adviserTaskQuantityResult" parameterClass="java.util.Map" >
-    select sc_op_id adviser_id,count(*) task_quantity from ic_incident
-	where sc_op_id is not null and data_state = 1 and it_state_code not in (8,9)
-	and sc_org_id = #orgId:DECIMAL#
-	and cc_cust_id = #custId:DECIMAL#
-	and SC_PRODUCT_ID = #productId:DECIMAL#
+	select ii.sc_op_id adviser_id, count(*) task_quantity
+	from ic_incident ii left join cc_cust cc on ii.cc_cust_id = cc.cc_cust_id
+	where ii.sc_op_id is not null
+	  and ii.data_state = 1
+	  and ii.it_state_code not in (8, 9, 91)
+	  and ii.sc_org_id = #orgId:DECIMAL#
+	  and (cc.org_lvl_path = #topCustId:VARCHAR# or cc.org_lvl_path like #topCustIdAndSepChar:VARCHAR#)
+	  and ii.SC_PRODUCT_ID = #productId:DECIMAL#
 	group by sc_op_id
   </select>
   <select id="queryIncident" resultMap="icIncidentResult" parameterClass="java.util.Map" >
@@ -444,6 +447,13 @@
       </isNotNull>
 	group by it_state_code,it_state_val
 	order by state_code
+  </select>
+  <select id="queryIncidentByTopCustId" resultMap="icIncidentResult" parameterClass="java.util.Map" >
+    select ii.*
+    from IC_INCIDENT ii left join cc_cust cc on ii.cc_cust_id = cc.cc_cust_id
+    where ii.create_date >= #currentMonthFirstDay:DATE#
+	and (cc.org_lvl_path = #topCustId:VARCHAR# or cc.org_lvl_path like #topCustIdAndSepChar:VARCHAR#)
+    order by ic_incident_id desc
   </select>
   <select id="queryIncidentByCustId" resultMap="icIncidentResult" parameterClass="java.util.Map" >
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
