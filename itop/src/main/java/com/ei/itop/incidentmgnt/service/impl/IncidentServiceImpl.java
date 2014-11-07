@@ -248,7 +248,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// 遍历所有已定义事件状态
 		// 总数量
-		long recordCount = 0;
+		long recordCountAll = 0;
 		for (int i = 0; paramList != null && i < paramList.size(); i++) {
 			ScParam param = paramList.get(i);
 			IncidentCountInfoByState result = new IncidentCountInfoByState();
@@ -260,16 +260,17 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			result.setStateCode(param.getParamCode());
 			result.setStateVal(param.getParamValue());
-			result.setRecordCount(new Long(0));
+			long recordCount = 0;
 			// 匹配是否有数量
 			for (int j = 0; list != null && j < list.size(); j++) {
 				IncidentCountInfoByState item = list.get(j);
 				if (item.getStateCode().equals(param.getParamCode())) {
-					result.setRecordCount(item.getRecordCount());
 					recordCount += item.getRecordCount();
-					break;
+					recordCountAll += item.getRecordCount();
+					// break;
 				}
 			}
+			result.setRecordCount(recordCount);
 			resultList.add(result);
 			log.debug(result.getStateCode() + "," + result.getStateVal() + ","
 					+ result.getRecordCount());
@@ -280,7 +281,7 @@ public class IncidentServiceImpl implements IncidentService {
 		all.setStateCode("-1");
 		all.setStateVal(SessionUtil.getRequestContext().getMessage(
 				"i18n.incident.query.AllDataNavLabel"));
-		all.setRecordCount(recordCount);
+		all.setRecordCount(recordCountAll);
 
 		// 把全部信息加入result
 		resultList.add(all);
@@ -1338,7 +1339,7 @@ public class IncidentServiceImpl implements IncidentService {
 			OpInfo oi) throws Exception {
 		IcIncident incident = new IcIncident();
 		incident.setIcIncidentId(incidentId);
-		incident.setItStateCode("10");
+		incident.setItStateCode("91");
 		incident.setItStateVal(SessionUtil.getRequestContext().getMessage(
 				"i18n.incident.mgnt.MarkStatus"));
 		incident.setModifier(oi.getOpFullName());
