@@ -231,6 +231,7 @@ function addIncident(){
 		data : fv,
 		success : function() {
 			parent.hideSubPage();
+			parent.setCompanyValue(fv.companyId);
 			parent.changeStatusNav(1);
 			parent.query();
 		},
@@ -253,6 +254,7 @@ function addIncidentAutoCommit(){
 		dataType : 'text',
 		success : function() {
 			parent.hideSubPage();
+			parent.setCompanyValue(fv.companyId);
 			parent.reloadData(2);
 		},
 		error : function(request) {
@@ -275,6 +277,7 @@ function modifyIncident(){
 		dataType : 'text',
 		success : function() {
 			parent.hideSubPage();
+			parent.setCompanyValue(fv.companyId);
 			parent.reloadData();
 		},
 		error : function(request) {
@@ -297,6 +300,7 @@ function modifyIncidentAutoCommit(){
 		dataType : 'text',
 		success : function() {
 			parent.hideSubPage();
+			parent.setCompanyValue(fv.companyId);
 			parent.reloadData(2);
 		},
 		error : function(request) {

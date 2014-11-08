@@ -30,7 +30,6 @@ public class ExceptionHandleFilter implements Filter{
 			FilterChain chain) throws IOException, ServletException{
 		HttpServletRequest hrt = (HttpServletRequest)request;
 		HttpServletResponse hrs = (HttpServletResponse)response;
-		// ajax请求
 		Map<String, String> json = new HashMap<String, String>();
 		try{
 			chain.doFilter(request, response);

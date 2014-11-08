@@ -28,6 +28,7 @@ $(function(){
 		$("#qryOpMineBtn").show();
 		$("#qryUserMineBtn").hide();
 	}
+	bindScroll();
 	//初始化下拉列表
 	initDropdownLists();
 	//初始化子页滑动
@@ -35,6 +36,15 @@ $(function(){
 	//默认执行一次查询
 	query();
 });
+
+//绑定滚动条滚动事件
+function bindScroll(){
+	$(window.document).scroll(function (){
+		var scroll = $(document).scrollTop();
+		$("#detailMask").css({bottom:'-'+scroll+'px' });
+	});
+}
+
 
 //初始化查询下拉列表
 function initDropdownLists(){
@@ -152,7 +162,7 @@ function commit(id){
 	});
 }
 //删除事件
-function remove(id){
+function removeTicket(id){
 	$.messager.confirm('Confirm',i18n.incident.mgnt.RemoveIncidentConfirm,function(r){
 	    if (r){
 	    	$.ajax({
@@ -358,9 +368,9 @@ function reRenderStatusNav(status){
 							$("#statusNav").append("<li role=\"presentation\" value=\""+msg[i].stateCode+"\" class=\"active\"><a href=\"#\">"+msg[i].stateVal+"("+msg[i].recordCount+")</a></li>");
 							if(msg[i].stateCode==-1){
 								if(opType=="OP"){
-									qp.stateVal = "2,3,4,5,8,9,10";
+									qp.stateVal = "2,3,4,5,8,9,91";
 								}else{
-									qp.stateVal = "1,2,3,4,5,8,9,10";
+									qp.stateVal = "1,2,3,4,5,8,9,91";
 								}
 							}else{
 								qp.stateVal = msg[i].stateCode;
@@ -425,7 +435,15 @@ function reRenderStatusNav(status){
 					        {field:'finishTime',width:fixWidth(0.10),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
 					        {field:'modifyDate',width:fixWidth(0.07),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
 					        {field:'feedbackVal',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
-					    ]]
+					    ]],
+					    onMouseOverRow:function(index,row){
+					    	$("#detailMaskContent").html(row.detail);
+					    	$("#detailMask").show();
+					    },
+					    onMouseOutRow:function(index,row){
+					    	$("#detailMaskContent").empty();
+					    	$("#detailMask").hide();
+					    }
 					});
 					initDataPager();
 				}else{
@@ -433,9 +451,9 @@ function reRenderStatusNav(status){
 				}
 			}
 		},
-		error : function() {
-			//$.messager.alert(i18n.dialog.AlertTitle,i18n.login.SessionTimeout);
-			//location.href=rootPath+'/login.jsp';
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert(i18n.dialog.AlertTitle,msg);
 		}
 	});
 }
@@ -546,7 +564,7 @@ function formatOperations(val,row){
 	if(row.itStateCode==1&&row.plObjectId==opId){
 		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>"+i18n.incident.mgnt.CommitBtn+"</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>"+i18n.incident.mgnt.EditBtn+"</button>";
-		buttons += "<button type='button' class='btn btn-link' onclick='remove("+val+")'>"+i18n.incident.mgnt.DeleteBtn+"</button>";
+		buttons += "<button type='button' class='btn btn-link' onclick='removeTicket("+val+")'>"+i18n.incident.mgnt.DeleteBtn+"</button>";
 	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==4||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9||row.itStateCode==10){
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>"+i18n.incident.mgnt.ViewBtn+"</button>";
 	}
@@ -611,4 +629,9 @@ function formatFeedback(val,row){
 	}else{
 		return "";
 	}
+}
+
+//设置客户选择下拉列表值
+function setCompanyValue(value){
+	$('#custSel').combotree('setValue',value);
 }

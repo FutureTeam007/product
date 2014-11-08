@@ -126,5 +126,9 @@
 <div id="subPage" class="subPage"><iframe id="subPageIframe" frameborder="0" scrolling="auto" style="overflow-x:hidden" width="100%" height="100%" src=""></iframe></div>
 <jsp:include page="../common/pageMasterEnd.jsp"></jsp:include>
 <div id="pageMask" class="pageMask"></div>
+<div id="detailMask" class="detailMask">
+	<div style="font-size:14px;font-weight:bold;"><i18n:message code="i18n.incident.edit.DetailLabel" />:</div>
+	<div id="detailMaskContent"></div>
+</div>
 </body>
 </html>

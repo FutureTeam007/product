@@ -113,6 +113,15 @@ function renderOpBtns(){
 				$("#blockCommitBtn").hide();
 				$("#finishCommitBtn").hide();
 				break;
+				//已归档，所有按钮不可见和提交框均不可见
+			case 91:
+				$(".inci-trans-commit-form").hide();
+				$("#transCommitBtn").hide();
+				$("#openConsultantSelBtn").hide();
+				$("#deliverCustCommitBtn").hide();
+				$("#blockCommitBtn").hide();
+				$("#finishCommitBtn").hide();
+				break;
 			default:
 				break;
 		}

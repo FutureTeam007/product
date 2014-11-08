@@ -1,4 +1,3 @@
-<%@page import="org.springframework.web.util.WebUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.ei.itop.common.util.SessionUtil" %>
@@ -6,10 +5,9 @@
 <%
 	String baseURL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
 	String rootPath = request.getContextPath();
-	OpInfo opInfo = SessionUtil.getOpInfo();
+	OpInfo opInfo = SessionUtil.getPageOpInfo();
 	//设置国际化
-	Cookie cookie = WebUtils.getCookie(request, "locale");
-	String i18nLocale = cookie==null?"zh_CN":cookie.getValue();
+	String i18nLocale = SessionUtil.getLocale().toString();
 	request.setAttribute("i18nLocale", i18nLocale);
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
