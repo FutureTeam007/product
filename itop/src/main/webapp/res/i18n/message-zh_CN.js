@@ -84,6 +84,7 @@ i18n.incident.mgnt.CloseBtn="关闭";
 i18n.incident.mgnt.ViewBtn="查看";
 i18n.incident.mgnt.MarkBtn="归档";
 i18n.incident.mgnt.EvaluateBtn="评价";
+i18n.incident.mgnt.ReOpenBtn="恢复";
 i18n.incident.edit={};
 i18n.incident.edit.QueryTicketInfoError="查询事件信息失败！";
 i18n.incident.edit.CompanyEmpty="请选择公司！";

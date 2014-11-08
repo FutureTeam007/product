@@ -595,4 +595,20 @@ public class IncidentController {
 		ii.setFeedbackCode(feedbackCode);
 		incidentService.MBLUserSetFeedbackVal(incidentId, ii, oi);
 	}
+	
+	/**
+	 * 将一条事件置为处理中
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/back2Process")
+	public void back2Process(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		OpInfo oi = SessionUtil.getOpInfo();
+		long incidentId = VarTypeConvertUtils.string2Long(request
+				.getParameter("incidentId"));
+		incidentService.MBLAdminSetProccess(incidentId, oi);
+	}
 }

@@ -171,7 +171,7 @@ public class LoginController {
 					putLoginInfo2Session(request, response, accountNo,
 							op.getScOpId(), op.getLoginCode(), op.getOpName(),
 							op.getLastName() + "." + op.getFirstName(), opType,
-							op.getScOrgId(), "待填", null, null);
+							op.getScOrgId(), "待填", null, op.getOpKind().longValue());
 					recordLog(start);
 					return "redirect:/page/incidentmgnt/main";
 				}

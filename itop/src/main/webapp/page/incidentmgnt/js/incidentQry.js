@@ -239,6 +239,25 @@ function feedback(){
 	});
 }
 
+//恢复事件
+function back2Proccess(id){
+	$.ajax({
+		type : 'post',
+		url : rootPath + "/incident/back2Process",
+		data : {
+			incidentId :id,
+		},
+		dataType : 'text',
+		success : function() {
+			reloadData(3);
+		},
+		error : function(request) {
+			var msg = eval("("+request.responseText+")").errorMsg;
+			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
+		}
+	});
+}
+
 //显示归档窗口
 function showStockIncident(id){
 	$("#stockBtn").attr("incidentId",id);
@@ -579,6 +598,10 @@ function formatOperations(val,row){
 	//如果状态为完成，且当前操作员是客户方的用户，则显示评价按钮
 	if(row.itStateCode==8&&opType=="USER"){
 		buttons += "<button type='button' class='btn btn-link' onclick='showFeedback("+val+")'>"+i18n.incident.mgnt.EvaluateBtn+"</button>";
+	}
+	//如果状态为完成或关闭，且当前操作员是管理员，则显示重开事件按钮
+	if((row.itStateCode==8||row.itStateCode==9)&&opType=="OP"&&opKind==1){
+		buttons += "<button type='button' class='btn btn-link' onclick='back2Proccess("+val+")'>"+i18n.incident.mgnt.ReOpenBtn+"</button>";
 	}
 	return buttons;
 }

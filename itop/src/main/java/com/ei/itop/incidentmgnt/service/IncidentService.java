@@ -229,4 +229,11 @@ public interface IncidentService {
 	 */
 	public void MBLUserStockIncident(long incidentId, String[] stockFlags,
 			OpInfo oi) throws Exception ;
+	/**
+	 * 管理员将完成、关闭的事件重新置为处理中
+	 * @param incidentId
+	 * @param oi
+	 * @throws Exception
+	 */
+	public void MBLAdminSetProccess(long incidentId, OpInfo oi) throws Exception ;
 }

@@ -84,6 +84,7 @@ i18n.incident.mgnt.CloseBtn="Close";
 i18n.incident.mgnt.ViewBtn="Detail";
 i18n.incident.mgnt.MarkBtn="Review";
 i18n.incident.mgnt.EvaluateBtn="Evaluate";
+i18n.incident.mgnt.ReOpenBtn="Reopen";
 i18n.incident.edit={};
 i18n.incident.edit.QueryTicketInfoError="Query ticket information error!";
 i18n.incident.edit.CompanyEmpty="Choose a company,please!";

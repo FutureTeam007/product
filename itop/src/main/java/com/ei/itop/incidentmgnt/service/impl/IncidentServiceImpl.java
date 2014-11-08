@@ -1359,4 +1359,23 @@ public class IncidentServiceImpl implements IncidentService {
 		// 保存事件实体信息
 		incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incident);
 	}
+
+	public void MBLAdminSetProccess(long incidentId, OpInfo oi)
+			throws Exception {
+		//获取事件全部信息
+		IcIncident incident = queryIncident(incidentId);
+		// 仅当事件状态为8-已完成,9-已关闭的事件，管理员才可以恢复为处理中
+		if ("8".equals(incident.getItStateCode())||"9".equals(incident.getItStateCode())) {
+			IcIncident incidentInfo = new IcIncident();
+			incidentInfo.setIcIncidentId(incidentId);
+			incidentInfo.setItStateCode("3");
+			incidentInfo.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.ConsultantHandleStatus"));
+			// 保存事件实体信息
+			incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incidentInfo);
+		}else{
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.incident.mgnt.Back2ProccessTicketConditionError"));
+		}
+		
+	}
 }
