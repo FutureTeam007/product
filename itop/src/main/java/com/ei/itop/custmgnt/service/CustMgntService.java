@@ -5,6 +5,7 @@ package com.ei.itop.custmgnt.service;
 
 import java.util.List;
 
+import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
 import com.ei.itop.common.dbentity.CcSlo;
@@ -89,7 +90,14 @@ public interface CustMgntService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<CcCust> queryCustListByDomainName(String domainName) throws Exception;
+	public List<CcCust> queryCustListByDomainName(Long orgId,String domainName) throws Exception;
+	/**
+	 * 根据域名查询客户公司(后台配置管理使用，忽略State字段是否正常，由前台显示状态值)
+	 * @param domainName
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CcCust> queryAllCustListByDomainName(Long orgId,String domainName) throws Exception;
 	
 	/**
 	 * 查询Slo规则
@@ -113,5 +121,24 @@ public interface CustMgntService {
 	 * @throws Exception
 	 */
 	public List<CcCust> getSubCusts(long custId) throws Exception;
+	/**
+	 * 修改客户信息
+	 * @param cust
+	 * @throws Exception
+	 */
+	public void MBLModifyCustInfo(CcCust cust,OpInfo opInfo) throws Exception;
+	/**
+	 * 保存客户信息
+	 * @param cust
+	 * @throws Exception
+	 */
+	public long MBLAddCustInfo(CcCust cust,OpInfo opInfo) throws Exception;
+	/**
+	 * 删除客户信息
+	 * @param custId
+	 * @param opInfo
+	 * @throws Exception
+	 */
+	public void MBLRemoveCustInfo(long custId, OpInfo opInfo) throws Exception;
 	
 }

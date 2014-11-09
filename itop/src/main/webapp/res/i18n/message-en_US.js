@@ -8,6 +8,7 @@ i18n.usercenter={};
 i18n.opcenter={};
 i18n.incident={};
 i18n.transaction={};
+i18n.custmgnt={};
 //loading
 i18n.loading.GridLoading="Searching...,please wait a moment";
 i18n.loading.GirdDataEmpty="No data record";
@@ -118,4 +119,16 @@ i18n.incident.view.TransCompleteProductEmpty="Select a product line,please!";
 i18n.incident.view.TransCompleteModuleEmpty="Select a service module,please!";
 i18n.incident.view.TransCompletePriorityEmpty="Select a priority type,please!";
 i18n.incident.view.TransCompleteComplexEmpty="Select a complex type,please!";
-//transation
+//custmgnt
+i18n.custmgnt.main={};
+i18n.custmgnt.main.CustTreeRoot="All customers";
+i18n.custmgnt.custinfo={};
+i18n.custmgnt.custinfo.CustTreeRoot="Top customer";
+i18n.custmgnt.custinfo.QryCustInfoError="Query customer information error！";
+i18n.custmgnt.custinfo.CustCodeEmptyError="Input customer's code,please!";
+i18n.custmgnt.custinfo.CustNameEmptyError="Input customer's name,please!";
+i18n.custmgnt.custinfo.ShortNameEmptyError="Input customer's short name,please!";
+i18n.custmgnt.custinfo.EnNameEmptyError="Input customer's english name,please!";
+i18n.custmgnt.custinfo.SupCustEmptyError="Select a super customer,please!";
+i18n.custmgnt.custinfo.DomainNameEmptyError="Input domain name,please!";
+i18n.custmgnt.custinfo.DeleteSuccess="Delete successfully！";

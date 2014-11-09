@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ei.itop.common.dbentity.ScOp;
+import com.ei.itop.common.dbentity.ScOrg;
 import com.ei.itop.scmgnt.service.OpService;
 
 /**

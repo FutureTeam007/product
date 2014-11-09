@@ -8,6 +8,7 @@ i18n.usercenter={};
 i18n.opcenter={};
 i18n.incident={};
 i18n.transaction={};
+i18n.custmgnt={};
 //loading
 i18n.loading.GridLoading="数据加载中，请稍后……";
 i18n.loading.GirdDataEmpty="暂无数据记录";
@@ -118,4 +119,16 @@ i18n.incident.view.TransCompleteProductEmpty="请选择产品线";
 i18n.incident.view.TransCompleteModuleEmpty="请选择服务目录";
 i18n.incident.view.TransCompletePriorityEmpty="请选择优先级";
 i18n.incident.view.TransCompleteComplexEmpty="请选择复杂度";
-//transation
+//custmgnt
+i18n.custmgnt.main={};
+i18n.custmgnt.main.CustTreeRoot="全部客户";
+i18n.custmgnt.custinfo={};
+i18n.custmgnt.custinfo.CustTreeRoot="顶层客户";
+i18n.custmgnt.custinfo.QryCustInfoError="查询客户信息出错了！";
+i18n.custmgnt.custinfo.CustCodeEmptyError="请填写客户编码";
+i18n.custmgnt.custinfo.CustNameEmptyError="请填写客户名称";
+i18n.custmgnt.custinfo.ShortNameEmptyError="请填写客户简称";
+i18n.custmgnt.custinfo.EnNameEmptyError="请填写客户英文名称";
+i18n.custmgnt.custinfo.SupCustEmptyError="请选择上级客户";
+i18n.custmgnt.custinfo.DomainNameEmptyError="请填写域名";
+i18n.custmgnt.custinfo.DeleteSuccess="删除客户成功！";

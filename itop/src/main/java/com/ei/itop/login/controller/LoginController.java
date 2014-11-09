@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.support.RequestContext;
 
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.type.StringUtils;
@@ -19,9 +18,11 @@ import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.constants.SysConstants;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.ScOp;
+import com.ei.itop.common.dbentity.ScOrg;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.login.bean.LoginInfo;
 import com.ei.itop.login.service.LoginService;
+import com.ei.itop.scmgnt.service.ScOrgService;
 
 @Controller
 @RequestMapping("")
@@ -31,6 +32,9 @@ public class LoginController {
 
 	@Autowired
 	LoginService loginService;
+	
+	@Autowired
+	ScOrgService orgService;
 
 	@Autowired
 	CookieLocaleResolver localeResolver;
@@ -168,10 +172,13 @@ public class LoginController {
 					recordLog(start);
 					return "/login";
 				} else {
+					//获取组织名称
+					ScOrg scOrg = orgService.queryScOrg(op.getScOrgId());
+					//放入Session
 					putLoginInfo2Session(request, response, accountNo,
 							op.getScOpId(), op.getLoginCode(), op.getOpName(),
 							op.getLastName() + "." + op.getFirstName(), opType,
-							op.getScOrgId(), "待填", null, op.getOpKind().longValue());
+							op.getScOrgId(), scOrg.getScOrgName(), null, op.getOpKind().longValue());
 					recordLog(start);
 					return "redirect:/page/incidentmgnt/main";
 				}

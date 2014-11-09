@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.AppContext;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
 import com.ei.itop.common.dbentity.CcSlo;
@@ -202,10 +203,11 @@ public class CustMgntServiceImpl implements CustMgntService {
 		log.debug(cnt);
 	}
 
-	public List<CcCust> queryCustListByDomainName(String domainName)
+	public List<CcCust> queryCustListByDomainName(Long orgId,String domainName)
 			throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("domainName", domainName);
+		params.put("orgId", orgId);
 		return custDAO
 				.findByParams("CC_CUST.queryCustListByDomainName", params);
 	}
@@ -271,5 +273,52 @@ public class CustMgntServiceImpl implements CustMgntService {
 		List<CcCust> custs = custDAO.findByParams(
 				"CC_CUST.selectSubCustsByCustId", params);
 		return custs;
+	}
+
+	public void MBLModifyCustInfo(CcCust cust,OpInfo opInfo) throws Exception {
+		//设置商户信息
+		cust.setScOrgId(opInfo.getOrgId());
+		cust.setScOrgName(opInfo.getOrgName());
+		if(cust.getSupCustId()!=null){
+			CcCust supCust = getCustInfo(cust.getSupCustId());
+			cust.setOrgLevel(Short.parseShort(supCust.getOrgLevel()+1+""));
+			cust.setOrgLvlPath(supCust.getOrgLvlPath()+"#"+cust.getCcCustId());
+		}else{
+			cust.setOrgLevel(Short.parseShort(1+""));
+			cust.setOrgLvlPath(cust.getCcCustId()+"");
+		}
+		custDAO.update("CC_CUST.updateByPrimaryKeySelective", cust);
+	}
+
+	public long MBLAddCustInfo(CcCust cust,OpInfo opInfo) throws Exception {
+		//设置商户信息
+		cust.setScOrgId(opInfo.getOrgId());
+		cust.setScOrgName(opInfo.getOrgName());
+		if(cust.getSupCustId()!=null){
+			CcCust supCust = getCustInfo(cust.getSupCustId());
+			cust.setOrgLevel(Short.parseShort(supCust.getOrgLevel()+1+""));
+			cust.setOrgLvlPath(supCust.getOrgLvlPath()+"#");
+		}else{
+			cust.setOrgLevel(Short.parseShort(1+""));
+		}
+		return custDAO.save("CC_CUST.insert", cust);
+	}
+
+	public void MBLRemoveCustInfo(long custId, OpInfo opInfo)
+			throws Exception {
+		List<CcCust> children = getSubCusts(custId);
+		if(children!=null&&children.size()>1){
+			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.custmgnt.custinfo.CustHasChildWhenDelete"));
+		}
+		custDAO.delete("CC_CUST.deleteByPrimaryKey", custId);
+	}
+
+	public List<CcCust> queryAllCustListByDomainName(Long orgId,
+			String domainName) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("domainName", domainName);
+		params.put("orgId", orgId);
+		return custDAO
+				.findByParams("CC_CUST.queryAllCustListByDomainName", params);
 	}
 }

@@ -45,16 +45,40 @@
     <isNotNull prepend="and" property="domainName" >
        DOMAIN_NAME = #domainName:VARCHAR#
     </isNotNull>
+    <isNotNull prepend="and" property="orgId" >
+       SC_ORG_ID = #orgId:DECIMAL#
+    </isNotNull>
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.CcCust" >
+  <select id="queryAllCustListByDomainName" resultMap="ccCustResult" parameterClass="java.util.Map" >
+    select CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL, ORG_LVL_PATH,
+      CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
+    from CC_CUST where 1 = 1 
+    <isNotNull prepend="and" property="domainName" >
+       DOMAIN_NAME = #domainName:VARCHAR#
+    </isNotNull>
+    <isNotNull prepend="and" property="orgId" >
+       SC_ORG_ID = #orgId:DECIMAL#
+    </isNotNull>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from CC_CUST
     where CC_CUST_ID = #ccCustId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcCust" >
+    <selectKey resultClass="long" keyProperty="ccCustId">
+  		select CC_CUST$$SEQ.nextval from dual
+  	</selectKey>
     insert into CC_CUST (CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, SUP_CUST_ID, CUST_CODE, ORG_LEVEL,
       ORG_LVL_PATH, CUST_NAME, SHORT_NAME, LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE)
     values (#ccCustId:DECIMAL#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#, #supCustId:DECIMAL#,
-      #custCode:VARCHAR#, #orgLevel:DECIMAL#, #orgLvlPath:VARCHAR#, #custName:VARCHAR#,
+      #custCode:VARCHAR#, #orgLevel:DECIMAL#,
+      <isNotNull prepend="" property="orgLvlPath" >
+       		'$orgLvlPath$' || '$ccCustId$',
+      </isNotNull>
+      <isNull prepend="" property="orgLvlPath" >
+        	#ccCustId:DECIMAL#,
+      </isNull>
+      #custName:VARCHAR#,
       #shortName:VARCHAR#, #lastName:VARCHAR#, #domainName:VARCHAR#, #domainNameSec:VARCHAR#,
       #notes:VARCHAR#, #state:DECIMAL#)
   </insert>

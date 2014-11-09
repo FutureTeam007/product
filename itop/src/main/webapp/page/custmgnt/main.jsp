@@ -10,7 +10,7 @@
 	<title><i18n:message code="i18n.custmgnt.main.PageTitle"/></title>
 	<script type="text/javascript" src="<%=rootPath%>/page/custmgnt/js/main.js"></script>
 </head>
-<body>
+<body style="background:#fff">
 <jsp:include page="../common/pageMasterStart.jsp"></jsp:include>
 <div class="cust-mgnt-sidebar pull-left">
 	<div>
@@ -20,13 +20,14 @@
 <div class="col-sm-9" style="padding-left:0px">
 	<div class="cust-mgnt-nav">
 		<ul class="nav nav-tabs" role="tablist">
-		  <li order="1" role="presentation" class="active"><a href="javascript:void(0)">客户信息管理</a></li>
-		  <li order="2" role="presentation"><a  href="javascript:void(0)">用户信息管理</a></li>
-		  <li order="3" role="presentation"><a  href="javascript:void(0)">产品信息管理</a></li>
-		  <li order="4" role="presentation"><a  href="javascript:void(0)">SLO规则管理</a></li>
+		  <li order="1" role="presentation" class="active"><a href="javascript:void(0)"><i18n:message code="i18n.custmgnt.main.CustInfoNav"/></a></li>
+		  <li order="2" role="presentation"><a  href="javascript:void(0)"><i18n:message code="i18n.custmgnt.main.UserInfoNav"/></a></li>
+		  <li order="3" role="presentation"><a  href="javascript:void(0)"><i18n:message code="i18n.custmgnt.main.ProdInfoNav"/></a></li>
+		  <!-- <li order="4" role="presentation"><a  href="javascript:void(0)">SLO规则管理</a></li> -->
+		  <a class="btn btn-link top-close-link pull-right" href="<%=rootPath%>/page/incidentmgnt/main"><i18n:message code="i18n.nav.Back2Index"/></a>
 		</ul>
 	</div>
-	<iframe id="cust-mgnt-iframe" name="cust-mgnt-iframe" frameborder="0" height="100%" width="100%" style="background:#fff;"></iframe>
+	<iframe id="cust-mgnt-iframe" name="cust-mgnt-iframe" frameborder="0" width="100%" style="background:#fff;"></iframe>
 </div>
 <jsp:include page="../common/pageMasterEnd.jsp"></jsp:include>
 </body>
