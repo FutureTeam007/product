@@ -448,11 +448,11 @@ function reRenderStatusNav(status){
 			                {field:'classValOp',width:fixWidth(0.10),title:i18n.incident.query.DataTitleClassValOp},
 					        {field:'affectValOp',width:fixWidth(0.08),title:i18n.incident.query.DataTitleAffectValOp},
 					        {field:'plObjectName',width:fixWidth(0.06),title: i18n.incident.query.DataTitlePlObjectName},
-					        {field:'registeTime',width:fixWidth(0.07),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateFormatter},
+					        {field:'registeTime',width:fixWidth(0.08),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateTimeFormatterMinute},
 					        {field:'scLoginName',width:fixWidth(0.06),title:i18n.incident.query.DataTitleScLoginName},
-					        {field:'dealDur2',width:fixWidth(0.10),title:i18n.incident.query.DataTitlePlanFinishTime,sortable:true,formatter:dateFormatter},
-					        {field:'finishTime',width:fixWidth(0.10),title:i18n.incident.query.DataTitleFinishTime,formatter:dateFormatter},
-					        {field:'modifyDate',width:fixWidth(0.07),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateFormatter},
+					        {field:'dealDur2',width:fixWidth(0.10),title:i18n.incident.query.DataTitlePlanFinishTime,sortable:true,formatter:dateTimeFormatterMinute},
+					        {field:'finishTime',width:fixWidth(0.10),title:i18n.incident.query.DataTitleFinishTime,formatter:dateTimeFormatterMinute},
+					        {field:'modifyDate',width:fixWidth(0.08),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateTimeFormatterMinute},
 					        {field:'feedbackVal',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
 					    ]],
 					    onMouseOverRow:function(index,row){
@@ -624,6 +624,28 @@ function dateFormatter(val,row){
 	//秒
 	var second = date.getSeconds();
 	return year+"/"+(month+1)+"/"+day;
+}
+//格式化时间列
+function dateTimeFormatterMinute(val){
+	if(!val){
+		return;
+	}
+	var date = new Date(val);
+	//年
+	var year = date.getFullYear();
+	//月
+	var month = date.getMonth();
+	month = month<10?"0"+month:month;
+	//日
+	var day = date.getDate();
+	day = day<10?"0"+day:day;
+	//小时
+	var hour = date.getHours();
+	hour = hour<10?"0"+hour:hour;
+	//分钟
+	var minute = date.getMinutes();
+	minute = minute<10?"0"+minute:minute;
+	return year+"-"+(month+1)+"-"+day+" "+hour+":"+minute;
 }
 //格式化时间
 function dateFormatter2(val){

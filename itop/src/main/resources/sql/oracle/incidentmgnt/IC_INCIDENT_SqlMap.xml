@@ -60,21 +60,21 @@
     <result column="RESTORE_TIME" property="restoreTime" jdbcType="DATE" />
     <result column="REPONSE_DUR" property="reponseDur" jdbcType="DECIMAL" />
     <result column="DEAL_DUR" property="dealDur" jdbcType="DECIMAL" />
-    <result column="FINISH_TIME" property="finishTime" jdbcType="DATE" />
+    <result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP" />
     <result column="IT_SOLUTION" property="itSolution" jdbcType="VARCHAR" />
     <result column="FINISH_CODE" property="finishCode" jdbcType="VARCHAR" />
     <result column="FINISH_VAL" property="finishVal" jdbcType="VARCHAR" />
     <result column="FEEDBACK_CODE" property="feedbackCode" jdbcType="VARCHAR" />
     <result column="FEEDBACK_VAL" property="feedbackVal" jdbcType="VARCHAR" />
     <result column="FEEDBACK_TIME" property="feedbackTime" jdbcType="DATE" />
-    <result column="CLOSE_TIME" property="closeTime" jdbcType="DATE" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
     <result column="IT_PHASE" property="itPhase" jdbcType="VARCHAR" />
     <result column="IT_STATE_CODE" property="itStateCode" jdbcType="VARCHAR" />
     <result column="IT_STATE_VAL" property="itStateVal" jdbcType="VARCHAR" />
     <result column="DATA_STATE" property="dataState" jdbcType="DECIMAL" />
     <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
     <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
-    <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
     <result column="ARCHIVE_FLAG" property="archiveFlag" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="icIncidentResult" class="com.ei.itop.common.dbentity.IcIncident" >
@@ -127,21 +127,21 @@
     <result column="RESTORE_TIME" property="restoreTime" jdbcType="DATE" />
     <result column="REPONSE_DUR" property="reponseDur" jdbcType="DECIMAL" />
     <result column="DEAL_DUR" property="dealDur" jdbcType="DECIMAL" />
-    <result column="FINISH_TIME" property="finishTime" jdbcType="DATE" />
+    <result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP" />
     <result column="IT_SOLUTION" property="itSolution" jdbcType="VARCHAR" />
     <result column="FINISH_CODE" property="finishCode" jdbcType="VARCHAR" />
     <result column="FINISH_VAL" property="finishVal" jdbcType="VARCHAR" />
     <result column="FEEDBACK_CODE" property="feedbackCode" jdbcType="VARCHAR" />
     <result column="FEEDBACK_VAL" property="feedbackVal" jdbcType="VARCHAR" />
     <result column="FEEDBACK_TIME" property="feedbackTime" jdbcType="DATE" />
-    <result column="CLOSE_TIME" property="closeTime" jdbcType="DATE" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
     <result column="IT_PHASE" property="itPhase" jdbcType="VARCHAR" />
     <result column="IT_STATE_CODE" property="itStateCode" jdbcType="VARCHAR" />
     <result column="IT_STATE_VAL" property="itStateVal" jdbcType="VARCHAR" />
     <result column="DATA_STATE" property="dataState" jdbcType="DECIMAL" />
     <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
     <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
-    <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
     <result column="ARCHIVE_FLAG" property="archiveFlag" jdbcType="VARCHAR" />
   </resultMap>
   <select id="queryAdviserTaskQuantity" resultMap="adviserTaskQuantityResult" parameterClass="java.util.Map" >
@@ -520,9 +520,9 @@
       #complexVal:VARCHAR#, #priorityCode:VARCHAR#, #priorityVal:VARCHAR#, #ccList:VARCHAR#,
       #brief:VARCHAR#, #detail:VARCHAR#, #responseTime:DECIMAL#, #dealTime:DECIMAL#,
       #reponseDur2:TIMESTAMP#, #dealDur2:TIMESTAMP#, #reponseNum:VARCHAR#, #dealNum:VARCHAR#,
-      #restoreTime:DATE#, #reponseDur:DECIMAL#, #dealDur:DECIMAL#, #finishTime:DATE#,
+      #restoreTime:DATE#, #reponseDur:DECIMAL#, #dealDur:DECIMAL#, #finishTime:TIMESTAMP#,
       #itSolution:VARCHAR#, #finishCode:VARCHAR#, #finishVal:VARCHAR#, #feedbackCode:VARCHAR#,
-      #feedbackVal:VARCHAR#, #feedbackTime:DATE#, #closeTime:DATE#, #itPhase:VARCHAR#,
+      #feedbackVal:VARCHAR#, #feedbackTime:DATE#, #closeTime:TIMESTAMP#, #itPhase:VARCHAR#,
       #itStateCode:VARCHAR#, #itStateVal:VARCHAR#, 1, 
       sysdate, #modifier:VARCHAR#, sysdate)
   </insert>
@@ -576,21 +576,21 @@
       RESTORE_TIME = #restoreTime:DATE#,
       REPONSE_DUR = #reponseDur:DECIMAL#,
       DEAL_DUR = #dealDur:DECIMAL#,
-      FINISH_TIME = #finishTime:DATE#,
+      FINISH_TIME = #finishTime:TIMESTAMP#,
       IT_SOLUTION = #itSolution:VARCHAR#,
       FINISH_CODE = #finishCode:VARCHAR#,
       FINISH_VAL = #finishVal:VARCHAR#,
       FEEDBACK_CODE = #feedbackCode:VARCHAR#,
       FEEDBACK_VAL = #feedbackVal:VARCHAR#,
       FEEDBACK_TIME = #feedbackTime:DATE#,
-      CLOSE_TIME = #closeTime:DATE#,
+      CLOSE_TIME = #closeTime:TIMESTAMP#,
       IT_PHASE = #itPhase:VARCHAR#,
       IT_STATE_CODE = #itStateCode:VARCHAR#,
       IT_STATE_VAL = #itStateVal:VARCHAR#,
       DATA_STATE = #dataState:DECIMAL#,
       CREATE_DATE = #createDate:DATE#,
       MODIFIER = #modifier:VARCHAR#,
-      MODIFY_DATE = #modifyDate:DATE#
+      MODIFY_DATE = #modifyDate:TIMESTAMP#
     where IC_INCIDENT_ID = #icIncidentId:DECIMAL#
   </update>
   <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.IcIncident" >
@@ -731,7 +731,7 @@
         DEAL_NUM = #dealNum:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="restoreTime" >
-        RESTORE_TIME = #restoreTime:DATE#
+        RESTORE_TIME = #restoreTime:TIMESTAMP#
       </isNotNull>
       <isNotNull prepend="," property="reponseDur" >
         REPONSE_DUR = #reponseDur:DECIMAL#
@@ -740,7 +740,7 @@
         DEAL_DUR = #dealDur:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="finishTime" >
-        FINISH_TIME = #finishTime:DATE#
+        FINISH_TIME = #finishTime:TIMESTAMP#
       </isNotNull>
       <isNotNull prepend="," property="itSolution" >
         IT_SOLUTION = #itSolution:VARCHAR#
@@ -761,7 +761,7 @@
         FEEDBACK_TIME = #feedbackTime:DATE#
       </isNotNull>
       <isNotNull prepend="," property="closeTime" >
-        CLOSE_TIME = #closeTime:DATE#
+        CLOSE_TIME = #closeTime:TIMESTAMP#
       </isNotNull>
       <isNotNull prepend="," property="itPhase" >
         IT_PHASE = #itPhase:VARCHAR#
