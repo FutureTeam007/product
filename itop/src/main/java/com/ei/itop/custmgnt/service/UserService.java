@@ -45,11 +45,28 @@ public interface UserService {
 	 */
 	public void activeUser(long userId) throws Exception;
 	/**
-	 * 查询用户
+	 * 查询用户(正常状态)
 	 * @param orgId
 	 * @param custId
 	 * @return
 	 * @throws Exception
 	 */
 	public List<CcUser> queryUserList(long orgId, long custId) throws Exception;
+	
+	/**
+	 * 查询用户(所有状态，包含锁定或离职)
+	 * @param orgId
+	 * @param custId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CcUser> queryAllUserList(long orgId, long[] custId,String userCode,String userName,long startIndex,int pageSize) throws Exception;
+	/**
+	 * 查询用户(所有状态，包含锁定或离职)查询总数据条数
+	 * @param orgId
+	 * @param custId
+	 * @return
+	 * @throws Exception
+	 */
+	public long queryAllUserListCount(long orgId, long[] custId,String userCode,String userName,long startIndex,int pageSize) throws Exception;
 }

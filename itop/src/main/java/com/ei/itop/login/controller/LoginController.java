@@ -274,8 +274,10 @@ public class LoginController {
 		// 将操作员的登录类型放入Cookie，方便下次登录
 		Cookie cookieOpType = new Cookie(SysConstants.CookieAttribute.OP_TYPE,
 				opType);
+		cookieOpType.setMaxAge(Integer.MAX_VALUE);
 		Cookie cookieAccountNo = new Cookie(
 				SysConstants.CookieAttribute.ACCOUNT_NO, loginCode);
+		cookieAccountNo.setMaxAge(Integer.MAX_VALUE);
 		response.addCookie(cookieOpType);
 		response.addCookie(cookieAccountNo);
 	}

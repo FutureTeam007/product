@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, CcUser> userDAO;
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, Long> userCountDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -79,6 +81,28 @@ public class UserServiceImpl implements UserService {
 		params.put("orgId", orgId);
 		params.put("custId", custId);
 		return userDAO.findByParams("CC_USER.queryUsersByOrgIdAndCustId", params);
+	}
+
+	public List<CcUser> queryAllUserList(long orgId, long[] custId,String userCode,String userName,long startIndex,int pageSize)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("orgId", orgId);
+		params.put("custId", custId);
+		params.put("userCode", userCode);
+		params.put("userName", userName);
+		params.put("startIndex", startIndex);
+		params.put("endIndex", startIndex + pageSize - 1);
+		return userDAO.findByParams("CC_USER.queryAllUsersByOrgIdAndCustIdPaging", params);
+	}
+	
+	public long queryAllUserListCount(long orgId, long[] custId,String userCode,String userName,long startIndex,int pageSize)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("orgId", orgId);
+		params.put("custId", custId);
+		params.put("userCode", userCode);
+		params.put("userName", userName);
+		return userCountDAO.find("CC_USER.queryAllUsersByOrgIdAndCustIdCount", params);
 	}
 
 }

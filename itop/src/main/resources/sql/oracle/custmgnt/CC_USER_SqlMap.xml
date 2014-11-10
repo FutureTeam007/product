@@ -35,6 +35,44 @@
     from CC_USER
     where CC_CUST_ID = #custId:DECIMAL# and SC_ORG_ID = #orgId:DECIMAL# and STATE = 1
   </select>
+   <select id="queryAllUsersByOrgIdAndCustIdPaging" resultMap="ccUserResult" parameterClass="java.util.Map" >
+   select * from (
+    select CC_USER_ID, CC_CUST_ID, CUST_NAME, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE, LOGIN_CODE,
+      LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES,
+      STATE, rownum rn 
+    from (
+    	select usr.* from CC_USER usr
+    	where 
+    	usr.CC_CUST_ID  in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
+    	 and usr.SC_ORG_ID = #orgId:DECIMAL# 
+    	<isNotNull prepend="" property="userCode" >
+	    	and usr.LOGIN_CODE like '%'||#userCode:VARCHAR#||'%' 
+      	</isNotNull>
+      	<isNotNull prepend="" property="userName" >
+	    	and usr.OP_NAME like '%'||#userName:VARCHAR#||'%'
+      	</isNotNull>
+    ) t ) where rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
+  </select>
+   <select id="queryAllUsersByOrgIdAndCustIdCount" resultClass="long" parameterClass="java.util.Map" >
+    select count(t.CC_CUST_ID) from (
+    	select usr.* from CC_USER usr
+    	where 
+    	usr.CC_CUST_ID  in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
+    	and usr.SC_ORG_ID = #orgId:DECIMAL# 
+    	<isNotNull prepend="" property="userCode" >
+	    	and usr.LOGIN_CODE like '%'||#userCode:VARCHAR#||'%' 
+      	</isNotNull>
+      	<isNotNull prepend="" property="userName" >
+	    	and usr.OP_NAME like '%'||#userName:VARCHAR#||'%'
+      	</isNotNull>
+    ) t
+  </select>
   <select id="selectByPrimaryKey" resultMap="ccUserResult" parameterClass="long" >
     select CC_USER_ID, CC_CUST_ID, CUST_NAME, DEF_CC_CUST_ID, SC_ORG_ID, SC_ORG_NAME, OP_CODE, LOGIN_CODE,
       LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES,

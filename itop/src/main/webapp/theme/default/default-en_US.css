@@ -101,3 +101,5 @@ a:active {star:expression(this.onFocus=this.blur());}
 /*custmgnt*/
 .cust-mgnt-sidebar{background:#f3f3f3;margin-left:-15px;margin-top:-10px;margin-right:10px;min-height:550px;padding:10px 10px 0px 20px;width:250px;}
 .cust-mgnt-sidebar .cust-tree{height:100%;}
+.userDataTable .btn-link{padding-left:2px;padding-right:2px;}
+.datagrid-row-editing input{color:#333;}
