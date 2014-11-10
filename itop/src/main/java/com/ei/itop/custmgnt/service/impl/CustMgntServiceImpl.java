@@ -203,7 +203,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		log.debug(cnt);
 	}
 
-	public List<CcCust> queryCustListByDomainName(Long orgId,String domainName)
+	public List<CcCust> queryCustListByDomainName(Long orgId, String domainName)
 			throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("domainName", domainName);
@@ -227,7 +227,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		params.put("custId", custId);
 		params.put("productId", productId);
 		result = ccSloDAO.findByParams("CC_SLO.querySloRules", params);
-		if (result != null) {
+		if (result != null && result.size() > 0) {
 			return result;
 		}
 
@@ -235,7 +235,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		params.remove("productId");
 		params.put("productId", -1);
 		result = ccSloDAO.findByParams("CC_SLO.querySloRules", params);
-		if (result != null) {
+		if (result != null && result.size() > 0) {
 			return result;
 		}
 
@@ -245,7 +245,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		params.put("productId", -1);
 		params.put("custId", -1);
 		result = ccSloDAO.findByParams("CC_SLO.querySloRules", params);
-		if (result != null) {
+		if (result != null && result.size() > 0) {
 			return result;
 		}
 
@@ -258,7 +258,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		params.put("orgId", -1);
 		result = ccSloDAO.findByParams("CC_SLO.querySloRules", params);
 		// 系统默认SLO不允许为空
-		if (result == null) {
+		if (result == null || result.size() == 0) {
 			throw new BizException(SessionUtil.getRequestContext().getMessage(
 					"i18n.custmgnt.query.DefaultSloRulesNotExist"));
 			// "系统默认SLO未设置");
@@ -275,40 +275,41 @@ public class CustMgntServiceImpl implements CustMgntService {
 		return custs;
 	}
 
-	public void MBLModifyCustInfo(CcCust cust,OpInfo opInfo) throws Exception {
-		//设置商户信息
+	public void MBLModifyCustInfo(CcCust cust, OpInfo opInfo) throws Exception {
+		// 设置商户信息
 		cust.setScOrgId(opInfo.getOrgId());
 		cust.setScOrgName(opInfo.getOrgName());
-		if(cust.getSupCustId()!=null){
+		if (cust.getSupCustId() != null) {
 			CcCust supCust = getCustInfo(cust.getSupCustId());
-			cust.setOrgLevel(Short.parseShort(supCust.getOrgLevel()+1+""));
-			cust.setOrgLvlPath(supCust.getOrgLvlPath()+"#"+cust.getCcCustId());
-		}else{
-			cust.setOrgLevel(Short.parseShort(1+""));
-			cust.setOrgLvlPath(cust.getCcCustId()+"");
+			cust.setOrgLevel(Short.parseShort(supCust.getOrgLevel() + 1 + ""));
+			cust.setOrgLvlPath(supCust.getOrgLvlPath() + "#"
+					+ cust.getCcCustId());
+		} else {
+			cust.setOrgLevel(Short.parseShort(1 + ""));
+			cust.setOrgLvlPath(cust.getCcCustId() + "");
 		}
 		custDAO.update("CC_CUST.updateByPrimaryKeySelective", cust);
 	}
 
-	public long MBLAddCustInfo(CcCust cust,OpInfo opInfo) throws Exception {
-		//设置商户信息
+	public long MBLAddCustInfo(CcCust cust, OpInfo opInfo) throws Exception {
+		// 设置商户信息
 		cust.setScOrgId(opInfo.getOrgId());
 		cust.setScOrgName(opInfo.getOrgName());
-		if(cust.getSupCustId()!=null){
+		if (cust.getSupCustId() != null) {
 			CcCust supCust = getCustInfo(cust.getSupCustId());
-			cust.setOrgLevel(Short.parseShort(supCust.getOrgLevel()+1+""));
-			cust.setOrgLvlPath(supCust.getOrgLvlPath()+"#");
-		}else{
-			cust.setOrgLevel(Short.parseShort(1+""));
+			cust.setOrgLevel(Short.parseShort(supCust.getOrgLevel() + 1 + ""));
+			cust.setOrgLvlPath(supCust.getOrgLvlPath() + "#");
+		} else {
+			cust.setOrgLevel(Short.parseShort(1 + ""));
 		}
 		return custDAO.save("CC_CUST.insert", cust);
 	}
 
-	public void MBLRemoveCustInfo(long custId, OpInfo opInfo)
-			throws Exception {
+	public void MBLRemoveCustInfo(long custId, OpInfo opInfo) throws Exception {
 		List<CcCust> children = getSubCusts(custId);
-		if(children!=null&&children.size()>1){
-			throw new BizException(SessionUtil.getRequestContext().getMessage("i18n.custmgnt.custinfo.CustHasChildWhenDelete"));
+		if (children != null && children.size() > 1) {
+			throw new BizException(SessionUtil.getRequestContext().getMessage(
+					"i18n.custmgnt.custinfo.CustHasChildWhenDelete"));
 		}
 		custDAO.delete("CC_CUST.deleteByPrimaryKey", custId);
 	}
@@ -318,7 +319,7 @@ public class CustMgntServiceImpl implements CustMgntService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("domainName", domainName);
 		params.put("orgId", orgId);
-		return custDAO
-				.findByParams("CC_CUST.queryAllCustListByDomainName", params);
+		return custDAO.findByParams("CC_CUST.queryAllCustListByDomainName",
+				params);
 	}
 }

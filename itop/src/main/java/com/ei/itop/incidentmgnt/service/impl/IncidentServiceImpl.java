@@ -1098,6 +1098,8 @@ public class IncidentServiceImpl implements IncidentService {
 					Calendar.MINUTE, dealDiffMinutes));
 			ii.setReponseDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),
 					Calendar.MINUTE, responseDiffMinutes));
+			ii.setResponseTime(slo.getResponseTime());
+			ii.setDealTime(slo.getDealTime());
 		}
 		// 业务信息
 		ii.setAffectCodeOp(incident.getAffectCodeOp());
@@ -1362,20 +1364,23 @@ public class IncidentServiceImpl implements IncidentService {
 
 	public void MBLAdminSetProccess(long incidentId, OpInfo oi)
 			throws Exception {
-		//获取事件全部信息
+		// 获取事件全部信息
 		IcIncident incident = queryIncident(incidentId);
 		// 仅当事件状态为8-已完成,9-已关闭的事件，管理员才可以恢复为处理中
-		if ("8".equals(incident.getItStateCode())||"9".equals(incident.getItStateCode())) {
+		if ("8".equals(incident.getItStateCode())
+				|| "9".equals(incident.getItStateCode())) {
 			IcIncident incidentInfo = new IcIncident();
 			incidentInfo.setIcIncidentId(incidentId);
 			incidentInfo.setItStateCode("3");
-			incidentInfo.setItStateVal(SessionUtil.getRequestContext().getMessage("i18n.incident.mgnt.ConsultantHandleStatus"));
+			incidentInfo.setItStateVal(SessionUtil.getRequestContext()
+					.getMessage("i18n.incident.mgnt.ConsultantHandleStatus"));
 			// 保存事件实体信息
-			incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective", incidentInfo);
-		}else{
+			incidentDAO.update("IC_INCIDENT.updateByPrimaryKeySelective",
+					incidentInfo);
+		} else {
 			throw new BizException(SessionUtil.getRequestContext().getMessage(
 					"i18n.incident.mgnt.Back2ProccessTicketConditionError"));
 		}
-		
+
 	}
 }
