@@ -191,7 +191,7 @@ public class LoginController {
 	public String doLoginFixBug(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// 用户名
-		String accountNo = "abcuser1@163.com";
+		String accountNo = "abcuser2@163.com";
 		// 密码
 		String accountPwd = "sdn";
 		// 封装登录Bean

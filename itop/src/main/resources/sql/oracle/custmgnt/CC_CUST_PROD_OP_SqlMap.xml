@@ -119,7 +119,7 @@
     and SC_PRODUCT_ID = #productId:DECIMAL#
   </select>
   <select id="queryCustProdOpInfoList" resultMap="ccCustProdOpInfoResult" parameterClass="java.util.Map" >
-    select ccpo.*,so.op_code,so.op_name,so.first_name,so.last_name
+    select distinct ccpo.*,so.op_code,so.op_name,so.first_name,so.last_name
     from CC_CUST_PROD_OP ccpo left join SC_OP so on ccpo.sc_op_id=so.sc_op_id
     where ccpo.SC_ORG_ID = #orgId:DECIMAL#
     and ccpo.SC_PRODUCT_ID = #productId:DECIMAL#
