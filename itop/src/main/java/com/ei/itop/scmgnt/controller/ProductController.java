@@ -64,6 +64,7 @@ public class ProductController {
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
+	
 
 	/**
 	 * 查询服务目录

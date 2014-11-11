@@ -23,4 +23,12 @@ public interface ProductService {
 	 */
 	List<ScModule> queryModuleList(long orgId,long prodcutId) throws Exception;
 	
+	/**
+	 * 查询单条产品信息
+	 * @param productId
+	 * @return
+	 * @throws Exception
+	 */
+	ScProduct queryProductInfo(long productId) throws Exception;
+	
 }

@@ -28,7 +28,7 @@ function initLeftTree(){
 	    	if(data.id==-1){
 	    		return false;
 	    	}
-	    	var reloadURL= navLink[currentLinkOrder]+"?custId="+data.attributes.ccCustId+"&custName="+encodeURI(data.attributes.custName)+"&domainName="+data.attributes.domainName;
+	    	var reloadURL= navLink[currentLinkOrder]+"?custId="+data.attributes.ccCustId+"&custName="+encodeURI(data.attributes.custName)+"&domainName="+data.attributes.domainName+"&orgLevel="+data.attributes.orgLevel;
 	    	$('#cust-mgnt-iframe').attr('src',reloadURL);
 	    },
 	    onLoadSuccess:function(){
@@ -90,7 +90,7 @@ function initNavCard(){
 		currentLinkOrder = order;
 		var node = $('#custSel').tree('getSelected');
 		if(node){
-			var reloadURL= navLink[order]+"?custId="+node.attributes.ccCustId+"&custName="+encodeURI(node.attributes.custName)+"&domainName="+node.attributes.domainName;
+			var reloadURL= navLink[order]+"?custId="+node.attributes.ccCustId+"&custName="+encodeURI(node.attributes.custName)+"&domainName="+node.attributes.domainName+"&orgLevel="+node.attributes.orgLevel;
 			$('#cust-mgnt-iframe').attr('src',reloadURL);
 		}
 	});

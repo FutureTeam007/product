@@ -9,7 +9,7 @@
     <result column="PROD_DESC" property="prodDesc" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="scProductResult" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+  <select id="selectByPrimaryKey" resultMap="scProductResult" parameterClass="long" >
     select SC_PRODUCT_ID, SC_ORG_ID, PROD_CODE, PROD_NAME, PROD_DESC, STATE
     from SC_PRODUCT
     where SC_PRODUCT_ID = #scProductId:DECIMAL#

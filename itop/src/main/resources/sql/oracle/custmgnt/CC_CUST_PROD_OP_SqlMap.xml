@@ -39,6 +39,12 @@
     <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR" />
     <result column="JOB_LEVEL" property="jobLevel" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="ccCustProdOpInfoResult" extends="ccCustProdOpResult" class="com.ei.itop.custmgnt.bean.CustProductOpInfo" >
+    <result column="OP_CODE" property="opCode" jdbcType="VARCHAR" />
+    <result column="OP_NAME" property="opName" jdbcType="VARCHAR" />
+    <result column="FIRST_NAME" property="firstName" jdbcType="VARCHAR" />
+    <result column="LAST_NAME" property="lastName" jdbcType="VARCHAR" />
+  </resultMap>
   <select id="queryInChargeAdviser" resultMap="inChargeAdviserResult" parameterClass="java.util.Map" >
 	select so.*,cc_cust_id,cust_name,sc_product_id,prod_name,sc_job_id,job_name,job_class,job_level
 	from CC_CUST_PROD_OP ccpo left join sc_op so on ccpo.sc_op_id = so.sc_op_id
@@ -112,6 +118,23 @@
     and CC_CUST_ID = #custId:DECIMAL#
     and SC_PRODUCT_ID = #productId:DECIMAL#
   </select>
+  <select id="queryCustProdOpInfoList" resultMap="ccCustProdOpInfoResult" parameterClass="java.util.Map" >
+    select ccpo.*,so.op_code,so.op_name,so.first_name,so.last_name
+    from CC_CUST_PROD_OP ccpo left join SC_OP so on ccpo.sc_op_id=so.sc_op_id
+    where ccpo.SC_ORG_ID = #orgId:DECIMAL#
+    and ccpo.SC_PRODUCT_ID = #productId:DECIMAL#
+    and ccpo.CC_CUST_ID in
+   	<iterate property="custId" open="(" close=")" conjunction=",">
+ 		#custId[]#
+   	</iterate>
+  </select>
+  <select id="queryAllCustProducts" resultMap="ccCustProdOpResult" parameterClass="java.util.Map" >
+    select ccpo.*,so.op_code,so.op_name,so.first_name,so.last_name
+    from CC_CUST_PROD_OP ccpo left join SC_OP so on ccpo.sc_op_id=so.sc_op_id
+    where ccpo.SC_ORG_ID = #orgId:DECIMAL#
+    and ccpo.SC_PRODUCT_ID = #productId:DECIMAL#
+    and ccpo.CC_CUST_ID = #custId:DECIMAL#
+  </select>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcCustProdOp" >
     insert into CC_CUST_PROD_OP (CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
       PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
@@ -121,4 +144,32 @@
       #scOpId:DECIMAL#, #loginCode:VARCHAR#, #scJobId:DECIMAL#, #jobName:VARCHAR#,
       #jobClass:VARCHAR#, #jobLevel:VARCHAR#)
   </insert>
+  <delete id="deleteCustProductOp" parameterClass="java.util.Map" >
+  	delete from CC_CUST_PROD_OP ccpo
+  	where ccpo.SC_ORG_ID = #orgId:DECIMAL#
+    and ccpo.SC_PRODUCT_ID = #productId:DECIMAL#
+    and ccpo.CC_CUST_ID = #custId:DECIMAL#
+    and ccpo.SC_OP_ID = #opId:DECIMAL#
+  </delete>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.CcCustProdOp" >
+    update CC_CUST_PROD_OP
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="scJobId" >
+        SC_JOB_ID = #scJobId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="jobName" >
+        JOB_NAME = #jobName:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="jobClass" >
+        JOB_CLASS = #jobClass:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="jobLevel" >
+        JOB_LEVEL = #jobLevel:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where SC_ORG_ID = #scOrgId:DECIMAL#
+  	and CC_CUST_ID = #ccCustId:DECIMAL#
+  	and SC_PRODUCT_ID = #scProductId:DECIMAL#
+  	and SC_OP_ID = #scOpId:DECIMAL#
+  </update>
 </sqlMap>

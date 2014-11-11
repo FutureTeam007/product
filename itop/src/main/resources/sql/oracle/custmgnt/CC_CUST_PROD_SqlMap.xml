@@ -11,10 +11,45 @@
     <result column="SERVICE_START_DT" property="serviceStartDt" jdbcType="DATE" />
     <result column="SERVICE_END_DT" property="serviceEndDt" jdbcType="DATE" />
   </resultMap>
+  <resultMap id="ccCustProdInfoResult" extends="ccCustProdResult" class="com.ei.itop.custmgnt.bean.CustProductInfo" >
+    <result column="PROD_CODE" property="prodCode" jdbcType="VARCHAR" />
+  </resultMap>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcCustProd" >
     insert into CC_CUST_PROD (CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
       PROD_NAME, SERVICE_START_DT, SERVICE_END_DT)
     values (#ccCustId:DECIMAL#, #custName:VARCHAR#, #scOrgId:DECIMAL#, #scOrgName:VARCHAR#,
       #scProductId:DECIMAL#, #prodName:VARCHAR#, #serviceStartDt:DATE#, #serviceEndDt:DATE#)
   </insert>
+  <select id="selectProductsServiceFor" resultMap="ccCustProdInfoResult" parameterClass="java.util.Map" >
+    select distinct ccp.*,sp.PROD_CODE
+    from CC_CUST_PROD ccp left join SC_PRODUCT sp on sp.sc_product_id=ccp.sc_product_id and sp.STATE=1
+    where sp.SC_ORG_ID = #orgId:DECIMAL# and sp.LANG_FLAG=#locale:VARCHAR#
+    <isNotNull prepend="and" property="custId" >
+      	ccp.CC_CUST_ID in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
+    </isNotNull>
+    order by ccp.sc_product_id asc
+  </select>
+  <delete id="deleteCustProduct" parameterClass="java.util.Map">
+  	delete from CC_CUST_PROD 
+  	where SC_ORG_ID = #orgId:DECIMAL#
+  	and SC_PRODUCT_ID = #productId:DECIMAL#
+  	and CC_CUST_ID = #custId:DECIMAL#
+  </delete>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ei.itop.common.dbentity.CcCustProd" >
+    update CC_CUST_PROD
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="serviceStartDt" >
+        SERVICE_START_DT = #serviceStartDt:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="serviceEndDt" >
+        SERVICE_END_DT = #serviceEndDt:DATE#
+      </isNotNull>
+    </dynamic>
+    where SC_ORG_ID = #scOrgId:DECIMAL#
+  	and CC_CUST_ID = #ccCustId:DECIMAL#
+  	and SC_PRODUCT_ID = #scProductId:DECIMAL#
+  </update>
 </sqlMap>

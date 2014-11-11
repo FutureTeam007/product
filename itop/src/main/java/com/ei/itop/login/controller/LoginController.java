@@ -263,7 +263,7 @@ public class LoginController {
 		op.setOpCode(opCode);
 		op.setOpId(opId);
 		op.setOpName(opName);
-		op.setOpFullName(opName + "/" + opEnName);
+		op.setOpFullName(opEnName+"/"+opName);
 		op.setOpType(opType);
 		op.setOrgId(orgId);
 		op.setOrgName(orgName);

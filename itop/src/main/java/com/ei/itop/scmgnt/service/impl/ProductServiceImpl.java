@@ -58,5 +58,9 @@ public class ProductServiceImpl implements ProductService{
 		params.put("locale", SessionUtil.getLocale().toString());
 		return moduleDAO.findByParams("SC_MODULE.selectByOrgIdAndProductId", params);
 	}
+
+	public ScProduct queryProductInfo(long productId) throws Exception {
+		return productDAO.find("SC_PRODUCT.selectByPrimaryKey", productId);
+	}
 	
 }

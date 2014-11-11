@@ -437,13 +437,14 @@ function reRenderStatusNav(status){
 						showPageList:false,
 						frozenColumns:[[ 
 			                {field:'icIncidentId',width:fixWidth(0.12),title:'',formatter:formatOperations,align:'center'},
-					        {field:'incidentCode',width:fixWidth(0.08),title:i18n.incident.query.DataTitleIncidentCode},
+					        {field:'incidentCode',width:fixWidth(0.10),title:i18n.incident.query.DataTitleIncidentCode},
 					        {field:'brief',width:fixWidth(0.12),title:i18n.incident.query.DataTitleBrief},
 					        {field:'prodName',width:fixWidth(0.12),title:i18n.incident.query.DataTitleProdName},
 					        {field:'priorityVal',width:fixWidth(0.04),title:i18n.incident.query.DataTitlePriorityVal},
 					        {field:'itStateVal',width:fixWidth(0.11),title:i18n.incident.query.DataTitleItStateVal}
 						]],
 					    columns:[[
+					        {field:'complexVal',width:fixWidth(0.06),title:i18n.incident.query.DataTitleComplexVal},
 					        {field:'custName',width:fixWidth(0.12),title:i18n.incident.query.DataTitleCustName},
 			                {field:'classValOp',width:fixWidth(0.10),title:i18n.incident.query.DataTitleClassValOp},
 					        {field:'affectValOp',width:fixWidth(0.08),title:i18n.incident.query.DataTitleAffectValOp},
