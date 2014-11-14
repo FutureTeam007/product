@@ -38,8 +38,8 @@ public class RegisterController {
 		// 获取域名
 		String domainName = request.getParameter("domainName");
 		// 组织ID
-		Long orgId = SessionUtil.getOpInfo() == null ? null : SessionUtil
-				.getOpInfo().getOrgId();
+		Long orgId = SessionUtil.getPageOpInfo() == null ? null : SessionUtil
+				.getPageOpInfo().getOrgId();
 		// 根据域名查询客户列表
 		List<CcCust> custList = custMgntService.queryCustListByDomainName(
 				orgId, domainName != null ? domainName.toLowerCase() : null);
