@@ -85,8 +85,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket submit successfully,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket submit successfully! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
@@ -135,8 +135,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket has been submited,No."
-								+ incident.getIncidentCode() + ",from ["
+						message.setSubject("[ITOP] New ticket has been submited! [No."+incident.getIncidentCode()+"] :"
+								+ incident.getBrief() + ",from ["
 								+ userName + "]");// 设置邮件主题
 						if (ccAddr != null) {
 							message.setCc(ccAddr);
@@ -201,8 +201,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);
-						message.setSubject("[ITOP]ticket transaction submit successfully,No.["
-								+ incident.getIncidentCode() + "]");// 设置邮件主题
+						message.setSubject("[ITOP] Ticket transaction submit successfully! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief() + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
@@ -248,8 +248,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userRceiveAddr);
-						message.setSubject("[ITOP]New ticket transaction has submited,No."
-								+ incident.getIncidentCode() + ",from ["
+						message.setSubject("[ITOP] New ticket transaction has submited! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief() + ",from ["
 								+ opName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						if (ccAddr != null) {
@@ -312,8 +312,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userRceiveAddr);
-						message.setSubject("[ITOP]ticket transaction submit successfully,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket transaction submit successfully! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
@@ -359,7 +359,7 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);
-						message.setSubject("[ITOP]New ticket transaction has been submited,No."
+						message.setSubject("[ITOP] New ticket transaction has been submited! [No."+incident.getIncidentCode()+"]:"
 								+ incident.getIncidentCode() + ",from ["
 								+ userName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
@@ -424,8 +424,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(receiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction submit successfully,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket handover submit successfully! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
@@ -474,8 +474,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(transferReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket handover,No."
-								+ incident.getIncidentCode() + ",from ["
+						message.setSubject("[ITOP] Ticket handover notice! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief() + ",from ["
 								+ fromName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -523,8 +523,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket handover,No."
-								+ incident.getIncidentCode() + ", from ["
+						message.setSubject("[ITOP] Ticket handover notice! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief() + ", from ["
 								+ fromName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						if (ccAddr != null) {
@@ -588,8 +588,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(receiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction submit successfully,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket transaction submit successfully! [No."+incident.getIncidentCode()+"] :"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						if (ccAddr != null) {
 							message.setCc(ccAddr);
@@ -641,8 +641,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket need more information,No."
-								+ incident.getIncidentCode() + ", from ["
+						message.setSubject("[ITOP] Ticket need more information! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief() + ", from ["
 								+ fromName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
@@ -705,8 +705,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction submit successfully,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket pending submit successfully! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
@@ -753,8 +753,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket transaction has been submited,No."
-								+ incident.getIncidentCode() + ", from [" + opName
+						message.setSubject("[ITOP] Ticket is marked pending! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief()+ ", from [" + opName
 								+ "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						if (ccAddr != null) {
@@ -818,8 +818,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction submit successfully,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket complete submit successfully! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
@@ -866,8 +866,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket transaction has been submited,No."
-								+ incident.getIncidentCode() + ", from ["
+						message.setSubject("[ITOP] Ticket is marked complete! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief() + ", from ["
 								+ opName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						if (ccAddr != null) {
@@ -931,8 +931,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket transaction submit successfully,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket close submit successfully! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
@@ -979,8 +979,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(userReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]New ticket transaction has been submited,No."
-								+ incident.getIncidentCode() + ", from ["
+						message.setSubject("[ITOP] Ticket is marked closed! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief() + ", from ["
 								+ opName + "]");// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						if (ccAddr != null) {
@@ -1043,8 +1043,8 @@ public class MailSendServiceImpl implements
 						MimeMessageHelper message = new MimeMessageHelper(
 								mimeMessage, true, "GBK");
 						message.setTo(opReceiveAddr);// 设置接收方的email地址
-						message.setSubject("[ITOP]ticket has been added feedback information,No."
-								+ incident.getIncidentCode());// 设置邮件主题
+						message.setSubject("[ITOP] Ticket has been added feedback information! [No."+incident.getIncidentCode()+"]:"
+								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
