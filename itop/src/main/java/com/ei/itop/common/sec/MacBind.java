@@ -24,6 +24,7 @@ public class MacBind {
 							"com/ei/itop/common/sec/mac.lic")));
 			String bindedMac = in.readLine();
 			String localMac = getMacAddress();
+			//log.debug("local mac:"+localMac+",allowed mac:"+bindedMac);
 			if (localMac.equals(bindedMac)) {
 				allowed = Boolean.TRUE;
 			}
@@ -130,10 +131,10 @@ public class MacBind {
 			String line = null;
 			int index = -1;
 			while ((line = bufferedReader.readLine()) != null) {
-				index = line.toLowerCase().indexOf("HWaddr");
+				index = line.toLowerCase().indexOf("hwaddr");
 				if (index != -1) {
 					// 取出mac地址并去除2边空格
-					mac = line.substring(index + 4).trim();
+					mac = line.substring(index + "hwaddr".length() + 1).trim();
 					break;
 				}
 			}
