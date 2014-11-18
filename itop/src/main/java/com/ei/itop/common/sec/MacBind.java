@@ -10,6 +10,8 @@ import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
 
+import com.ailk.dazzle.util.sec.Encrypt;
+
 public class MacBind {
 
 	private static final Logger log = Logger.getLogger(MacBind.class);
@@ -21,11 +23,11 @@ public class MacBind {
 		try {
 			in = new BufferedReader(new InputStreamReader(MacBind.class
 					.getClassLoader().getResourceAsStream(
-							"com/ei/itop/common/sec/mac.lic")));
+							"com/ei/itop/common/sec/key.lic")));
 			String bindedMac = in.readLine();
 			String localMac = getMacAddress();
 			//log.debug("local mac:"+localMac+",allowed mac:"+bindedMac);
-			if (localMac.equals(bindedMac)) {
+			if (localMac.equals(Encrypt.decrypt(bindedMac))) {
 				allowed = Boolean.TRUE;
 			}
 		} catch (Exception e) {
@@ -242,8 +244,9 @@ public class MacBind {
 	}
 
 	public static void main(String[] args) {
-
-		System.out.println(MacBind.class.getClassLoader()
-				.getResource("com/ei/itop/common/sec/mac").getPath());
+		String encode = Encrypt.encrypt("28-D2-44-27-87-CB");
+		System.out.println(encode);
+		String decode = Encrypt.decrypt(encode);
+		System.out.println(decode);
 	}
 }
