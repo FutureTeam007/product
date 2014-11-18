@@ -31,7 +31,7 @@
 
 	<!-- 引入数据库配置 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close" lazy-init="true">
+		destroy-method="close" lazy-init="false" >
 		<property name="driverClassName" value="${${dbType}_driver}" />
 		<property name="url" value="${${dbType}_url}" />
 		<property name="maxActive" value="${maxActiveConns}" />

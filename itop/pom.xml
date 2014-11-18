@@ -15,6 +15,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>  
+        <timestamp>${maven.build.timestamp}</timestamp>
 	</properties>
 
 	<dependencies>
@@ -70,4 +73,83 @@
 		  <version>2.2.2</version>
 		</dependency>
 	</dependencies>
+	<build>
+			<plugins>
+				<plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.0.7</version>
+                <executions>
+                	<!-- 混淆代码，启用时，将此注释打开
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                     -->
+                </executions>
+                <configuration>
+                    <attach>true</attach>
+                    <options>
+                        <option>-ignorewarnings</option> <!--忽略所有告警-->
+                        <option>-dontshrink</option>   <!--不做 shrink -->
+                        <option>-dontoptimize</option> <!--不做 optimize -->
+                        <option>-dontskipnonpubliclibraryclasses</option>
+                        <option>-dontskipnonpubliclibraryclassmembers</option>
+                        <!-- 以下为 Keep，哪些内容保持不变，因为有一些内容混淆后（a,b,c）导致反射或按类名字符串相关的操作失效 -->
+                        <option>-keep class **.package-info</option>
+                        <!--保持包注解类-->
+                        <option>-keepattributes Signature</option>
+                        <!--JAXB NEED，具体原因不明，不加会导致 JAXB 出异常，如果不使用 JAXB 根据需要修改-->
+                        <!-- Jaxb requires generics to be available to perform xml parsing and without this option ProGuard was not retaining that information after obfuscation. That was causing the exception above. -->
+                        <option>-keepattributes SourceFile,LineNumberTable,*Annotation*</option>
+                        <!--保持源码名与行号（异常时有明确的栈信息），注解（默认会过滤掉所有注解，会影响框架的注解）-->
+                    </options>
+                    <outjar>${project.build.finalName}-pg</outjar>
+                    <libs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                    </libs>
+                </configuration>
+            </plugin>
+			<plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>  
+                	<warName>itop</warName>
+                    <archiveClasses>true</archiveClasses>
+                    <includeEmptyDirectories>false</includeEmptyDirectories>
+                    <encoding>UTF-8</encoding>
+                    <webResources>
+                        <resource>  
+                            <directory>src/main/resources</directory>
+                            <includes>
+				                <include>*.xml</include>
+				                <include>*.properties</include>
+				            </includes>
+                            <targetPath>WEB-INF/classes</targetPath>  
+                        </resource>
+                    </webResources>  
+                    <archive>
+                        <manifest>  
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>  
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
+                        </manifest>  
+                        <manifestEntries>  
+                            <Built-On>${timestamp}</Built-On>  
+                        </manifestEntries>  
+                    </archive>  
+                </configuration>  
+                <executions>  
+                    <execution>  
+                        <id>generate-manifest</id>  
+                        <phase>prepare-package</phase>  
+                        <goals>  
+                            <goal>war</goal>
+                        </goals>  
+                    </execution>  
+                </executions>  
+            </plugin>
+		</plugins>
+	</build>
 </project>
