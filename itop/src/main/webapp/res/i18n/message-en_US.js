@@ -52,7 +52,7 @@ i18n.opcenter.profile.OpCodeFormatError="Your OpCode must be at least 4 characte
 
 //incident
 i18n.incident.query={};
-i18n.incident.query.QryConditionCustEmpty="Please choose custumer first!";
+i18n.incident.query.QryConditionCustEmpty="Choose company first,please!";
 i18n.incident.query.DataTitleIncidentCode="Ticket no";
 i18n.incident.query.DataTitleBrief="Description";
 i18n.incident.query.DataTitleCustName="Company";

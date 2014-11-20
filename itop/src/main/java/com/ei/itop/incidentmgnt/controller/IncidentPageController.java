@@ -45,10 +45,13 @@ public class IncidentPageController {
 		List<ScParam> feedbackP = paramService.getParamList(oi.getOrgId(), "IC_FEEDBACK_CODE");
 		//查询归档数据
 		List<ScParam> stockP = paramService.getParamList(oi.getOrgId(), "IC_ARCHIVE_FLAG");
+		//查询状态数据
+		List<ScParam> statusP = paramService.getParamList(oi.getOrgId(), "IC_STATE");
 		mav.addObject("affectP", affectP);
 		mav.addObject("priorityP", priorityP);
 		mav.addObject("feedbackP", feedbackP);
 		mav.addObject("stockP", stockP);
+		mav.addObject("statusP", statusP);
 		mav.setViewName("page/incidentmgnt/incidentQry");
 		return mav;
 	}

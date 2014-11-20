@@ -1,5 +1,7 @@
 package com.ei.itop.incidentmgnt.controller;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,14 +83,20 @@ public class IncidentController {
 		// 简述
 		String brief = request.getParameter("brief");
 		if (!StringUtils.isEmpty(brief)) {
-			if(log.isDebugEnabled()){
-				log.debug("brief original:"+brief);
-				log.debug("brief decode1:"+ActionUtils.transParamDecode(brief, "UTF-8"));
-				log.debug("brief decode2:"+ActionUtils.transParam(brief, "UTF-8"));
-				log.debug("brief decode3:"+new String(brief.getBytes(), "GBK"));
-				log.debug("brief decode4:"+new String(brief.getBytes("iso-8859-1"), "GBK"));
-				log.debug("brief decode5:"+new String(brief.getBytes(), "UTF-8"));
-				log.debug("brief decode6:"+new String(brief.getBytes("iso-8859-1"), "UTF-8"));
+			if (log.isDebugEnabled()) {
+				log.debug("brief original:" + brief);
+				log.debug("brief decode1:"
+						+ ActionUtils.transParamDecode(brief, "UTF-8"));
+				log.debug("brief decode2:"
+						+ ActionUtils.transParam(brief, "UTF-8"));
+				log.debug("brief decode3:"
+						+ new String(brief.getBytes(), "GBK"));
+				log.debug("brief decode4:"
+						+ new String(brief.getBytes("iso-8859-1"), "GBK"));
+				log.debug("brief decode5:"
+						+ new String(brief.getBytes(), "UTF-8"));
+				log.debug("brief decode6:"
+						+ new String(brief.getBytes("iso-8859-1"), "UTF-8"));
 			}
 			qi.setBrief(ActionUtils.transParam(brief, "UTF-8"));
 		}
@@ -130,8 +143,9 @@ public class IncidentController {
 		// 登记时间截止
 		String registerTimeEnd = request.getParameter("registerTimeEnd");
 		if (!StringUtils.isEmpty(registerTimeEnd)) {
-			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(registerTimeEnd,
-					DateUtils.FORMATTYPE_yyyy_MM_dd),Calendar.DAY_OF_YEAR,1));
+			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(
+					registerTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd),
+					Calendar.DAY_OF_YEAR, 1));
 		}
 		// 事件状态
 		String stateCode = request.getParameter("stateVal");
@@ -141,11 +155,12 @@ public class IncidentController {
 		// 客户ID
 		String custId = request.getParameter("custId");
 		if (!StringUtils.isEmpty(custId)) {
-			//根据客户ID取得所有子客户(含当前客户)
-			List<CcCust> custs = custMgntService.getSubCusts(VarTypeConvertUtils.string2Long(custId));
+			// 根据客户ID取得所有子客户(含当前客户)
+			List<CcCust> custs = custMgntService
+					.getSubCusts(VarTypeConvertUtils.string2Long(custId));
 			Long[] custIds = new Long[custs.size()];
-			for(int i=0;i<custs.size();i++){
-				custIds[i]=custs.get(i).getCcCustId();
+			for (int i = 0; i < custs.size(); i++) {
+				custIds[i] = custs.get(i).getCcCustId();
 			}
 			qi.setCustId(custIds);
 		}
@@ -161,7 +176,7 @@ public class IncidentController {
 		}
 		// 设置组织ID
 		qi.setOrgId(oi.getOrgId());
-		
+
 		// 调用查询获取总数据条数
 		long count = incidentService.MBLQueryIncidentCount(qi, oi);
 		// 调用查询获取分页数据
@@ -174,6 +189,168 @@ public class IncidentController {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
+	}
+
+	/**
+	 * 导出事件报表
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/export")
+	public void exportIncidentReport(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		OpInfo oi = SessionUtil.getOpInfo();
+		// 构建查询条件实体
+		QCIncident qi = new QCIncident();
+		// 客户ID
+		String custId = request.getParameter("expCustId");
+		if (!StringUtils.isEmpty(custId)) {
+			// 根据客户ID取得所有子客户(含当前客户)
+			List<CcCust> custs = custMgntService
+					.getSubCusts(VarTypeConvertUtils.string2Long(custId));
+			Long[] custIds = new Long[custs.size()];
+			for (int i = 0; i < custs.size(); i++) {
+				custIds[i] = custs.get(i).getCcCustId();
+			}
+			qi.setCustId(custIds);
+		}
+		// 登记人ID
+		String expRegisterId = request.getParameter("expRegisterId");
+		if (!StringUtils.isEmpty(expRegisterId)) {
+			qi.setRegisteManId(expRegisterId.split(","));
+		}
+		// 责任顾问ID
+		String adviserId = request.getParameter("expConsultantId");
+		if (!StringUtils.isEmpty(adviserId)) {
+			qi.setAdviserId(adviserId.split(","));
+		}
+		// 时间范围
+		String expStartDate = request.getParameter("expStartDate");
+		if (!StringUtils.isEmpty(expStartDate)) {
+			qi.setRegisterTimeBegin(DateUtils.string2Date(expStartDate,
+					DateUtils.FORMATTYPE_yyyy_MM_dd));
+		}
+		String expEndDate = request.getParameter("expEndDate");
+		if (!StringUtils.isEmpty(expEndDate)) {
+			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(
+					expEndDate, DateUtils.FORMATTYPE_yyyy_MM_dd),
+					Calendar.DAY_OF_YEAR, 1));
+		}
+		// 状态范围
+		String expStatus = request.getParameter("expStatus");
+		if (!StringUtils.isEmpty(expStatus)) {
+			qi.setStateCode(expStatus.split(","));
+		}
+		qi.setOrgId(oi.getOrgId());
+		qi.setOrderByRegisterTime("DESC");
+		// 查询事件数据
+		List<IcIncident> datas = incidentService
+				.MBLQueryIncident(qi, -1, 0, oi);
+		// 导出Excel文档
+		InputStream in = null;
+		try {
+			in = this.getClass().getClassLoader()
+					.getResourceAsStream("export/ams-report-tpl.xlsx");
+			Workbook workbook = new XSSFWorkbook(in);
+			Sheet sheet = workbook.getSheetAt(0);
+			// 设置表头信息
+			Row row = sheet.getRow(1);
+			// 设置报表时间范围
+			Cell dateCell = row.getCell(1);
+			String dateRange = "";
+			if (StringUtils.isEmpty(expStartDate)
+					&& !StringUtils.isEmpty(expEndDate)) {
+				dateRange = DateUtils.date2String(
+						datas.get(datas.size() - 1).getRegisteTime(),
+						DateUtils.FORMATTYPE_yyyy_MM_dd) + "~" + expEndDate;
+				
+			} else if (!StringUtils.isEmpty(expStartDate)
+					&& StringUtils.isEmpty(expEndDate)) {
+				dateRange = expStartDate
+						+ "~"
+						+ DateUtils.date2String(datas.get(0).getRegisteTime(),
+								DateUtils.FORMATTYPE_yyyy_MM_dd);
+			} else if (StringUtils.isEmpty(expStartDate)
+					&& StringUtils.isEmpty(expEndDate)) {
+				dateRange = DateUtils.date2String(
+						datas.get(datas.size() - 1).getRegisteTime(),
+						DateUtils.FORMATTYPE_yyyy_MM_dd)
+						+ "~"
+						+ DateUtils.date2String(datas.get(0).getRegisteTime(),
+								DateUtils.FORMATTYPE_yyyy_MM_dd);
+			} else if (!StringUtils.isEmpty(expStartDate)
+					&& !StringUtils.isEmpty(expEndDate)) {
+				dateRange = expStartDate + "~" + expEndDate;
+			}
+			dateCell.setCellValue(dateRange);
+			// 开始填充数据
+			int startRow = 4;
+			int no = 1;
+			for (IcIncident incident : datas) {
+				row = sheet.createRow(startRow);
+				Cell cell0 = row.createCell(0);
+				cell0.setCellValue(no);
+				no++;
+				Cell cell1 = row.createCell(1);
+				cell1.setCellValue(incident.getIncidentCode());
+				Cell cell2 = row.createCell(2);
+				cell2.setCellValue(incident.getBrief());
+				Cell cell3 = row.createCell(3);
+				cell3.setCellValue(incident.getItSolution());
+				Cell cell4 = row.createCell(4);
+				cell4.setCellValue(incident.getClassVal());
+				Cell cell5 = row.createCell(5);
+				cell5.setCellValue(incident.getProdName());
+				Cell cell6 = row.createCell(6);
+				cell6.setCellValue(incident.getModuleName());
+				Cell cell7 = row.createCell(7);
+				cell7.setCellValue(incident.getPlObjectName());
+				Cell cell8 = row.createCell(8);
+				cell8.setCellValue(incident.getScLoginName());
+				Cell cell9 = row.createCell(9);
+				cell9.setCellValue(incident.getRegisteTime() == null ? ""
+						: DateUtils.date2String(incident.getRegisteTime(),
+								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				Cell cell10 = row.createCell(10);
+				cell10.setCellValue(incident.getFinishTime() == null ? ""
+						: DateUtils.date2String(incident.getFinishTime(),
+								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				Cell cell11 = row.createCell(11);
+				cell11.setCellValue(incident.getAffectVal());
+				Cell cell12 = row.createCell(12);
+				cell12.setCellValue(incident.getPriorityVal());
+				Cell cell13 = row.createCell(13);
+				cell13.setCellValue(incident.getItStateVal());
+				Cell cell14 = row.createCell(14);
+				cell14.setCellValue(incident.getCustName());
+				Cell cell15 = row.createCell(15);
+				cell15.setCellValue("");//地点
+				Cell cell16 = row.createCell(16);
+				cell16.setCellValue("");//根本原因
+				Cell cell17 = row.createCell(17);
+				cell17.setCellValue("");//长期方案
+				Cell cell18 = row.createCell(18);
+				cell18.setCellValue("");//重复问题
+				Cell cell19 = row.createCell(19);
+				cell19.setCellValue(StringUtils.isEmpty(incident.getArchiveFlag())?"No":"Yes");
+				Cell cell20 = row.createCell(20);
+				cell20.setCellValue(incident.getFeedbackVal());
+				startRow++;
+			}
+			response.setContentType("application/octet-stream");
+			response.addHeader("Content-Disposition", "attachment;filename="
+					+ new String(("ams-report["+dateRange+"].xlsx").getBytes("gb2312"),"ISO8859-1"));
+			workbook.write(response.getOutputStream());
+		} catch (Exception e) {
+			log.error("",e);
+			response.getWriter().print("<script type='text/javascript'>alert('Report failure!Contact administrator,please!')</script>");
+		} finally{
+			if(in!=null){
+				in.close();
+			}
+		}
 	}
 
 	/**
@@ -229,8 +406,9 @@ public class IncidentController {
 		// 登记时间截止
 		String registerTimeEnd = request.getParameter("registerTimeEnd");
 		if (!StringUtils.isEmpty(registerTimeEnd)) {
-			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(registerTimeEnd,
-					DateUtils.FORMATTYPE_yyyy_MM_dd),Calendar.DAY_OF_YEAR,1));
+			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(
+					registerTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd),
+					Calendar.DAY_OF_YEAR, 1));
 		}
 		// 客户ID
 		String custId = request.getParameter("custId");
@@ -547,7 +725,7 @@ public class IncidentController {
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
 		IncidentInfo ii = new IncidentInfo();
-		
+
 		String productId = request.getParameter("productId");
 		String productName = request.getParameter("productName");
 		String moduleId = request.getParameter("moduleId");
@@ -595,7 +773,7 @@ public class IncidentController {
 		ii.setFeedbackCode(feedbackCode);
 		incidentService.MBLUserSetFeedbackVal(incidentId, ii, oi);
 	}
-	
+
 	/**
 	 * 将一条事件置为处理中
 	 * 

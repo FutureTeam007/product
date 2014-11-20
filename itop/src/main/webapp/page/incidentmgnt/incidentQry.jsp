@@ -57,7 +57,7 @@
 		  		<input style="width:63%" id="registeMan" />
 		  	</span>
 	  		<span class="form-item" id="affectQry">
-		    	<label id="custSelLabel"><i18n:message code="i18n.incident.query.QryConditionAdviser"/></label>
+		    	<label id="adviserSelLabel"><i18n:message code="i18n.incident.query.QryConditionAdviser"/></label>
 		  		<input style="width:63%" id="adviserSel" />
 		  	</span>
 		  	<span class="form-item">
@@ -96,6 +96,7 @@
 		<div>
 			<span style="width:7.5%;float:left">
 				<button type="button" class="btn btn-danger undis" id="addBtn" onclick="add()">+ <i18n:message code="i18n.incident.mgnt.AddNewBtn"/></button>
+				<button type="button" class="btn btn-primary btn-outline btn-sm" id="exportBtn" onclick="openExportReportWin()"><i18n:message code="i18n.incident.mgnt.ExportBtn"/></button>
 			</span>
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
 			</ul>
@@ -122,6 +123,53 @@
     <div class="clearfix" style="text-align:center">
 		<button id="stockBtn" class="btn btn-warning" type="button" onclick="stockIncident()"><i18n:message code="i18n.incident.mgnt.StockSubmitBtn"/></button>
   	</div>
+</div>
+<div id="exportWin" title="<i18n:message code="i18n.incident.mgnt.ExportWinTitle" />" style="width:580px;height:450px">
+	<!-- 客户 -->
+	<div class="form-group clearfix p10">
+   	 	<label id="custSelLabel" class="col-sm-3 control-label"><i18n:message code="i18n.incident.query.QryConditionCust"/></label>
+    	<div class="col-sm-9">
+		      <input style="width:100%" id="exportCustSel" />
+		</div>
+	</div>
+	<!-- 登记人范围 -->
+	<div class="form-group clearfix p10" >
+   	 	<label id="registeManLabel" class="col-sm-3 control-label"><i18n:message code="i18n.incident.query.QryConditionRegistrant"/></label>
+   	 	<div class="col-sm-9">
+    		<input style="width:100%" id="exportRegisteMan" />
+    	</div>
+	</div>
+	<!-- 责任顾问范围 -->
+	<div class="form-group clearfix p10">
+	    <label id="exportAdviserSelLabel" class="col-sm-3 control-label"><i18n:message code="i18n.incident.query.QryConditionAdviser"/></label>
+	    <div class="col-sm-9">
+	    	<input style="width:100%" id="exportAdviserSel" />
+	    </div>
+	</div>
+	<!-- 日期范围 -->
+	<div class="form-group clearfix  p10">
+		<label class="col-sm-3 control-label"><i18n:message code="i18n.incident.query.QryConditionRegiserTime"/></label>
+	    <div class="col-sm-9">
+	      	<input class="easyui-datebox" style="width:46%" id="exportStartDate" data-options="editable:false,
+		       		formatter: function(date){ return dateFormatter2(date);}" />
+		    <span style="color:#999">—</span>&nbsp;
+		    <input class="easyui-datebox" style="width:46%" id="exportEndDate" data-options="editable:false,
+		       		formatter: function(date){ return dateFormatter2(date);}" />
+	    </div>
+	</div>
+	<!-- 状态范围 -->
+	<div class="form-group clearfix p10">
+   	 	<label class="col-sm-3 control-label"><i18n:message code="i18n.incident.mgnt.ExportStatusLabel" /></label>
+    	<div class="col-sm-9" style="padding-left:10px;">
+		    <c:forEach var="ticketStatus" items="${statusP}" begin="0" step="1">
+		    	<span class="checkbox-inline exp-status"><input type="checkbox" name="exportStatus" value="${ticketStatus.paramCode}" text="${ticketStatus.paramValue}">${ticketStatus.paramValue}</span>
+			</c:forEach>
+		</div>
+	</div>
+    <div class="clearfix p10" style="text-align:center">
+		<button id="exportSubBtn" class="btn btn-primary" type="button" onclick="exportReport()"><i18n:message code="i18n.incident.mgnt.ExportSubBtn" /></button>
+  	</div>
+  	<iframe id="exportIframe" src="" width="0" height="0"></iframe>
 </div>
 <div id="subPage" class="subPage"><iframe id="subPageIframe" frameborder="0" scrolling="auto" style="overflow-x:hidden" width="100%" height="100%" src=""></iframe></div>
 <jsp:include page="../common/pageMasterEnd.jsp"></jsp:include>

@@ -120,8 +120,12 @@ function reset(){
 	$("#classVar").combobox('setValue',"");
 	//产品线
 	$("#prodSel").combobox('setValue',"");
-	//选择客户
-	$('#custSel').combotree('clear');
+	//客户
+	if(opType=="USER"){
+		$('#custSel').combotree('setValue',opCustId);
+	}else{
+		$('#custSel').combotree('clear');
+	}
 	//登记人
 	$("#registeMan").combobox('setValue',"");
 	//责任顾问
@@ -292,6 +296,93 @@ function stockIncident(){
 			$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.CommitFailure+'：'+msg);
 		}
 	});
+}
+
+var exportCustSel = null;
+var exportRegisteManSel = null;
+var exportAdviserSel = null;
+//打开导出事件报表的窗口
+function openExportReportWin(){
+	$('#exportWin').dialog('open');
+	if(!exportCustSel){
+		//初始化窗口中的组件
+		var custSelURL = rootPath+'/register/custlist/get';
+		custSelURL += (opType=="USER"?("?domainName="+opCode.split("@")[1]):"");
+		exportCustSel = $('#exportCustSel').combotree({
+			editable:false,
+			disabled:false,
+		    url:custSelURL,
+		    onLoadSuccess:function(){
+		    	if(opType=='USER'){
+		    		$('#exportCustSel').combotree('setValue',opCustId);
+		    	}
+		    },
+		    onSelect:function(data){
+		    	$('#exportRegisteMan').combobox('reload',rootPath+'/custmgnt/user/list?custId='+data.attributes.ccCustId);
+		    }
+		});
+	}
+	if(!exportRegisteManSel){
+		//初始化登记人查询条件
+		exportRegisteManSel = $('#exportRegisteMan').combobox({
+			multiple:true,
+			separator:',',
+			editable:false,
+		    url:(opType=='USER'?(rootPath+'/custmgnt/user/list?custId='+opCustId):null),
+		    valueField:'ccUserId',
+		    textField:'opName',
+		    panelHeight:'auto',
+		    onShowPanel:function(){
+		    	if(!$('#exportCustSel').combotree('getValue')){
+		    		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.query.QryConditionCustEmpty);
+		    		return false;
+		    	}
+		    },
+		    formatter:function(row){
+		    	return row.lastName+"."+row.firstName+"/"+row.opName;
+		    }
+		});
+	}
+	if(!exportAdviserSel){
+		//初始化顾问查询条件
+		exportAdviserSel = $('#exportAdviserSel').combobox({
+			multiple:true,
+			separator:',',
+			editable:false,
+			url:rootPath+'/op/list',
+		    valueField:'scOpId',
+		    textField:'opName',
+		    formatter:function(row){
+		    	return "["+row.opCode+"] "+row.lastName+"."+row.firstName+"/"+row.opName;
+		    }
+		});
+	}
+}
+//导出事件报表
+function exportReport(){
+	//获取导出条件
+	var expParam = {};
+	//客户Id
+	expParam.expCustId = $('#exportCustSel').combotree('getValue');
+	//登记人Id
+	expParam.expRegisterId = $('#exportRegisteMan').combotree('getValues').join(",");
+	//责任顾问Id
+	expParam.expConsultantId = $('#exportAdviserSel').combotree('getValues').join(",");
+	//日期范围
+	expParam.expStartDate = $('#exportStartDate').datebox('getValue');
+	expParam.expEndDate = $('#exportEndDate').datebox('getValue');
+	//状态范围
+	expParam.expStatus = [];
+	$('input[name=exportStatus]').each(function(){
+		expParam.expStatus.push($(this).val());
+	});
+	expParam.expStatus = expParam.expStatus.join(",");
+	//构建导出URL地址
+	var expURL = rootPath + "/incident/export?a=1";
+	for(var p in expParam){
+		expURL += "&"+p+"="+expParam[p];
+	}
+	window.frames["exportIframe"].location.href= expURL;
 }
 
 //设置查询条件
@@ -536,6 +627,9 @@ function initSubPage(){
     $('#stockWin').dialog({
 		modal:true
 	}).dialog('close');
+    $('#exportWin').dialog({
+		modal:true
+	}).dialog('close');
 }
 //初始化表格分页条
 function initDataPager(){
@@ -618,12 +712,6 @@ function dateFormatter(val,row){
 	var month = date.getMonth();
 	//日
 	var day = date.getDate();
-	//小时
-	var hour = date.getHours();
-	//分钟
-	var minute = date.getMinutes();
-	//秒
-	var second = date.getSeconds();
 	return year+"/"+(month+1)+"/"+day;
 }
 //格式化时间列
@@ -660,12 +748,6 @@ function dateFormatter2(val){
 	var month = date.getMonth();
 	//日
 	var day = date.getDate();
-	//小时
-	var hour = date.getHours();
-	//分钟
-	var minute = date.getMinutes();
-	//秒
-	var second = date.getSeconds();
 	return year+"-"+(month+1)+"-"+day;
 }
 //格式化评价列

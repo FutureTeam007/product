@@ -73,6 +73,8 @@ a:active {star:expression(this.onFocus=this.blur());}
 .feedback-options .radio-inline {line-height:20px;vertical-align: middle;}
 .subPage{display:none;float:right;position:absolute;top:0px;right:-1000px;z-index:9999;overflow-y:auto;border-left:solid 5px #eee;width:1000px;background:#fff;}
 .pageMask{display:none;position:absolute;top:0px;z-index:1001;left:0px;background-color:#111;filter:alpha(opacity=40); -moz-opacity:0.4; opacity:0.4;}
+#exportWin .col-sm-9{padding-left:0px}
+span.exp-status {width:180px;float:left;margin-left:10px;padding-left:0px;}
 /*incident-dtl*/
 .inci-info-form{width:900px;padding:10px}
 .inci-dtl-title{padding:5px;border-bottom:solid 1px #bbb;width:98%}

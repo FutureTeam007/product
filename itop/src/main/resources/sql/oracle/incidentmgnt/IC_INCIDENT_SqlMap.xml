@@ -176,7 +176,22 @@
     	and SC_ORG_ID = #orgId:DECIMAL#
       </isNotNull>
       <isNotNull prepend="" property="custId" >
-    	and CC_CUST_ID = #custId:DECIMAL#
+      	and CC_CUST_ID in
+      	<iterate property="custId" open="(" close=")" conjunction=",">
+    		#custId[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="adviserId" >
+      	and SC_OP_ID in
+      	<iterate property="adviserId" open="(" close=")" conjunction=",">
+    		#adviserId[]#
+      	</iterate>
+      </isNotNull>
+      <isNotNull prepend="" property="registeManId" >
+      	and PL_OBJECT_ID in
+      	<iterate property="registeManId" open="(" close=")" conjunction=",">
+    		#registeManId[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="incidentCode" >
     	and incident_code like #incidentCode:VARCHAR#
@@ -212,7 +227,10 @@
       	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="stateCode" >
-    	and it_state_code = #stateCode:VARCHAR#
+      	and it_state_code in
+      	<iterate property="stateCode" open="(" close=")" conjunction=",">
+    		#stateCode[]#
+      	</iterate>
       </isNotNull>
       <isNotNull prepend="" property="registerTimeBegin" >
     	and REGISTE_TIME <![CDATA[>=]]> #registerTimeBegin:DATE#
