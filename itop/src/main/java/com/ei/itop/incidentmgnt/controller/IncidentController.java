@@ -1,7 +1,7 @@
 package com.ei.itop.incidentmgnt.controller;
 
-import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -30,7 +34,6 @@ import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
-import com.ei.itop.common.util.ExceptionHandleFilter;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.incidentmgnt.bean.IncidentCountInfoByState;
@@ -258,14 +261,14 @@ public class IncidentController {
 			// 设置表头信息
 			Row row = sheet.getRow(1);
 			// 设置报表时间范围
-			Cell dateCell = row.getCell(1);
+			Cell dateCell = row.getCell(0);
 			String dateRange = "";
 			if (StringUtils.isEmpty(expStartDate)
 					&& !StringUtils.isEmpty(expEndDate)) {
-				dateRange = DateUtils.date2String(
-						datas.get(datas.size() - 1).getRegisteTime(),
-						DateUtils.FORMATTYPE_yyyy_MM_dd) + "~" + expEndDate;
-				
+				dateRange = DateUtils.date2String(datas.get(datas.size() - 1)
+						.getRegisteTime(), DateUtils.FORMATTYPE_yyyy_MM_dd)
+						+ "~" + expEndDate;
+
 			} else if (!StringUtils.isEmpty(expStartDate)
 					&& StringUtils.isEmpty(expEndDate)) {
 				dateRange = expStartDate
@@ -274,9 +277,8 @@ public class IncidentController {
 								DateUtils.FORMATTYPE_yyyy_MM_dd);
 			} else if (StringUtils.isEmpty(expStartDate)
 					&& StringUtils.isEmpty(expEndDate)) {
-				dateRange = DateUtils.date2String(
-						datas.get(datas.size() - 1).getRegisteTime(),
-						DateUtils.FORMATTYPE_yyyy_MM_dd)
+				dateRange = DateUtils.date2String(datas.get(datas.size() - 1)
+						.getRegisteTime(), DateUtils.FORMATTYPE_yyyy_MM_dd)
 						+ "~"
 						+ DateUtils.date2String(datas.get(0).getRegisteTime(),
 								DateUtils.FORMATTYPE_yyyy_MM_dd);
@@ -285,69 +287,157 @@ public class IncidentController {
 				dateRange = expStartDate + "~" + expEndDate;
 			}
 			dateCell.setCellValue(dateRange);
+			// 设置单元格格式
+			CellStyle style = workbook.createCellStyle();
+			style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+			style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+			style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+			style.setBottomBorderColor(HSSFColor.BLACK.index);
+			style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+			style.setLeftBorderColor(HSSFColor.BLACK.index);
+			style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+			style.setRightBorderColor(HSSFColor.BLACK.index);
+			style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+			style.setTopBorderColor(HSSFColor.BLACK.index);
+			style.setWrapText(true);
+			Font font = workbook.createFont();
+			font.setFontName("Times New Roman");
+			font.setFontHeightInPoints((short) 10);
+			style.setFont(font);
 			// 开始填充数据
 			int startRow = 4;
 			int no = 1;
 			for (IcIncident incident : datas) {
 				row = sheet.createRow(startRow);
-				Cell cell0 = row.createCell(0);
-				cell0.setCellValue(no);
-				no++;
-				Cell cell1 = row.createCell(1);
-				cell1.setCellValue(incident.getIncidentCode());
-				Cell cell2 = row.createCell(2);
-				cell2.setCellValue(incident.getBrief());
-				Cell cell3 = row.createCell(3);
-				cell3.setCellValue(incident.getItSolution());
-				Cell cell4 = row.createCell(4);
-				cell4.setCellValue(incident.getClassVal());
-				Cell cell5 = row.createCell(5);
-				cell5.setCellValue(incident.getProdName());
-				Cell cell6 = row.createCell(6);
-				cell6.setCellValue(incident.getModuleName());
-				Cell cell7 = row.createCell(7);
-				cell7.setCellValue(incident.getPlObjectName());
-				Cell cell8 = row.createCell(8);
-				cell8.setCellValue(incident.getScLoginName());
-				Cell cell9 = row.createCell(9);
-				cell9.setCellValue(incident.getRegisteTime() == null ? ""
+				int cellIndex = 0;
+				//序号
+				Cell cellNo = row.createCell(cellIndex++);
+				cellNo.setCellValue(no++);
+				cellNo.setCellStyle(style);
+				//编码
+				Cell cellCode = row.createCell(cellIndex++);
+				cellCode.setCellValue(incident.getIncidentCode());
+				cellCode.setCellStyle(style);
+				//描述
+				Cell cellDesc = row.createCell(cellIndex++);
+				cellDesc.setCellValue(incident.getBrief());
+				cellDesc.setCellStyle(style);
+				//解决方案
+				Cell cellSolution = row.createCell(cellIndex++);
+				cellSolution.setCellValue(incident.getItSolution());
+				cellSolution.setCellStyle(style);
+				//事件分类
+				Cell cellClass = row.createCell(cellIndex++);
+				cellClass.setCellValue(incident.getClassVal());
+				cellClass.setCellStyle(style);
+				//产品线
+				Cell cellProd = row.createCell(cellIndex++);
+				cellProd.setCellValue(incident.getProdName());
+				cellProd.setCellStyle(style);
+				//模块
+				Cell cellModule = row.createCell(cellIndex++);
+				cellModule.setCellValue(incident.getModuleName());
+				cellModule.setCellStyle(style);
+				//登记人
+				Cell cellRegister = row.createCell(cellIndex++);
+				cellRegister.setCellValue(incident.getPlObjectName());
+				cellRegister.setCellStyle(style);
+				//责任顾问
+				Cell cellOwner = row.createCell(cellIndex++);
+				cellOwner.setCellValue(incident.getScLoginName());
+				cellOwner.setCellStyle(style);
+				//登记时间
+				Cell cellRegisterDate = row.createCell(cellIndex++);
+				cellRegisterDate.setCellValue(incident.getRegisteTime() == null ? ""
 						: DateUtils.date2String(incident.getRegisteTime(),
 								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
-				Cell cell10 = row.createCell(10);
-				cell10.setCellValue(incident.getFinishTime() == null ? ""
+				cellRegisterDate.setCellStyle(style);
+				//计划完成时间
+				Cell cellPlanFinishDate = row.createCell(cellIndex++);
+				cellPlanFinishDate.setCellValue(incident.getDealDur2() == null ? ""
+						: DateUtils.date2String(incident.getDealDur2(),
+								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				cellPlanFinishDate.setCellStyle(style);
+				//最近更新时间
+				Cell cellLastUpdateDate = row.createCell(cellIndex++);
+				cellLastUpdateDate.setCellValue(incident.getModifyDate() == null ? ""
+						: DateUtils.date2String(incident.getModifyDate(),
+								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				cellLastUpdateDate.setCellStyle(style);
+				//实际完成时间
+				Cell cellActualFinishDate = row.createCell(cellIndex++);
+				cellActualFinishDate.setCellValue(incident.getFinishTime() == null ? ""
 						: DateUtils.date2String(incident.getFinishTime(),
 								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
-				Cell cell11 = row.createCell(11);
-				cell11.setCellValue(incident.getAffectVal());
-				Cell cell12 = row.createCell(12);
-				cell12.setCellValue(incident.getPriorityVal());
-				Cell cell13 = row.createCell(13);
-				cell13.setCellValue(incident.getItStateVal());
-				Cell cell14 = row.createCell(14);
-				cell14.setCellValue(incident.getCustName());
-				Cell cell15 = row.createCell(15);
-				cell15.setCellValue("");//地点
-				Cell cell16 = row.createCell(16);
-				cell16.setCellValue("");//根本原因
-				Cell cell17 = row.createCell(17);
-				cell17.setCellValue("");//长期方案
-				Cell cell18 = row.createCell(18);
-				cell18.setCellValue("");//重复问题
-				Cell cell19 = row.createCell(19);
-				cell19.setCellValue(StringUtils.isEmpty(incident.getArchiveFlag())?"No":"Yes");
-				Cell cell20 = row.createCell(20);
-				cell20.setCellValue(incident.getFeedbackVal());
+				cellActualFinishDate.setCellStyle(style);
+				//影响度
+				Cell cellAffect = row.createCell(cellIndex++);
+				cellAffect.setCellValue(incident.getAffectVal());
+				cellAffect.setCellStyle(style);
+				//优先级
+				Cell cellPriority = row.createCell(cellIndex++);
+				cellPriority.setCellValue(incident.getPriorityVal());
+				cellPriority.setCellStyle(style);
+				//状态
+				Cell cellState = row.createCell(cellIndex++);
+				cellState.setCellValue(incident.getItStateVal());
+				cellState.setCellStyle(style);
+				//工时
+				Cell cellTime = row.createCell(cellIndex++);
+				if (incident.getRegisteTime() != null
+						&& incident.getFinishTime() != null) {
+					long diff = DateUtils.getDiffMinutes(
+							incident.getFinishTime(), incident.getRegisteTime());
+					double times = diff/60f;
+					cellTime.setCellValue(String.format("%.2f", times));
+				} else {
+					cellTime.setCellValue("");
+				}
+				cellTime.setCellStyle(style);
+				//公司
+				Cell cellCompany = row.createCell(cellIndex++);
+				cellCompany.setCellValue(incident.getCustName());
+				cellCompany.setCellStyle(style);
+				//地点
+				Cell cellCompany2 = row.createCell(cellIndex++);
+				cellCompany2.setCellValue(incident.getCustName());
+				cellCompany2.setCellStyle(style);
+				//根本原因
+				Cell cellRootcause = row.createCell(cellIndex++);
+				cellRootcause.setCellValue("");
+				cellRootcause.setCellStyle(style);
+				//长期方案
+				Cell cellLongTerm = row.createCell(cellIndex++);
+				cellLongTerm.setCellValue("");
+				cellLongTerm.setCellStyle(style);
+				//重复问题
+				Cell cellRepeating = row.createCell(cellIndex++);
+				cellRepeating.setCellValue("");
+				cellRepeating.setCellStyle(style);
+				//ITC审查
+				Cell cellITC = row.createCell(cellIndex++);
+				cellITC.setCellValue(StringUtils.isEmpty(incident
+						.getArchiveFlag()) ? "No" : "Yes");
+				cellITC.setCellStyle(style);
+				//满意度
+				Cell cellSatis = row.createCell(cellIndex++);
+				cellSatis.setCellValue(incident.getFeedbackVal());
+				cellSatis.setCellStyle(style);
 				startRow++;
 			}
 			response.setContentType("application/octet-stream");
-			response.addHeader("Content-Disposition", "attachment;filename="
-					+ new String(("ams-report["+dateRange+"].xlsx").getBytes("gb2312"),"ISO8859-1"));
+			response.addHeader(
+					"Content-Disposition",
+					"attachment;filename="
+							+ new String(("ams-report[" + dateRange + "].xlsx")
+									.getBytes("gb2312"), "ISO8859-1"));
 			workbook.write(response.getOutputStream());
 		} catch (Exception e) {
-			log.error("",e);
-			response.getWriter().print("<script type='text/javascript'>alert('Report failure!Contact administrator,please!')</script>");
-		} finally{
-			if(in!=null){
+			log.error("", e);
+			response.getWriter()
+					.print("<script type='text/javascript'>alert('Report failure!Contact administrator,please!')</script>");
+		} finally {
+			if (in != null) {
 				in.close();
 			}
 		}
@@ -788,5 +878,10 @@ public class IncidentController {
 		long incidentId = VarTypeConvertUtils.string2Long(request
 				.getParameter("incidentId"));
 		incidentService.MBLAdminSetProccess(incidentId, oi);
+	}
+	
+	public static void main(String[] args) {
+		double d = 18/60f;
+		System.out.println(String.format("%.2f", d));
 	}
 }

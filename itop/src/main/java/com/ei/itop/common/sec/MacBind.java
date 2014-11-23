@@ -245,7 +245,7 @@ public class MacBind {
 	}
 
 	public static void main(String[] args) {
-		String encode = Encrypt.encrypt("00-50-56-C0-00-01");
+		String encode = Encrypt.encrypt("9C-4E-36-C9-AA-C4");
 		System.out.println(encode);
 		String decode = Encrypt.decrypt(encode);
 		System.out.println(decode);

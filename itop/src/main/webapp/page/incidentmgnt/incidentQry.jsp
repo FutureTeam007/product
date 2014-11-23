@@ -168,6 +168,7 @@
 	</div>
     <div class="clearfix p10" style="text-align:center">
 		<button id="exportSubBtn" class="btn btn-primary" type="button" onclick="exportReport()"><i18n:message code="i18n.incident.mgnt.ExportSubBtn" /></button>
+		<button id="exportResetBtn" class="btn btn-primary btn-outline" type="button" onclick="exportReset()"><i18n:message code="i18n.incident.mgnt.ExportResetBtn" /></button>
   	</div>
   	<iframe id="exportIframe" src="" width="0" height="0"></iframe>
 </div>

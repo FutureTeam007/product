@@ -61,6 +61,7 @@ function initDropdownLists(){
 	    	}
 	    },
 	    onSelect:function(data){
+	    	$('#registeMan').combobox('setValue',"");
 	    	$('#registeMan').combobox('reload',rootPath+'/custmgnt/user/list?custId='+data.attributes.ccCustId);
 	    }
 	});
@@ -318,6 +319,7 @@ function openExportReportWin(){
 		    	}
 		    },
 		    onSelect:function(data){
+		    	$('#exportRegisteMan').combobox('setValue','');
 		    	$('#exportRegisteMan').combobox('reload',rootPath+'/custmgnt/user/list?custId='+data.attributes.ccCustId);
 		    }
 		});
@@ -364,6 +366,10 @@ function exportReport(){
 	var expParam = {};
 	//客户Id
 	expParam.expCustId = $('#exportCustSel').combotree('getValue');
+	if(!expParam.expCustId){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.ExportCustEmpty);
+		return;
+	}
 	//登记人Id
 	expParam.expRegisterId = $('#exportRegisteMan').combotree('getValues').join(",");
 	//责任顾问Id
@@ -371,6 +377,10 @@ function exportReport(){
 	//日期范围
 	expParam.expStartDate = $('#exportStartDate').datebox('getValue');
 	expParam.expEndDate = $('#exportEndDate').datebox('getValue');
+	if(!expParam.expStartDate||!expParam.expEndDate){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.incident.mgnt.ExportDateEmpty);
+		return;
+	}
 	//状态范围
 	expParam.expStatus = [];
 	$('input[name=exportStatus]').each(function(){
@@ -383,6 +393,22 @@ function exportReport(){
 		expURL += "&"+p+"="+expParam[p];
 	}
 	window.frames["exportIframe"].location.href= expURL;
+}
+//导出重置
+function exportReset(){
+	//客户Id
+	$('#exportCustSel').combotree('setValue','');
+	//登记人Id
+	$('#exportRegisteMan').combobox('setValue','');
+	//责任顾问Id
+	$('#exportAdviserSel').combobox('setValue','');
+	//日期范围
+	$('#exportStartDate').datebox('setValue','');
+	$('#exportEndDate').datebox('setValue','');
+	//状态范围
+	$('input[name=exportStatus]').each(function(){
+		$(this).removeAttr("checked");
+	});
 }
 
 //设置查询条件
