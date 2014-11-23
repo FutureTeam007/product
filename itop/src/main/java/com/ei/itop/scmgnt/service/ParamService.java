@@ -18,4 +18,6 @@ public interface ParamService {
 
 	public List<ScParam> getParamList(long orgId, String paramKindCode)
 			throws Exception;
+
+	public List<ScParam> getParamDistinct(long orgId) throws Exception;
 }

@@ -10,6 +10,10 @@
     <result column="PARAM_VALUE" property="paramValue" jdbcType="VARCHAR" />
     <result column="PARAM_DESC" property="paramDesc" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="scParamResultDistinct" class="com.ei.itop.common.dbentity.ScParam" >
+    <result column="PARAM_KIND" property="paramKind" jdbcType="VARCHAR" />
+    <result column="PARAM_KIND_CODE" property="paramKindCode" jdbcType="VARCHAR" />
+  </resultMap>
   <select id="queryParam" resultMap="scParamResult" parameterClass="java.util.Map" >
     select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC
     from SC_PARAM
@@ -25,6 +29,28 @@
     and PARAM_KIND_CODE = #paramKindCode:VARCHAR#
     and LANG_FLAG=#locale:VARCHAR#
     order by to_number(PARAM_CODE)
+  </select>
+  <select id="queryParamDistinct" resultMap="scParamResultDistinct" parameterClass="java.util.Map" >
+    select distinct PARAM_KIND, PARAM_KIND_CODE
+    from SC_PARAM
+    where SC_ORG_ID = #orgId:DECIMAL#
+    and LANG_FLAG=#locale:VARCHAR#
+    order by PARAM_KIND asc
+  </select>
+  <select id="queryParamTable" resultMap="scParamResultDistinct" parameterClass="java.util.Map" >
+	  select sp1.SC_PARAM_ID SC_PARAM_ID1,
+	       sp2.SC_PARAM_ID SC_PARAM_ID2,
+	       sp1.PARAM_KIND,
+	       sp1.PARAM_KIND_CODE,
+	       sp1.PARAM_CODE,
+	       sp1.PARAM_VALUE PARAM_VALUE_ZH,
+	       sp2.PARAM_VALUE PARAM_VALUE_EN
+	  from SC_PARAM sp1
+	  left join SC_PARAM sp2 on sp1.PARAM_CODE = sp2.PARAM_CODE
+	                        and sp1.PARAM_KIND_CODE = sp2.PARAM_KIND_CODE
+	                        and sp2.LANG_FLAG = 'en_US'
+	 where sp1.LANG_FLAG = 'zh_CN' and sp1.PARAM_CODE = #paramCode:VARCHAR#
+	 order by sp1.PARAM_KIND_CODE, param_code
   </select>
   <select id="selectByPrimaryKey" resultMap="scParamResult" parameterClass="com.ei.itop.common.dbentity.ScParam" >
     select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC

@@ -42,4 +42,19 @@ public class ParamController {
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
+	
+	@RequestMapping("/select")
+	public void queryParamSelect(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		OpInfo oi = SessionUtil.getOpInfo();
+		List<ScParam> params = paramService.getParamDistinct(oi.getOrgId());
+		String jsonData = null;
+		if(params!=null){
+			jsonData = JSONUtils.toJSONString(params);
+		}else{
+			jsonData = "[]";
+		}
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(jsonData);
+	}
 }

@@ -14,14 +14,13 @@
 <body style="background:#fff;padding:20px">
 <div class="mb10">
 	<div>
-		<div style="padding:10px;">
-			//参数列表
+		<div style="padding:10px;" id="paramList">
 		</div>
 	</div>
 	<div>
-		<div class="list-inline pull-right mb5 mr10"><button type="button" class="btn btn-danger btn-sm" id="addParameterBtn" onclick="addParameter()"><i18n:message code="i18n.scmgnt.paraminfo.AddParamBtn"/></button></div>
+		<div class="list-inline pull-left mb5 mr10"><button type="button" class="btn btn-danger btn-sm" id="addParameterBtn" onclick="addParameter()"><i18n:message code="i18n.scmgnt.paraminfo.AddParamBtn"/></button></div>
 	</div>
-	<table  style="width:99%;height:420px" id="paramDataTable"></table>
+	<table  style="width:99%;height:410px" id="paramDataTable"></table>
 </div>
 </body>
 </html>

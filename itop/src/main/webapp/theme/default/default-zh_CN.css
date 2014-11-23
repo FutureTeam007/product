@@ -106,3 +106,5 @@ span.exp-status {width:180px;float:left;margin-left:10px;padding-left:0px;}
 .prodDataTable .btn-link{padding-left:2px;padding-right:2px;}
 .opDataTable .btn-link{padding-left:2px;padding-right:2px;}
 .datagrid-row-editing input{color:#333;}
+/*scmgnt*/
+.param-select{margin:2px;}

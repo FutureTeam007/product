@@ -8,6 +8,34 @@
 	<%@ include file="../common/commonHead.jsp"%>
 	<%@ include file="../common/easyuiHead.jsp"%>
 	<title><i18n:message code="i18n.scmgnt.main.PageTitle"/></title>
+	<script type="text/javascript">
+		//初始化加载
+		$(function(){
+			initNavCard();
+			initIframe();
+		});
+		//绑定Nav标签事件
+		function initNavCard(){
+			$(".nav-tabs li").click(function(){
+				$(this).siblings().removeClass("active");
+				$(this).addClass("active");
+			});
+		}
+		//初始化Frame高度
+		function initIframe(){
+			//设置默认高度
+			var height = (this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height;
+			height = height-200;
+			$('#scmgnt-iframe').css("height",height+"px");
+			//定期检测frame内部的高度，变化iframe的高度
+			setInterval(function(){
+				try{
+					var changeHeight = $(window.frames["scmgnt-iframe"].document).height();
+					$('#scmgnt-iframe').css("height",changeHeight+"px");
+				}catch(e){}
+			},500);
+		}
+	</script>
 </head>
 <body style="background:#fff">
 <jsp:include page="../common/pageMasterStart.jsp"></jsp:include>

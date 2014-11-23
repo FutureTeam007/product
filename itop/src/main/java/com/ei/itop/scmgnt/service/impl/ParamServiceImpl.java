@@ -71,4 +71,13 @@ public class ParamServiceImpl implements ParamService {
 		return paramList;
 	}
 
+	public List<ScParam> getParamDistinct(long orgId) throws Exception {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("locale", SessionUtil.getLocale().toString());
+		List<ScParam> paramList = paramDAO.findByParams(
+				"SC_PARAM.queryParamDistinct", hm);
+		return paramList;
+	}
+
 }
