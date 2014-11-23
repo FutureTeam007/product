@@ -22,6 +22,14 @@
       #scProductId:DECIMAL#, #prodName:VARCHAR#, #priorityCode:VARCHAR#, #priorityVal:VARCHAR#,
       #complexCode:VARCHAR#, #complexVal:VARCHAR#, #responseTime:DECIMAL#, #dealTime:DECIMAL#)
   </insert>
+  <delete id="deleteSloRule" parameterClass="java.util.Map">
+  	delete from CC_SLO
+  	where CC_CUST_ID = #custId:DECIMAL#
+  	and SC_ORG_ID = #orgId:DECIMAL#
+  	and SC_PRODUCT_ID = #productId:DECIMAL#
+  	and PRIORITY_CODE = #priorityCode:VARCHAR#
+  	and COMPLEX_CODE = #complexCode:VARCHAR#
+  </delete>
   <select id="querySloRules" resultMap="ccSloResult" parameterClass="java.util.Map" >
     select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID, PROD_NAME,
       PRIORITY_CODE, PRIORITY_VAL, COMPLEX_CODE, COMPLEX_VAL, RESPONSE_TIME, DEAL_TIME
@@ -37,4 +45,35 @@
 	  and SC_PRODUCT_ID = #productId:DECIMAL#
 	</isNotNull>
   </select>
+  <select id="querySloRulesSelective" resultMap="ccSloResult" parameterClass="java.util.Map" >
+    select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID, PROD_NAME,
+      PRIORITY_CODE, PRIORITY_VAL, COMPLEX_CODE, COMPLEX_VAL, RESPONSE_TIME, DEAL_TIME
+    from CC_SLO
+    where 1=1 
+	<isNotNull prepend="" property="orgId" >
+	  and SC_ORG_ID = #orgId:DECIMAL#
+	</isNotNull>
+	<isNotNull prepend="" property="custId" >
+	  and CC_CUST_ID = #custId:DECIMAL#
+	</isNotNull>
+	<isNotNull prepend="" property="productId" >
+	  and SC_PRODUCT_ID = #productId:DECIMAL#
+	</isNotNull>
+	<isNotNull prepend="" property="priorityCode" >
+	  and PRIORITY_CODE = #priorityCode:VARCHAR#
+	</isNotNull>
+	<isNotNull prepend="" property="complexCode" >
+	  and COMPLEX_CODE = #complexCode:VARCHAR#
+	</isNotNull>
+  </select>
+  <update id="updateSlo" parameterClass="com.ei.itop.common.dbentity.CcSlo" >
+  	update CC_SLO set
+  	RESPONSE_TIME = #responseTime:DECIMAL#,
+  	DEAL_TIME = #dealTime:DECIMAL#
+  	where CC_CUST_ID = #ccCustId:DECIMAL#
+  	and SC_ORG_ID = #scOrgId:DECIMAL#
+  	and SC_PRODUCT_ID = #scProductId:DECIMAL#
+  	and PRIORITY_CODE = #priorityCode:VARCHAR#
+  	and COMPLEX_CODE = #complexCode:VARCHAR#
+  </update>
 </sqlMap>

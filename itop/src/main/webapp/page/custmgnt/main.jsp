@@ -23,7 +23,7 @@
 		  <li order="1" role="presentation" class="active"><a href="javascript:void(0)"><i18n:message code="i18n.custmgnt.main.CustInfoNav"/></a></li>
 		  <li order="2" role="presentation"><a  href="javascript:void(0)"><i18n:message code="i18n.custmgnt.main.UserInfoNav"/></a></li>
 		  <li order="3" role="presentation"><a  href="javascript:void(0)"><i18n:message code="i18n.custmgnt.main.ProdInfoNav"/></a></li>
-		  <!-- <li order="4" role="presentation"><a  href="javascript:void(0)">SLO规则管理</a></li> -->
+		  <li order="4" role="presentation"><a  href="javascript:void(0)"><i18n:message code="i18n.custmgnt.main.SloRuleNav"/></a></li>
 		  <a class="btn btn-link top-close-link pull-right" href="<%=rootPath%>/page/incidentmgnt/main"><i18n:message code="i18n.nav.Back2Index"/></a>
 		</ul>
 	</div>

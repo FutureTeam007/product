@@ -20,6 +20,7 @@ import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ailk.dazzle.util.web.ActionUtils;
 import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.CcCust;
+import com.ei.itop.common.dbentity.CcSlo;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.custmgnt.bean.InChargeAdviser;
 import com.ei.itop.custmgnt.service.CustMgntService;
@@ -157,5 +158,59 @@ public class CustController {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
+	}
+	
+	@RequestMapping("/slo/list")
+	public void querySloConfigList(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		long orgId = SessionUtil.getOpInfo().getOrgId();
+		long custId = VarTypeConvertUtils.string2Long(request.getParameter("custId"));
+		List<CcSlo> slos = custMgntService.querySloConfigList(orgId, custId);
+		String jsonData = JSONUtils.toJSONString(slos);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(jsonData);
+	}
+	
+	@RequestMapping("/slo/clear")
+	public void clearSloRule(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		long orgId = SessionUtil.getOpInfo().getOrgId();
+		long custId = VarTypeConvertUtils.string2Long(request.getParameter("custId"));
+		long productId = VarTypeConvertUtils.string2Long(request.getParameter("productId"));
+		long priority = VarTypeConvertUtils.string2Long(request.getParameter("priority"));
+		long complex = VarTypeConvertUtils.string2Long(request.getParameter("complex"));
+		custMgntService.MBLRemoveSloRule(orgId, custId, productId, priority, complex);
+	}
+	
+	@RequestMapping("/slo/modify")
+	public void modifySloRule(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		long orgId = SessionUtil.getOpInfo().getOrgId();
+		String orgName =  SessionUtil.getOpInfo().getOrgName();
+		long ccCustId= VarTypeConvertUtils.string2Long(request.getParameter("ccCustId"));
+		long scProductId= VarTypeConvertUtils.string2Long(request.getParameter("scProductId"));
+		String custName= request.getParameter("custName");
+		String prodName= request.getParameter("prodName");
+		String complexCode= request.getParameter("complexCode");
+		String complexVal= request.getParameter("complexVal");
+		String priorityCode= request.getParameter("priorityCode");
+		String priorityVal= request.getParameter("priorityVal");
+		long responseTime= VarTypeConvertUtils.string2Long(request.getParameter("responseTime"));
+		long dealTime= VarTypeConvertUtils.string2Long(request.getParameter("dealTime"));
+		CcSlo slo = new CcSlo();
+		slo.setScOrgId(orgId);
+		slo.setScOrgName(orgName);
+		slo.setCcCustId(ccCustId);
+		slo.setCustName(custName);
+		slo.setScProductId(scProductId);
+		slo.setProdName(prodName);
+		slo.setComplexCode(complexCode);
+		slo.setComplexVal(complexVal);
+		slo.setPriorityCode(priorityCode);
+		slo.setPriorityVal(priorityVal);
+		slo.setResponseTime(responseTime);
+		slo.setDealTime(dealTime);
+		custMgntService.MBLModifySloRule(slo);
 	}
 }

@@ -140,5 +140,29 @@ public interface CustMgntService {
 	 * @throws Exception
 	 */
 	public void MBLRemoveCustInfo(long custId, OpInfo opInfo) throws Exception;
+	/**
+	 * 查询SLO配置列表
+	 * @param orgId
+	 * @param custId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CcSlo> querySloConfigList(long orgId,long custId) throws Exception;
+	/**
+	 * 删除SLO规则
+	 * @param orgId
+	 * @param custId
+	 * @param productId
+	 * @param priorityVal
+	 * @param complexVal
+	 * @throws Exception
+	 */
+	public void MBLRemoveSloRule(long orgId,long custId,long productId,long priorityCode,long complexCode) throws Exception;
 	
+	/**
+	 * 修改Slo规则
+	 * @param slo
+	 * @throws Exception
+	 */
+	public void MBLModifySloRule(CcSlo slo) throws Exception;
 }

@@ -3,13 +3,16 @@
  */
 package com.ei.itop.custmgnt.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.exception.BizException;
@@ -19,9 +22,14 @@ import com.ei.itop.common.bean.OpInfo;
 import com.ei.itop.common.dbentity.CcCust;
 import com.ei.itop.common.dbentity.CcCustProdOp;
 import com.ei.itop.common.dbentity.CcSlo;
+import com.ei.itop.common.dbentity.ScOrg;
+import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.util.SessionUtil;
+import com.ei.itop.custmgnt.bean.CustProductInfo;
 import com.ei.itop.custmgnt.bean.InChargeAdviser;
 import com.ei.itop.custmgnt.service.CustMgntService;
+import com.ei.itop.custmgnt.service.CustProductService;
+import com.ei.itop.scmgnt.service.ScOrgService;
 
 /**
  * @author Jack.Qi
@@ -47,6 +55,15 @@ public class CustMgntServiceImpl implements CustMgntService {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, Long> inChargeAdviserCountDAO;
+
+	@Resource(name = "app.siCommonDAO")
+	private GenericDAO<Long, ScParam> paramDAO;
+
+	@Autowired
+	private CustProductService custProductService;
+
+	@Autowired
+	private ScOrgService scOrgService;
 
 	/*
 	 * (non-Javadoc)
@@ -321,5 +338,136 @@ public class CustMgntServiceImpl implements CustMgntService {
 		params.put("orgId", orgId);
 		return custDAO.findByParams("CC_CUST.queryAllCustListByDomainName",
 				params);
+	}
+
+	public List<CcSlo> querySloConfigList(long orgId, long custId)
+			throws Exception {
+		// 客户信息
+		CcCust cust = getCustInfo(custId);
+		// 商户信息
+		ScOrg scOrg = scOrgService.queryScOrg(orgId);
+		// 查询优先级
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("paramKindCode", "IC_PRIORITY");
+		hm.put("locale", SessionUtil.getLocale().toString());
+		List<ScParam> priorityParam = paramDAO.findByParams(
+				"SC_PARAM.queryParamList", hm);
+		// 查询复杂度
+		hm.clear();
+		hm.put("orgId", orgId);
+		hm.put("paramKindCode", "IC_COMPLEX");
+		hm.put("locale", SessionUtil.getLocale().toString());
+		List<ScParam> complexParam = paramDAO.findByParams(
+				"SC_PARAM.queryParamList", hm);
+		// 查询产品
+		List<CustProductInfo> products = custProductService
+				.queryProductsServiceFor(orgId, custId);
+		// 查询已有SLO规则数据
+		hm.clear();
+		hm.put("orgId", orgId);
+		hm.put("custId", custId);
+		List<CcSlo> sloRules = ccSloDAO
+				.findByParams("CC_SLO.querySloRulesSelective", hm);
+		log.debug("slo rule size:"+sloRules.size());
+		Map<String, CcSlo> mappedSloRules = mapSloRules(sloRules);
+		// 组合SLO配置列表
+		List<CcSlo> configList = new ArrayList<CcSlo>();
+		// 客户级数据
+		for (ScParam priority : priorityParam) {
+			for (ScParam complex : complexParam) {
+				CcSlo slo = new CcSlo();
+				slo.setCcCustId(custId);
+				slo.setCustName(cust.getCustName());
+				slo.setScOrgId(orgId);
+				slo.setScOrgName(scOrg.getScOrgName());
+				slo.setScProductId(-1L);
+				slo.setPriorityCode(priority.getParamCode());
+				slo.setPriorityVal(priority.getParamValue());
+				slo.setComplexCode(complex.getParamCode());
+				slo.setComplexVal(complex.getParamValue());
+				CcSlo configuredSlo = mappedSloRules.get(orgId + "," + custId
+						+ ",-1," + priority.getParamCode().trim() + ","
+						+ complex.getParamCode().trim());
+				log.debug("get:"+orgId + "," + custId
+						+ ",-1," + priority.getParamCode().trim() + ","
+						+ complex.getParamCode().trim());
+				if (configuredSlo != null) {
+					slo.setDealTime(configuredSlo.getDealTime());
+					slo.setResponseTime(configuredSlo.getResponseTime());
+				}
+				configList.add(slo);
+			}
+		}
+		// 客户产品级数据
+		for (CustProductInfo product : products) {
+			for (ScParam priority : priorityParam) {
+				for (ScParam complex : complexParam) {
+					CcSlo slo = new CcSlo();
+					slo.setCcCustId(custId);
+					slo.setCustName(cust.getCustName());
+					slo.setScOrgId(orgId);
+					slo.setScOrgName(scOrg.getScOrgName());
+					slo.setScProductId(product.getScProductId());
+					slo.setProdName(product.getProdName());
+					slo.setPriorityCode(priority.getParamCode());
+					slo.setPriorityVal(priority.getParamValue());
+					slo.setComplexCode(complex.getParamCode());
+					slo.setComplexVal(complex.getParamValue());
+					CcSlo configuredSlo = mappedSloRules.get(orgId + ","
+							+ custId + ","+product.getScProductId()+"," + priority.getParamCode().trim()
+							+ "," + complex.getParamCode().trim());
+					if (configuredSlo != null) {
+						slo.setDealTime(configuredSlo.getDealTime());
+						slo.setResponseTime(configuredSlo.getResponseTime());
+					}
+					configList.add(slo);
+				}
+			}
+		}
+		return configList;
+	}
+
+	private Map<String, CcSlo> mapSloRules(List<CcSlo> sloRules) {
+		Map<String, CcSlo> map = new LinkedHashMap<String, CcSlo>();
+		for (CcSlo slo : sloRules) {
+			map.put(slo.getScOrgId() + "," + slo.getCcCustId() + ","
+					+ slo.getScProductId() + "," + slo.getPriorityCode().trim()
+					+ "," + slo.getComplexCode().trim(), slo);
+			log.debug("mapped:"+slo.getScOrgId() + "," + slo.getCcCustId() + ","
+					+ slo.getScProductId() + "," + slo.getPriorityCode().trim()
+					+ "," + slo.getComplexCode().trim());
+		}
+		return map;
+	}
+
+	public void MBLRemoveSloRule(long orgId, long custId, long productId,
+			long priorityCode, long complexCode) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("orgId", orgId);
+		params.put("custId", custId);
+		params.put("productId", productId);
+		params.put("priorityCode", priorityCode);
+		params.put("complexCode", complexCode);
+		ccSloDAO.deleteByParams("CC_SLO.deleteSloRule", params);
+	}
+
+	public void MBLModifySloRule(CcSlo slo) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("orgId", SessionUtil.getOpInfo().getOrgId());
+		params.put("custId", slo.getCcCustId());
+		params.put("productId", slo.getScProductId());
+		params.put("priorityCode", slo.getPriorityCode());
+		params.put("complexCode", slo.getComplexCode());
+		List<CcSlo> existSlo = ccSloDAO.findByParams("CC_SLO.querySloRules",
+				params);
+		// 更新
+		if (existSlo != null && existSlo.size() > 0) {
+			ccSloDAO.update("CC_SLO.updateSlo", slo);
+		}
+		// 插入
+		else {
+			ccSloDAO.save("CC_SLO.insert", slo);
+		}
 	}
 }
