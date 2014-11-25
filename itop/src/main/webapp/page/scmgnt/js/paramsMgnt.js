@@ -1,5 +1,6 @@
 
 var selectedParamCode = null;
+var selectedParamKind = null;
 
 $(function(){
 	bindParamSelect();
@@ -14,8 +15,9 @@ function bindParamSelect(){
 		dataType : 'json',
 		success : function(response) {
 			for(var i=0;i<response.length;i++){
-				$("<button type='button' class='btn btn-primary btn-sm btn-outline param-select' onclick='loadParamList(this,\""+response[i].paramKindCode+"\")'>"+response[i].paramKind+"</button>").appendTo("#paramList");
+				$("<button type='button' class='btn btn-primary btn-sm btn-outline param-select' onclick='loadParamList(this,\""+response[i].paramKindCode+"\",\""+response[i].paramKind+"\")'>"+response[i].paramKind+"</button>").appendTo("#paramList");
 			}
+			$("#paramList button:first").get(0).click();
 		},
 		error : function(response) {
 			var msg = response.errorMsg;
@@ -36,25 +38,30 @@ function initParamValues(){
 		fitColumns:true,
 	    columns:[[
 	        {field:'scParamId1',width:fixWidth(0.12),title:'',formatter:operationFormatter},
-            {field:'paramKind',width:fixWidth(0.15),title:i18n.scmgnt.paraminfo.ParamTableTitleCode,editor:{type:'textbox',options:{required:true}}},
-            {field:'paramCode',width:fixWidth(0.15),title:i18n.scmgnt.paraminfo.ParamTableTitleCode,editor:{type:'textbox',options:{required:true}}},
-            {field:'paramValueZh',width:fixWidth(0.2),title:i18n.scmgnt.paraminfo.ParamTableTitleValueZh,editor:{type:'textbox',options:{required:true}}},
-            {field:'paramValueEn',width:fixWidth(0.2),title:i18n.scmgnt.paraminfo.ParamTableTitleValueEn,editor:{type:'textbox',options:{required:true}}}
+	        {field:'paramValueZh',width:fixWidth(0.2),title:i18n.scmgnt.paraminfo.ParamTableTitleValueZh,editor:{type:'textbox',options:{required:true}}},
+	        {field:'paramValueEn',width:fixWidth(0.2),title:i18n.scmgnt.paraminfo.ParamTableTitleValueEn,editor:{type:'textbox',options:{required:true}}},
+            {field:'paramCode',width:fixWidth(0.15),title:i18n.scmgnt.paraminfo.ParamTableTitleCode,editor:{type:'textbox',options:{required:true}}}
 	    ]]
 	});
 }
 
+//调整表格列宽
+function fixWidth(percent){
+	return document.body.clientWidth * percent;
+}
+
 //加载参数值列表
-function loadParamList(el,kindCode){
+function loadParamList(el,kindCode,kind){
 	$(el).removeClass("btn-outline");
 	$(el).siblings().addClass("btn-outline");
 	selectedParamCode = kindCode;
+	selectedParamKind = kind;
 	$('#paramDataTable').datagrid('load',rootPath+'/param/valuelist?kindCode='+kindCode);
 }
 
 //操作列格式化
-function operationFormatter(val,row){
-	if(!row.state){
+function operationFormatter(val,row,index){
+	if(row.editState){
 		var buttons = "<button type='button' class='btn btn-link' onclick='submitChanges(this)'>"+i18n.scmgnt.paraminfo.SubmitBtn+"</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='canceNewlEdit(0,this)'>"+i18n.scmgnt.paraminfo.CancelEditBtn+"</button>";
 		return buttons;
@@ -71,6 +78,13 @@ var editIndex = null;
 
 //编辑
 function edit(rowIndex,el){
+	if(selectedParamCode=='IC_STATE'){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.scmgnt.paraminfo.StateParamCanntModify);
+		return;
+	}
+	if(selectedParamCode=='IC_PRIORITY'||selectedParamCode=='IC_COMPLEX'){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.scmgnt.paraminfo.ParamModiyAffectSlo);
+	}
 	if(editIndex!=null){
 		return;
 	}
@@ -88,11 +102,15 @@ function edit(rowIndex,el){
 //取消新编辑的行
 function canceNewlEdit(rowIndex,el){
 	editIndex = null;
-	$('#opDataTable').datagrid('deleteRow', 0);
+	$('#paramDataTable').datagrid('deleteRow', 0);
 }
 
 //删除
 function removeParam(id1,id2){
+	if(selectedParamCode=='IC_STATE'){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.scmgnt.paraminfo.StateParamCanntModify);
+		return;
+	}
 	$.ajax({
 		type : 'post',
 		url : rootPath+"/param/remove",
@@ -114,6 +132,9 @@ function removeParam(id1,id2){
 
 //提交
 function submitChanges(el){
+	if(!validBeforeSubmit()){
+		return;
+	}
 	$('#paramDataTable').datagrid('endEdit',editIndex);
 	editIndex = null;
 	//恢复按钮
@@ -122,9 +143,6 @@ function submitChanges(el){
 	$(el).hide();
 	//隐藏取消按钮
 	$(el).next().hide();
-	if (!$('#paramDataTable').datagrid('validateRow', editIndex)){
-		return;
-	}
 	//向后台提交更新请求
 	if ($('#paramDataTable').datagrid('getChanges').length) {
 		var updated = $('#paramDataTable').datagrid('getChanges', "updated");
@@ -168,6 +186,29 @@ function submitChanges(el){
 			});
 		}
 	}
+	editIndex = null;
+}
+
+//提交前检查
+function validBeforeSubmit(){
+	
+	if ($('#paramDataTable').datagrid('validateRow', editIndex)){
+		var ed = $('#paramDataTable').datagrid('getEditor', {index:editIndex,field:'paramCode'});
+		var val = $(ed.target).textbox('getText');
+		var data = $("#paramDataTable").datagrid("getData");
+		if(data.rows.length!=0){
+			var rows = data.rows;
+			for(var i=0;i<rows.length;i++){
+				if(i!=editIndex&&rows[i].paramCode==val){
+					$.messager.alert(i18n.dialog.AlertTitle,i18n.scmgnt.paraminfo.ParamValueExist);
+					return false;
+				}
+			}
+		}
+		return true;
+	}else{
+		return false;
+	}
 }
 
 //取消
@@ -187,6 +228,13 @@ function cancelEdit(rowIndex,el){
 
 //新增
 function addParameter(){
+	if(selectedParamCode=='IC_STATE'){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.scmgnt.paraminfo.StateParamCanntModify);
+		return;
+	}
+	if(selectedParamCode=='IC_PRIORITY'||selectedParamCode=='IC_COMPLEX'){
+		$.messager.alert(i18n.dialog.AlertTitle,i18n.scmgnt.paraminfo.ParamModiyAffectSlo);
+	}
 	if(editIndex!=null){
 		return;
 	}
@@ -194,7 +242,7 @@ function addParameter(){
 	//顶部插入一条数据
 	$('#paramDataTable').datagrid('insertRow',{
 		index:0,
-		row:{paramCode:selectedParamCode,state:'1'}
+		row:{paramKindCode:selectedParamCode,paramKind:selectedParamKind,editState:'1'}
 	});
 	$('#paramDataTable').datagrid('selectRow', 0).datagrid('beginEdit', 0);
 }

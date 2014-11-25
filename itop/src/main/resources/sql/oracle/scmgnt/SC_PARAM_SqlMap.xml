@@ -72,6 +72,9 @@
     where SC_PARAM_ID = #scParamId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScParam" >
+  	<selectKey resultClass="long" keyProperty="scParamId">
+  		select SC_PARAM$$SEQ.nextval from dual
+  	</selectKey>
     insert into SC_PARAM (SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE,
       PARAM_VALUE, PARAM_DESC,LANG_FLAG)
     values (#scParamId:DECIMAL#, #scOrgId:DECIMAL#, #paramKind:VARCHAR#, #paramKindCode:VARCHAR#,

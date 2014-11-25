@@ -17,10 +17,12 @@
 		<div style="padding:10px;" id="paramList">
 		</div>
 	</div>
-	<div>
-		<div class="list-inline pull-left mb5 mr10"><button type="button" class="btn btn-danger btn-sm" id="addParameterBtn" onclick="addParameter()"><i18n:message code="i18n.scmgnt.paraminfo.AddParamBtn"/></button></div>
+	<div class="clearfix">
+		<div class="list-inline pull-left mb5 mr10 ml10 mb10"><button type="button" class="btn btn-danger btn-sm" id="addParameterBtn" onclick="addParameter()"><i18n:message code="i18n.scmgnt.paraminfo.AddParamBtn"/></button></div>
 	</div>
-	<table style="width:99%;height:410px" id="paramDataTable"></table>
+	<div class="ml10">
+		<table style="width:90%;height:300px" id="paramDataTable"></table>
+	</div>
 </div>
 </body>
 </html>

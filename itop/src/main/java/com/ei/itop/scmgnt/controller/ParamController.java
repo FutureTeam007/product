@@ -82,6 +82,7 @@ public class ParamController {
 		OpInfo oi = SessionUtil.getOpInfo();
 		long scParamId1 = VarTypeConvertUtils.string2Long(request.getParameter("scParamId1"));
 		long scParamId2 = VarTypeConvertUtils.string2Long(request.getParameter("scParamId2"));
+		String paramKindCode = request.getParameter("paramKindCode");
 		String paramCode = request.getParameter("paramCode");
 		String paramKind = request.getParameter("paramKind");
 		String paramValueZh = request.getParameter("paramValueZh");
@@ -91,7 +92,7 @@ public class ParamController {
 		p1.setScParamId(scParamId1);
 		p1.setParamCode(paramCode);
 		p1.setParamKind(paramKind);
-		p1.setParamKindCode(paramCode);
+		p1.setParamKindCode(paramKindCode);
 		p1.setScOrgId(oi.getOrgId());
 		p1.setParamValue(paramValueZh);
 		p1.setLangFlag("zh_CN");
@@ -99,18 +100,19 @@ public class ParamController {
 		p2.setScParamId(scParamId2);
 		p2.setParamCode(paramCode);
 		p2.setParamKind(paramKind);
-		p2.setParamKindCode(paramCode);
+		p2.setParamKindCode(paramKindCode);
 		p2.setScOrgId(oi.getOrgId());
 		p2.setParamValue(paramValueEn);
 		p2.setLangFlag("en_US");
 		params.add(p1);
 		params.add(p2);
-		paramService.addParams(params);
+		paramService.modifyParams(params);
 	}
 	
 	@RequestMapping("/add")
 	public void addParamValue(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		OpInfo oi = SessionUtil.getOpInfo();
+		String paramKindCode = request.getParameter("paramKindCode");
 		String paramCode = request.getParameter("paramCode");
 		String paramKind = request.getParameter("paramKind");
 		String paramValueZh = request.getParameter("paramValueZh");
@@ -119,14 +121,14 @@ public class ParamController {
 		ScParam p1 = new ScParam();
 		p1.setParamCode(paramCode);
 		p1.setParamKind(paramKind);
-		p1.setParamKindCode(paramCode);
+		p1.setParamKindCode(paramKindCode);
 		p1.setScOrgId(oi.getOrgId());
 		p1.setParamValue(paramValueZh);
 		p1.setLangFlag("zh_CN");
 		ScParam p2 = new ScParam();
 		p2.setParamCode(paramCode);
 		p2.setParamKind(paramKind);
-		p2.setParamKindCode(paramCode);
+		p2.setParamKindCode(paramKindCode);
 		p2.setScOrgId(oi.getOrgId());
 		p2.setParamValue(paramValueEn);
 		p2.setLangFlag("en_US");
