@@ -17,14 +17,18 @@ public class JobServiceImpl implements JobService{
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, ScJob> jobDAO;
 	
-	public List<ScJob> queryJobs(long orgId) throws Exception {
+	public List<ScJob> queryJobs(long orgId,String locale) throws Exception {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("orgId", orgId);
+		hm.put("locale", locale);
 		return jobDAO.findByParams("SC_JOB.selectByOrgId", hm);
 	}
 
-	public ScJob getJobInfo(long jobId) throws Exception {
-		return jobDAO.find("SC_JOB.selectByPrimaryKey", jobId);
+	public ScJob getJobInfo(long jobId,String locale) throws Exception {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("jobId", jobId);
+		hm.put("locale", locale);
+		return jobDAO.find("SC_JOB.selectByPrimaryKey", hm);
 	}
 
 }

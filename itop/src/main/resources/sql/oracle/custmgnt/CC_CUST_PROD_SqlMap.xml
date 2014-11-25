@@ -23,7 +23,8 @@
   <select id="selectProductsServiceFor" resultMap="ccCustProdInfoResult" parameterClass="java.util.Map" >
     select distinct ccp.*,sp.PROD_CODE
     from CC_CUST_PROD ccp left join SC_PRODUCT sp on sp.sc_product_id=ccp.sc_product_id and sp.STATE=1
-    where sp.SC_ORG_ID = #orgId:DECIMAL# and sp.LANG_FLAG=#locale:VARCHAR#
+                          left join SC_PRODUCT_I18N ccp2 on ccp2.sc_product_id = ccp.sc_product_id and ccp2.LANG_FLAG=#locale:VARCHAR#
+    where sp.SC_ORG_ID = #orgId:DECIMAL#
     <isNotNull prepend="and" property="custId" >
       	ccp.CC_CUST_ID in
       	<iterate property="custId" open="(" close=")" conjunction=",">

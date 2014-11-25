@@ -10,12 +10,12 @@ public interface JobService {
 	 * @param orgId
 	 * @return
 	 */
-	List<ScJob> queryJobs(long orgId) throws Exception;
+	List<ScJob> queryJobs(long orgId,String locale) throws Exception;
 	/**
 	 * 获得单个岗位信息
 	 * @param jobId
 	 * @return
 	 * @throws Exception
 	 */
-	ScJob getJobInfo(long jobId) throws Exception;
+	ScJob getJobInfo(long jobId,String locale) throws Exception;
 }

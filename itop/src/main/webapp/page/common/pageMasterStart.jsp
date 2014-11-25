@@ -37,10 +37,10 @@
                         <c:if test="${sessionScope.opInfo.opType eq 'OP'&&sessionScope.opInfo.opKind==1}">
 	                        <li class="divider"></li>
 	                        <li>
-	                        	<a href="${pageContext.request.contextPath}/page/custmgnt/main.jsp"><i class="fa fa-gear fa-fw"></i><i18n:message code="i18n.nav.CustManagement" /></a>
+	                        	<a href="${pageContext.request.contextPath}/page/custmgnt/main.jsp"><i class="glyphicon glyphicon-tasks mt5 mr3"></i><i18n:message code="i18n.nav.CustManagement" /></a>
 	                        </li>
 	                        <li>
-	                        	<a href="${pageContext.request.contextPath}/page/scmgnt/main.jsp"><i class="fa fa-gear fa-fw"></i><i18n:message code="i18n.nav.ScManagement" /></a>
+	                        	<a href="${pageContext.request.contextPath}/page/scmgnt/main.jsp"><i class="glyphicon glyphicon-home mr3"></i><i18n:message code="i18n.nav.ScManagement" /></a>
 	                        </li>
                         </c:if>
                         <li class="divider"></li>

@@ -18,10 +18,10 @@
     where SC_MODULE_ID = #scModuleId:DECIMAL#
   </select>
   <select id="selectByOrgIdAndProductId" resultMap="scModuleResult" parameterClass="java.util.Map" >
-    select SC_MODULE_ID, SUP_MODULE_ID, SC_PRODUCT_ID, SC_ORG_ID, MODULE_CODE, MODULE_NAME,
-      MODULE_DESC, STATE
-    from SC_MODULE
-    where SC_PRODUCT_ID = #productId:DECIMAL# and SC_ORG_ID = #orgId:DECIMAL# and STATE=1 and LANG_FLAG=#locale:VARCHAR#
+    select sm1.SC_MODULE_ID, sm1.SUP_MODULE_ID, sm1.SC_PRODUCT_ID, sm1.SC_ORG_ID, sm1.MODULE_CODE, sm2.MODULE_NAME,
+      sm1.MODULE_DESC, sm1.STATE
+    from SC_MODULE sm1 left join SC_MODULE_I18N sm2 on sm1.SC_MODULE_ID = sm2.SC_MODULE_ID and sm2.LANG_FLAG=#locale:VARCHAR#
+    where sm1.SC_PRODUCT_ID = #productId:DECIMAL# and sm1.SC_ORG_ID = #orgId:DECIMAL# and sm1.STATE=1
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScModule" >
     delete from SC_MODULE

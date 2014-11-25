@@ -9,15 +9,15 @@
     <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR" />
     <result column="JOB_LEVEL" property="jobLevel" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="scJobResult" parameterClass="long" >
-    select SC_JOB_ID, SC_ORG_ID, JOB_CODE, JOB_NAME, JOB_CLASS, JOB_LEVEL
-    from SC_JOB
-    where SC_JOB_ID = #scJobId:DECIMAL#
+  <select id="selectByPrimaryKey" resultMap="scJobResult" parameterClass="java.util.Map" >
+   select job1.SC_JOB_ID, job1.SC_ORG_ID, job1.JOB_CODE, job2.JOB_NAME, job1.JOB_CLASS, job1.JOB_LEVEL
+    from SC_JOB job1 left join SC_JOB_I18N job2 on job1.SC_JOB_ID = job2.SC_JOB_ID and job2.LANG_FLAG=#locale:VARCHAR#
+    where job1.SC_JOB_ID = #jobId:DECIMAL#
   </select>
   <select id="selectByOrgId" resultMap="scJobResult" parameterClass="java.util.Map" >
-    select SC_JOB_ID, SC_ORG_ID, JOB_CODE, JOB_NAME, JOB_CLASS, JOB_LEVEL
-    from SC_JOB
-    where SC_ORG_ID = #orgId:DECIMAL#
+    select job1.SC_JOB_ID, job1.SC_ORG_ID, job1.JOB_CODE, job2.JOB_NAME, job1.JOB_CLASS, job1.JOB_LEVEL
+    from SC_JOB job1 left join SC_JOB_I18N job2 on job1.SC_JOB_ID = job2.SC_JOB_ID and job2.LANG_FLAG=#locale:VARCHAR#
+    where job1.SC_ORG_ID = #orgId:DECIMAL#
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScJob" >
     delete from SC_JOB

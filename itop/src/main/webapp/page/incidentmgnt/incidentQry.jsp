@@ -94,7 +94,7 @@
 	</div>
 	<div class="inci-data">
 		<div>
-			<span style="width:7.5%;float:left">
+			<span style="width:16%;float:left">
 				<button type="button" class="btn btn-danger undis" id="addBtn" onclick="add()">+ <i18n:message code="i18n.incident.mgnt.AddNewBtn"/></button>
 				<button type="button" class="btn btn-primary btn-outline btn-sm" id="exportBtn" onclick="openExportReportWin()"><i18n:message code="i18n.incident.mgnt.ExportBtn"/></button>
 			</span>

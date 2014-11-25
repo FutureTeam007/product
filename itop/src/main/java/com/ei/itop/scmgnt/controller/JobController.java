@@ -33,7 +33,7 @@ public class JobController {
 	public void queryJobList(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		OpInfo oi = SessionUtil.getOpInfo();
-		List<ScJob> jobs = jobService.queryJobs(oi.getOrgId());
+		List<ScJob> jobs = jobService.queryJobs(oi.getOrgId(),SessionUtil.getLocale().toString());
 		String jsonData = JSONUtils.toJSONString(jobs);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
