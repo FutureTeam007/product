@@ -9,6 +9,7 @@ i18n.opcenter={};
 i18n.incident={};
 i18n.transaction={};
 i18n.custmgnt={};
+i18n.scmgnt={};
 //loading
 i18n.loading.GridLoading="数据加载中，请稍后……";
 i18n.loading.GirdDataEmpty="暂无数据记录";
@@ -193,3 +194,7 @@ i18n.custmgnt.slorule.ClearBtn="清除";
 i18n.custmgnt.slorule.SubmitBtn="提交";
 i18n.custmgnt.slorule.CancelEditBtn="取消";
 i18n.custmgnt.slorule.MustSelectTopCust="请选择一个顶层客户！";
+i18n.scmgnt.paraminfo={};
+i18n.scmgnt.paraminfo.ParamTableTitleCode="参数值";
+i18n.scmgnt.paraminfo.ParamTableTitleValueZh="参数中文名称";
+i18n.scmgnt.paraminfo.ParamTableTitleValueEn="参数英文名称";

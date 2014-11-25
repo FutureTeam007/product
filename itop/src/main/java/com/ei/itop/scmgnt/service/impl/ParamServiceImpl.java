@@ -80,4 +80,27 @@ public class ParamServiceImpl implements ParamService {
 		return paramList;
 	}
 
+	public List<ScParam> getParamValues(long orgId, String kindCode,
+			String locale) throws Exception {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("kindCode", kindCode);
+		hm.put("locale", locale);
+		List<ScParam> paramList = paramDAO.findByParams(
+				"SC_PARAM.queryParamValues", hm);
+		return paramList;
+	}
+
+	public void addParams(List<ScParam> params) throws Exception {
+		paramDAO.saveBatch("SC_PARAM.insert", params);
+	}
+
+	public void modifyParams(List<ScParam> params) throws Exception {
+		paramDAO.updateBatch("SC_PARAM.updateByPrimaryKeySelective", params);
+	}
+
+	public void removeParams(List<Long> paramIds) throws Exception {
+		paramDAO.deleteBatch("SC_PARAM.deleteByPrimaryKey", paramIds);
+	}
+
 }

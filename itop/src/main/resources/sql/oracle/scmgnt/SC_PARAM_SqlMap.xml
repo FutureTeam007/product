@@ -7,6 +7,7 @@
     <result column="PARAM_KIND" property="paramKind" jdbcType="VARCHAR" />
     <result column="PARAM_KIND_CODE" property="paramKindCode" jdbcType="VARCHAR" />
     <result column="PARAM_CODE" property="paramCode" jdbcType="VARCHAR" />
+    <result column="LANG_FLAG" property="langFlag" jdbcType="VARCHAR" />
     <result column="PARAM_VALUE" property="paramValue" jdbcType="VARCHAR" />
     <result column="PARAM_DESC" property="paramDesc" jdbcType="VARCHAR" />
   </resultMap>
@@ -14,8 +15,17 @@
     <result column="PARAM_KIND" property="paramKind" jdbcType="VARCHAR" />
     <result column="PARAM_KIND_CODE" property="paramKindCode" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="scParamInfoResult" class="com.ei.itop.scmgnt.bean.ParamInfo" >
+    <result column="SC_PARAM_ID1" property="scParamId1" jdbcType="DECIMAL" />
+    <result column="SC_PARAM_ID2" property="scParamId2" jdbcType="DECIMAL" />
+    <result column="PARAM_KIND" property="paramKind" jdbcType="VARCHAR" />
+    <result column="PARAM_KIND_CODE" property="paramKindCode" jdbcType="VARCHAR" />
+    <result column="PARAM_CODE" property="paramCode" jdbcType="VARCHAR" />
+    <result column="PARAM_VALUE_ZH" property="paramValueZh" jdbcType="VARCHAR" />
+    <result column="PARAM_VALUE_EN" property="paramValueEn" jdbcType="VARCHAR" />
+  </resultMap>
   <select id="queryParam" resultMap="scParamResult" parameterClass="java.util.Map" >
-    select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC
+    select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC,LANG_FLAG
     from SC_PARAM
     where SC_ORG_ID = #orgId:DECIMAL#
     and PARAM_KIND_CODE = #paramKindCode:VARCHAR#
@@ -23,7 +33,7 @@
     and LANG_FLAG=#locale:VARCHAR#
   </select>
   <select id="queryParamList" resultMap="scParamResult" parameterClass="java.util.Map" >
-    select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC
+    select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC,LANG_FLAG
     from SC_PARAM
     where SC_ORG_ID = #orgId:DECIMAL#
     and PARAM_KIND_CODE = #paramKindCode:VARCHAR#
@@ -37,7 +47,7 @@
     and LANG_FLAG=#locale:VARCHAR#
     order by PARAM_KIND asc
   </select>
-  <select id="queryParamTable" resultMap="scParamResultDistinct" parameterClass="java.util.Map" >
+  <select id="queryParamValues" resultMap="scParamInfoResult" parameterClass="java.util.Map" >
 	  select sp1.SC_PARAM_ID SC_PARAM_ID1,
 	       sp2.SC_PARAM_ID SC_PARAM_ID2,
 	       sp1.PARAM_KIND,
@@ -49,7 +59,7 @@
 	  left join SC_PARAM sp2 on sp1.PARAM_CODE = sp2.PARAM_CODE
 	                        and sp1.PARAM_KIND_CODE = sp2.PARAM_KIND_CODE
 	                        and sp2.LANG_FLAG = 'en_US'
-	 where sp1.LANG_FLAG = 'zh_CN' and sp1.PARAM_CODE = #paramCode:VARCHAR#
+	 where sp1.LANG_FLAG = 'zh_CN' and sp1.PARAM_KIND_CODE = #kindCode:VARCHAR#
 	 order by sp1.PARAM_KIND_CODE, param_code
   </select>
   <select id="selectByPrimaryKey" resultMap="scParamResult" parameterClass="com.ei.itop.common.dbentity.ScParam" >
@@ -57,15 +67,15 @@
     from SC_PARAM
     where SC_PARAM_ID = #scParamId:DECIMAL#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScParam" >
+  <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from SC_PARAM
     where SC_PARAM_ID = #scParamId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScParam" >
     insert into SC_PARAM (SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE,
-      PARAM_VALUE, PARAM_DESC)
+      PARAM_VALUE, PARAM_DESC,LANG_FLAG)
     values (#scParamId:DECIMAL#, #scOrgId:DECIMAL#, #paramKind:VARCHAR#, #paramKindCode:VARCHAR#,
-      #paramCode:VARCHAR#, #paramValue:VARCHAR#, #paramDesc:VARCHAR#)
+      #paramCode:VARCHAR#, #paramValue:VARCHAR#, #paramDesc:VARCHAR#, #langFlag:VARCHAR#)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScParam" >
     update SC_PARAM

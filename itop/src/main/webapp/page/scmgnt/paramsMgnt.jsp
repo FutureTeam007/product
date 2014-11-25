@@ -20,7 +20,7 @@
 	<div>
 		<div class="list-inline pull-left mb5 mr10"><button type="button" class="btn btn-danger btn-sm" id="addParameterBtn" onclick="addParameter()"><i18n:message code="i18n.scmgnt.paraminfo.AddParamBtn"/></button></div>
 	</div>
-	<table  style="width:99%;height:410px" id="paramDataTable"></table>
+	<table style="width:99%;height:410px" id="paramDataTable"></table>
 </div>
 </body>
 </html>
