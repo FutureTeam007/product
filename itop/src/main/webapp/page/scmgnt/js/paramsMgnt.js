@@ -12,6 +12,7 @@ function bindParamSelect(){
 	$.ajax({
 		type : 'get',
 		url : rootPath+"/param/select",
+		cache : false,
 		dataType : 'json',
 		success : function(response) {
 			for(var i=0;i<response.length;i++){
@@ -20,7 +21,7 @@ function bindParamSelect(){
 			$("#paramList button:first").get(0).click();
 		},
 		error : function(response) {
-			var msg = response.errorMsg;
+			var msg = eval("("+response.responseText+")").errorMsg;
 			$.messager.alert(i18n.dialog.AlertTitle,msg);
 		}
 	});
