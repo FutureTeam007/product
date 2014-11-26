@@ -2,8 +2,8 @@
 <!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN" "http://ibatis.apache.org/dtd/abator-config_1_0.dtd" >
 <abatorConfiguration >
   <abatorContext >
-  	<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@10.1.41.142:1521:qldb"
-      userId="itop" password="itop" >
+  	<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@101.231.74.112:1921:ticket"
+      userId="itop2" password="sdn" >
       <classPathEntry location="D:\maven-repository\com\oracle\ojdbc14\10.2.0.5\ojdbc14-10.2.0.5.jar" />
     </jdbcConnection>
     <javaModelGenerator targetPackage="com.ei.itop.common.dbentity" targetProject="itop" />
@@ -38,6 +38,13 @@
       enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
       enableCountByExample="false" enableUpdateByExample="false">
     </table>
+    
+    <table tableName="SC_HOLIDAY" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table>
+    
+    
     
   </abatorContext>
 </abatorConfiguration>
