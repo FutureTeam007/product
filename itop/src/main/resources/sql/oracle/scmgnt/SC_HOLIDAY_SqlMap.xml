@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="SC_HOLIDAY">
+  <resultMap class="com.ei.itop.common.dbentity.ScHoliday" id="scHolidayResult">
+    <result column="SC_ORG_ID" jdbcType="DECIMAL" property="scOrgId" />
+    <result column="HOLIDAY" jdbcType="DATE" property="holiday" />
+  </resultMap>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScHoliday">
+    insert into SC_HOLIDAY (SC_ORG_ID, HOLIDAY)
+    values (#scOrgId:DECIMAL#, #holiday:DATE#)
+  </insert>
+  <resultMap class="com.ei.itop.common.dbentity.ScHoliday" id="scHolidayResult">
+    <result column="SC_ORG_ID" jdbcType="DECIMAL" property="scOrgId" />
+    <result column="HOLIDAY" jdbcType="DATE" property="holiday" />
+  </resultMap>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScHoliday">
+    insert into SC_HOLIDAY (SC_ORG_ID, HOLIDAY)
+    values (#scOrgId:DECIMAL#, #holiday:DATE#)
+  </insert>
+</sqlMap>

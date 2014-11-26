@@ -27,5 +27,6 @@
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_ORG_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_PARAM_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_PRODUCT_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scmgnt/SC_HOLIDAY_SqlMap.xml" /> 
 	
 </sqlMapConfig>
