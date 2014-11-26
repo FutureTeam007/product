@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ei.itop.common.bean.WorkPeriod;
 import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.scmgnt.service.ParamService;
@@ -28,6 +29,19 @@ public class ParamServiceImpl implements ParamService {
 
 	@Resource(name = "app.siCommonDAO")
 	private GenericDAO<Long, ScParam> paramDAO;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ei.itop.scmgnt.service.ParamService#getWorkPeriodsOfDate(com.ei.itop
+	 * .common.dbentity.ScParam)
+	 */
+	public List<WorkPeriod> getWorkPeriodsOfDate(ScParam paramSLOFlag)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)

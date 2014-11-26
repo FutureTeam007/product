@@ -5,6 +5,7 @@ package com.ei.itop.scmgnt.service;
 
 import java.util.List;
 
+import com.ei.itop.common.bean.WorkPeriod;
 import com.ei.itop.common.dbentity.ScParam;
 
 /**
@@ -32,4 +33,7 @@ public interface ParamService {
 	public void modifyParams(List<ScParam> params) throws Exception;
 
 	public void removeParams(List<Long> paramIds) throws Exception;
+
+	public List<WorkPeriod> getWorkPeriodsOfDate(ScParam paramSLOFlag)
+			throws Exception;
 }

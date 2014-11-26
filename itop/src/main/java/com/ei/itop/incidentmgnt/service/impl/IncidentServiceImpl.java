@@ -47,6 +47,7 @@ import com.ei.itop.incidentmgnt.bean.TransactionInfo;
 import com.ei.itop.incidentmgnt.service.AttachService;
 import com.ei.itop.incidentmgnt.service.IncidentService;
 import com.ei.itop.incidentmgnt.service.TransactionService;
+import com.ei.itop.scmgnt.service.HolidayService;
 import com.ei.itop.scmgnt.service.OpService;
 import com.ei.itop.scmgnt.service.ParamService;
 
@@ -92,6 +93,9 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Resource(name = "paramService")
 	private ParamService paramService;
+
+	@Resource(name = "holidayService")
+	private HolidayService holidayService;
 
 	@Resource(name = "opService")
 	private OpService opService;
@@ -1073,8 +1077,8 @@ public class IncidentServiceImpl implements IncidentService {
 		else {
 			SLAUtil slaUtil = new SLAUtil();
 
-			// ########################
-			List<WorkPeriod> workPeriodsOfDate = null;
+			List<WorkPeriod> workPeriodsOfDate = paramService
+					.getWorkPeriodsOfDate(paramSLOFlag);
 
 			WorkPeriod workPeriod = slaUtil.isInWorkPeriod(seedTime,
 					workPeriodsOfDate, holidays);
@@ -1148,10 +1152,14 @@ public class IncidentServiceImpl implements IncidentService {
 			// 计算截止时间-new
 			ScParam paramSLOFlag = paramService.getParam(fullInfo.getScOrgId(),
 					"IC_SLO_FLAG", "1", "zh_CN");
-			// ########################
-			List<ScHoliday> holidays = null;
+			List<ScHoliday> holidays = holidayService.getHolidayList(fullInfo
+					.getScOrgId(), DateUtils.dateOffset(
+					fullInfo.getRegisteTime(), Calendar.DATE, -1), null);
+
+			// 设置响应截止时间
 			ii.setReponseDur2(getSLO(slo.getResponseTime().intValue(),
 					fullInfo.getRegisteTime(), paramSLOFlag, holidays));
+			// 设置处理截止时间
 			ii.setDealDur2(getSLO(slo.getDealTime().intValue(),
 					fullInfo.getRegisteTime(), paramSLOFlag, holidays));
 		}
