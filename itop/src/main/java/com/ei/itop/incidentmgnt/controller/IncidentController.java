@@ -402,23 +402,43 @@ public class IncidentController {
 				Cell cellCompany2 = row.createCell(cellIndex++);
 				cellCompany2.setCellValue(incident.getCustName());
 				cellCompany2.setCellStyle(style);
-				//根本原因
-				Cell cellRootcause = row.createCell(cellIndex++);
-				cellRootcause.setCellValue("");
-				cellRootcause.setCellStyle(style);
-				//长期方案
-				Cell cellLongTerm = row.createCell(cellIndex++);
-				cellLongTerm.setCellValue("");
-				cellLongTerm.setCellStyle(style);
-				//重复问题
-				Cell cellRepeating = row.createCell(cellIndex++);
-				cellRepeating.setCellValue("");
-				cellRepeating.setCellStyle(style);
-				//ITC审查
-				Cell cellITC = row.createCell(cellIndex++);
-				cellITC.setCellValue(StringUtils.isEmpty(incident
-						.getArchiveFlag()) ? "No" : "Yes");
-				cellITC.setCellStyle(style);
+				//归档标记
+				String archiveFlag = incident.getArchiveFlag();
+				if(StringUtils.isEmpty(archiveFlag)){
+					//根本原因
+					Cell cellRootcause = row.createCell(cellIndex++);
+					cellRootcause.setCellValue("");
+					cellRootcause.setCellStyle(style);
+					//长期方案
+					Cell cellLongTerm = row.createCell(cellIndex++);
+					cellLongTerm.setCellValue("");
+					cellLongTerm.setCellStyle(style);
+					//重复问题
+					Cell cellRepeating = row.createCell(cellIndex++);
+					cellRepeating.setCellValue("");
+					cellRepeating.setCellStyle(style);
+					//ITC审查
+					Cell cellITC = row.createCell(cellIndex++);
+					cellITC.setCellValue("");
+					cellITC.setCellStyle(style);
+				}else{
+					//根本原因
+					Cell cellRootcause = row.createCell(cellIndex++);
+					cellRootcause.setCellValue(archiveFlag.charAt(0)=='0'?"No":"Yes");
+					cellRootcause.setCellStyle(style);
+					//长期方案
+					Cell cellLongTerm = row.createCell(cellIndex++);
+					cellLongTerm.setCellValue(archiveFlag.charAt(1)=='0'?"No":"Yes");
+					cellLongTerm.setCellStyle(style);
+					//重复问题
+					Cell cellRepeating = row.createCell(cellIndex++);
+					cellRepeating.setCellValue(archiveFlag.charAt(2)=='0'?"No":"Yes");
+					cellRepeating.setCellStyle(style);
+					//ITC审查
+					Cell cellITC = row.createCell(cellIndex++);
+					cellITC.setCellValue(archiveFlag.charAt(3)=='0'?"No":"Yes");
+					cellITC.setCellStyle(style);
+				}
 				//满意度
 				Cell cellSatis = row.createCell(cellIndex++);
 				cellSatis.setCellValue(incident.getFeedbackVal());
