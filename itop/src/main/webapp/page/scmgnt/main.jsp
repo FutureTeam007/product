@@ -42,7 +42,13 @@
 <div class="col-sm-12" style="padding-left:0px">
 	<div class="cust-mgnt-nav">
 		<ul class="nav nav-tabs" role="tablist">
+		  <!-- 产品管理 -->
 		  <li order="1" role="presentation" class="active"><a href="<%=rootPath%>/page/scmgnt/prodMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.ProdInfoNav"/></a></li>
+		  <!-- 顾问管理 -->
+		  <li order="2" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/opMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.OpNav"/></a></li>
+		  <!-- 岗位管理 -->
+		  <li order="2" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/jobMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.JobNav"/></a></li>
+		  <!-- 参数管理 -->
 		  <li order="2" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/paramsMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.ParamsNav"/></a></li>
 		  <a class="btn btn-link top-close-link pull-right" href="<%=rootPath%>/page/incidentmgnt/main"><i18n:message code="i18n.nav.Back2Index"/></a>
 		</ul>

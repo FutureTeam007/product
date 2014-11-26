@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<%@ include file="../common/commonHead.jsp"%>
 	<%@ include file="../common/easyuiHead.jsp"%>
-	<title><i18n:message code="i18n.scmgnt.prodinfo.PageTitle"/></title>
+	<title><i18n:message code="i18n.scmgnt.main.ProdInfoNav"/></title>
 	<script type="text/javascript" src="<%=rootPath%>/page/scmgnt/js/prodMgnt.js"></script>
 </head>
 <body style="background:#fff;padding:20px">
