@@ -22,6 +22,7 @@ import com.ailk.dazzle.util.ibatis.GenericDAO;
 import com.ailk.dazzle.util.type.DateUtils;
 import com.ailk.dazzle.util.type.VarTypeConvertUtils;
 import com.ei.itop.common.bean.OpInfo;
+import com.ei.itop.common.bean.WorkPeriod;
 import com.ei.itop.common.constants.SysConstants;
 import com.ei.itop.common.dao.CommonDAO;
 import com.ei.itop.common.dbentity.CcCust;
@@ -30,9 +31,11 @@ import com.ei.itop.common.dbentity.CcSlo;
 import com.ei.itop.common.dbentity.CcUser;
 import com.ei.itop.common.dbentity.IcAttach;
 import com.ei.itop.common.dbentity.IcIncident;
+import com.ei.itop.common.dbentity.ScHoliday;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.service.MailSendService;
+import com.ei.itop.common.util.SLAUtil;
 import com.ei.itop.common.util.SessionUtil;
 import com.ei.itop.custmgnt.service.CustMgntService;
 import com.ei.itop.custmgnt.service.UserService;
@@ -46,7 +49,6 @@ import com.ei.itop.incidentmgnt.service.IncidentService;
 import com.ei.itop.incidentmgnt.service.TransactionService;
 import com.ei.itop.scmgnt.service.OpService;
 import com.ei.itop.scmgnt.service.ParamService;
-import com.jcraft.jsch.Session;
 
 /**
  * @author Jack.Qi
@@ -1057,6 +1059,44 @@ public class IncidentServiceImpl implements IncidentService {
 		// 记录系统操作日志
 	}
 
+	private Date getSLO(int remainingTime, Date seedTime, ScParam paramSLOFlag,
+			List<ScHoliday> holidays) throws Exception {
+
+		String sloFlag = paramSLOFlag.getParamValue();
+
+		// 7*24
+		if ("-1".equals(sloFlag)) {
+			return DateUtils.dateOffset(seedTime, Calendar.MINUTE,
+					remainingTime);
+		}
+		// 5*8
+		else {
+			SLAUtil slaUtil = new SLAUtil();
+
+			// ########################
+			List<WorkPeriod> workPeriodsOfDate = null;
+
+			WorkPeriod workPeriod = slaUtil.isInWorkPeriod(seedTime,
+					workPeriodsOfDate, holidays);
+			// 递归开始时刻
+			Date timeInWorkPeriod = null;
+			// 在工作时段
+			if (workPeriod != null) {
+				// seedTime即为递归开始时刻
+				timeInWorkPeriod = seedTime;
+			}
+			// 不在工作时段
+			else {
+				// 找到下一个工作周期的开始时刻作为递归开始时刻
+				timeInWorkPeriod = slaUtil.getNextWorkPeriod(seedTime,
+						workPeriodsOfDate, holidays).getBeginTime();
+			}
+
+			return slaUtil.calculateCutOffTime(remainingTime, timeInWorkPeriod,
+					workPeriod, workPeriodsOfDate, holidays);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1092,14 +1132,28 @@ public class IncidentServiceImpl implements IncidentService {
 				incident.getComplexCode());
 		if (sloRules != null && sloRules.size() > 0) {
 			CcSlo slo = sloRules.get(0);
-			int dealDiffMinutes = slo.getDealTime().intValue();
-			int responseDiffMinutes = slo.getResponseTime().intValue();
-			ii.setDealDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),
-					Calendar.MINUTE, dealDiffMinutes));
-			ii.setReponseDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),
-					Calendar.MINUTE, responseDiffMinutes));
+			// 设置响应时限
 			ii.setResponseTime(slo.getResponseTime());
+			// 设置处理时限
 			ii.setDealTime(slo.getDealTime());
+
+			// 计算截止时间-old
+			// int dealDiffMinutes = slo.getDealTime().intValue();
+			// int responseDiffMinutes = slo.getResponseTime().intValue();
+			// ii.setDealDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),
+			// Calendar.MINUTE, dealDiffMinutes));
+			// ii.setReponseDur2(DateUtils.dateOffset(fullInfo.getRegisteTime(),
+			// Calendar.MINUTE, responseDiffMinutes));
+
+			// 计算截止时间-new
+			ScParam paramSLOFlag = paramService.getParam(fullInfo.getScOrgId(),
+					"IC_SLO_FLAG", "1", "zh_CN");
+			// ########################
+			List<ScHoliday> holidays = null;
+			ii.setReponseDur2(getSLO(slo.getResponseTime().intValue(),
+					fullInfo.getRegisteTime(), paramSLOFlag, holidays));
+			ii.setDealDur2(getSLO(slo.getDealTime().intValue(),
+					fullInfo.getRegisteTime(), paramSLOFlag, holidays));
 		}
 		// 业务信息
 		ii.setAffectCodeOp(incident.getAffectCodeOp());

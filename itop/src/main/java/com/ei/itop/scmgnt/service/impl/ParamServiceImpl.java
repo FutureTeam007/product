@@ -53,6 +53,27 @@ public class ParamServiceImpl implements ParamService {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.ei.itop.scmgnt.service.ParamService#getParam(long,
+	 * java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public ScParam getParam(long orgId, String paramKindCode, String paramCode,
+			String locale) throws Exception {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("paramKindCode", paramKindCode);
+		hm.put("paramCode", paramCode);
+		hm.put("locale", locale);
+
+		ScParam param = paramDAO.find("SC_PARAM.queryParam", hm);
+
+		return param;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.ei.itop.scmgnt.service.ParamService#getParamList(long,
 	 * java.lang.String)
 	 */
