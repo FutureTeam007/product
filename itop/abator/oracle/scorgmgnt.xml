@@ -44,7 +44,18 @@
       enableCountByExample="false" enableUpdateByExample="false">
     </table>
     
-    
+     <table tableName="sc_job_i18n" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table>
+    <table tableName="sc_module_i18n" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table>
+    <table tableName="sc_product_i18n" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="false"
+      enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+      enableCountByExample="false" enableUpdateByExample="false">
+    </table>
     
   </abatorContext>
 </abatorConfiguration>

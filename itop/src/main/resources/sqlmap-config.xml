@@ -22,11 +22,14 @@
 	<sqlMap resource="sql/${dbType}/incidentmgnt/IC_TRANSACTION_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/incidentmgnt/SUBSCRIBE_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_JOB_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scmgnt/SC_JOB_I18N_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_MODULE_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scmgnt/SC_MODULE_I18N_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_OP_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_ORG_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_PARAM_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_PRODUCT_SqlMap.xml" /> 
+	<sqlMap resource="sql/${dbType}/scmgnt/SC_PRODUCT_I18N_SqlMap.xml" /> 
 	<sqlMap resource="sql/${dbType}/scmgnt/SC_HOLIDAY_SqlMap.xml" /> 
 	
 </sqlMapConfig>

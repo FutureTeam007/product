@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SC_PRODUCT_I18N" >
+  <resultMap id="scProductI18nResult" class="com.ei.itop.common.dbentity.ScProductI18n" >
+    <result column="SC_PRODUCT_ID" property="scProductId" jdbcType="DECIMAL" />
+    <result column="LANG_FLAG" property="langFlag" jdbcType="VARCHAR" />
+    <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
+    <result column="PROD_DESC" property="prodDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScProductI18n" >
+    insert into SC_PRODUCT_I18N (SC_PRODUCT_ID, LANG_FLAG, PROD_NAME, PROD_DESC)
+    values (#scProductId:DECIMAL#, #langFlag:VARCHAR#, #prodName:VARCHAR#, #prodDesc:VARCHAR#)
+  </insert>
+</sqlMap>

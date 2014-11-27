@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SC_JOB_I18N" >
+  <resultMap id="scJobI18nResult" class="com.ei.itop.common.dbentity.ScJobI18n" >
+    <result column="SC_JOB_ID" property="scJobId" jdbcType="DECIMAL" />
+    <result column="LANG_FLAG" property="langFlag" jdbcType="VARCHAR" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScJobI18n" >
+    insert into SC_JOB_I18N (SC_JOB_ID, LANG_FLAG, JOB_NAME)
+    values (#scJobId:DECIMAL#, #langFlag:VARCHAR#, #jobName:VARCHAR#)
+  </insert>
+  <update id="update" parameterClass="com.ei.itop.common.dbentity.ScJobI18n" >
+  	update SC_JOB_I18N set JOB_NAME = #jobName:VARCHAR#
+  	where SC_JOB_ID = #scJobId:DECIMAL# 
+  	and LANG_FLAG = #langFlag:VARCHAR#
+  </update>
+  <select id="selectJobI18n" resultClass="com.ei.itop.common.dbentity.ScJobI18n" parameterClass="java.util.Map">
+  	select SC_JOB_ID, LANG_FLAG, JOB_NAME
+  	from SC_JOB_I18N
+  	where SC_JOB_ID = #scJobId:DECIMAL#
+  </select>
+</sqlMap>

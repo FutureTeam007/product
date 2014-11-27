@@ -14,7 +14,7 @@
 <body style="background:#fff;padding:20px">
 <div class="mb10">
 	<div>
-		<div class="list-inline pull-right mb5 mr10"><button type="button" class="btn btn-danger btn-sm" id="addJobBtn" onclick="addJob()"><i18n:message code="i18n.scmgnt.jobinfo.AddJobBtn"/></button></div>
+		<div class="list-inline pull-left mb5 ml3"><button type="button" class="btn btn-danger btn-sm" id="addJobBtn" onclick="addJob()"><i18n:message code="i18n.scmgnt.jobinfo.AddJobBtn"/></button></div>
 	</div>
 	<table  style="width:99%;height:400px"  id="jobDataTable"></table>
 </div>

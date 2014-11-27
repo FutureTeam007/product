@@ -8,7 +8,7 @@ function initJobTable(){
 	$('#jobDataTable').datagrid({
 		idField:'scJobId',
 	    method:'get',
-	    url:rootPath+'/job/list',
+	    url:rootPath+'/job/infolist',
 		loadMsg:i18n.loading.GridLoading,
 		singleSelect:true,
 		remoteSort:false,
@@ -16,12 +16,25 @@ function initJobTable(){
 		fitColumns:true,
 	    columns:[[
 	        {field:'scJobId',width:fixWidth(0.2),title:'',formatter:operationFormatter},
-	        {field:'jobName',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleName,editor:{type:'textbox',options:{required:true}}},
-	        {field:'jobCode',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleCode,editor:{type:'textbox',options:{required:true}}},
-            {field:'jobClass',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleClass,editor:jobClassEditor},
-	        {field:'jobLevel',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleLevel,editor:jobLevelEditor}
+	        {field:'jobName',width:fixWidth(0.15),title:i18n.scmgnt.jobinfo.JobTableTitleNameZh,editor:{type:'textbox',options:{required:true}},formatter:function(val,row){return getLocaleValue(row.i18n,'zh_CN');}},
+	        {field:'jobName',width:fixWidth(0.15),title:i18n.scmgnt.jobinfo.JobTableTitleNameEn,editor:{type:'textbox',options:{required:true}},formatter:function(val,row){return getLocaleValue(row.i18n,'en_US');}},
+	        {field:'jobCode',width:fixWidth(0.1),title:i18n.scmgnt.jobinfo.JobTableTitleCode,editor:{type:'textbox',options:{required:true}}},
+            {field:'jobClass',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleClass,editor:jobClassEditor,formatter:function(val,row){return row.jobClassName;}},
+	        {field:'jobLevel',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleLevel,editor:jobLevelEditor,formatter:function(val,row){return row.jobLevelName;}}
 	    ]]
 	});
+}
+
+//查找名称国际化值
+function getLocaleValue(datas,locale){
+	if(!datas||datas.length==0){
+		return "";
+	}
+	for(var i=0;i<datas.length;i++){
+		if(datas[i].langFlag==locale){
+			return datas[i].jobName;
+		}
+	}
 }
 
 //岗位类别编辑器

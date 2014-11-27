@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SC_MODULE_I18N" >
+  <resultMap id="scModuleI18nResult" class="com.ei.itop.common.dbentity.ScModuleI18n" >
+    <result column="SC_MODULE_ID" property="scModuleId" jdbcType="DECIMAL" />
+    <result column="LANG_FLAG" property="langFlag" jdbcType="VARCHAR" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="MODULE_DESC" property="moduleDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScModuleI18n" >
+    insert into SC_MODULE_I18N (SC_MODULE_ID, LANG_FLAG, MODULE_NAME, MODULE_DESC)
+    values (#scModuleId:DECIMAL#, #langFlag:VARCHAR#, #moduleName:VARCHAR#, #moduleDesc:VARCHAR#)
+  </insert>
+</sqlMap>

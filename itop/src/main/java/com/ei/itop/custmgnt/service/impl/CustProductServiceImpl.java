@@ -135,7 +135,7 @@ public class CustProductServiceImpl implements CustProductService{
 			ccpo.setCustName(cust.getCustName());
 		}
 		//补全岗位信息
-		ScJob job = jobService.getJobInfo(ccpo.getScJobId(),SessionUtil.getLocale().toString());
+		ScJob job = jobService.getJob(ccpo.getScJobId(),SessionUtil.getLocale().toString());
 		if(job!=null){
 			ccpo.setJobClass(job.getJobClass());
 			ccpo.setJobName(job.getJobName());
@@ -155,7 +155,7 @@ public class CustProductServiceImpl implements CustProductService{
 	}
 
 	public void modifyCustProductOp(CcCustProdOp ccpo) throws Exception {
-		ScJob job = jobService.getJobInfo(ccpo.getScJobId(),SessionUtil.getLocale().toString());
+		ScJob job = jobService.getJob(ccpo.getScJobId(),SessionUtil.getLocale().toString());
 		if(job!=null){
 			ccpo.setJobClass(job.getJobClass());
 			ccpo.setJobName(job.getJobName());
