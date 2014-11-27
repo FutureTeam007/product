@@ -42,12 +42,18 @@ public class HolidayServiceImpl implements HolidayService {
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("orgId", orgId);
-		hm.put("beginDate", DateUtils.string2Date(
-				DateUtils.date2String(beginDate, DateUtils.FORMATTYPE_yyyyMMdd)
-						+ "000000", DateUtils.FORMATTYPE_yyyyMMddHHmmss));
-		hm.put("endDate", DateUtils.string2Date(
-				DateUtils.date2String(endDate, DateUtils.FORMATTYPE_yyyyMMdd)
-						+ "000000", DateUtils.FORMATTYPE_yyyyMMddHHmmss));
+		if (beginDate != null) {
+			hm.put("beginDate", DateUtils.string2Date(
+					DateUtils.date2String(beginDate,
+							DateUtils.FORMATTYPE_yyyyMMdd) + "000000",
+					DateUtils.FORMATTYPE_yyyyMMddHHmmss));
+		}
+		if (endDate != null) {
+			hm.put("endDate", DateUtils.string2Date(
+					DateUtils.date2String(endDate,
+							DateUtils.FORMATTYPE_yyyyMMdd) + "000000",
+					DateUtils.FORMATTYPE_yyyyMMddHHmmss));
+		}
 
 		List<ScHoliday> holidays = holidayDAO.findByParams(
 				"SC_HOLIDAY.queryHolidayList", hm);
