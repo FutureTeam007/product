@@ -20,4 +20,7 @@
   	from SC_JOB_I18N
   	where SC_JOB_ID = #scJobId:DECIMAL#
   </select>
+  <delete id="deleteByJobId" parameterClass="java.util.Map">
+  	delete from SC_JOB_I18N where SC_JOB_ID = #jobId:DECIMAL#
+  </delete>
 </sqlMap>

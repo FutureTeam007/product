@@ -135,6 +135,13 @@
     and ccpo.SC_PRODUCT_ID = #productId:DECIMAL#
     and ccpo.CC_CUST_ID = #custId:DECIMAL#
   </select>
+  <select id="queryCustProdOpByJobId" resultMap="ccCustProdOpResult" parameterClass="java.util.Map" >
+   select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
+      PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,
+      JOB_LEVEL
+    from CC_CUST_PROD_OP
+    where SC_JOB_ID =#jobId:DECIMAL#
+  </select>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.CcCustProdOp" >
     insert into CC_CUST_PROD_OP (CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME, SC_PRODUCT_ID,
       PROD_NAME, SC_OP_ID, LOGIN_CODE, SC_JOB_ID, JOB_NAME, JOB_CLASS,

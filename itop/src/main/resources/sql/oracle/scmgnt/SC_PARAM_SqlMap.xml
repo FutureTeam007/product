@@ -45,6 +45,7 @@
     from SC_PARAM
     where SC_ORG_ID = #orgId:DECIMAL#
     and LANG_FLAG=#locale:VARCHAR#
+    and PARAM_KIND_CODE != 'IC_SLO_FLAG'
     order by PARAM_KIND asc
   </select>
   <select id="queryParamValues" resultMap="scParamInfoResult" parameterClass="java.util.Map" >

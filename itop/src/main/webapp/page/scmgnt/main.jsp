@@ -44,12 +44,14 @@
 		<ul class="nav nav-tabs" role="tablist">
 		  <!-- 产品管理 -->
 		  <li order="1" role="presentation" class="active"><a href="<%=rootPath%>/page/scmgnt/prodMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.ProdInfoNav"/></a></li>
-		  <!-- 顾问管理 -->
-		  <li order="2" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/opMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.OpNav"/></a></li>
 		  <!-- 岗位管理 -->
 		  <li order="2" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/jobMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.JobNav"/></a></li>
+		  <!-- 顾问管理 -->
+		  <li order="3" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/opMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.OpNav"/></a></li>
+		  <!-- SLO缺省规则管理 -->
+		  <li order="4" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/sloGlobalSetting.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.SloNav"/></a></li>
 		  <!-- 参数管理 -->
-		  <li order="2" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/paramsMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.ParamsNav"/></a></li>
+		  <li order="5" role="presentation"><a  href="<%=rootPath%>/page/scmgnt/paramsMgnt.jsp" target="scmgnt-iframe"><i18n:message code="i18n.scmgnt.main.ParamsNav"/></a></li>
 		  <a class="btn btn-link top-close-link pull-right" href="<%=rootPath%>/page/incidentmgnt/main"><i18n:message code="i18n.nav.Back2Index"/></a>
 		</ul>
 	</div>

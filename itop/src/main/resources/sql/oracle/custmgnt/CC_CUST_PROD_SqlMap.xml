@@ -21,7 +21,8 @@
       #scProductId:DECIMAL#, #prodName:VARCHAR#, #serviceStartDt:DATE#, #serviceEndDt:DATE#)
   </insert>
   <select id="selectProductsServiceFor" resultMap="ccCustProdInfoResult" parameterClass="java.util.Map" >
-    select distinct ccp.*,sp.PROD_CODE
+    select distinct ccp.CC_CUST_ID, ccp.CUST_NAME, ccp.SC_ORG_ID, ccp.SC_ORG_NAME, ccp.SC_PRODUCT_ID,
+      ccp2.PROD_NAME, ccp.SERVICE_START_DT, ccp.SERVICE_END_DT,sp.PROD_CODE
     from CC_CUST_PROD ccp left join SC_PRODUCT sp on sp.sc_product_id=ccp.sc_product_id and sp.STATE=1
                           left join SC_PRODUCT_I18N ccp2 on ccp2.sc_product_id = ccp.sc_product_id and ccp2.LANG_FLAG=#locale:VARCHAR#
     where sp.SC_ORG_ID = #orgId:DECIMAL#

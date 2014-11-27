@@ -31,13 +31,13 @@ public class ExceptionHandleFilter implements Filter{
 			FilterChain chain) throws IOException, ServletException{
 		HttpServletRequest hrt = (HttpServletRequest)request;
 		HttpServletResponse hrs = (HttpServletResponse)response;
-		if(!MacBind.isOk()){
-			log.error("产品License异常，您正在使用未激活的产品");
-			hrs.setCharacterEncoding("UTF-8");
-			hrs.setContentType("text/html; charset=UTF-8");
-			hrs.getWriter().write("产品License异常，您正在使用未激活的产品");
-			return;
-		}
+//		if(!MacBind.isOk()){
+//			log.error("产品License异常，您正在使用未激活的产品");
+//			hrs.setCharacterEncoding("UTF-8");
+//			hrs.setContentType("text/html; charset=UTF-8");
+//			hrs.getWriter().write("产品License异常，您正在使用未激活的产品");
+//			return;
+//		}
 		Map<String, String> json = new HashMap<String, String>();
 		try{
 			chain.doFilter(request, response);

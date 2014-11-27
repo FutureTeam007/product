@@ -20,4 +20,10 @@ public interface SysConstants {
 		String	OP_ROLE_USER = "USER";
 	}
 	
+	//国际化变量
+	public interface I18nAttribute{
+		String	zh_CN = "zh_CN";
+		String	en_US = "en_US";
+	}
+	
 }

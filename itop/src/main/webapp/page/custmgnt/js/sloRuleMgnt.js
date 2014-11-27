@@ -19,8 +19,8 @@ function initSloData(){
 	        {field:'prodName',width:fixWidth(0.35),title:i18n.custmgnt.slorule.SloTableTitleProdName},
             {field:'priorityVal',width:fixWidth(0.1),title:i18n.custmgnt.slorule.SloTableTitlePriority},
             {field:'complexVal',width:fixWidth(0.1),title:i18n.custmgnt.slorule.SloTableTitleComplex},
-            {field:'responseTime',width:fixWidth(0.15),title:i18n.custmgnt.slorule.SloTableTitleRespTime,editor:{type:'textbox',options:{required:true}}},
-            {field:'dealTime',width:fixWidth(0.15),title:i18n.custmgnt.slorule.SloTableTitleDealTime,editor:{type:'textbox',options:{required:true}}}
+            {field:'responseTime',width:fixWidth(0.15),title:i18n.custmgnt.slorule.SloTableTitleRespTime,editor:{type:'numberbox',options:{required:true,min:10,max:999999}}},
+            {field:'dealTime',width:fixWidth(0.15),title:i18n.custmgnt.slorule.SloTableTitleDealTime,editor:{type:'numberbox',options:{required:true,min:10,max:999999}}}
 	    ]]
 	});
 }

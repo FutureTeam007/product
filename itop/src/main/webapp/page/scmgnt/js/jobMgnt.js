@@ -16,8 +16,8 @@ function initJobTable(){
 		fitColumns:true,
 	    columns:[[
 	        {field:'scJobId',width:fixWidth(0.2),title:'',formatter:operationFormatter},
-	        {field:'jobName',width:fixWidth(0.15),title:i18n.scmgnt.jobinfo.JobTableTitleNameZh,editor:{type:'textbox',options:{required:true}},formatter:function(val,row){return getLocaleValue(row.i18n,'zh_CN');}},
-	        {field:'jobName',width:fixWidth(0.15),title:i18n.scmgnt.jobinfo.JobTableTitleNameEn,editor:{type:'textbox',options:{required:true}},formatter:function(val,row){return getLocaleValue(row.i18n,'en_US');}},
+	        {field:'jobNameZh',width:fixWidth(0.15),title:i18n.scmgnt.jobinfo.JobTableTitleNameZh,editor:{type:'textbox',options:{required:true}}},
+	        {field:'jobNameEn',width:fixWidth(0.15),title:i18n.scmgnt.jobinfo.JobTableTitleNameEn,editor:{type:'textbox',options:{required:true}}},
 	        {field:'jobCode',width:fixWidth(0.1),title:i18n.scmgnt.jobinfo.JobTableTitleCode,editor:{type:'textbox',options:{required:true}}},
             {field:'jobClass',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleClass,editor:jobClassEditor,formatter:function(val,row){return row.jobClassName;}},
 	        {field:'jobLevel',width:fixWidth(0.2),title:i18n.scmgnt.jobinfo.JobTableTitleLevel,editor:jobLevelEditor,formatter:function(val,row){return row.jobLevelName;}}
