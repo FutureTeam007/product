@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ailk.dazzle.util.type.DateUtils;
 import com.ei.itop.common.dbentity.ScHoliday;
 import com.ei.itop.scmgnt.service.HolidayService;
 
@@ -41,8 +42,12 @@ public class HolidayServiceImpl implements HolidayService {
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("orgId", orgId);
-		hm.put("beginDate", beginDate);
-		hm.put("endDate", endDate);
+		hm.put("beginDate", DateUtils.string2Date(
+				DateUtils.date2String(beginDate, DateUtils.FORMATTYPE_yyyyMMdd)
+						+ "000000", DateUtils.FORMATTYPE_yyyyMMddHHmmss));
+		hm.put("endDate", DateUtils.string2Date(
+				DateUtils.date2String(endDate, DateUtils.FORMATTYPE_yyyyMMdd)
+						+ "000000", DateUtils.FORMATTYPE_yyyyMMddHHmmss));
 
 		List<ScHoliday> holidays = holidayDAO.findByParams(
 				"SC_HOLIDAY.queryHolidayList", hm);

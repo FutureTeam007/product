@@ -13,4 +13,16 @@
     <result column="SC_ORG_ID" jdbcType="DECIMAL" property="scOrgId" />
     <result column="HOLIDAY" jdbcType="DATE" property="holiday" />
   </resultMap>
+  <select id="queryHolidayList" resultMap="scHolidayResult" parameterClass="java.util.Map" >
+    select SC_ORG_ID, HOLIDAY
+    from SC_HOLIDAY
+    where SC_ORG_ID = #orgId:DECIMAL#
+    <isNotNull prepend="" property="beginDate" >
+  	  and HOLIDAY <![CDATA[>=]]> #beginDate:DATE#
+    </isNotNull>
+    <isNotNull prepend="" property="endDate" >
+  	  and HOLIDAY <![CDATA[<=]]> #endDate:DATE#
+    </isNotNull>
+    order by HOLIDAY asc
+  </select>
 </sqlMap>

@@ -24,6 +24,18 @@ public class SLAUtil {
 
 	private static final Logger log = Logger.getLogger(SLAUtil.class);
 
+	/**
+	 * 比较两个时间的差值，结果单位以传入type为准，即如比较类型为天，则返回差值天数，如比较类型为分钟，则返回差值分钟数
+	 * 
+	 * @param d1
+	 *            时间1
+	 * @param d2
+	 *            时间2
+	 * @param type
+	 *            d-天，m-分钟
+	 * @return 差值天数或分钟数
+	 * @throws Exception
+	 */
 	private long getDateOffset(Date d1, Date d2, String type) throws Exception {
 		Date tmpD1 = d1;
 		Date tmpD2 = d2;
@@ -52,7 +64,7 @@ public class SLAUtil {
 			return DateUtils.getDiffMinutes(tmpD1, tmpD2);
 		}
 
-		throw new Exception("不支持的类型，目前支持d-天、m-分钟");
+		throw new Exception("不支持的比较类型，目前支持d-天、m-分钟");
 	}
 
 	/**
@@ -106,10 +118,10 @@ public class SLAUtil {
 	}
 
 	/**
-	 * 得到下一个工作时段，如果当前日期已经没有工作时段，则自动查找下一工作日的第一工作时段
+	 * 得到某一天某一时刻的下一个工作时段，如果当前日期已经没有工作时段，则自动查找下一工作日的第一工作时段
 	 * 
-	 * @param seedTime
-	 *            用于计算的基准时刻
+	 * @param seedDateTime
+	 *            用于计算的基准时刻，含日期时间
 	 * @param workPeriodsOfDate
 	 *            工作日工作时段列表，必须已经按时间先后排序
 	 * @param holidays
@@ -117,7 +129,7 @@ public class SLAUtil {
 	 * @return 下一个工作时段
 	 * @throws Exception
 	 */
-	public WorkPeriod getNextWorkPeriod(Date seedTime,
+	public WorkPeriod getNextWorkPeriod(Date seedDateTime,
 			List<WorkPeriod> workPeriodsOfDate, List<ScHoliday> holidays)
 			throws Exception {
 
@@ -129,18 +141,18 @@ public class SLAUtil {
 			WorkPeriod workPeriod = workPeriodsOfDate.get(i);
 			// log.debug("&&&&"
 			// + getDateOffset(seedTime, workPeriod.getBeginTime(), "m"));
-			if (getDateOffset(seedTime, workPeriod.getBeginTime(), "m") < 0) {
+			if (getDateOffset(seedDateTime, workPeriod.getBeginTime(), "m") < 0) {
 				// 纠正年月日
 				WorkPeriod rtnValue = new WorkPeriod();
 				rtnValue.setBeginTime(DateUtils.string2Date(
-						DateUtils.date2String(seedTime,
+						DateUtils.date2String(seedDateTime,
 								DateUtils.FORMATTYPE_yyyyMMdd)
 								+ DateUtils.date2String(
 										workPeriod.getBeginTime(),
 										DateUtils.FORMATTYPE_HHmmss),
 						DateUtils.FORMATTYPE_yyyyMMddHHmmss));
 				rtnValue.setEndTime(DateUtils.string2Date(
-						DateUtils.date2String(seedTime,
+						DateUtils.date2String(seedDateTime,
 								DateUtils.FORMATTYPE_yyyyMMdd)
 								+ DateUtils.date2String(
 										workPeriod.getEndTime(),
@@ -153,7 +165,7 @@ public class SLAUtil {
 
 		// 当前日期当前时刻之后已没有工作时段
 		// 查找下一个工作日
-		Date nextWorkDate = getNextWorkDate(seedTime, holidays);
+		Date nextWorkDate = getNextWorkDate(seedDateTime, holidays);
 		// 返回下一个工作日的第一个工作时段
 		WorkPeriod workPeriod = workPeriodsOfDate.get(0);
 		Date beginTime = DateUtils.string2Date(
@@ -222,12 +234,12 @@ public class SLAUtil {
 	}
 
 	/**
-	 * 从某一工作时段内的某一时刻，根据剩余时长，递归计算截止时刻
+	 * 从某一天的工作时段内的某一时刻，根据剩余时长，递归计算截止时刻
 	 * 
 	 * @param remainingTime
 	 *            用于判断的剩余时长（分钟数）
-	 * @param timeInWorkPeriod
-	 *            工作时段内的某一时刻，或工作时段的开始时刻
+	 * @param dateTimeInWorkPeriod
+	 *            用于计算的日期时间，某一天的工作时段内的某一时刻，时间必须是工作时段内的某一时刻，或工作时段的开始时刻
 	 * @param workPeriod
 	 *            工作时段
 	 * @param workPeriodsOfDate
@@ -237,40 +249,54 @@ public class SLAUtil {
 	 * @return 截止时刻
 	 * @throws Exception
 	 */
-	public Date calculateCutOffTime(long remainingTime, Date timeInWorkPeriod,
-			WorkPeriod workPeriod, List<WorkPeriod> workPeriodsOfDate,
-			List<ScHoliday> holidays) throws Exception {
+	public Date calculateCutOffTime(long remainingTime,
+			Date dateTimeInWorkPeriod, WorkPeriod workPeriod,
+			List<WorkPeriod> workPeriodsOfDate, List<ScHoliday> holidays)
+			throws Exception {
 
-		// log.debug("*************");
+		String strDate = DateUtils.date2String(dateTimeInWorkPeriod,
+				DateUtils.FORMATTYPE_yyyyMMdd);
+
+		// log.debug("###");
 		// log.debug("remainingTime is " + remainingTime);
 		// log.debug("timeInWorkPeriod is " + timeInWorkPeriod);
 		// log.debug("workPeriod.getBeginTime() is " +
 		// workPeriod.getBeginTime());
 		// log.debug("workPeriod.getEndTime() is " + workPeriod.getEndTime());
 
-		if (getDateOffset(timeInWorkPeriod, workPeriod.getBeginTime(), "m") < 0
-				|| getDateOffset(timeInWorkPeriod, workPeriod.getEndTime(), "m") > 0) {
+		if (getDateOffset(dateTimeInWorkPeriod, workPeriod.getBeginTime(), "m") < 0
+				|| getDateOffset(dateTimeInWorkPeriod, workPeriod.getEndTime(),
+						"m") > 0) {
 			throw new Exception("入参有误，该方法只能根据某工作时段内的时刻递归运算");
 		}
 
 		// 得到工作时段剩余时长
 		long currentWorkPeriodRemainingTime = getDateOffset(
-				workPeriod.getEndTime(), timeInWorkPeriod, "m");
+				workPeriod.getEndTime(), dateTimeInWorkPeriod, "m");
 		// log.debug("currentWorkPeriodRemainingTime is "
 		// + currentWorkPeriodRemainingTime);
 
 		// 判断工作时段是否有足够的时长，如果有足够的时长，则计算截止时刻，退出递归
 		if (currentWorkPeriodRemainingTime >= remainingTime) {
 			// 根据传入的时刻，加上偏移分钟数，得出截止时刻并返回
-			return DateUtils.dateOffset(timeInWorkPeriod, Calendar.MINUTE,
+			return DateUtils.dateOffset(dateTimeInWorkPeriod, Calendar.MINUTE,
 					(int) remainingTime);
 		}
 
 		// 取得下一个工作时段
-		WorkPeriod nextWorkPeriod = getNextWorkPeriod(workPeriod.getEndTime(),
-				workPeriodsOfDate, holidays);
-		// log.debug("nextWorkPeriod is " + nextWorkPeriod.getBeginTime() + ","
-		// + nextWorkPeriod.getEndTime());
+		Date d = DateUtils.string2Date(
+				strDate
+						+ DateUtils.date2String(workPeriod.getEndTime(),
+								DateUtils.FORMATTYPE_HHmmss),
+				DateUtils.FORMATTYPE_yyyyMMddHHmmss);
+		WorkPeriod nextWorkPeriod = getNextWorkPeriod(d, workPeriodsOfDate,
+				holidays);
+		// log.debug("nextWorkPeriod is "
+		// + DateUtils.date2String(nextWorkPeriod.getBeginTime(),
+		// DateUtils.FORMATTYPE_yyyyMMddHHmmss)
+		// + ","
+		// + DateUtils.date2String(nextWorkPeriod.getEndTime(),
+		// DateUtils.FORMATTYPE_yyyyMMddHHmmss));
 		// 当前工作时段没有足够的时长，递归下一个工作时段
 		return calculateCutOffTime(remainingTime
 				- currentWorkPeriodRemainingTime,
@@ -326,30 +352,30 @@ public class SLAUtil {
 		holidays.add(sh3);
 		holidays.add(sh4);
 
-		Date date = DateUtils.string2Date("20141130013000",
-				DateUtils.FORMATTYPE_yyyyMMddHHmmss);
-		log.debug("********");
-		log.debug(DateUtils.date2String(sla.getNextWorkDate(date, holidays),
-				DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+		// Date date = DateUtils.string2Date("20141130013000",
+		// DateUtils.FORMATTYPE_yyyyMMddHHmmss);
+		// log.debug("********");
+		// log.debug(DateUtils.date2String(sla.getNextWorkDate(date, holidays),
+		// DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 
 		List<WorkPeriod> workPeriodsOfDate = new ArrayList<WorkPeriod>();
 		WorkPeriod wp1 = new WorkPeriod();
-		wp1.setBeginTime(DateUtils.string2Date("20141126080000",
+		wp1.setBeginTime(DateUtils.string2Date("20010101080000",
 				DateUtils.FORMATTYPE_yyyyMMddHHmmss));
-		wp1.setEndTime(DateUtils.string2Date("20141126120000",
+		wp1.setEndTime(DateUtils.string2Date("20010101120000",
 				DateUtils.FORMATTYPE_yyyyMMddHHmmss));
 		WorkPeriod wp2 = new WorkPeriod();
-		wp2.setBeginTime(DateUtils.string2Date("20141126130000",
+		wp2.setBeginTime(DateUtils.string2Date("20010101130000",
 				DateUtils.FORMATTYPE_yyyyMMddHHmmss));
-		wp2.setEndTime(DateUtils.string2Date("20141126170000",
+		wp2.setEndTime(DateUtils.string2Date("20010101170000",
 				DateUtils.FORMATTYPE_yyyyMMddHHmmss));
 		workPeriodsOfDate.add(wp1);
 		workPeriodsOfDate.add(wp2);
 		Date timeInWorkPeriod = DateUtils.string2Date("20141126090000",
 				DateUtils.FORMATTYPE_yyyyMMddHHmmss);
+		log.debug("********");
 		Date finalDate = sla.calculateCutOffTime(new Long(999999),
 				timeInWorkPeriod, wp1, workPeriodsOfDate, holidays);
-		log.debug("********");
 		log.debug(finalDate);
 
 		// log.debug("#########"
@@ -363,5 +389,11 @@ public class SLAUtil {
 		// "20141128120000", DateUtils.FORMATTYPE_yyyyMMddHHmmss),
 		// workPeriodsOfDate, holidays);
 		// log.debug("%%%" + wp.getBeginTime() + "," + wp.getEndTime());
+
+		log.debug("********");
+		String str = "0900~1200;1300~1800";
+		String[] strs = str.split(";");
+		log.debug(strs.length);
+		log.debug("'" + strs[0] + "'");
 	}
 }

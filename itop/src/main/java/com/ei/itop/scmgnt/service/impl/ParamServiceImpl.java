@@ -3,6 +3,8 @@
  */
 package com.ei.itop.scmgnt.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.util.ibatis.GenericDAO;
+import com.ailk.dazzle.util.type.DateUtils;
 import com.ei.itop.common.bean.WorkPeriod;
 import com.ei.itop.common.dbentity.ScParam;
 import com.ei.itop.common.util.SessionUtil;
@@ -40,7 +43,27 @@ public class ParamServiceImpl implements ParamService {
 	public List<WorkPeriod> getWorkPeriodsOfDate(ScParam paramSLOFlag)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+
+		List<WorkPeriod> rtnValue = new ArrayList<WorkPeriod>();
+
+		String strSloFlag = paramSLOFlag.getParamValue();
+
+		String[] strPeriods = strSloFlag.split(";");
+
+		for (int i = 0; strPeriods != null && i < strPeriods.length; i++) {
+			String strPeriod = strPeriods[i];
+			String[] period = strPeriod.split("~");
+			WorkPeriod wp = new WorkPeriod();
+			Date beginTime = DateUtils.string2Date("20010101" + period[0]
+					+ "00", DateUtils.FORMATTYPE_yyyyMMddHHmmss);
+			wp.setBeginTime(beginTime);
+			Date endTime = DateUtils.string2Date("20010101" + period[1] + "00",
+					DateUtils.FORMATTYPE_yyyyMMddHHmmss);
+			wp.setEndTime(endTime);
+			rtnValue.add(wp);
+		}
+
+		return rtnValue;
 	}
 
 	/*
