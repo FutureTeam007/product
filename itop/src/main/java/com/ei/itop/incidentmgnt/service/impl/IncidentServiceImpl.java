@@ -1086,14 +1086,17 @@ public class IncidentServiceImpl implements IncidentService {
 			Date timeInWorkPeriod = null;
 			// 在工作时段
 			if (workPeriod != null) {
+				log.debug("workPeriod != null");
 				// seedTime即为递归开始时刻
 				timeInWorkPeriod = seedTime;
 			}
 			// 不在工作时段
 			else {
+				log.debug("workPeriod == null");
 				// 找到下一个工作周期的开始时刻作为递归开始时刻
-				timeInWorkPeriod = slaUtil.getNextWorkPeriod(seedTime,
-						workPeriodsOfDate, holidays).getBeginTime();
+				workPeriod = slaUtil.getNextWorkPeriod(seedTime,
+						workPeriodsOfDate, holidays);
+				timeInWorkPeriod = workPeriod.getBeginTime();
 			}
 
 			return slaUtil.calculateCutOffTime(remainingTime, timeInWorkPeriod,
