@@ -222,3 +222,22 @@ i18n.scmgnt.opinfo.EditBtn="Edit";
 i18n.scmgnt.opinfo.RemoveBtn="Remove";
 i18n.scmgnt.opinfo.SubmitBtn="Submit";
 i18n.scmgnt.opinfo.CancelEditBtn="Cancel";
+//opmgnt/////////////////////////
+//table
+i18n.scmgnt.opinfo={};
+i18n.scmgnt.opinfo.TableTitleOpName="Chinese name";
+i18n.scmgnt.opinfo.TableTitleFirstName="First name";
+i18n.scmgnt.opinfo.TableTitleLastName="Last name";
+i18n.scmgnt.opinfo.TableTitleLoginCode="Login code";
+i18n.scmgnt.opinfo.TableTitleLoginPasswd="Password";
+i18n.scmgnt.opinfo.TableTitleGender="Gender";
+i18n.scmgnt.opinfo.TableTitleOpKind="Type";
+i18n.scmgnt.opinfo.TableTitleMobileNo="Mobile no";
+i18n.scmgnt.opinfo.TableTitleOfficeTel="Telephone";
+i18n.scmgnt.opinfo.TableTitleOpState="State";
+i18n.scmgnt.opinfo.TableTitleOperations="";
+//button
+i18n.scmgnt.opinfo.EditBtn="Edit";
+i18n.scmgnt.opinfo.RemoveBtn="Remove";
+i18n.scmgnt.opinfo.SubmitBtn="Submit";
+i18n.scmgnt.opinfo.CancelEditBtn="Cancel";

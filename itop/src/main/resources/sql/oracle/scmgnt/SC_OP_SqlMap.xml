@@ -29,6 +29,40 @@
     from SC_OP
     where SC_ORG_ID = #orgId:DECIMAL# and STATE = 1
   </select>
+  <select id="queryAllOp" resultMap="scOpResult" parameterClass="java.util.Map" >
+    select so.* from SC_OP so where SC_ORG_ID = #orgId:DECIMAL# 
+      <isNotNull prepend="" property="loginCode" >
+    	and LOGIN_CODE like #loginCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="" property="opName" >
+    	and (OP_NAME like #opName:VARCHAR# or FIRST_NAME like #opName:VARCHAR# or LAST_NAME like #opName:VARCHAR#)
+      </isNotNull>
+      order by SC_OP_ID asc
+  </select>
+  <select id="queryAllOpPaging" resultMap="scOpResult" parameterClass="java.util.Map" >
+    select * from (
+    select t.*, rownum rn
+    from (select so.* from SC_OP so where SC_ORG_ID = #orgId:DECIMAL# 
+      <isNotNull prepend="" property="loginCode" >
+    	and LOGIN_CODE like #loginCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="" property="opName" >
+    	and (OP_NAME like #opName:VARCHAR# or FIRST_NAME like #opName:VARCHAR# or LAST_NAME like #opName:VARCHAR#)
+      </isNotNull>
+      order by SC_OP_ID asc
+      ) t ) where rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
+  </select>
+  <select id="queryAllOpCount" resultClass="long" parameterClass="java.util.Map" >
+    select count(*)
+    from (select so.* from SC_OP so where SC_ORG_ID = #orgId:DECIMAL# 
+      <isNotNull prepend="" property="loginCode" >
+    	and LOGIN_CODE like #loginCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="" property="opName" >
+    	and (OP_NAME like #opName:VARCHAR# or FIRST_NAME like #opName:VARCHAR# or LAST_NAME like #opName:VARCHAR#)
+      </isNotNull>
+      )
+  </select>
   <select id="selectByPrimaryKey" resultMap="scOpResult" parameterClass="long" >
     select SC_OP_ID, SC_ORG_ID, OP_CODE, LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME,
       GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES, STATE
