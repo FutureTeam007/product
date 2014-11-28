@@ -23,6 +23,18 @@
     from SC_OP
     where LOGIN_CODE = #loginCode:VARCHAR#
   </select>
+  <select id="checkLoginCode" resultMap="scOpResult" parameterClass="java.util.Map" >
+    select SC_OP_ID, SC_ORG_ID, OP_CODE, LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME,
+      GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES, STATE
+    from SC_OP
+    where LOGIN_CODE = #loginCode:VARCHAR#
+    <isNotNull prepend="" property="orgId" >
+   	  and SC_ORG_ID = #orgId:DECIMAL#
+    </isNotNull>
+    <isNotNull prepend="" property="excludeOpId" >
+   	  and SC_OP_ID <![CDATA[<>]]> #excludeOpId:DECIMAL#
+    </isNotNull>
+  </select>
   <select id="queryAllOpByOrgId" resultMap="scOpResult" parameterClass="java.util.Map" >
     select SC_OP_ID, SC_ORG_ID, OP_CODE, LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME, LAST_NAME, OP_NAME,
       GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES, STATE
@@ -74,6 +86,9 @@
     where SC_OP_ID = #scOpId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScOp" >
+  	<selectKey resultClass="long" keyProperty="scOpId">
+  		select SC_OP$$SEQ.nextval from dual
+  	</selectKey>
     insert into SC_OP (SC_OP_ID, SC_ORG_ID, OP_CODE, LOGIN_CODE, LOGIN_PASSWD, FIRST_NAME,
       LAST_NAME, OP_NAME, GENDER, OP_KIND, MOBILE_NO, OFFICE_TEL, NOTES, STATE)
     values (#scOpId:DECIMAL#, #scOrgId:DECIMAL#, #opCode:VARCHAR#, #loginCode:VARCHAR#,
@@ -83,8 +98,7 @@
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScOp" >
     update SC_OP
-    set SC_ORG_ID = #scOrgId:DECIMAL#,
-      OP_CODE = #opCode:VARCHAR#,
+    set OP_CODE = #opCode:VARCHAR#,
       LOGIN_CODE = #loginCode:VARCHAR#,
       LOGIN_PASSWD = #loginPasswd:VARCHAR#,
       FIRST_NAME = #firstName:VARCHAR#,

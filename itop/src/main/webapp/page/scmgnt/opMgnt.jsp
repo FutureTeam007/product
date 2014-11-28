@@ -14,12 +14,12 @@
 <body style="background:#fff;padding:20px">
 <div class="inci-search pt15">
 	<span class="form-item">
-    	<label for="inciNo"><i18n:message code="i18n.scmgnt.opinfo.QryConditionLoginCode"/></label>
-    	<input type="text" class="form-control" style="width:50%" id="userName"/>
+    	<label for="loginCode"><i18n:message code="i18n.scmgnt.opinfo.QryConditionLoginCode"/></label>
+    	<input type="text" class="form-control" style="width:50%" id="loginCode"/>
 	</span>
   	<span class="form-item">
-    	<label for="inciShortDesc"><i18n:message code="i18n.scmgnt.opinfo.QryConditionOpName"/></label>
-    	<input type="text" class="form-control" style="width:50%"  id="userCode"/>
+    	<label for="OpName"><i18n:message code="i18n.scmgnt.opinfo.QryConditionOpName"/></label>
+    	<input type="text" class="form-control" style="width:50%"  id="opName"/>
   	</span>
   	<span class="form-item pull-right mb5" style="width:50%;margin-bottom:5px">
 		<button type="button" class="btn btn-default btn-sm mr20 pull-right"  onclick="reset()">&nbsp;<i18n:message code="i18n.custmgnt.userinfo.ResetBtn"/>&nbsp;</button>

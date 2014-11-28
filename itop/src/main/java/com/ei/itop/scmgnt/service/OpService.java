@@ -53,4 +53,36 @@ public interface OpService {
 
 	public List<ScOp> queryAllOpList(long orgId, String loginCode,
 			String opName, long startIndex, int pageSize) throws Exception;
+
+	public long addOp(ScOp op) throws Exception;
+
+	public void modifyOp(long opId, ScOp op) throws Exception;
+
+	public void modifyOpState(long opId, ScOp op) throws Exception;
+
+	/**
+	 * 校验登录账号是否已经存在
+	 * 
+	 * @param orgId
+	 *            商户ID
+	 * @param loginCode
+	 *            待校验的登录账号 排除的opId，可选
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean loginCodeIsExist(long orgId, String loginCode)
+			throws Exception;
+
+	/**
+	 * 校验登录账号是否已经存在
+	 * 
+	 * @param loginCode
+	 *            待校验的登录账号
+	 * @param excludeOpId
+	 *            排除的opId，可选
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean loginCodeIsExist(String loginCode, Long excludeOpId)
+			throws Exception;
 }

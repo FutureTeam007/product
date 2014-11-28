@@ -67,4 +67,109 @@ public class OpMgntController {
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(jsonData);
 	}
+
+	@RequestMapping("/opadd")
+	public void opAdd(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		long orgId = SessionUtil.getOpInfo().getOrgId();
+
+		ScOp op = new ScOp();
+		op.setScOrgId(orgId);
+		op.setOpCode(null);
+		String loginCode = ActionUtils.transParamDecode(
+				request.getParameter("loginCode"), "UTF-8");
+		op.setLoginCode(loginCode);
+		String loginPasswd = ActionUtils.transParamDecode(
+				request.getParameter("loginPasswd"), "UTF-8");
+		op.setLoginPasswd(loginPasswd);
+		String firstName = ActionUtils.transParamDecode(
+				request.getParameter("firstName"), "UTF-8");
+		op.setFirstName(firstName);
+		String lastName = ActionUtils.transParamDecode(
+				request.getParameter("lastName"), "UTF-8");
+		op.setLastName(lastName);
+		String opName = ActionUtils.transParamDecode(
+				request.getParameter("opName"), "UTF-8");
+		op.setOpName(opName);
+		short gender = VarTypeConvertUtils.string2Short(request
+				.getParameter("gender"));
+		op.setGender(gender);
+		short opKind = VarTypeConvertUtils.string2Short(request
+				.getParameter("opKind"));
+		op.setOpKind(opKind);
+		String mobileNo = ActionUtils.transParamDecode(
+				request.getParameter("mobileNo"), "UTF-8");
+		op.setMobileNo(mobileNo);
+		String officeTel = ActionUtils.transParamDecode(
+				request.getParameter("officeTel"), "UTF-8");
+		op.setOfficeTel(officeTel);
+		op.setNotes(null);
+		short state = VarTypeConvertUtils.string2Short(request
+				.getParameter("state"));
+		op.setState(state);
+
+		opService.addOp(op);
+	}
+
+	@RequestMapping("/opmodify")
+	public void opModify(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		long opId = VarTypeConvertUtils.string2Long(request
+				.getParameter("scOpId"));
+
+		ScOp op = new ScOp();
+		op.setOpCode(null);
+		String loginCode = ActionUtils.transParamDecode(
+				request.getParameter("loginCode"), "UTF-8");
+		op.setLoginCode(loginCode);
+		String loginPasswd = ActionUtils.transParamDecode(
+				request.getParameter("loginPasswd"), "UTF-8");
+		op.setLoginPasswd(loginPasswd);
+		String firstName = ActionUtils.transParamDecode(
+				request.getParameter("firstName"), "UTF-8");
+		op.setFirstName(firstName);
+		String lastName = ActionUtils.transParamDecode(
+				request.getParameter("lastName"), "UTF-8");
+		op.setLastName(lastName);
+		String opName = ActionUtils.transParamDecode(
+				request.getParameter("opName"), "UTF-8");
+		op.setOpName(opName);
+		short gender = VarTypeConvertUtils.string2Short(request
+				.getParameter("gender"));
+		op.setGender(gender);
+		short opKind = VarTypeConvertUtils.string2Short(request
+				.getParameter("opKind"));
+		op.setOpKind(opKind);
+		String mobileNo = ActionUtils.transParamDecode(
+				request.getParameter("mobileNo"), "UTF-8");
+		op.setMobileNo(mobileNo);
+		String officeTel = ActionUtils.transParamDecode(
+				request.getParameter("officeTel"), "UTF-8");
+		op.setOfficeTel(officeTel);
+		op.setNotes(null);
+		short state = VarTypeConvertUtils.string2Short(request
+				.getParameter("state"));
+		op.setState(state);
+
+		opService.modifyOp(opId, op);
+	}
+
+	@RequestMapping("/modifystate")
+	public void modifyState(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		long opId = VarTypeConvertUtils.string2Long(request
+				.getParameter("opId"));
+
+		ScOp op = new ScOp();
+		op.setScOpId(opId);
+
+		short state = VarTypeConvertUtils.string2Short(request
+				.getParameter("state"));
+		op.setState(state);
+
+		opService.modifyOpState(opId, op);
+	}
 }

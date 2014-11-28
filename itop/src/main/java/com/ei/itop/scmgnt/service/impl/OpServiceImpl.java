@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.ailk.dazzle.exception.BizException;
 import com.ailk.dazzle.util.ibatis.GenericDAO;
-import com.ei.itop.common.dbentity.IcIncident;
 import com.ei.itop.common.dbentity.ScOp;
 import com.ei.itop.scmgnt.service.OpService;
 
@@ -116,6 +115,95 @@ public class OpServiceImpl implements OpService {
 		}
 
 		return opList;
+	}
+
+	public long addOp(ScOp op) throws Exception {
+		// TODO Auto-generated method stub
+
+		if (op.getLoginCode() == null || "".equals(op.getLoginCode())) {
+			throw new BizException("登录工号不能为空");
+		}
+
+		if (loginCodeIsExist(op.getScOrgId(), op.getLoginCode())) {
+			throw new BizException("登录工已存在");
+		}
+
+		if (op.getLoginPasswd() == null || "".equals(op.getLoginPasswd())) {
+			throw new BizException("密码不能为空");
+		}
+
+		op.setLoginCode(op.getLoginCode().toLowerCase());
+
+		long opId = opDAO.save("SC_OP.insert", op);
+
+		return opId;
+	}
+
+	public void modifyOp(long opId, ScOp op) throws Exception {
+		// TODO Auto-generated method stub
+
+		if (op.getLoginCode() == null || "".equals(op.getLoginCode())) {
+			throw new BizException("登录工号不能为空");
+		}
+
+		if (loginCodeIsExist(op.getLoginCode(), opId)) {
+			throw new BizException("登录工已存在");
+		}
+
+		if (op.getLoginPasswd() == null || "".equals(op.getLoginPasswd())) {
+			throw new BizException("密码不能为空");
+		}
+
+		op.setLoginCode(op.getLoginCode().toLowerCase());
+
+		op.setScOpId(opId);
+
+		opDAO.save("SC_OP.updateByPrimaryKeySelective", op);
+	}
+
+	public void modifyOpState(long opId, ScOp op) throws Exception {
+		// TODO Auto-generated method stub
+
+		ScOp param = new ScOp();
+
+		param.setScOpId(opId);
+		param.setState(op.getState());
+
+		opDAO.save("SC_OP.updateByPrimaryKeySelective", param);
+	}
+
+	public boolean loginCodeIsExist(long orgId, String loginCode)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("loginCode", loginCode);
+
+		List<ScOp> opList = opDAO.findByParams("SC_OP.checkLoginCode", hm);
+
+		if (opList != null && opList.size() > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean loginCodeIsExist(String loginCode, Long excludeOpId)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("loginCode", loginCode);
+		hm.put("excludeOpId", excludeOpId);
+
+		List<ScOp> opList = opDAO.findByParams("SC_OP.checkLoginCode", hm);
+
+		if (opList != null && opList.size() > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

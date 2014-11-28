@@ -8,6 +8,7 @@
 	<%@ include file="../common/commonHead.jsp"%>
 	<%@ include file="../common/easyuiHead.jsp"%>
 	<title><i18n:message code="i18n.scmgnt.main.PageTitle"/></title>
+	<script type="text/javascript" src="<%=rootPath%>/page/scmgnt/js/main.js"></script>
 	<script type="text/javascript">
 		//初始化加载
 		$(function(){
