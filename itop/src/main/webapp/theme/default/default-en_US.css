@@ -1,7 +1,7 @@
 body{background-color: #f8f8f8;font-family:"microsoft yahei", Arial, Tahoma, Geneva, sans-serif;}
 a {outline: none;}
 a:active {star:expression(this.onFocus=this.blur());}
-.ml3{margin-left:5px;}.mr3{margin-right:5px;}.mt3{margin-top:5px;}.mb3{margin-bottom:5px;}
+.ml3{margin-left:3px;}.mr3{margin-right:3px;}.mt3{margin-top:3px;}.mb3{margin-bottom:3px;}
 .ml5{margin-left:5px;}.mr5{margin-right:5px;}.mt5{margin-top:5px;}.mb5{margin-bottom:5px;}
 .ml10{margin-left:10px;}.mr10{margin-right:10px;}.mt10{margin-top:10px;}.mb10{margin-bottom:10px;}
 .ml15{margin-left:15px;}.mr15{margin-right:15px;}.mt15{margin-top:15px;}.mb15{margin-bottom:15px;}
@@ -110,3 +110,8 @@ span.exp-status {width:180px;float:left;margin-left:10px;padding-left:0px;}
 .datagrid-row-editing input{color:#333;}
 /*scmgnt*/
 .param-select{margin:2px;}
+.op-search{margin:2px}
+.op-search span label{width:120px;display:inline;float:left;line-height:22px;font-weight:normal;color:#555;;font-size:12px}
+.op-search span.form-item{width:25%;float:left;display:inline;margin-bottom:20px}
+.op-search .form-control{float:left;display:inline;width:60%;height:24px;font-size:10px;padding-top:3px}
+.op-search .btn-sm{height:24px;line-height:22px;padding-top:0px}

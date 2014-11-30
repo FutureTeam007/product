@@ -59,7 +59,6 @@ function initDropDownlist(dataCustId,dataProductId,dataModuleId){
 	});
 	$("#moduleSel").combotree({
 		editable:false,
-		panelHeight:'auto',
 		panelHeight:'200',
 		url:dataProductId?(rootPath+'/product/moduleTree?productId='+dataProductId):null,
 		onLoadSuccess:function(){

@@ -11,4 +11,14 @@
     insert into SC_PRODUCT_I18N (SC_PRODUCT_ID, LANG_FLAG, PROD_NAME, PROD_DESC)
     values (#scProductId:DECIMAL#, #langFlag:VARCHAR#, #prodName:VARCHAR#, #prodDesc:VARCHAR#)
   </insert>
+  <update id="update" parameterClass="com.ei.itop.common.dbentity.ScProductI18n" >
+    update SC_PRODUCT_I18N
+    set PROD_NAME = #prodName:VARCHAR#,
+        PROD_DESC = #prodDesc:VARCHAR#
+    where SC_PRODUCT_ID = #scProductId:DECIMAL#
+    and LANG_FLAG = #langFlag:VARCHAR#
+  </update>
+  <delete id="deleteByProductId"  parameterClass="long" >
+  	delete from SC_PRODUCT_I18N where SC_PRODUCT_ID = #scProductId:DECIMAL#
+  </delete>
 </sqlMap>

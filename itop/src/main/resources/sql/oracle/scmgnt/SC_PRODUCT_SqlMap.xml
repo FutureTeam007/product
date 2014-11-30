@@ -9,6 +9,12 @@
     <result column="PROD_DESC" property="prodDesc" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
+  <resultMap id="scProductInfoResult" extends="scProductResult" class="com.ei.itop.scmgnt.bean.ProductInfo" >
+    <result column="PROD_NAME_ZH" property="productNameZh" jdbcType="VARCHAR" />
+    <result column="PROD_NAME_EN" property="productNameEn" jdbcType="VARCHAR" />
+    <result column="PROD_DESC_ZH" property="productDescZh" jdbcType="VARCHAR" />
+    <result column="PROD_DESC_EN" property="productDescEn" jdbcType="VARCHAR" />
+  </resultMap>
   <select id="selectByPrimaryKey" resultMap="scProductResult" parameterClass="long" >
     select SC_PRODUCT_ID, SC_ORG_ID, PROD_CODE, PROD_NAME, PROD_DESC, STATE
     from SC_PRODUCT
@@ -27,11 +33,23 @@
     </isNotNull>
     order by sp.sc_product_id asc
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+  <select id="selectInfoListByOrgId" resultMap="scProductInfoResult" parameterClass="java.util.Map" >
+    select sp.SC_PRODUCT_ID, sp.SC_ORG_ID, sp.PROD_CODE, sp.PROD_NAME, sp.PROD_DESC, sp.STATE,i18n1.PROD_NAME PROD_NAME_ZH,i18n2.PROD_NAME PROD_NAME_EN,
+    i18n1.PROD_DESC PROD_DESC_ZH,i18n2.PROD_DESC PROD_DESC_EN
+    from SC_PRODUCT sp 
+    left join SC_PRODUCT_I18N i18n1 on sp.SC_PRODUCT_ID = i18n1.SC_PRODUCT_ID and i18n1.LANG_FLAG='zh_CN'
+    left join SC_PRODUCT_I18N i18n2 on sp.SC_PRODUCT_ID = i18n2.SC_PRODUCT_ID and i18n2.LANG_FLAG='en_US'
+    where sp.SC_ORG_ID = #orgId:DECIMAL#
+    order by sp.sc_product_id desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from SC_PRODUCT
     where SC_PRODUCT_ID = #scProductId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScProduct" >
+  	<selectKey resultClass="long" keyProperty="scProductId">
+  		select SC_PRODUCT$$SEQ.nextval from dual
+  	</selectKey>
     insert into SC_PRODUCT (SC_PRODUCT_ID, SC_ORG_ID, PROD_CODE, PROD_NAME, PROD_DESC, STATE)
     values (#scProductId:DECIMAL#, #scOrgId:DECIMAL#, #prodCode:VARCHAR#, #prodName:VARCHAR#,
       #prodDesc:VARCHAR#, #state:DECIMAL#)

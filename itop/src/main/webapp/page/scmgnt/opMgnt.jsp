@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="<%=rootPath%>/page/scmgnt/js/opMgnt.js"></script>
 </head>
 <body style="background:#fff;padding:20px">
-<div class="inci-search pt15">
+<div class="op-search pt15 clearfix">
 	<span class="form-item">
     	<label for="loginCode"><i18n:message code="i18n.scmgnt.opinfo.QryConditionLoginCode"/></label>
     	<input type="text" class="form-control" style="width:50%" id="loginCode"/>
@@ -26,9 +26,9 @@
 		<button type="button" class="btn btn-primary btn-sm mr15 pull-right"  onclick="query()">&nbsp;&nbsp;&nbsp;&nbsp;<i18n:message code="i18n.custmgnt.userinfo.QryBtn"/>&nbsp;&nbsp;&nbsp;&nbsp;</button>
 	</span>
 </div>
-<div class="mb10">
+<div class="mb10 clearfix">
 	<div>
-		<div class="list-inline pull-right mb5 mr10"><button type="button" class="btn btn-danger btn-sm" id="addOpBtn" onclick="addOp()"><i18n:message code="i18n.scmgnt.opinfo.AddOpBtn"/></button></div>
+		<div class="list-inline pull-left mb5 ml3"><button type="button" class="btn btn-danger btn-sm" id="addOpBtn" onclick="addOp()"><i18n:message code="i18n.scmgnt.opinfo.AddOpBtn"/></button></div>
 	</div>
 	<table  style="width:99%;height:430px"  id="opDataTable"></table>
 </div>

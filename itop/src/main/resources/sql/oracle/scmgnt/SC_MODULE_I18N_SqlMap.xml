@@ -11,4 +11,14 @@
     insert into SC_MODULE_I18N (SC_MODULE_ID, LANG_FLAG, MODULE_NAME, MODULE_DESC)
     values (#scModuleId:DECIMAL#, #langFlag:VARCHAR#, #moduleName:VARCHAR#, #moduleDesc:VARCHAR#)
   </insert>
+  <update id="update"  parameterClass="com.ei.itop.common.dbentity.ScModuleI18n" >
+  	update SC_MODULE_I18N set
+  	MODULE_NAME = #moduleName:VARCHAR#,
+  	MODULE_DESC = #moduleDesc:VARCHAR#
+  	where SC_MODULE_ID = #scModuleId:DECIMAL#
+  	and LANG_FLAG = #langFlag:VARCHAR#
+  </update>
+  <delete id="deleteByModuleId" parameterClass="long">
+  	delete from SC_MODULE_I18N where SC_MODULE_ID = #scModuleId:DECIMAL#
+  </delete>
 </sqlMap>

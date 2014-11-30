@@ -11,11 +11,27 @@
     <result column="MODULE_DESC" property="moduleDesc" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
+  <resultMap id="scModuleInfoResult" extends="scModuleResult" class="com.ei.itop.scmgnt.bean.ModuleInfo" >
+    <result column="MODULE_NAME_ZH" property="moduleNameZh" jdbcType="VARCHAR" />
+    <result column="MODULE_NAME_EN" property="moduleNameEn" jdbcType="VARCHAR" />
+    <result column="MODULE_DESC_ZH" property="moduleDescZh" jdbcType="VARCHAR" />
+    <result column="MODULE_DESC_EN" property="moduleDescEn" jdbcType="VARCHAR" />
+  </resultMap>
   <select id="selectByPrimaryKey" resultMap="scModuleResult" parameterClass="com.ei.itop.common.dbentity.ScModule" >
     select SC_MODULE_ID, SUP_MODULE_ID, SC_PRODUCT_ID, SC_ORG_ID, MODULE_CODE, MODULE_NAME,
       MODULE_DESC, STATE
     from SC_MODULE
     where SC_MODULE_ID = #scModuleId:DECIMAL#
+  </select>
+  <select id="selectInfoByPrimaryKey" resultMap="scModuleInfoResult" parameterClass="long" >
+    select sm.SC_MODULE_ID, sm.SUP_MODULE_ID, sm.SC_PRODUCT_ID, sm.SC_ORG_ID,sm.MODULE_CODE, sm.MODULE_NAME,
+      sm.MODULE_DESC, sm.STATE,
+      i18n1.MODULE_NAME MODULE_NAME_ZH,i18n1.MODULE_DESC MODULE_DESC_ZH,
+      i18n2.MODULE_NAME MODULE_NAME_EN,i18n2.MODULE_DESC MODULE_DESC_EN
+      from SC_MODULE sm
+      left join SC_MODULE_I18N i18n1 on i18n1.SC_MODULE_ID = sm.SC_MODULE_ID and i18n1.LANG_FLAG='zh_CN'
+      left join SC_MODULE_I18N i18n2 on i18n2.SC_MODULE_ID = sm.SC_MODULE_ID and i18n2.LANG_FLAG='en_US'
+    where sm.SC_MODULE_ID = #moduleId:DECIMAL#
   </select>
   <select id="selectByOrgIdAndProductId" resultMap="scModuleResult" parameterClass="java.util.Map" >
     select sm1.SC_MODULE_ID, sm1.SUP_MODULE_ID, sm1.SC_PRODUCT_ID, sm1.SC_ORG_ID, sm1.MODULE_CODE, sm2.MODULE_NAME,
@@ -23,11 +39,20 @@
     from SC_MODULE sm1 left join SC_MODULE_I18N sm2 on sm1.SC_MODULE_ID = sm2.SC_MODULE_ID and sm2.LANG_FLAG=#locale:VARCHAR#
     where sm1.SC_PRODUCT_ID = #productId:DECIMAL# and sm1.SC_ORG_ID = #orgId:DECIMAL# and sm1.STATE=1
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="com.ei.itop.common.dbentity.ScModule" >
+  <select id="selectByProductId" resultMap="scModuleResult" parameterClass="java.util.Map" >
+    select sm1.SC_MODULE_ID, sm1.SUP_MODULE_ID, sm1.SC_PRODUCT_ID, sm1.SC_ORG_ID, sm1.MODULE_CODE, sm2.MODULE_NAME,
+      sm1.MODULE_DESC, sm1.STATE
+    from SC_MODULE sm1 left join SC_MODULE_I18N sm2 on sm1.SC_MODULE_ID = sm2.SC_MODULE_ID and sm2.LANG_FLAG=#locale:VARCHAR#
+    where sm1.SC_PRODUCT_ID = #productId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="long" >
     delete from SC_MODULE
     where SC_MODULE_ID = #scModuleId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ei.itop.common.dbentity.ScModule" >
+    <selectKey resultClass="long" keyProperty="scModuleId">
+  		select SC_MODULE$$SEQ.nextval from dual
+  	</selectKey>
     insert into SC_MODULE (SC_MODULE_ID, SUP_MODULE_ID, SC_PRODUCT_ID, SC_ORG_ID, MODULE_CODE,
       MODULE_NAME, MODULE_DESC, STATE)
     values (#scModuleId:DECIMAL#, #supModuleId:DECIMAL#, #scProductId:DECIMAL#, #scOrgId:DECIMAL#,

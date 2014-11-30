@@ -101,6 +101,7 @@ var genderEditor={
 	type:'combobox',
 	options:{
 		mode:'local',
+		editable:false,
 		data:[{
 		    "gender":1,
 		    "genderName":i18n.custmgnt.userinfo.GenderMr
@@ -119,6 +120,7 @@ var typeEditor={
 	type:'combobox',
 	options:{
 		mode:'local',
+		editable:false,
 		data:[{
 		    "opKind":2,
 		    "opKindName":i18n.custmgnt.userinfo.RoleBusiness

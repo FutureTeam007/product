@@ -34,6 +34,12 @@
     </isNotNull>
     order by ccp.sc_product_id asc
   </select>
+  <select id="selectCustProductsByProductId" resultMap="ccCustProdResult" parameterClass="java.util.Map" >
+    select CC_CUST_ID, CUST_NAME, SC_ORG_ID, SC_ORG_NAME,SC_PRODUCT_ID,
+      PROD_NAME,SERVICE_START_DT, SERVICE_END_DT
+    from CC_CUST_PROD 
+    where SC_PRODUCT_ID = #productId:DECIMAL#
+  </select>
   <delete id="deleteCustProduct" parameterClass="java.util.Map">
   	delete from CC_CUST_PROD 
   	where SC_ORG_ID = #orgId:DECIMAL#

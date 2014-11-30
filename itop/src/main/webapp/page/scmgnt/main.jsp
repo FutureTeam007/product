@@ -21,6 +21,7 @@
 				$(this).siblings().removeClass("active");
 				$(this).addClass("active");
 			});
+			$(".nav-tabs a:first").get(0).click();
 		}
 		//初始化Frame高度
 		function initIframe(){

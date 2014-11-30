@@ -224,7 +224,6 @@ i18n.scmgnt.opinfo.SubmitBtn="Submit";
 i18n.scmgnt.opinfo.CancelEditBtn="Cancel";
 //opmgnt/////////////////////////
 //table
-i18n.scmgnt.opinfo={};
 i18n.scmgnt.opinfo.TableTitleOpName="Chinese name";
 i18n.scmgnt.opinfo.TableTitleFirstName="First name";
 i18n.scmgnt.opinfo.TableTitleLastName="Last name";
@@ -260,3 +259,20 @@ i18n.scmgnt.opinfo.RemoveBtn="Remove";
 //info
 i18n.scmgnt.opinfo.EditConflictError="Cancel or submit editing row first,please!";
 i18n.scmgnt.opinfo.StateChangeSuccess="Submit successfully";
+//prodinfo
+i18n.scmgnt.prodinfo={};
+i18n.scmgnt.prodinfo.ProdTableTitleProdNameZh="Chinese name";
+i18n.scmgnt.prodinfo.ProdTableTitleProdNameEn="English name";
+i18n.scmgnt.prodinfo.ProdTableTitleProdCode="Code";
+i18n.scmgnt.prodinfo.ProdTableTitleState="Status";
+i18n.scmgnt.prodinfo.ProdStateNormal="Normal";
+i18n.scmgnt.prodinfo.ProdStateDisable="Disable";
+i18n.scmgnt.prodinfo.ModuleSelClear="Clear";
+i18n.scmgnt.prodinfo.ModuleHasSubModule="This module has children modules!Remove them first,please!";
+i18n.scmgnt.prodinfo.ProdCodeExist="This product code is already exist! Input another one,please!";
+i18n.scmgnt.moduleinfo={};
+i18n.scmgnt.moduleinfo.QryModuleInfoError="Query module info error";
+i18n.scmgnt.moduleinfo.ModuleCodeEmptyError="Input code,please!";
+i18n.scmgnt.moduleinfo.ModuleZhNameEmptyError="Input chinese name,please!";
+i18n.scmgnt.moduleinfo.ModuleEnNameEmptyError="Input english name,please!";
+i18n.scmgnt.moduleinfo.ModuleDescEmptyError="Input description,please!";
