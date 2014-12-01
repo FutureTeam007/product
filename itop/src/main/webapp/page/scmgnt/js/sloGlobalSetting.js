@@ -1,99 +1,15 @@
 
 $(function(){
-	initTimeControl();
 	bindSLOTimeParameter();
 	bindSLODefaultRules();
 });
 
-
-//初始化时间参数控件
-function initTimeControl(){
-	$("#workStartTimeAm").datetimespinner({
-		formatter:function(date){
-			if (!date){return '';}
-			var h = date.getHours();
-			var m = date.getMinutes();
-			return (h<10?('0'+h):h)+':'+(m<10?('0'+m):m);
-		},
-		parser:function(s){
-			if (!s){return null;}
-			var ss = s.split(':');
-			var h = parseInt(ss[0]);
-			var m = parseInt(ss[1]);
-			if (!isNaN(h) && !isNaN(m)){
-				return new Date(2014,12,1,h,m);
-			} else {
-				return new Date();
-			}
-		}
-	});
-	$("#workEndTimeAm").datetimespinner({
-		formatter:function(date){
-			if (!date){return '';}
-			var h = date.getHours();
-			var m = date.getMinutes();
-			return (h<10?('0'+h):h)+':'+(m<10?('0'+m):m);
-		},
-		parser:function(s){
-			if (!s){return null;}
-			var ss = s.split(':');
-			var h = parseInt(ss[0]);
-			var m = parseInt(ss[1]);
-			if (!isNaN(h) && !isNaN(m)){
-				return new Date(2014,1,1,h,m,0);
-			} else {
-				return new Date();
-			}
-		}
-	});
-	
-	$("#workStartTimePm").datetimespinner({
-		formatter:function(date){
-			if (!date){return '';}
-			var h = date.getHours();
-			var m = date.getMinutes();
-			return (h<10?('0'+h):h)+':'+(m<10?('0'+m):m);
-		},
-		parser:function(s){
-			if (!s){return null;}
-			var ss = s.split(':');
-			var h = parseInt(ss[0]);
-			var m = parseInt(ss[1]);
-			if (!isNaN(h) && !isNaN(m)){
-				return new Date(2014,1,1,h,m,0);
-			} else {
-				return new Date();
-			}
-		}
-	});
-	
-	$("#workEndTimePm").datetimespinner({
-		formatter:function(date){
-			if (!date){return '';}
-			var h = date.getHours();
-			var m = date.getMinutes();
-			return (h<10?('0'+h):h)+':'+(m<10?('0'+m):m);
-		},
-		parser:function(s){
-			if (!s){return null;}
-			var ss = s.split(':');
-			var h = parseInt(ss[0]);
-			var m = parseInt(ss[1]);
-			if (!isNaN(h) && !isNaN(m)){
-				return new Date(2014,1,1,h,m,0);
-			} else {
-				return new Date();
-			}
-		}
-	});
-}
-
 //加载slo时间参数设置
 function bindSLOTimeParameter(){
+	setFormDisable();
 	$("#editBtn").show();
 	$("#backBtn").hide();
 	$("#submitBtn").hide();
-	setFormDisable();
 	$.ajax({
 		type : 'get',
 		url : rootPath + "/scmgnt/slo/getTimeConfig",

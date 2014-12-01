@@ -566,11 +566,11 @@ function reRenderStatusNav(status){
 			                {field:'classValOp',width:fixWidth(0.10),title:i18n.incident.query.DataTitleClassValOp},
 					        {field:'affectValOp',width:fixWidth(0.08),title:i18n.incident.query.DataTitleAffectValOp},
 					        {field:'plObjectName',width:fixWidth(0.06),title: i18n.incident.query.DataTitlePlObjectName},
-					        {field:'registeTime',width:fixWidth(0.08),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateTimeFormatterMinute},
+					        {field:'registeTime',width:fixWidth(0.10),title:i18n.incident.query.DataTitleRegisteTime,sortable:true,formatter:dateTimeFormatterMinute},
 					        {field:'scLoginName',width:fixWidth(0.06),title:i18n.incident.query.DataTitleScLoginName},
 					        {field:'dealDur2',width:fixWidth(0.10),title:i18n.incident.query.DataTitlePlanFinishTime,sortable:true,formatter:dateTimeFormatterMinute},
 					        {field:'finishTime',width:fixWidth(0.10),title:i18n.incident.query.DataTitleFinishTime,formatter:dateTimeFormatterMinute},
-					        {field:'modifyDate',width:fixWidth(0.08),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateTimeFormatterMinute},
+					        {field:'modifyDate',width:fixWidth(0.10),title:i18n.incident.query.DataTitleModifyDate,sortable:true,formatter:dateTimeFormatterMinute},
 					        {field:'feedbackVal',width:fixWidth(0.07),title:i18n.incident.query.DataTitleFeedbackVal,formatter:formatFeedback}
 					    ]],
 					    onMouseOverRow:function(index,row){

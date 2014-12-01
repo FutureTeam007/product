@@ -33,15 +33,15 @@
 	  		<div id="workTimeAmItem" class="form-item clearfix mb5">
 			    <label for="workStartTime" class="col-sm-2 control-label"><i18n:message code="i18n.scmgnt.sloinfo.WorkTimeAmLabel"/></label>
 			    <div class="col-sm-10">
-			      	<input class="form-control small-control mr10" id="workStartTimeAm" style="width:15%" name="workStartTimeAm" />
-			      	<input class="form-control small-control" id="workEndTimeAm" style="width:15%" name="workEndTimeAm" />
+			    	<input class="easyui-timespinner mr10" id="workStartTimeAm" style="width:15%" >
+			    	<input class="easyui-timespinner" id="workEndTimeAm" style="width:15%" >
 			    </div>
 	  		</div>
 	  		<div id="workTimePmItem" class="form-item clearfix mb5">
 			    <label for="workEndTime" class="col-sm-2 control-label"><i18n:message code="i18n.scmgnt.sloinfo.WorkTimePmLabel"/></label>
 			    <div class="col-sm-10">
-			      	<input class="form-control small-control mr10" id="workStartTimePm" style="width:15%"  name="workStartTimePm"/>
-			      	<input class="form-control small-control" id="workEndTimePm" style="width:15%" name="workEndTimePm" />
+			    	<input class="easyui-timespinner mr10" id="workStartTimePm" style="width:15%" >
+			    	<input class="easyui-timespinner" id="workEndTimePm" style="width:15%" >
 			    </div>
 	  		</div>
 	  		<div class="form-group clearfix register-form-btns mt20" style="margin-left:20%">
