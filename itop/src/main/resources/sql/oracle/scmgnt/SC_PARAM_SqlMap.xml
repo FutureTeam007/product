@@ -32,6 +32,12 @@
     and PARAM_CODE = #paramCode:VARCHAR#
     and LANG_FLAG=#locale:VARCHAR#
   </select>
+  <select id="querySloParam" resultMap="scParamResult" parameterClass="java.util.Map" >
+    select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC,LANG_FLAG
+    from SC_PARAM
+    where SC_ORG_ID = #orgId:DECIMAL#
+    and PARAM_KIND_CODE = #paramKindCode:VARCHAR#
+  </select>
   <select id="queryParamList" resultMap="scParamResult" parameterClass="java.util.Map" >
     select SC_PARAM_ID, SC_ORG_ID, PARAM_KIND, PARAM_KIND_CODE, PARAM_CODE, PARAM_VALUE, PARAM_DESC,LANG_FLAG
     from SC_PARAM

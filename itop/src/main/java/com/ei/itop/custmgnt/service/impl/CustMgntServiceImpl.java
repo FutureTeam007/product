@@ -373,34 +373,31 @@ public class CustMgntServiceImpl implements CustMgntService {
 		Map<String, CcSlo> mappedSloRules = mapSloRules(sloRules);
 		// 组合SLO配置列表
 		List<CcSlo> configList = new ArrayList<CcSlo>();
-		// 客户级数据
-		for (ScParam priority : priorityParam) {
-			for (ScParam complex : complexParam) {
-				CcSlo slo = new CcSlo();
-				slo.setCcCustId(custId);
-				slo.setCustName(cust.getCustName());
-				slo.setScOrgId(orgId);
-				slo.setScOrgName(scOrg.getScOrgName());
-				slo.setScProductId(-1L);
-				slo.setPriorityCode(priority.getParamCode());
-				slo.setPriorityVal(priority.getParamValue());
-				slo.setComplexCode(complex.getParamCode());
-				slo.setComplexVal(complex.getParamValue());
-				CcSlo configuredSlo = mappedSloRules.get(orgId + "," + custId
-						+ ",-1," + priority.getParamCode().trim() + ","
-						+ complex.getParamCode().trim());
-				log.debug("get:"+orgId + "," + custId
-						+ ",-1," + priority.getParamCode().trim() + ","
-						+ complex.getParamCode().trim());
-				if (configuredSlo != null) {
-					slo.setDealTime(configuredSlo.getDealTime());
-					slo.setResponseTime(configuredSlo.getResponseTime());
+		// 商户级数据
+		if(custId==-1){
+			for (ScParam priority : priorityParam) {
+				for (ScParam complex : complexParam) {
+					CcSlo slo = new CcSlo();
+					slo.setCcCustId(-1L);
+					slo.setCustName("");
+					slo.setScOrgId(orgId);
+					slo.setScOrgName(scOrg.getScOrgName());
+					slo.setScProductId(-1L);
+					slo.setPriorityCode(priority.getParamCode());
+					slo.setPriorityVal(priority.getParamValue());
+					slo.setComplexCode(complex.getParamCode());
+					slo.setComplexVal(complex.getParamValue());
+					CcSlo configuredSlo = mappedSloRules.get(orgId + ",-1,-1," + priority.getParamCode().trim() + ","
+							+ complex.getParamCode().trim());
+					if (configuredSlo != null) {
+						slo.setDealTime(configuredSlo.getDealTime());
+						slo.setResponseTime(configuredSlo.getResponseTime());
+					}
+					configList.add(slo);
 				}
-				configList.add(slo);
 			}
-		}
-		// 客户产品级数据
-		for (CustProductInfo product : products) {
+		}else{
+			// 客户级数据
 			for (ScParam priority : priorityParam) {
 				for (ScParam complex : complexParam) {
 					CcSlo slo = new CcSlo();
@@ -408,20 +405,48 @@ public class CustMgntServiceImpl implements CustMgntService {
 					slo.setCustName(cust.getCustName());
 					slo.setScOrgId(orgId);
 					slo.setScOrgName(scOrg.getScOrgName());
-					slo.setScProductId(product.getScProductId());
-					slo.setProdName(product.getProdName());
+					slo.setScProductId(-1L);
 					slo.setPriorityCode(priority.getParamCode());
 					slo.setPriorityVal(priority.getParamValue());
 					slo.setComplexCode(complex.getParamCode());
 					slo.setComplexVal(complex.getParamValue());
-					CcSlo configuredSlo = mappedSloRules.get(orgId + ","
-							+ custId + ","+product.getScProductId()+"," + priority.getParamCode().trim()
-							+ "," + complex.getParamCode().trim());
+					CcSlo configuredSlo = mappedSloRules.get(orgId + "," + custId
+							+ ",-1," + priority.getParamCode().trim() + ","
+							+ complex.getParamCode().trim());
+					log.debug("get:"+orgId + "," + custId
+							+ ",-1," + priority.getParamCode().trim() + ","
+							+ complex.getParamCode().trim());
 					if (configuredSlo != null) {
 						slo.setDealTime(configuredSlo.getDealTime());
 						slo.setResponseTime(configuredSlo.getResponseTime());
 					}
 					configList.add(slo);
+				}
+			}
+			// 客户产品级数据
+			for (CustProductInfo product : products) {
+				for (ScParam priority : priorityParam) {
+					for (ScParam complex : complexParam) {
+						CcSlo slo = new CcSlo();
+						slo.setCcCustId(custId);
+						slo.setCustName(cust.getCustName());
+						slo.setScOrgId(orgId);
+						slo.setScOrgName(scOrg.getScOrgName());
+						slo.setScProductId(product.getScProductId());
+						slo.setProdName(product.getProdName());
+						slo.setPriorityCode(priority.getParamCode());
+						slo.setPriorityVal(priority.getParamValue());
+						slo.setComplexCode(complex.getParamCode());
+						slo.setComplexVal(complex.getParamValue());
+						CcSlo configuredSlo = mappedSloRules.get(orgId + ","
+								+ custId + ","+product.getScProductId()+"," + priority.getParamCode().trim()
+								+ "," + complex.getParamCode().trim());
+						if (configuredSlo != null) {
+							slo.setDealTime(configuredSlo.getDealTime());
+							slo.setResponseTime(configuredSlo.getResponseTime());
+						}
+						configList.add(slo);
+					}
 				}
 			}
 		}

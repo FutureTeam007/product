@@ -56,6 +56,9 @@ public class CustProductServiceImpl implements CustProductService{
 	public List<CustProductInfo> queryProductsServiceFor(long orgId, long custId) throws Exception {
 		Map params = new HashMap();
 		params.put("orgId", orgId);
+		if(custId==-1){
+			return null;
+		}
 		//获得custId信息
 		CcCust cust = custMgntService.getCustInfo(custId);
 		//获得顶级cust

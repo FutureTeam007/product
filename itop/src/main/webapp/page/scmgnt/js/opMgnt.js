@@ -127,7 +127,8 @@ var genderEditor={
 		valueField:'gender',
 		textField:'genderName',
 		panelHeight:'auto',
-		required:true
+		required:true,
+		editable:false
 	}
 };
 
@@ -164,7 +165,8 @@ var opKindEditor={
 		valueField:'opKind',
 		textField:'opKindName',
 		panelHeight:'auto',
-		required:true
+		required:true,
+		editable:false
 	}
 };
 
