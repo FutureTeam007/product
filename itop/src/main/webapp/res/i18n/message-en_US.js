@@ -28,12 +28,14 @@ i18n.register.PasswordFormatError="Your password must be at least 4 characters!"
 i18n.register.PasswordConfirmError="New and confirmed passwords are not the same!";
 i18n.register.CompanyEmpty="Please choose your company!";
 i18n.register.RoleEmpty="Please choose your role!";
+i18n.register.OpCodeEmpty="Please input op code!";
 i18n.register.ChineseNameEmpty="Please input your chinese name!";
 i18n.register.EnglishNameEmpty="Please input your english name!";
 i18n.register.GenderEmpty="Please choose your gender!";
+i18n.register.OpKindEmpty="Please choose your type!";
 i18n.register.MobileNoFormatError="Your mobile number must be 11 characters!";
 i18n.register.AreaCodeFormatError="Area Code must be at least 3 or 4 numbers!";
-i18n.register.OfficeTelFormatError="Area Code must be at least 7 or 8 numbers!";
+i18n.register.OfficeTelFormatError="Office tel must be at least 7 or 8 numbers!";
 
 //usercenter
 i18n.usercenter.profile={};
@@ -224,6 +226,7 @@ i18n.scmgnt.opinfo.SubmitBtn="Submit";
 i18n.scmgnt.opinfo.CancelEditBtn="Cancel";
 //opmgnt/////////////////////////
 //table
+i18n.scmgnt.opinfo.TableTitleOpCode="Op code";
 i18n.scmgnt.opinfo.TableTitleOpName="Chinese name";
 i18n.scmgnt.opinfo.TableTitleFirstName="First name";
 i18n.scmgnt.opinfo.TableTitleLastName="Last name";

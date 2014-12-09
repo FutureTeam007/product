@@ -28,9 +28,11 @@ i18n.register.PasswordFormatError="请输入至少4位的登录密码";
 i18n.register.PasswordConfirmError="登录密码与确认密码不一致";
 i18n.register.CompanyEmpty="请选择您所在的公司";
 i18n.register.RoleEmpty="请选择工作角色";
+i18n.register.OpCodeEmpty="请填写顾问编码";
 i18n.register.ChineseNameEmpty="请填写中文姓名";
 i18n.register.EnglishNameEmpty="请填写英文姓名";
 i18n.register.GenderEmpty="请选择性别";
+i18n.register.OpKindEmpty="请选择操作员类型";
 i18n.register.MobileNoFormatError="请输入11位的手机号码";
 i18n.register.AreaCodeFormatError="请输入正确的区号";
 i18n.register.OfficeTelFormatError="请输入正确的办公电话";
@@ -224,6 +226,7 @@ i18n.scmgnt.opinfo.SubmitBtn="提交";
 i18n.scmgnt.opinfo.CancelEditBtn="取消";
 //opmgnt/////////////////////////
 //table
+i18n.scmgnt.opinfo.TableTitleOpCode="顾问编码";
 i18n.scmgnt.opinfo.TableTitleOpName="中文姓名";
 i18n.scmgnt.opinfo.TableTitleFirstName="英文名";
 i18n.scmgnt.opinfo.TableTitleLastName="英文姓";
