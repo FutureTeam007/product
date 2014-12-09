@@ -26,6 +26,7 @@ function initOpDataGrid(){
 		]],
 	    columns:[[
 	        {field:'state',width:fixWidth(0.07),title:i18n.scmgnt.opinfo.TableTitleOpState,formatter:stateFormatter},
+	        {field:'opCode',width:fixWidth(0.08),title:i18n.scmgnt.opinfo.TableTitleOpCode,editor:{type:'textbox'}},
 	        {field:'opName',width:fixWidth(0.11),title:i18n.scmgnt.opinfo.TableTitleOpName,editor:{type:'textbox'}},
             {field:'firstName',width:fixWidth(0.08),title:i18n.scmgnt.opinfo.TableTitleFirstName,editor:{type:'textbox'}},
 	        {field:'lastName',width:fixWidth(0.08),title:i18n.scmgnt.opinfo.TableTitleLastName,editor:{type:'textbox'}},
@@ -345,6 +346,9 @@ function validateSubmit(){
 		//opName
 		var ed = $('#opDataTable').datagrid('getEditor', {index:editIndex,field:'opName'});
 		var opName = $(ed.target).textbox('getText');
+		//opCode
+		ed = $('#opDataTable').datagrid('getEditor', {index:editIndex,field:'opCode'});
+		var opCode = $(ed.target).textbox('getText');
 		//firstName
 		ed = $('#opDataTable').datagrid('getEditor', {index:editIndex,field:'firstName'});
 		var firstName = $(ed.target).textbox('getText');
@@ -357,6 +361,12 @@ function validateSubmit(){
 		//loginPasswd
 		ed = $('#opDataTable').datagrid('getEditor', {index:editIndex,field:'loginPasswd'});
 		var loginPasswd = $(ed.target).textbox('getText');
+		//gender
+		ed = $('#opDataTable').datagrid('getEditor', {index:editIndex,field:'gender'});
+		var gender = $(ed.target).textbox('getText');
+		//gender
+		ed = $('#opDataTable').datagrid('getEditor', {index:editIndex,field:'opKind'});
+		var opKind = $(ed.target).textbox('getText');
 		//mobileNo
 		ed = $('#opDataTable').datagrid('getEditor', {index:editIndex,field:'mobileNo'});
 		var mobileNo = $(ed.target).textbox('getText');
@@ -365,6 +375,10 @@ function validateSubmit(){
 		var officeTel = $(ed.target).textbox('getText');
 		if(!opName){
 			parent.showMsg(i18n.register.ChineseNameEmpty);
+			return false;
+		}
+		if(!opCode){
+			parent.showMsg(i18n.register.OpCodeEmpty);
 			return false;
 		}
 		if(!firstName||!lastName){
@@ -377,6 +391,14 @@ function validateSubmit(){
 		}
 		if(!loginPasswd||loginPasswd.length<4){
 			parent.showMsg(i18n.register.PasswordFormatError);
+			return false;
+		}
+		if(!gender){
+			parent.showMsg(i18n.register.GenderEmpty);
+			return false;
+		}
+		if(!opKind){
+			parent.showMsg(i18n.register.OpKindEmpty);
 			return false;
 		}
 		if(!mobileNo||!/^[0-9]{11}$/.test(mobileNo)){
