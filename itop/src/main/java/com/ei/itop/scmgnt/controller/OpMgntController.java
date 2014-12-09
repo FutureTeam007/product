@@ -76,7 +76,9 @@ public class OpMgntController {
 
 		ScOp op = new ScOp();
 		op.setScOrgId(orgId);
-		op.setOpCode(null);
+		String opCode = ActionUtils.transParamDecode(
+				request.getParameter("opCode"), "UTF-8");
+		op.setOpCode(opCode);
 		String loginCode = ActionUtils.transParamDecode(
 				request.getParameter("loginCode"), "UTF-8");
 		op.setLoginCode(loginCode);
@@ -116,11 +118,16 @@ public class OpMgntController {
 	public void opModify(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
+		long orgId = SessionUtil.getOpInfo().getOrgId();
+
 		long opId = VarTypeConvertUtils.string2Long(request
 				.getParameter("scOpId"));
 
 		ScOp op = new ScOp();
-		op.setOpCode(null);
+		op.setScOrgId(orgId);
+		String opCode = ActionUtils.transParamDecode(
+				request.getParameter("opCode"), "UTF-8");
+		op.setOpCode(opCode);
 		String loginCode = ActionUtils.transParamDecode(
 				request.getParameter("loginCode"), "UTF-8");
 		op.setLoginCode(loginCode);

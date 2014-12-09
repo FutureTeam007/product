@@ -66,7 +66,7 @@ public interface OpService {
 	 * @param orgId
 	 *            商户ID
 	 * @param loginCode
-	 *            待校验的登录账号 排除的opId，可选
+	 *            待校验的登录账号
 	 * @return
 	 * @throws Exception
 	 */
@@ -76,6 +76,8 @@ public interface OpService {
 	/**
 	 * 校验登录账号是否已经存在
 	 * 
+	 * @param orgId
+	 *            商户ID
 	 * @param loginCode
 	 *            待校验的登录账号
 	 * @param excludeOpId
@@ -83,6 +85,21 @@ public interface OpService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean loginCodeIsExist(String loginCode, Long excludeOpId)
+	public boolean loginCodeIsExist(long orgId, String loginCode,
+			Long excludeOpId) throws Exception;
+
+	/**
+	 * 校验顾问编码是否已经存在
+	 * 
+	 * @param orgId
+	 *            商户ID
+	 * @param opCode
+	 *            待校验的顾问编码
+	 * @param excludeOpId
+	 *            排除的opId，可选
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean opCodeIsExist(long orgId, String opCode, Long excludeOpId)
 			throws Exception;
 }

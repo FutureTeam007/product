@@ -125,7 +125,15 @@ public class OpServiceImpl implements OpService {
 		}
 
 		if (loginCodeIsExist(op.getScOrgId(), op.getLoginCode())) {
-			throw new BizException("登录工已存在");
+			throw new BizException("登录工号已存在");
+		}
+
+		if (op.getOpCode() == null || "".equals(op.getOpCode())) {
+			throw new BizException("顾问编码不能为空");
+		}
+
+		if (opCodeIsExist(op.getScOrgId(), op.getOpCode(), null)) {
+			throw new BizException("顾问编码已存在");
 		}
 
 		if (op.getLoginPasswd() == null || "".equals(op.getLoginPasswd())) {
@@ -146,8 +154,16 @@ public class OpServiceImpl implements OpService {
 			throw new BizException("登录工号不能为空");
 		}
 
-		if (loginCodeIsExist(op.getLoginCode(), opId)) {
-			throw new BizException("登录工已存在");
+		if (loginCodeIsExist(op.getScOrgId(), op.getLoginCode(), opId)) {
+			throw new BizException("登录工号已存在");
+		}
+
+		if (op.getOpCode() == null || "".equals(op.getOpCode())) {
+			throw new BizException("顾问编码不能为空");
+		}
+
+		if (opCodeIsExist(op.getScOrgId(), op.getOpCode(), opId)) {
+			throw new BizException("顾问编码已存在");
 		}
 
 		if (op.getLoginPasswd() == null || "".equals(op.getLoginPasswd())) {
@@ -178,7 +194,7 @@ public class OpServiceImpl implements OpService {
 
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("orgId", orgId);
-		hm.put("loginCode", loginCode);
+		hm.put("loginCode", loginCode.toLowerCase());
 
 		List<ScOp> opList = opDAO.findByParams("SC_OP.checkLoginCode", hm);
 
@@ -189,15 +205,36 @@ public class OpServiceImpl implements OpService {
 		return false;
 	}
 
-	public boolean loginCodeIsExist(String loginCode, Long excludeOpId)
+	public boolean loginCodeIsExist(long orgId, String loginCode,
+			Long excludeOpId) throws Exception {
+		// TODO Auto-generated method stub
+
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orgId", orgId);
+		hm.put("loginCode", loginCode.toLowerCase());
+		hm.put("excludeOpId", excludeOpId);
+
+		List<ScOp> opList = opDAO.findByParams("SC_OP.checkLoginCode", hm);
+
+		if (opList != null && opList.size() > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean opCodeIsExist(long orgId, String opCode, Long excludeOpId)
 			throws Exception {
 		// TODO Auto-generated method stub
 
 		Map<String, Object> hm = new HashMap<String, Object>();
-		hm.put("loginCode", loginCode);
-		hm.put("excludeOpId", excludeOpId);
+		hm.put("orgId", orgId);
+		hm.put("opCode", opCode);
+		if (excludeOpId != null) {
+			hm.put("excludeOpId", excludeOpId);
+		}
 
-		List<ScOp> opList = opDAO.findByParams("SC_OP.checkLoginCode", hm);
+		List<ScOp> opList = opDAO.findByParams("SC_OP.checkOpCode", hm);
 
 		if (opList != null && opList.size() > 0) {
 			return true;
