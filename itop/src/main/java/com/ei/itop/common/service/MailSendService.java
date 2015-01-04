@@ -168,6 +168,7 @@ public interface MailSendService {
 
 	/**
 	 * 评价事件
+	 * 
 	 * @param userName
 	 * @param opName
 	 * @param opReceiveAddr
@@ -177,7 +178,34 @@ public interface MailSendService {
 	 * @throws Exception
 	 */
 	public void sendIncidentFeedbackMail(final String userName,
-			final String opName, final String opReceiveAddr,String feedbackVal,
-			final IcIncident incident)
-			throws Exception;
+			final String opName, final String opReceiveAddr,
+			String feedbackVal, final IcIncident incident) throws Exception;
+
+	/**
+	 * 发送响应超时提醒邮件
+	 * 
+	 * @param userName
+	 * @param opName
+	 * @param opReceiveAddr
+	 * @param ccAddr
+	 * @param incident
+	 * @throws Exception
+	 */
+	public void sendResponseTimeoutRemindMail(final String userName,
+			final String opName, final String opReceiveAddr,
+			final String[] ccAddr, final IcIncident incident) throws Exception;
+
+	/**
+	 * 发送处理超时提醒邮件
+	 * 
+	 * @param userName
+	 * @param opName
+	 * @param opReceiveAddr
+	 * @param ccAddr
+	 * @param incident
+	 * @throws Exception
+	 */
+	public void sendDealTimeoutRemindMail(final String userName,
+			final String opName, final String opReceiveAddr,
+			final String[] ccAddr, final IcIncident incident) throws Exception;
 }
