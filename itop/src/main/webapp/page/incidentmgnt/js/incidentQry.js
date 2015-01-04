@@ -749,18 +749,18 @@ function dateTimeFormatterMinute(val){
 	//年
 	var year = date.getFullYear();
 	//月
-	var month = date.getMonth();
-	month = month<10?"0"+month:month;
+	var month = date.getMonth()+1;
+	month = month<10?"0"+parseInt(month):month;
 	//日
 	var day = date.getDate();
-	day = day<10?"0"+day:day;
+	day = day<10?"0"+parseInt(day):day;
 	//小时
 	var hour = date.getHours();
-	hour = hour<10?"0"+hour:hour;
+	hour = hour<10?"0"+parseInt(hour):hour;
 	//分钟
 	var minute = date.getMinutes();
-	minute = minute<10?"0"+minute:minute;
-	return year+"-"+(month+1)+"-"+day+" "+hour+":"+minute;
+	minute = minute<10?"0"+parseInt(minute):minute;
+	return year+"-"+month+"-"+day+" "+hour+":"+minute;
 }
 //格式化时间
 function dateFormatter2(val){
