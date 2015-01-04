@@ -159,6 +159,15 @@
 	  and ii.SC_PRODUCT_ID = #productId:DECIMAL#
 	group by ii.sc_op_id
   </select>
+  <select id="queryIncidentByOrgIdAndStateCode" resultMap="icIncidentResult" parameterClass="java.util.Map" >
+    select *
+    from IC_INCIDENT where data_state=1
+    and SC_ORG_ID = #orgId:DECIMAL#
+    and it_state_code in
+    	<iterate property="stateCode" open="(" close=")" conjunction=",">
+    		#stateCode[]#
+   		</iterate>
+  </select>
   <select id="queryIncident" resultMap="icIncidentResult" parameterClass="java.util.Map" >
     select IC_INCIDENT_ID, INCIDENT_CODE, SC_ORG_ID, SC_ORG_NAME, CC_CUST_ID, CUST_NAME,
       IC_OWNER_TYPE, IC_OWNER_ID, IC_OWNER_CODE, IC_OWNER_NAME,

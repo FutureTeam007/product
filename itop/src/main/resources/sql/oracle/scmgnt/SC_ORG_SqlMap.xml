@@ -15,6 +15,12 @@
     <result column="NOTES" property="notes" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
+  <select id="queryOrg" resultMap="scOrgResult" parameterClass="java.util.Map" >
+    select SC_ORG_ID, SUP_ORG_ID, ORG_CODE, ORG_LEVEL, ORG_LVL_PATH, SC_ORG_NAME, SHORT_NAME,
+      LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
+    from SC_ORG
+    where STATE = 1
+  </select>
   <select id="selectByPrimaryKey" resultMap="scOrgResult" parameterClass="long" >
     select SC_ORG_ID, SUP_ORG_ID, ORG_CODE, ORG_LEVEL, ORG_LVL_PATH, SC_ORG_NAME, SHORT_NAME,
       LAST_NAME, DOMAIN_NAME, DOMAIN_NAME_SEC, NOTES, STATE
