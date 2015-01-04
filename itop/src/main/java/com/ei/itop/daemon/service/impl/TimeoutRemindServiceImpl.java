@@ -104,12 +104,19 @@ public class TimeoutRemindServiceImpl implements TimeoutRemindService {
 			for (int j = 0; incidentList != null && j < incidentList.size(); j++) {
 				IcIncident incident = incidentList.get(j);
 
-				// 判断是否满足提醒条件
-				if (needRemind4ResponseTimeout(incident, currentTime,
-						slo.getResponseTime())) {
-					// 需要提醒
-					// 执行提醒操作
-					remind4ResponseTimeout(incident);
+				try {
+					// 判断是否满足提醒条件
+					if (needRemind4ResponseTimeout(incident, currentTime,
+							slo.getResponseTime())) {
+						// 需要提醒
+						// 执行提醒操作
+						remind4ResponseTimeout(incident);
+					}
+				} catch (Exception e) {
+					log.error("【超时未响应】处理事件【ID=" + incident.getIcIncidentId()
+							+ "，系列号=" + incident.getIncidentCode()
+							+ "】时出错，跳过并继续。", e);
+					continue;
 				}
 			}
 		}
@@ -199,27 +206,27 @@ public class TimeoutRemindServiceImpl implements TimeoutRemindService {
 		for (int i = 0; orgList != null && i < orgList.size(); i++) {
 			ScOrg org = orgList.get(i);
 
-			// 取得商户用于判断超时的SLO记录
-			Map<String, Object> hm2 = new HashMap<String, Object>();
-			hm2.put("orgId", org.getScOrgId());
-			hm2.put("custId", -1);
-			hm2.put("productId", -1);
-			CcSlo slo = null;
-			try {
-				slo = sloDAO.findByParams(
-						"CC_SLO.querySloRulesOrderByPriorityDescColplexDesc",
-						hm2).get(0);
-			} catch (Exception e) {
-				log.error("【超时未完成】获取orgId为" + org.getScOrgId()
-						+ "的slo时出错，跳过并继续。", e);
-				continue;
-			}
-
-			if (slo == null) {
-				log.error("【超时未完成】获取orgId为" + org.getScOrgId()
-						+ "的slo为空，跳过并继续。");
-				continue;
-			}
+			// // 取得商户用于判断超时的SLO记录
+			// Map<String, Object> hm2 = new HashMap<String, Object>();
+			// hm2.put("orgId", org.getScOrgId());
+			// hm2.put("custId", -1);
+			// hm2.put("productId", -1);
+			// CcSlo slo = null;
+			// try {
+			// slo = sloDAO.findByParams(
+			// "CC_SLO.querySloRulesOrderByPriorityDescColplexDesc",
+			// hm2).get(0);
+			// } catch (Exception e) {
+			// log.error("【超时未完成】获取orgId为" + org.getScOrgId()
+			// + "的slo时出错，跳过并继续。", e);
+			// continue;
+			// }
+			//
+			// if (slo == null) {
+			// log.error("【超时未完成】获取orgId为" + org.getScOrgId()
+			// + "的slo为空，跳过并继续。");
+			// continue;
+			// }
 
 			// 取得已响应但尚未完毕的事件列表
 			Map<String, Object> hm3 = new HashMap<String, Object>();
@@ -240,15 +247,66 @@ public class TimeoutRemindServiceImpl implements TimeoutRemindService {
 			for (int j = 0; incidentList != null && j < incidentList.size(); j++) {
 				IcIncident incident = incidentList.get(j);
 
-				// 判断是否满足提醒条件
-				if (needRemind4DealTimeout(incident, currentTime,
-						slo.getDealTime())) {
-					// 需要提醒
-					// 执行提醒操作
-					remind4DealTimeout(incident);
+				try {
+					// 判断是否满足提醒条件
+					if (needRemind4DealTimeout(incident, currentTime)) {
+						// 需要提醒
+						// 执行提醒操作
+						remind4DealTimeout(incident);
+					}
+				} catch (Exception e) {
+					log.error("【超时未完成】处理事件【ID=" + incident.getIcIncidentId()
+							+ "，系列号=" + incident.getIncidentCode()
+							+ "】时出错，跳过并继续。", e);
+					continue;
 				}
 			}
 		}
+	}
+
+	/**
+	 * 对超时未处理完毕的事件，判断是否须提醒，已经超过处理截止时间，则发送第一封提醒邮件，然后是每天一封， 暂定每天凌晨2:00
+	 * 
+	 * @param incident
+	 * @param currentTime
+	 * @return
+	 * @throws Exception
+	 */
+	protected boolean needRemind4DealTimeout(IcIncident incident,
+			Date currentTime) throws Exception {
+
+		long diffSeconds = DateUtils.getDiffSeconds(currentTime,
+				incident.getDealDur2());
+		log.debug("diffSeconds is " + diffSeconds);
+
+		// 判断是否超时
+		if (diffSeconds >= 0) {
+			// 超时
+
+			// 超时后的第一个时间间隔（当前是5分钟）处理
+			// 间隔5分钟，即为0-300秒，如果间隔改变，需调整此处的300
+			if (diffSeconds < 300) {
+				return true;
+			}
+
+			// 判断是否为当天2:00后的第一个时间间隔，如果是，则为每天的定时处理时刻
+			String strTodaysClock = DateUtils.date2String(currentTime,
+					DateUtils.FORMATTYPE_yyyyMMdd) + "020000";
+			Date todaysClock = DateUtils.string2Date(strTodaysClock,
+					DateUtils.FORMATTYPE_yyyyMMddHHmmss);
+			diffSeconds = DateUtils.getDiffSeconds(currentTime, todaysClock);
+			log.debug("diffSeconds is " + diffSeconds);
+			if (diffSeconds >= 0 && diffSeconds < 300) {
+				return true;
+			}
+		}
+
+		// 未超时
+
+		log.debug("【超时未完成】事件【ID=" + incident.getIcIncidentId() + "，系列号="
+				+ incident.getIncidentCode() + "】不满足提醒条件，跳过。");
+
+		return false;
 	}
 
 	/**
@@ -261,7 +319,7 @@ public class TimeoutRemindServiceImpl implements TimeoutRemindService {
 	 * @return
 	 * @throws Exception
 	 */
-	protected boolean needRemind4DealTimeout(IcIncident incident,
+	protected boolean needRemind4DealTimeoutOld(IcIncident incident,
 			Date currentTime, long dealTime) throws Exception {
 
 		Date d = incident.getRegisteTime();
