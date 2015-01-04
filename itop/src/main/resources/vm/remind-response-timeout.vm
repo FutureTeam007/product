@@ -1,0 +1,112 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<link href="${website}/res/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="${website}/theme/default/default.css" rel="stylesheet">
+		<script src="${website}/res/bootstrap/js/jquery-1.11.0.js"></script>
+		<script src="${website}/res/bootstrap/js/bootstrap.min.js"></script>
+	</head>
+<body>
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <p>Hi, ${opName}!</p>
+	    <p>${userName} submit a ticket at ${vDate},the content as follows：</p>
+	    <p>${content}</p>
+	    <p>Please <a href="${website}" target="_blank">login ITOP system</a> to handle it as soon as possible!</p>
+	    <hr/>
+	    <p><strong>Ticket Information:</strong></p>
+	    <p>
+	    	<table width="80%" style="font-size:12px">
+	    		<tr>
+	    			<td width="20%"><strong>Description</strong></td><td colspan="3">$!{incident.brief}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Detail</strong></td><td colspan="3">$!{incident.detail}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Company</strong></td><td>$!{incident.custName}</td>
+	    			<td width="20%"><strong>Type</strong></td><td>$!{incident.classVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Product line</strong></td><td>$!{incident.prodName}</td>
+	    			<td width="20%"><strong>Service Module</strong></td><td>$!{incident.moduleName}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Infuence</strong></td><td>$!{incident.affectVal}</td>
+	    			<td width="20%"><strong>Complex</strong></td><td>$!{incident.complexVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Priority</strong></td><td>$!{incident.priorityVal}</td>
+	    			<td width="20%"><strong>Status</strong></td><td>$!{incident.itStateVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Owner</strong></td><td>$!{incident.icLoginCode}</td>
+	    			<td width="20%"><strong>Happen time</strong></td><td>$!{happenTime}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>Response Endtime</strong></td><td>$!{reponseDur2}</td>
+	    			<td width="20%"><strong>Handle Endtime</strong></td><td>$!{dealDur2}</td>
+	    		</tr>
+	    	</table>
+	    </p>
+	  </div>
+	  <div>
+	  	<p>
+	  		The message has been sent by E&I Support website, please do not reply to this email, if you have any questions, please contact the relevant consultant.
+	  	</p>
+	  </div>
+	  <div class="panel-footer"><span class="pull-left">ITOP make your work more simple and efficient! </span><span class="pull-right">From:support.eiconsulting.cn</span></div>
+	  <br/>
+	  <hr>
+	  <div class="panel-body">
+	    <p>${opName}，您好！</p>
+	    <p>${userName}于${vDate}提交了一个请求事件，内容如下：</p>
+	    <p>${content}</p>
+	    <p>请您尽快<a href="${website}" target="_blank">登录ITOP系统</a>进行事件处理</p>
+	    <hr/>
+	    <p><strong>事件详细信息:</strong></p>
+	    <p>
+	    	<table width="80%" style="font-size:12px">
+	    		<tr>
+	    			<td width="20%"><strong>事件简述</strong></td><td colspan="3">$!{incident.brief}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>事件详细说明</strong></td><td colspan="3">$!{incident.detail}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>公司</strong></td><td>$!{incident.custName}</td>
+	    			<td width="20%"><strong>类别</strong></td><td>$!{incident.classVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>产品线</strong></td><td>$!{incident.prodName}</td>
+	    			<td width="20%"><strong>服务目录</strong></td><td>$!{incident.moduleName}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>影响度</strong></td><td>$!{incident.affectVal}</td>
+	    			<td width="20%"><strong>复杂度</strong></td><td>$!{incident.complexVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>优先级</strong></td><td>$!{incident.priorityVal}</td>
+	    			<td width="20%"><strong>事件状态</strong></td><td>$!{incident.itStateVal}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>当前处理人</strong></td><td>$!{incident.icLoginCode}</td>
+	    			<td width="20%"><strong>发生时间</strong></td><td>$!{happenTime}</td>
+	    		</tr>
+	    		<tr>
+	    			<td width="20%"><strong>响应截止时间</strong></td><td>$!{reponseDur2}</td>
+	    			<td width="20%"><strong>处理截止时间</strong></td><td>$!{dealDur2}</td>
+	    		</tr>
+	    	</table>
+	    </p>
+	  </div>
+	  <div>
+	  	<p>
+	  		该邮件已由拓创Support网站发送，请不要回复该邮件，如有您有任何疑问，请联系相关顾问
+	  	</p>
+	  </div>
+	  <div class="panel-footer"><span class="pull-left">ITOP让工作变得更简单！</span><span class="pull-right">来自：eiconsulting.cn</span></div>
+	</div>
+</body>
+</html>
