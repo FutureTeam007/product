@@ -22,9 +22,9 @@
   </select>
   <select id="selectByOrgIdAndCustId" resultMap="scProductResult" parameterClass="java.util.Map" >
     select distinct sp.SC_PRODUCT_ID, sp.SC_ORG_ID, sp.PROD_CODE, sp2.PROD_NAME, sp.PROD_DESC, sp.STATE
-    from SC_PRODUCT sp left join SC_PRODUCT_I18N sp2 on sp.SC_PRODUCT_ID = sp2.SC_PRODUCT_ID and sp2.LANG_FLAG=#locale:VARCHAR#,CC_CUST_PROD ccp
-    where sp.sc_product_id=ccp.sc_product_id
-    and sp.SC_ORG_ID = #orgId:DECIMAL# and sp.STATE=1
+    from SC_PRODUCT sp left join SC_PRODUCT_I18N sp2 on sp.SC_PRODUCT_ID = sp2.SC_PRODUCT_ID and sp2.LANG_FLAG=#locale:VARCHAR#
+    left join CC_CUST_PROD ccp on sp.sc_product_id=ccp.sc_product_id
+    where sp.SC_ORG_ID = #orgId:DECIMAL# and sp.STATE=1
     <isNotNull prepend="and" property="custId" >
       	ccp.CC_CUST_ID in
       	<iterate property="custId" open="(" close=")" conjunction=",">
