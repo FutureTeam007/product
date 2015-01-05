@@ -42,6 +42,9 @@
 <script src="<%=rootPath%>/res/i18n/message-<%=i18nLocale%>.js"></script>
 <script type="text/javascript">
 <!--
+	$.ajaxSetup({
+	  cache: false
+	});
 	var rootPath = "<%=rootPath%>";
 	<% if (opInfo!=null) {%>
 		var opId = "<%=opInfo.getOpId()%>";

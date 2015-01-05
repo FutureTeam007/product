@@ -324,6 +324,11 @@ function openExportReportWin(){
 		    }
 		});
 	}
+	//如果是用户，则默认选中公司
+	if(opType=="USER"){
+		$('#exportCustSel').combotree('setValue',opCustId);
+	}
+	
 	if(!exportRegisteManSel){
 		//初始化登记人查询条件
 		exportRegisteManSel = $('#exportRegisteMan').combobox({
@@ -359,6 +364,8 @@ function openExportReportWin(){
 		    }
 		});
 	}
+	//设置默认截止时间为当前时间
+	$('#exportEndDate').datebox('setValue',dateFormatter2(new Date().getTime()));
 }
 //导出事件报表
 function exportReport(){

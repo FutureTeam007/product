@@ -96,7 +96,7 @@
 		<div>
 			<span style="width:16%;float:left">
 				<button type="button" class="btn btn-danger undis" id="addBtn" onclick="add()">+ <i18n:message code="i18n.incident.mgnt.AddNewBtn"/></button>
-				<button type="button" class="btn btn-primary btn-outline btn-sm" id="exportBtn" onclick="openExportReportWin()"><i18n:message code="i18n.incident.mgnt.ExportBtn"/></button>
+				<button type="button" class="btn btn-primary btn-outline btn-sm ml5" id="exportBtn" onclick="openExportReportWin()"><i18n:message code="i18n.incident.mgnt.ExportBtn"/></button>
 			</span>
 			<ul class="nav nav-tabs" role="tablist" id="statusNav" >
 			</ul>
@@ -162,7 +162,7 @@
    	 	<label class="col-sm-3 control-label"><i18n:message code="i18n.incident.mgnt.ExportStatusLabel" /></label>
     	<div class="col-sm-9" style="padding-left:10px;">
 		    <c:forEach var="ticketStatus" items="${statusP}" begin="0" step="1">
-		    	<span class="checkbox-inline exp-status"><input type="checkbox" name="exportStatus" value="${ticketStatus.paramCode}" text="${ticketStatus.paramValue}">${ticketStatus.paramValue}</span>
+		    	<span class="checkbox-inline exp-status"><input type="checkbox" name="exportStatus" value="${ticketStatus.paramCode}" checked="checked" text="${ticketStatus.paramValue}">${ticketStatus.paramValue}</span>
 			</c:forEach>
 		</div>
 	</div>
