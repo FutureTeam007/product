@@ -142,8 +142,13 @@ public class CustMgntServiceImpl implements CustMgntService {
 			Long productId, String adviserName, Long currentAdviserId,
 			long startIndex, int pageSize) throws Exception {
 		// TODO Auto-generated method stub
+		//获得custId信息
+		CcCust cust = getCustInfo(custId);
+		//获得顶级cust
+		CcCust topCust = getTopCustInfo(custId, cust.getDomainName());
+
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("custId", custId);
+		hm.put("custId", topCust.getCcCustId());
 		hm.put("productId", productId);
 		hm.put("currentAdviserId", currentAdviserId);
 		String conditionAdviserName = adviserName == null ? "" : adviserName;
@@ -179,9 +184,13 @@ public class CustMgntServiceImpl implements CustMgntService {
 	public long queryInChargeAdviserCount(Long custId, Long productId,
 			String adviserName, Long currentAdviserId) throws Exception {
 		// TODO Auto-generated method stub
+		//获得custId信息
+		CcCust cust = getCustInfo(custId);
+		//获得顶级cust
+		CcCust topCust = getTopCustInfo(custId, cust.getDomainName());
 
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("custId", custId);
+		hm.put("custId", topCust.getCcCustId());
 		hm.put("productId", productId);
 		hm.put("currentAdviserId", currentAdviserId);
 		String conditionAdviserName = adviserName == null ? "" : adviserName;
