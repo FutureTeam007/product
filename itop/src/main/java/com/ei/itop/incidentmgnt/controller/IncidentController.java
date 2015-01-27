@@ -310,136 +310,152 @@ public class IncidentController {
 			for (IcIncident incident : datas) {
 				row = sheet.createRow(startRow);
 				int cellIndex = 0;
-				//序号
+				// 序号
 				Cell cellNo = row.createCell(cellIndex++);
 				cellNo.setCellValue(no++);
 				cellNo.setCellStyle(style);
-				//编码
+				// 编码
 				Cell cellCode = row.createCell(cellIndex++);
 				cellCode.setCellValue(incident.getIncidentCode());
 				cellCode.setCellStyle(style);
-				//描述
+				// 描述
 				Cell cellDesc = row.createCell(cellIndex++);
 				cellDesc.setCellValue(incident.getBrief());
 				cellDesc.setCellStyle(style);
-				//解决方案
+				// 解决方案
 				Cell cellSolution = row.createCell(cellIndex++);
 				cellSolution.setCellValue(incident.getItSolution());
 				cellSolution.setCellStyle(style);
-				//事件分类
+				// 事件分类
 				Cell cellClass = row.createCell(cellIndex++);
 				cellClass.setCellValue(incident.getClassVal());
 				cellClass.setCellStyle(style);
-				//产品线
+				// 产品线
 				Cell cellProd = row.createCell(cellIndex++);
 				cellProd.setCellValue(incident.getProdName());
 				cellProd.setCellStyle(style);
-				//模块
+				// 模块
 				Cell cellModule = row.createCell(cellIndex++);
 				cellModule.setCellValue(incident.getModuleName());
 				cellModule.setCellStyle(style);
-				//登记人
+				// 登记人
 				Cell cellRegister = row.createCell(cellIndex++);
 				cellRegister.setCellValue(incident.getPlObjectName());
 				cellRegister.setCellStyle(style);
-				//责任顾问
+				// 责任顾问
 				Cell cellOwner = row.createCell(cellIndex++);
 				cellOwner.setCellValue(incident.getScLoginName());
 				cellOwner.setCellStyle(style);
-				//登记时间
+				// 登记时间
 				Cell cellRegisterDate = row.createCell(cellIndex++);
-				cellRegisterDate.setCellValue(incident.getRegisteTime() == null ? ""
-						: DateUtils.date2String(incident.getRegisteTime(),
-								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				cellRegisterDate
+						.setCellValue(incident.getRegisteTime() == null ? ""
+								: DateUtils.date2String(
+										incident.getRegisteTime(),
+										DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				cellRegisterDate.setCellStyle(style);
-				//计划完成时间
+				// 计划完成时间
 				Cell cellPlanFinishDate = row.createCell(cellIndex++);
-				cellPlanFinishDate.setCellValue(incident.getDealDur2() == null ? ""
-						: DateUtils.date2String(incident.getDealDur2(),
-								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				cellPlanFinishDate
+						.setCellValue(incident.getDealDur2() == null ? ""
+								: DateUtils.date2String(
+										incident.getDealDur2(),
+										DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				cellPlanFinishDate.setCellStyle(style);
-				//最近更新时间
+				// 最近更新时间
 				Cell cellLastUpdateDate = row.createCell(cellIndex++);
-				cellLastUpdateDate.setCellValue(incident.getModifyDate() == null ? ""
-						: DateUtils.date2String(incident.getModifyDate(),
-								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				cellLastUpdateDate
+						.setCellValue(incident.getModifyDate() == null ? ""
+								: DateUtils.date2String(
+										incident.getModifyDate(),
+										DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				cellLastUpdateDate.setCellStyle(style);
-				//实际完成时间
+				// 实际完成时间
 				Cell cellActualFinishDate = row.createCell(cellIndex++);
-				cellActualFinishDate.setCellValue(incident.getFinishTime() == null ? ""
-						: DateUtils.date2String(incident.getFinishTime(),
-								DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
+				cellActualFinishDate
+						.setCellValue(incident.getFinishTime() == null ? ""
+								: DateUtils.date2String(
+										incident.getFinishTime(),
+										DateUtils.FORMATTYPE_yyyy_MM_dd_HH_mm_ss));
 				cellActualFinishDate.setCellStyle(style);
-				//影响度
+				// 影响度
 				Cell cellAffect = row.createCell(cellIndex++);
 				cellAffect.setCellValue(incident.getAffectVal());
 				cellAffect.setCellStyle(style);
-				//优先级
+				// 优先级
 				Cell cellPriority = row.createCell(cellIndex++);
 				cellPriority.setCellValue(incident.getPriorityVal());
 				cellPriority.setCellStyle(style);
-				//状态
+				// 状态
 				Cell cellState = row.createCell(cellIndex++);
 				cellState.setCellValue(incident.getItStateVal());
 				cellState.setCellStyle(style);
-				//工时
+				// 工时
 				Cell cellTime = row.createCell(cellIndex++);
 				if (incident.getRegisteTime() != null
 						&& incident.getFinishTime() != null) {
-					long diff = DateUtils.getDiffMinutes(
-							incident.getFinishTime(), incident.getRegisteTime());
-					double times = diff/60f;
+					long diff = DateUtils
+							.getDiffMinutes(incident.getFinishTime(),
+									incident.getRegisteTime());
+					double times = diff / 60f;
 					cellTime.setCellValue(String.format("%.2f", times));
 				} else {
 					cellTime.setCellValue("");
 				}
 				cellTime.setCellStyle(style);
-				//公司
+				// 公司
 				Cell cellCompany = row.createCell(cellIndex++);
 				cellCompany.setCellValue(incident.getCustName());
 				cellCompany.setCellStyle(style);
-				//地点
+				// 地点
 				Cell cellCompany2 = row.createCell(cellIndex++);
 				cellCompany2.setCellValue(incident.getCustName());
 				cellCompany2.setCellStyle(style);
-				//归档标记
+				// 归档标记
 				String archiveFlag = incident.getArchiveFlag();
-				if(StringUtils.isEmpty(archiveFlag)){
-					//根本原因
+				if (StringUtils.isEmpty(archiveFlag)) {
+					// 根本原因
 					Cell cellRootcause = row.createCell(cellIndex++);
 					cellRootcause.setCellValue("");
 					cellRootcause.setCellStyle(style);
-					//长期方案
+					// 长期方案
 					Cell cellLongTerm = row.createCell(cellIndex++);
 					cellLongTerm.setCellValue("");
 					cellLongTerm.setCellStyle(style);
-					//重复问题
+					// 重复问题
 					Cell cellRepeating = row.createCell(cellIndex++);
 					cellRepeating.setCellValue("");
 					cellRepeating.setCellStyle(style);
-					//ITC审查
+					// ITC审查
 					Cell cellITC = row.createCell(cellIndex++);
 					cellITC.setCellValue("");
 					cellITC.setCellStyle(style);
-				}else{
-					//根本原因
+				} else {
+					// 根本原因
 					Cell cellRootcause = row.createCell(cellIndex++);
-					cellRootcause.setCellValue(archiveFlag.charAt(0)=='0'?"No":"Yes");
+					cellRootcause
+							.setCellValue(archiveFlag.charAt(0) == '0' ? "No"
+									: "Yes");
 					cellRootcause.setCellStyle(style);
-					//长期方案
+					// 长期方案
 					Cell cellLongTerm = row.createCell(cellIndex++);
-					cellLongTerm.setCellValue(archiveFlag.charAt(1)=='0'?"No":"Yes");
+					cellLongTerm
+							.setCellValue(archiveFlag.charAt(1) == '0' ? "No"
+									: "Yes");
 					cellLongTerm.setCellStyle(style);
-					//重复问题
+					// 重复问题
 					Cell cellRepeating = row.createCell(cellIndex++);
-					cellRepeating.setCellValue(archiveFlag.charAt(2)=='0'?"No":"Yes");
+					cellRepeating
+							.setCellValue(archiveFlag.charAt(2) == '0' ? "No"
+									: "Yes");
 					cellRepeating.setCellStyle(style);
-					//ITC审查
+					// ITC审查
 					Cell cellITC = row.createCell(cellIndex++);
-					cellITC.setCellValue(archiveFlag.charAt(3)=='0'?"No":"Yes");
+					cellITC.setCellValue(archiveFlag.charAt(3) == '0' ? "No"
+							: "Yes");
 					cellITC.setCellStyle(style);
 				}
-				//满意度
+				// 满意度
 				Cell cellSatis = row.createCell(cellIndex++);
 				cellSatis.setCellValue(incident.getFeedbackVal());
 				cellSatis.setCellStyle(style);
@@ -518,6 +534,19 @@ public class IncidentController {
 		if (!StringUtils.isEmpty(registerTimeEnd)) {
 			qi.setRegisterTimeEnd(DateUtils.dateOffset(DateUtils.string2Date(
 					registerTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd),
+					Calendar.DAY_OF_YEAR, 1));
+		}
+		// 计划完成时间起始
+		String dealDur2Begin = request.getParameter("dealDur2Begin");
+		if (!StringUtils.isEmpty(dealDur2Begin)) {
+			qi.setDealDur2Begin(DateUtils.string2Date(dealDur2Begin,
+					DateUtils.FORMATTYPE_yyyy_MM_dd));
+		}
+		// 计划完成时间截止
+		String dealDur2End = request.getParameter("dealDur2End");
+		if (!StringUtils.isEmpty(dealDur2End)) {
+			qi.setDealDur2End(DateUtils.dateOffset(DateUtils.string2Date(
+					dealDur2End, DateUtils.FORMATTYPE_yyyy_MM_dd),
 					Calendar.DAY_OF_YEAR, 1));
 		}
 		// 客户ID
@@ -899,9 +928,9 @@ public class IncidentController {
 				.getParameter("incidentId"));
 		incidentService.MBLAdminSetProccess(incidentId, oi);
 	}
-	
+
 	public static void main(String[] args) {
-		double d = 18/60f;
+		double d = 18 / 60f;
 		System.out.println(String.format("%.2f", d));
 	}
 }

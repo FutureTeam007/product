@@ -136,6 +136,8 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("stateCode", qcIncident.getStateCode());
 		hm.put("registerTimeBegin", qcIncident.getRegisterTimeBegin());
 		hm.put("registerTimeEnd", qcIncident.getRegisterTimeEnd());
+		hm.put("dealDur2Begin", qcIncident.getDealDur2Begin());
+		hm.put("dealDur2End", qcIncident.getDealDur2End());
 
 		if (!"desc".equals(qcIncident.getOrderByRegisterTime())
 				&& !"asc".equals(qcIncident.getOrderByRegisterTime())) {
@@ -199,6 +201,8 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("stateCode", qcIncident.getStateCode());
 		hm.put("registerTimeBegin", qcIncident.getRegisterTimeBegin());
 		hm.put("registerTimeEnd", qcIncident.getRegisterTimeEnd());
+		hm.put("dealDur2Begin", qcIncident.getDealDur2Begin());
+		hm.put("dealDur2End", qcIncident.getDealDur2End());
 
 		long rowCount = incidentDAOCount.find("IC_INCIDENT.queryIncidentCount",
 				hm);
@@ -237,6 +241,8 @@ public class IncidentServiceImpl implements IncidentService {
 		hm.put("stateCode", qcIncident.getStateCode());
 		hm.put("registerTimeBegin", qcIncident.getRegisterTimeBegin());
 		hm.put("registerTimeEnd", qcIncident.getRegisterTimeEnd());
+		hm.put("dealDur2Begin", qcIncident.getDealDur2Begin());
+		hm.put("dealDur2End", qcIncident.getDealDur2End());
 
 		// 得到状态定义表所有状态定义
 		List<ScParam> paramList = paramService.getParamList(orgId, "IC_STATE");

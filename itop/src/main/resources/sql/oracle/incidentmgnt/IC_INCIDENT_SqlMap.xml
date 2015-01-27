@@ -247,6 +247,12 @@
       <isNotNull prepend="" property="registerTimeEnd" >
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
+      <isNotNull prepend="" property="dealDur2Begin" >
+    	and DEAL_DUR2 <![CDATA[>=]]> #dealDur2Begin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="dealDur2End" >
+    	and DEAL_DUR2 <![CDATA[<=]]> #dealDur2End:DATE#
+      </isNotNull>
       order by $orderBy$,ic_incident_id desc
   </select>
   <select id="queryIncidentPaging" resultMap="icIncidentResult" parameterClass="java.util.Map" >
@@ -328,6 +334,12 @@
       </isNotNull>
       <isNotNull prepend="" property="registerTimeEnd" >
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="dealDur2Begin" >
+    	and DEAL_DUR2 <![CDATA[>=]]> #dealDur2Begin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="dealDur2End" >
+    	and DEAL_DUR2 <![CDATA[<=]]> #dealDur2End:DATE#
       </isNotNull>
       order by $orderBy$,ic_incident_id desc
       ) t ) where rn between #startIndex:DECIMAL# and #endIndex:DECIMAL#
@@ -411,6 +423,12 @@
       <isNotNull prepend="" property="registerTimeEnd" >
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
       </isNotNull>
+      <isNotNull prepend="" property="dealDur2Begin" >
+    	and DEAL_DUR2 <![CDATA[>=]]> #dealDur2Begin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="dealDur2End" >
+    	and DEAL_DUR2 <![CDATA[<=]]> #dealDur2End:DATE#
+      </isNotNull>
       )
   </select>
   <select id="queryIncidentCountGroupByState" resultMap="incidentCountInfoByStateResult" parameterClass="java.util.Map" >
@@ -475,6 +493,12 @@
       </isNotNull>
       <isNotNull prepend="" property="registerTimeEnd" >
     	and REGISTE_TIME <![CDATA[<=]]> #registerTimeEnd:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="dealDur2Begin" >
+    	and DEAL_DUR2 <![CDATA[>=]]> #dealDur2Begin:DATE#
+      </isNotNull>
+      <isNotNull prepend="" property="dealDur2End" >
+    	and DEAL_DUR2 <![CDATA[<=]]> #dealDur2End:DATE#
       </isNotNull>
 	group by it_state_code,it_state_val
 	order by state_code

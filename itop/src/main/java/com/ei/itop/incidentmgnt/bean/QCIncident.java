@@ -41,10 +41,30 @@ public class QCIncident {
 	private Date registerTimeBegin;
 	// 事件提出时间开始范围
 	private Date registerTimeEnd;
+	// 计划完成时间开始范围
+	private Date dealDur2Begin;
+	// 计划完成时间开始范围
+	private Date dealDur2End;
 	// 按客户登记时间排序，取值：desc、asc
 	private String orderByRegisterTime;
 	// 按最新更新时间排序，取值：desc、asc
 	private String orderByLastModifyTime;
+
+	public Date getDealDur2Begin() {
+		return dealDur2Begin;
+	}
+
+	public void setDealDur2Begin(Date dealDur2Begin) {
+		this.dealDur2Begin = dealDur2Begin;
+	}
+
+	public Date getDealDur2End() {
+		return dealDur2End;
+	}
+
+	public void setDealDur2End(Date dealDur2End) {
+		this.dealDur2End = dealDur2End;
+	}
 
 	/**
 	 * @return the orgId
