@@ -150,6 +150,19 @@ public class IncidentController {
 					registerTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd),
 					Calendar.DAY_OF_YEAR, 1));
 		}
+		// 计划完成时间起始
+		String planTimeBegin = request.getParameter("planTimeBegin");
+		if (!StringUtils.isEmpty(planTimeBegin)) {
+			qi.setDealDur2Begin(DateUtils.string2Date(planTimeBegin,
+					DateUtils.FORMATTYPE_yyyy_MM_dd));
+		}
+		// 计划完成时间截止
+		String planTimeEnd = request.getParameter("planTimeEnd");
+		if (!StringUtils.isEmpty(planTimeEnd)) {
+			qi.setDealDur2End(DateUtils.dateOffset(DateUtils.string2Date(
+					planTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd),
+					Calendar.DAY_OF_YEAR, 1));
+		}
 		// 事件状态
 		String stateCode = request.getParameter("stateVal");
 		if (!StringUtils.isEmpty(stateCode)) {
@@ -537,16 +550,16 @@ public class IncidentController {
 					Calendar.DAY_OF_YEAR, 1));
 		}
 		// 计划完成时间起始
-		String dealDur2Begin = request.getParameter("dealDur2Begin");
-		if (!StringUtils.isEmpty(dealDur2Begin)) {
-			qi.setDealDur2Begin(DateUtils.string2Date(dealDur2Begin,
+		String planTimeBegin = request.getParameter("planTimeBegin");
+		if (!StringUtils.isEmpty(planTimeBegin)) {
+			qi.setDealDur2Begin(DateUtils.string2Date(planTimeBegin,
 					DateUtils.FORMATTYPE_yyyy_MM_dd));
 		}
 		// 计划完成时间截止
-		String dealDur2End = request.getParameter("dealDur2End");
-		if (!StringUtils.isEmpty(dealDur2End)) {
+		String planTimeEnd = request.getParameter("planTimeEnd");
+		if (!StringUtils.isEmpty(planTimeEnd)) {
 			qi.setDealDur2End(DateUtils.dateOffset(DateUtils.string2Date(
-					dealDur2End, DateUtils.FORMATTYPE_yyyy_MM_dd),
+					planTimeEnd, DateUtils.FORMATTYPE_yyyy_MM_dd),
 					Calendar.DAY_OF_YEAR, 1));
 		}
 		// 客户ID

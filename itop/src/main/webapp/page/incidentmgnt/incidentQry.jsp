@@ -84,6 +84,18 @@
 		    		<span class="checkbox-inline"><input type="checkbox" name="affectVar" value="${affect.paramCode}">${affect.paramValue}</span>
 		    	</c:forEach>
 		  	</span>
+		  	<span class="form-item">
+		    	<label><i18n:message code="i18n.incident.query.QryConditionPlanTime"/></label>
+		    	<input class="easyui-datebox" style="width:28%" id="qryPlanStartDate" data-options="editable:false,
+		       		formatter: function(date){ return dateFormatter2(date);}
+		       	">
+		    	<span style="color:#999">—</span>&nbsp;
+		    	<input class="easyui-datebox" style="width:28%" id="qryPlanEndDate" data-options="editable:false,
+		       		formatter: function(date){ return dateFormatter2(date);}
+		       	">
+		  	</span>
+	  	</div>
+	  	<div style="width:99%;" class="clearfix">
 		  	<span class="form-item pull-right mb5" style="width:50%;margin-bottom:5px">
 		    	<button type="button" class="btn btn-default btn-sm mr20 pull-right"  onclick="reset()">&nbsp;<i18n:message code="i18n.incident.query.QryBtnReset"/>&nbsp;</button>
 		    	<button type="button" id="qryOpMineBtn" class="btn btn-primary btn-outline btn-sm mr20 pull-right"  onclick="queryOpMine()">&nbsp;<i18n:message code="i18n.incident.query.QryBtnOp"/>&nbsp;</button>

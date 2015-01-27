@@ -143,7 +143,10 @@ function reset(){
 	$("#qryStartDate").datebox('setValue','');
 	//截止时间
 	$("#qryEndDate").datebox('setValue','');
-	
+	//起始时间
+	$("#qryPlanStartDate").datebox('setValue','');
+	//截止时间
+	$("#qryPlanEndDate").datebox('setValue','');
 	//执行一次查询
 	query();
 }
@@ -428,6 +431,8 @@ function setQueryConditions(){
 	qp.priorityVal = null;
 	qp.registerTimeBegin = null;
 	qp.registerTimeEnd = null;
+	qp.planTimeBegin = null;
+	qp.planTimeEnd = null;
 	qp.custId = null;
 	qp.adviserId = null;
 	qp.registeMan = null;
@@ -463,6 +468,10 @@ function setQueryConditions(){
 	qp.registerTimeBegin = $("#qryStartDate").datebox('getValue');
 	//截止时间
 	qp.registerTimeEnd = $("#qryEndDate").datebox('getValue');
+	//计划完成起始时间
+	qp.planTimeBegin = $("#qryPlanStartDate").datebox('getValue');
+	//计划完成截止时间
+	qp.planTimeEnd = $("#qryPlanEndDate").datebox('getValue');
 	//设置客户ID
 	var getCustId = $('#custSel').combotree('getValue');
 	if(getCustId){
@@ -712,7 +721,7 @@ function formatOperations(val,row){
 		buttons += "<button type='button' class='btn btn-link' onclick='commit("+val+")'>"+i18n.incident.mgnt.CommitBtn+"</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='edit("+val+")'>"+i18n.incident.mgnt.EditBtn+"</button>";
 		buttons += "<button type='button' class='btn btn-link' onclick='removeTicket("+val+")'>"+i18n.incident.mgnt.DeleteBtn+"</button>";
-	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==4||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9||row.itStateCode==10){
+	}else if(row.itStateCode==2||row.itStateCode==3||row.itStateCode==4||row.itStateCode==5||row.itStateCode==8||row.itStateCode==9||row.itStateCode==91){
 		buttons += "<button type='button' class='btn btn-link' onclick='view("+val+")'>"+i18n.incident.mgnt.ViewBtn+"</button>";
 	}
 	//如果是完成状态且操作员是顾问，显示关闭按钮

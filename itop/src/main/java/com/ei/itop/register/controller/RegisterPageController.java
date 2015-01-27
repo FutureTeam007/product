@@ -57,6 +57,7 @@ public class RegisterPageController {
 		ModelAndView mav = new ModelAndView();
 		// 取得注册参数
 		String acountNo = request.getParameter("acountNo");
+		acountNo = acountNo.toLowerCase();
 		String passwd = request.getParameter("passwd");
 		String companyId = request.getParameter("companyId");
 		String companyName = request.getParameter("companyName");
