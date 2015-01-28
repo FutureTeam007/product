@@ -231,7 +231,7 @@ public class TimeoutRemindServiceImpl implements TimeoutRemindService {
 			// 取得已响应但尚未完毕的事件列表
 			Map<String, Object> hm3 = new HashMap<String, Object>();
 			hm3.put("orgId", org.getScOrgId());
-			String[] stateCode = { "3", "4", "5" };
+			String[] stateCode = { "3", "4" };
 			hm3.put("stateCode", stateCode);
 			List<IcIncident> incidentList = null;
 			try {
