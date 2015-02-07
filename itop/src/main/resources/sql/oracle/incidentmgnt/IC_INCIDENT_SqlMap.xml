@@ -852,4 +852,11 @@
       IT_PHASE, IT_STATE_CODE, IT_STATE_VAL, DATA_STATE, CREATE_DATE, MODIFIER, MODIFY_DATE,ARCHIVE_FLAG
     from IC_INCIDENT where SC_MODULE_ID = #moduleId:DECIMAL#
   </select>
+  <!-- 查询超过两天还未评价的完成事件 -->
+  <select id="queryFinishedIncidentFeedbacktimeout" resultMap="icIncidentResult">
+  	select * from IC_INCIDENT ii 
+  	where ii.IT_STATE_CODE = 8 
+  	and ii.FEEDBACK_CODE is null
+  	and TRUNC(sysdate-ii.FINISH_TIME) >= 2
+  </select>
 </sqlMap>
