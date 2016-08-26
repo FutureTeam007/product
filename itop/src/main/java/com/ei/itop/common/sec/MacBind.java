@@ -44,7 +44,8 @@ public class MacBind {
 	}
 
 	public static boolean isOk() {
-		return allowed;
+		return true;
+		//return allowed;
 	}
 
 	private static String getOSName() {

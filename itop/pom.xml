@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ailk.bod</groupId>
+		<groupId>com.boke</groupId>
 		<artifactId>maven-web-ssi-servlet2_5</artifactId>
 		<version>1.0</version>
 	</parent>
@@ -28,9 +28,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.5</version>
+		  <groupId>com.alibaba</groupId>
+		  <artifactId>fastjson</artifactId>
+		  <version>1.2.15</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -55,7 +55,7 @@
 		<dependency>
 			  <groupId>javax.mail</groupId>
 			  <artifactId>mail</artifactId>
-			  <version>1.4.7</version>
+			  <version>1.4</version>
 		</dependency>
 		<dependency>
 		  <groupId>javax.activation</groupId>
@@ -71,6 +71,16 @@
 		  <groupId>cglib</groupId>
 		  <artifactId>cglib-nodep</artifactId>
 		  <version>2.2.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.boke.dazzle</groupId>
+		  <artifactId>dazzle-util</artifactId>
+		  <version>2.1-RELEASE</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.oracle</groupId>
+		  <artifactId>ojdbc14</artifactId>
+		  <version>10.2.0.3</version>
 		</dependency>
 	</dependencies>
 	<build>

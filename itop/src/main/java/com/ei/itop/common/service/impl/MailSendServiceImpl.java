@@ -76,7 +76,7 @@ public class MailSendServiceImpl implements
 			final String userReceiveAddr, final String opName,
 			final String opReceiveAddr, final String[] ccAddr,
 			final IcIncident incident) throws Exception {
-		final String website = getWebsite();
+		final String website = getWebsite(); 
 		new Thread() {
 			public void run() {
 				MimeMessagePreparator preparator1 = new MimeMessagePreparator() {
@@ -620,9 +620,6 @@ public class MailSendServiceImpl implements
 								+ "] :"
 								+ incident.getBrief());// 设置邮件主题
 						message.setFrom(mailSendConfig.get("mail.from"));// 设置发送方地址
-						if (ccAddr != null) {
-							message.setCc(ccAddr);
-						}
 						Map<String, Object> params = new HashMap<String, Object>();
 						params.put("website", website);
 						params.put("vDate", DateUtils.date2String(new Date(),

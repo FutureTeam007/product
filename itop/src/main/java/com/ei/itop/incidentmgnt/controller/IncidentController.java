@@ -11,15 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -213,7 +204,7 @@ public class IncidentController {
 	 * @param request
 	 * @param response
 	 * @throws Exception
-	 */
+	 
 	@RequestMapping("/export")
 	public void exportIncidentReport(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -491,7 +482,7 @@ public class IncidentController {
 			}
 		}
 	}
-
+*/
 	/**
 	 * 获取各事件状态的事件个数
 	 * 
